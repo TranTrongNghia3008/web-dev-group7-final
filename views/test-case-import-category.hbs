@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content px-3">
     {{>navigation}}
 
     <div class="container mx-auto">
@@ -6,7 +6,7 @@
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
-                <a href="#" class="text-danger fw-semibold">Test Cases</a>
+                <a href="/test-case" class="text-danger fw-semibold">Test Cases</a>
             </li>
             <li
                 class="breadcrumb-item active fw-semibold"
@@ -276,6 +276,7 @@
             class="btn btn-danger me-5"
             data-bs-toggle="button"
             aria-pressed="true"
+            id="importButtonTestCase"
             style="width: 7rem"
             >
             Import
@@ -285,6 +286,7 @@
             class="btn btn-outline-danger"
             data-bs-toggle="button"
             aria-pressed="true"
+            id="cancelButtonTestCase"
             style="width: 7rem"
             >
             Cancel
@@ -292,4 +294,11 @@
         </div>
         </form>
     </div>
+
+    <script>
+      document.getElementById('cancelButtonTestCase').addEventListener('click', function () {
+        // Redirect to the cancel page or go back
+        window.location.href = '/test-case';
+      });
+    </script>
 </div>

@@ -26,6 +26,11 @@ app.use('/requirement', require('./routes/requirementRouter'));
 app.use('/release', require('./routes/releaseRouter'));
 app.use('/module', require('./routes/moduleRouter'));
 app.use('/test-case', require('./routes/testCaseRouter'));
+app.use('/test-run', require('./routes/testRunRouter'));
+app.use('/test-plan', require('./routes/testPlanRouter'));
+app.use('/issue', require('./routes/issueRouter'));
+app.use('/report', require('./routes/reportRouter'));
+app.use('/administration', require('./routes/administrationRouter'));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);

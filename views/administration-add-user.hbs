@@ -1,0 +1,244 @@
+<div class="content px-3">
+    <div class="container bg-white rounded p-3 my-3">
+        <div class="d-flex justify-content-between">
+        <div class="d-flex my-auto">
+            <i class="bi bi-pencil me-2"></i>
+            <h6 class="m-0">Add User</h6>
+        </div>
+        <a href="#" class="guide mx-2 my-auto">
+            <div class="text-center">
+            <img
+                src="/images/guide.png"
+                alt=""
+                style="width: 2rem"
+            />
+            <br />
+            <span>Guide</span>
+            </div>
+        </a>
+        </div>
+        <div
+        class="border-start border-dark border-4 rounded bg-light px-3 py-2 mb-3"
+        >
+        <strong>Note:</strong> When you create a user as an Administrator,
+        all the projects will be assigned automatically to the user. When
+        you create a user as a tester/developer in the system, you have to
+        assign them to the project to give access.
+        </div>
+        <form class="needs-validation" action="" novalidate>
+        <div class="row">
+            <div class="col">
+            <div class="mb-3">
+                <label for="fFirstName" class="form-label"
+                >First Name <span class="text-danger">*</span></label
+                >
+                <input
+                class="form-control"
+                id="fFirstName"
+                name="first-name"
+                type="text"
+                placeholder="First Name"
+                aria-label="default input example"
+                required
+                />
+                <div class="invalid-feedback">Please enter First Name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="fLastName" class="form-label"
+                >Last Name <span class="text-danger">*</span></label
+                >
+                <input
+                class="form-control"
+                id="fLastName"
+                name="last-name"
+                type="text"
+                placeholder="Last Name"
+                aria-label="default input example"
+                required
+                />
+                <div class="invalid-feedback">Please enter Last Name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="fEmail" class="form-label"
+                >Email <span class="text-danger">*</span></label
+                >
+                <input
+                type="email"
+                class="form-control"
+                id="fEmail"
+                name="email"
+                placeholder="Email"
+                required
+                />
+                <div class="invalid-feedback">Please enter Email.</div>
+            </div>
+            <div class="mb-3">
+                <label for="fLanguage" class="form-label">Language</label>
+                <select
+                class="form-select"
+                id="fLanguage"
+                name="language"
+                aria-label="Default select example"
+                >
+                <option selected value="English">English</option>
+                <option value="Vietnamese">Vietnamese</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="fStatus" class="form-label">Status</label>
+                <select
+                class="form-select"
+                id="fStatus"
+                name="status"
+                aria-label="Default select example"
+                >
+                <option selected value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                Note : Account Setup Email will be sent to the newly created
+                user.
+            </div>
+            <div class="mb-3">
+                <label for="fUserDesignation" class="form-label"
+                >User Designation</label
+                >
+                <input
+                class="form-control"
+                list="datalistUserDesignations"
+                id="fUserDesignation"
+                name="user-designation"
+                placeholder="Select"
+                />
+                <datalist id="datalistUserDesignations">
+                <option value="VP Of Operation"></option>
+                <option value="Senior Software Engineer"></option>
+                <option value="Software Engineer"></option>
+                <option value="Senior QA Manager"></option>
+                <option value="QA/Project Manager"></option>
+                <option value="Quality Architect"></option>
+                <option value="QA Lead"></option>
+                <option value="Quality Analyst"></option>
+                <option value="Technical Architect"></option>
+                <option value="Engineering Manager"></option>
+                <option value="Accout Manager"></option>
+                <option value="Developer"></option>
+                <option value="CTO"></option>
+                </datalist>
+
+                <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="isAdministrator"
+                />
+                <label class="form-check-label" for="isAdministrator">
+                This user is an administrator
+                </label>
+                <p class="text-secondary small">
+                Administrators can add or delete projects, manage users and
+                configure the application.
+                </p>
+            </div>
+            </div>
+            <div class="col">
+            <div class="mb-3">
+                <label for="fAccessType" class="form-label"
+                >Access Type <span class="text-danger">*</span></label
+                >
+                <select
+                class="form-select"
+                id="fAccessType"
+                name="access-type"
+                aria-label="Default select example"
+                required
+                >
+                <option selected value="Tester">Tester</option>
+                <option value="Developer">Developer</option>
+                </select>
+                <div class="invalid-feedback">Please select Access Type.</div>
+            </div>
+            <p class="mb-0">
+                <strong>Tester</strong> - Users with access type Tester will
+                have access to Dashboard and Projects Assigned to
+                them(Overview, Requirements, Attachments, Releases, Modules,
+                Test Cases, Test Plans, Test Runs, Issues, Jira Issues,
+                Reports, Project Integration Mapping)
+            </p>
+            <p class="mb-0">
+                <strong>Developer</strong> - Users with access type Developer
+                will have access only to Issues of Projects Assigned to them.
+                <br />
+                <a href="" class="text-primary">Read more...</a>
+            </p>
+            <div class="row my-3">
+                <div class="col">
+                <label for="imageInput" class="form-label">Photo</label>
+                <br />
+                <input
+                    class="border p-2"
+                    type="file"
+                    id="imageInput"
+                    name="image"
+                    accept=".png, .jpg, .jpeg"
+                />
+
+                <p class="text-secondary small">
+                    <strong>Allowed Formats :</strong> png, jpg, jpeg
+                </p>
+                </div>
+                <div class="col-3">
+                <div id="imagePreview">
+                    <img
+                    id="previewImage"
+                    src="/images/DefaultPhoto.png"
+                    alt="Default Photo"
+                    style="width: 8rem; height: 8rem"
+                    />
+                </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fLocale" class="form-label">Locale</label>
+                <input
+                class="form-control"
+                list="datalistLocales"
+                id="fLocale"
+                name="locale"
+                placeholder="Select Locale"
+                />
+                <p class="text-secondary small">
+                Determines how dates and numbers are formatted.
+                </p>
+                <datalist id="datalistLocales"> </datalist>
+            </div>
+            <div class="mb-3">
+                <label for="fTimezone" class="form-label">Timezone</label>
+                <input
+                class="form-control"
+                list="datalistTimezones"
+                id="fTimezone"
+                name="timezone"
+                placeholder="Select Timezone"
+                />
+                <p class="text-secondary small">
+                Determines the time zone for dates and times.
+                </p>
+                <datalist id="datalistTimezones"> </datalist>
+            </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-danger mx-2">Save</button>
+            <button
+            type="button"
+            class="btn btn-outline-danger mx-2"
+            onclick="window.location.href = '/administration';"
+            >
+            Cancel
+            </button>
+        </div>
+        </form>
+    </div>
+</div>

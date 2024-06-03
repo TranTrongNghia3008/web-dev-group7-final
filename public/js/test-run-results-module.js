@@ -281,39 +281,39 @@
   const modulesCard = document.querySelector('.modules-card');
   const testCasesCard = document.querySelector('.test-cases-card');
 
-  const toggleButtonModules = document.getElementById('toggleButtonModules');
-  const toggleIconModules = document.getElementById('toggleIconModules');
+  const toggleButtonModulesTestRun = document.getElementById('toggleButtonModulesTestRun');
+  const toggleIconModulesTestRun = document.getElementById('toggleIconModulesTestRun');
 
-  const toggleButtonModules2 = document.getElementById('toggleButtonModules2');
-  const toggleIconModules2 = document.getElementById('toggleIconModules2');
+  const toggleButtonModulesTestRun2 = document.getElementById('toggleButtonModulesTestRun2');
+  const toggleIconModulesTestRun2 = document.getElementById('toggleIconModulesTestRun2');
 
-  toggleButtonModules.addEventListener('click', function() {
+  toggleButtonModulesTestRun.addEventListener('click', function() {
     testCasesCard .classList.toggle('d-none');
-    toggleButtonModules2.classList.toggle('d-none');
-    if (toggleIconModules.classList.contains('bi-arrow-right')) {
-      toggleIconModules.classList.remove('bi-arrow-right');
-      toggleIconModules.classList.add('bi-arrow-left');
+    toggleButtonModulesTestRun2.classList.toggle('d-none');
+    if (toggleIconModulesTestRun.classList.contains('bi-arrow-right')) {
+      toggleIconModulesTestRun.classList.remove('bi-arrow-right');
+      toggleIconModulesTestRun.classList.add('bi-arrow-left');
       modulesCard.classList.add('w-100');
     }
     else {
-      toggleIconModules.classList.remove('bi-arrow-left');
-      toggleIconModules.classList.add('bi-arrow-right');
+      toggleIconModulesTestRun.classList.remove('bi-arrow-left');
+      toggleIconModulesTestRun.classList.add('bi-arrow-right');
       modulesCard.classList.remove('w-100');
     }
   });
 
 
 
-  toggleButtonModules2.addEventListener('click', function() {
+  toggleButtonModulesTestRun2.addEventListener('click', function() {
     modulesCard.classList.toggle('d-none');
-    if (toggleIconModules2.classList.contains('bi-chevron-compact-left')) {
-      toggleIconModules2.classList.remove('bi-chevron-compact-left');
-      toggleIconModules2.classList.add('bi-chevron-compact-right');
+    if (toggleIconModulesTestRun2.classList.contains('bi-chevron-compact-left')) {
+      toggleIconModulesTestRun2.classList.remove('bi-chevron-compact-left');
+      toggleIconModulesTestRun2.classList.add('bi-chevron-compact-right');
       testCasesCard.classList.add('w-100');
     }
     else {
-      toggleIconModules2.classList.remove('bi-chevron-compact-right');
-      toggleIconModules2.classList.add('bi-chevron-compact-left');
+      toggleIconModulesTestRun2.classList.remove('bi-chevron-compact-right');
+      toggleIconModulesTestRun2.classList.add('bi-chevron-compact-left');
       testCasesCard.classList.remove('w-100');
     }
   });
