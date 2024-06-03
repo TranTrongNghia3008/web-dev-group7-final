@@ -1,0 +1,295 @@
+<div class="content">
+    {{>navigation}}
+
+    <div class="container mx-auto">
+        <div class="path py-3 bg-white rounded ps-3">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a href="#" class="text-danger fw-semibold">Test Cases</a>
+            </li>
+            <li
+                class="breadcrumb-item active fw-semibold"
+                aria-current="page"
+            >
+                Import
+            </li>
+            </ol>
+        </nav>
+        </div>
+        <form action="" class="needs-validation" novalidate>
+        <div
+            class="upload mt-3 py-3 mb-3 bg-white rounded d-flex justify-content-center"
+        >
+            <div class="row mx-3 w-100">
+            <div class="col-6">
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Module Name
+                    <span style="color: #f44336">*</span>
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    required
+                    >
+                    <option selected></option>
+                    <option value="Module_Name">Module_Name</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                    <div class="invalid-feedback">
+                    Please Select Module Name.
+                    </div>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Test Case Title
+                    <span style="color: #f44336">*</span>
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    required
+                    >
+                    <option selected></option>
+                    <option value="Test_Case_Title">Test_Case_Title</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                    <div class="invalid-feedback">
+                    Please Select Test Case Title.
+                    </div>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Test Data
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Estimate Time
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold"> Tags </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Description
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold"> Type </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-2">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Created By
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    References
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Preconditions
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold"> Steps </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Expected Result
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold">
+                    Priority
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+                <div class="form_test_cases row align-items-center mb-4">
+                <div class="col-6">
+                    <label class="control-label fw-semibold"> Mode </label>
+                </div>
+                <div class="col-6">
+                    <select
+                    class="form-select border-bottom border-0"
+                    aria-label="Default select example"
+                    style="width: 12rem"
+                    >
+                    <option selected>Skip</option>
+                    <!-- <option value="1">Skip</option> -->
+                    </select>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="mt-2 mb-3 d-flex justify-content-center">
+            <button
+            type="submit"
+            class="btn btn-danger me-5"
+            data-bs-toggle="button"
+            aria-pressed="true"
+            style="width: 7rem"
+            >
+            Import
+            </button>
+            <button
+            type="button"
+            class="btn btn-outline-danger"
+            data-bs-toggle="button"
+            aria-pressed="true"
+            style="width: 7rem"
+            >
+            Cancel
+            </button>
+        </div>
+        </form>
+    </div>
+</div>

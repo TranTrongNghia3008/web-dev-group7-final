@@ -190,7 +190,7 @@
       tooltipTotalTestCases.title = 'Click to know Total Test Cases';
       tooltipTotalTestCases.style.margin = '0 1rem';
       const imgTotalTestCases = document.createElement('img');
-      imgTotalTestCases.src = '../assets/images/total-test-cases.png';
+      imgTotalTestCases.src = '/images/total-test-cases.png';
       imgTotalTestCases.alt = '';
       imgTotalTestCases.style.width = '1rem';
       imgTotalTestCases.style.height = '1rem';
@@ -203,7 +203,7 @@
       tooltipAdd.setAttribute('data-bs-toggle', 'tooltip');
       tooltipAdd.title = 'Click here to add Newly created Test cases to the Test run';
       const imgAdd = document.createElement('img');
-      imgAdd.src = '../assets/images/add.svg';
+      imgAdd.src = '/images/add.svg';
       imgAdd.alt = '';
       imgAdd.style.width = '1rem';
       imgAdd.style.height = '1rem';

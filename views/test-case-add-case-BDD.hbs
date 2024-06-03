@@ -1,0 +1,418 @@
+<div class="content px-5">
+    {{>navigation}}
+    <div class="container mx-auto">
+        <form action="" class="needs-validation" novalidate>
+        <div
+            class="path py-3 bg-white rounded ps-3 d-flex justify-content-between align-items-center"
+        >
+            <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                <a href="/test-case" class="text-danger fw-semibold">Test Cases</a>
+                </li>
+                <li
+                class="breadcrumb-item active fw-semibold"
+                aria-current="page"
+                >
+                Add Case BDD
+                </li>
+            </ol>
+            </nav>
+            <div class="me-3 d-flex">
+            <a
+                class="btn btn-danger me-3 px-4 btn-sm rounded-2"
+                href="#"
+                role="button"
+                >Add Script</a
+            >
+            <button
+                type="submit"
+                class="btn btn-danger me-3 px-4 btn-sm"
+                style="width: 8rem"
+            >
+                Save
+            </button>
+            <a
+                class="btn btn-outline-danger me-3 px-4 btn-sm rounded-2"
+                href="/test-case"
+                role="button"
+                >Cancel</a
+            >
+            <a
+                class="btn text-white px-4 btn-sm rounded-2"
+                id="bth-add-case"
+                href="#"
+                role="button"
+                style="background-color: #cf1f30"
+                >+ Add Reusable Script</a
+            >
+            </div>
+        </div>
+
+        <div class="py-3 mb-3 bg-white rounded mt-3" style="color: #919faf">
+            <div class="d-flex justify-content-center">
+            <div class="col-3 px-3">
+                <div class="mb-4">
+                <label
+                    for="brow-module"
+                    class="form-label d-flex justify-content-between"
+                >
+                    <div>
+                    Module
+                    <span style="color: #f44336">*</span>
+                    </div>
+                    <div style="font-size: smaller">
+                    To add new module.
+                    <a
+                        href="#"
+                        class="fw-semibold fs-6"
+                        data-bs-target="#addModule"
+                        data-bs-toggle="modal"
+                        >click here</a
+                    >
+                    </div>
+                </label>
+                <input
+                    list="brow-module"
+                    placeholder="Select Module"
+                    class="form-select border-0 bg-light"
+                    required
+                />
+                <datalist id="brow-module">
+                    <option value="Home page"></option>
+                    <option value="Header section"></option>
+                    <option value="Footer section"></option>
+                    <option value="Pricing"></option>
+                    <option value="Blog"></option>
+                    <option value="Contact"></option>
+                </datalist>
+                <div class="invalid-feedback">Please Select a Module.</div>
+                </div>
+                <div class="mb-4">
+                <label for="brow-type" class="form-label"> Type </label>
+                <select
+                    class="form-select border-0 bg-light"
+                    aria-label="brow-type"
+                    style="color: #757575"
+                >
+                    <option selected value="Acceptance">Acceptance</option>
+                    <option value="Accessibility">Accessibility</option>
+                    <option value="Automation">Automation</option>
+                    <option value="Compatibility">Compatibility</option>
+                    <option value="Functional">Functional</option>
+                    <option value="Automation">Automation</option>
+                    <option value="Other">Other</option>
+                    <option value="Performance">Performance</option>
+                    <option value="Regression">Regression</option>
+                    <option value="Somke & Sanity">Somke & Sanity</option>
+                    <option value="Usability">Usability</option>
+                </select>
+                </div>
+                <div class="mb-4">
+                <label for="brow-mode" class="form-label"> Mode </label>
+                <select
+                    class="form-select border-0 bg-light"
+                    aria-label="brow-mode"
+                    style="color: #757575"
+                >
+                    <option selected>Select</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automation">Automation</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-6 px-3">
+                <div class="mb-4">
+                <label
+                    for="form-test-case-title"
+                    class="form-label d-flex justify-content-between"
+                >
+                    <div>
+                    Test Case Title
+                    <span style="color: #f44336">*</span>
+                    </div>
+                </label>
+                <input
+                    type="text"
+                    class="form-control border-0 bg-light"
+                    id="form-test-case-title"
+                    placeholder="Test Case Title"
+                    style="color: #757575"
+                    required
+                />
+                <div class="invalid-feedback">
+                    Please Enter Test Case Title.
+                </div>
+                </div>
+                <div class="mb-4 row">
+                <div class="col-6 mb-4">
+                    <label
+                    for="brow-type"
+                    class="form-label d-flex justify-content-between"
+                    >
+                    Test Plan
+                    </label>
+                    <select
+                    class="form-select border-0 bg-light"
+                    aria-label="brow-type"
+                    style="color: #757575"
+                    >
+                    <option selected value="Select Test Plan">
+                        Select Test Plan
+                    </option>
+                    <option value="Add test case for shopping cart">
+                        Add test case for shopping cart
+                    </option>
+                    </select>
+                </div>
+                <div class="col-6 mb-4">
+                    <label
+                    for="brow-type"
+                    class="form-label d-flex justify-content-between"
+                    >
+                    Priority
+                    </label>
+                    <select
+                    class="form-select border-0 bg-light"
+                    aria-label="brow-type"
+                    style="color: #757575"
+                    >
+                    <option selected>Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-4">
+                    <label
+                    for="brow-type"
+                    class="form-label d-flex justify-content-between"
+                    >
+                    <div>Estimate Time</div>
+                    </label>
+                    <input
+                    type="text"
+                    class="form-control border-0 bg-light"
+                    id="brow-typ"
+                    placeholder="Estimate Time"
+                    style="color: #757575"
+                    />
+                    <!-- <label
+                    for="brow-type"
+                    class="form-label d-flex justify-content-between"
+                    >
+                    Estimate Time
+                    </label>
+                    <select
+                    class="form-select border-0 bg-light"
+                    aria-label="brow-type"
+                    style="color: #757575"
+                    >
+                    <option selected>Estimate Time</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    </select> -->
+                </div>
+                </div>
+            </div>
+            <div class="col-3 px-3">
+                <label for="brow-type" class="form-label"> Attachment </label>
+                <div
+                class="upload-file d-flex justify-content-center mb-2"
+                style="border: dashed 1px #dc3545 !important"
+                >
+                <div class="d-flex justify-content-center me-2">
+                    <img
+                    src="/images/import_file.svg"
+                    alt="Import Files"
+                    style="width: 80px"
+                    />
+                </div>
+                <div class="py-2">
+                    <div class="d-block text-center align-items-center">
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger mt-4 mb-2 w-100 btn-sm rounded-2"
+                    >
+                        Upload
+                    </button>
+                    <p class="mt-2" style="color: #999; font-size: small">
+                        Drop files here to upload
+                    </p>
+                    </div>
+                </div>
+                </div>
+                <div style="font-size: 12px">
+                Only 10 attachments are allowed. File size should be less
+                than 2MB and allowed formats are
+                <span class="fw-semibold">
+                    .png, .jpg, .doc, .docx, .xls, .xlsx, .pdf, .ppt, .pptx,
+                    .txt, .odf, .gif, .ipynb
+                </span>
+                </div>
+            </div>
+            </div>
+            <div class="mb-3 d-flex" style="color: #919faf">
+            <div class="col-5 px-3">
+                <label
+                for="form-test-case-tags"
+                class="form-label d-flex justify-content-between align-items-center"
+                >
+                Tags
+                <button type="button" class="btn btn-danger btn-sm px-3">
+                    Tags
+                </button>
+                </label>
+                <textarea
+                class="form-control border-0 bg-light"
+                id="form-test-case-tags"
+                rows="4"
+                placeholder="Enter Tag Name"
+                style="color: #757575"
+                ></textarea>
+            </div>
+            <div class="col-5 px-3">
+                <label
+                for="form-test-case-description"
+                class="form-label d-flex justify-content-between align-items-center"
+                >
+                Description
+                </label>
+                <textarea
+                class="form-control border-0 bg-light"
+                id="form-test-case-description"
+                rows="4"
+                placeholder="Description"
+                style="color: #757575"
+                ></textarea>
+            </div>
+            </div>
+            <div class="script-test-case mb-3" style="color: #919faf">
+            <div class="px-3 fw-semibold mb-1">
+                Script 1
+                <span style="color: #f44336">*</span>
+            </div>
+            <div
+                class="d-flex col-10 ms-3 py-3 border border-light-subtle rounded"
+            >
+                <div class="col-2 px-3 mb-4">
+                <select
+                    class="form-select border-0 bg-light"
+                    aria-label="brow-mode"
+                    style="color: #757575"
+                >
+                    <option selected value="Feature">Feature</option>
+                </select>
+                </div>
+                <div class="col-8 px-3">
+                <textarea
+                    class="form-control border-0 bg-light"
+                    id="form-test-case-description"
+                    rows="4"
+                    style="color: #757575"
+                    required
+                ></textarea>
+                <div class="invalid-feedback">Please Enter this Field.</div>
+                </div>
+                <div class="col-1 ps-3">
+                <button
+                    type="button"
+                    class="btn btn-danger btn-sm px-3 d-flex align-items-center"
+                    style="height: 2rem !important"
+                >
+                    <i class="bi bi-plus fs-3"></i>
+                </button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </form>
+        <form action="" class="needs-validation" novalidate>
+        <div
+            class="modal fade"
+            id="addModule"
+            tabindex="-1"
+            aria-labelledby="addModuleLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+            <div class="modal-content border border-1 rounded-2">
+                <div class="modal-header">
+                <div
+                    class="modal-title fs-5 fw-semibold text-dark"
+                    id="addModuleLabel"
+                    style="margin-left: 6rem"
+                >
+                    Add Module / Add Sub Module
+                </div>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+                </div>
+                <div class="modal-body">
+                <div class="mb-4">
+                    <label
+                    for="brow-module"
+                    class="form-label d-flex justify-content-between"
+                    >
+                    <div>Select Module</div>
+                    </label>
+                    <input
+                    list="brow-module"
+                    class="form-select border-0 bg-light"
+                    placeholder="Select"
+                    />
+                    <datalist id="brow-module">
+                    <option value="Home page"></option>
+                    <option value="Header section"></option>
+                    <option value="Footer section"></option>
+                    <option value="Pricing"></option>
+                    <option value="Blog"></option>
+                    <option value="Contact"></option>
+                    </datalist>
+                </div>
+                <div class="mb-4" style="color: #919faf">
+                    <label
+                    for="form-test-case-title"
+                    class="form-label d-flex justify-content-between"
+                    >
+                    <div>
+                        Module Name
+                        <span style="color: #f44336">*</span>
+                    </div>
+                    </label>
+                    <input
+                    type="text"
+                    class="form-control border-0 bg-light"
+                    id="form-test-case-title"
+                    placeholder="Please Enter Module Name"
+                    style="color: #757575"
+                    required
+                    />
+                    <div class="invalid-feedback">
+                    Please Enter Module Name.
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-danger mx-2">
+                    Save
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-outline-danger mx-2"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

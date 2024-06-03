@@ -1,0 +1,211 @@
+<div class="content px-5">
+    {{>navigation}}
+    <div class="container bg-white rounded my-3">
+        <div class="row d-flex justify-content-between">
+        <div class="col my-auto d-flex">
+            <span class="my-auto">All Modules List</span>
+            <div class="bg-danger-subtle px-2 mx-2 rounded">
+            <span class="text-danger">6</span>
+            </div>
+        </div>
+        <div class="col right-side d-flex justify-content-end">
+            <a href="#" class="guide mx-2 my-auto">
+            <div class="text-center">
+                <img
+                src="/images/guide.png"
+                alt=""
+                style="width: 2rem"
+                />
+                <br />
+                <span>Guide</span>
+            </div>
+            </a>
+
+            <a href="#" class="mx-2 my-auto d-flex">
+            <i class="bi bi-cloud-upload me-2"></i>
+            Import
+            </a>
+
+            <a href="#" class="mx-2 my-auto d-flex">
+            <i class="bi bi-archive me-2"></i>
+            Archived
+            </a>
+
+            <button
+            type="button"
+            class="btn btn-danger btn-graph ms-4 my-auto"
+            data-bs-toggle="modal"
+            data-bs-target="#addModule"
+            style="width: 10rem"
+            >
+            <i class="bi bi-plus"></i> Add Modules
+            </button>
+        </div>
+        </div>
+    </div>
+
+    <div class="container bg-white rounded h-100 p-3 mb-2">
+        <div class="row" id="modules-container">
+        <div class="col-3">
+            <div class="card" style="min-height: 100vh">
+            <div class="card-header d-flex justify-content-between">
+                <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="modules"
+                    onchange="toggleCheckAll(this)"
+                />
+                <label class="form-check-label" for="modules"
+                    >Modules (<span class="num-modules">6</span>)</label
+                >
+                </div>
+
+                <div>
+                <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addModule"
+                    data-bs-toggle="tooltip"
+                    title="Add Module"
+                    class="mx-2"
+                    ><img
+                    src="/images/add.svg"
+                    alt=""
+                    style="width: 1rem; height: 1rem"
+                    class="mb-1"
+                /></a>
+                <a
+                    href="#"
+                    data-bs-toggle="tooltip"
+                    title="Delete Parent Module"
+                    class="mx-2 my-auto"
+                    ><i class="bi bi-trash text-danger"></i
+                ></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- <div id="module-list" class="list-group">
+                                    <a href="#" id="contact" class="list-group-item list-group-item-action rounded border my-2 py-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-contact">
+                                            <label class="form-check-label" for="module-item-contact">Contact</label>
+                                        </div>
+                                    </a>
+                                    <a href="#" id="blog" class="list-group-item list-group-item-action rounded border my-2 py-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-blog">
+                                            <label class="form-check-label" for="module-item-blog">Blog</label>
+                                        </div>
+                                    </a>
+                                    <a href="#" id="pricing" class="list-group-item list-group-item-action rounded border my-2 py-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-pricing">
+                                            <label class="form-check-label" for="module-item-pricing">Pricing</label>
+                                        </div>
+                                    </a>
+                                    <a href="#" id="home-page" class="list-group-item list-group-item-action rounded border my-2 py-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-home-page">
+                                            <label class="form-check-label" for="module-item-home-page">Home page</label>
+                                        </div>
+                                    </a>
+                                    <a href="#" id="header-section" class="list-group-item list-group-item-action rounded border my-2 py-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-header-section">
+                                            <label class="form-check-label" for="module-item-header-section">Header section</label>
+                                        </div>
+                                    </a>
+                                    <a href="#" id="footer-section" class="list-group-item list-group-item-action rounded border my-2 py-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-footer-section">
+                                            <label class="form-check-label" for="module-item-footer-section">Footer section</label>
+                                        </div>
+                                    </a>
+                                </div> -->
+                <div id="module-list" class="list-group"></div>
+            </div>
+            </div>
+        </div>
+        <!-- <div class="col-3 module-contact">
+                        <div class="card" style="min-height: 100vh;">
+                            <div class="card-header d-flex justify-content-between">
+                                <div>
+                                    Contact (<span class="num-this-modules">0</span>)
+                                </div>
+                                
+                                <div>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2"><img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem;" class="mb-1"></a>
+                                    <a href="#" data-bs-toggle="tooltip" title="Delete Parent Module" class="mx-2 my-auto"><i class="bi bi-trash text-danger"></i></a>
+                                    <button type="button" class="btn-close" disabled aria-label="Close"></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="container bg-white rounded border p-2">Drag and Drop any modules to make as Sub Modules</div>
+                                
+                            </div>
+                        </div>
+                        
+                    </div> -->
+        </div>
+    </div>
+    </div>
+    <div
+    class="modal fade"
+    id="addModule"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    >
+    <div class="modal-dialog">
+        <form action="" class="needs-validation" novalidate>
+        <div class="modal-content">
+            <div class="modal-header">
+            <h6 class="modal-title fs-5" id="exampleModalLabel">
+                Module/Sub Module
+            </h6>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
+            </div>
+            <div class="modal-body">
+            <select
+                class="form-select mb-3"
+                aria-label="Default select example"
+            >
+                <option selected>Select Module</option>
+                <option value="contact">Contact</option>
+                <option value="blog">Blog</option>
+                <option value="pricing">Pricing</option>
+                <option value="home page">Home page</option>
+                <option value="header section">Header section</option>
+                <option value="footer section">Footer section</option>
+            </select>
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Please enter the module name *"
+                required
+            />
+            <div class="invalid-feedback">
+                Please enter the module name.
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Save</button>
+            <button
+                type="button"
+                class="btn btn-outline-danger"
+                data-bs-dismiss="modal"
+            >
+                Cancel
+            </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

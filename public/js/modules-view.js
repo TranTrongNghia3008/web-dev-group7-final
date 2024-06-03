@@ -16,7 +16,7 @@ function createModuleCard(moduleName) {
     // Tạo phần tử action buttons
     const actionButtons = document.createElement('div');
     actionButtons.innerHTML = `
-        <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2"><img src="../assets/images/add.svg" alt="" style="width: 1rem; height: 1rem;" class="mb-1"></a>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2"><img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem;" class="mb-1"></a>
         <a href="#" data-bs-toggle="tooltip" title="Delete Parent Module" class="mx-2 my-auto"><i class="bi bi-trash text-danger"></i></a>
         <button type="button" class="btn-close" disabled aria-label="Close"></button>
     `;

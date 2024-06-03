@@ -22,15 +22,22 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
     
-    <link rel="stylesheet" href="/css/shared-styles.css" />
-    <link rel="stylesheet" href="/css/dashboard-styles.css" />
-    <link rel="stylesheet" href="/css/project-home.css" />
-    <link rel="stylesheet" href="/css/project-list.css" />
-    <link rel="stylesheet" href="/css/requirement-styles.css" />
+    {{{header}}}
 
     <style></style>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Thư viện jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Thư viện jQuery UI -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
   </head>
 
   <body>
@@ -119,7 +126,7 @@
       </nav>
     </header>
     <main>
-        {{>menu}}
+      {{>menu}}
       {{{body}}}
     </main>
     <footer>
@@ -156,6 +163,8 @@
       crossorigin="anonymous"
     ></script>
     
+    <script src="/js/test_cases.js"></script>
+    <script src="/js/modules-view.js"></script>
     <script src="/js/requirement.js"></script>
     <script src="/js/shared-script.js"></script>
 

@@ -6,12 +6,12 @@
     const toggleButtonModules = document.getElementById('toggleButtonModules');
     const toggleIconModules = document.getElementById('toggleIconModules');
 
-    const toggleButtonModules2 = document.getElementById('toggleButtonModules2');
-    const toggleIconModules2 = document.getElementById('toggleIconModules2');
+    const toggleButtonModulesRequirement = document.getElementById('toggleButtonModulesRequirement');
+    const toggleIconModulesRequirement = document.getElementById('toggleIconModulesRequirement');
 
     toggleButtonModules.addEventListener('click', function() {
         testCasesCard .classList.toggle('d-none');
-        toggleButtonModules2.classList.toggle('d-none');
+        toggleButtonModulesRequirement.classList.toggle('d-none');
         if (toggleIconModules.classList.contains('bi-arrow-right')) {
         toggleIconModules.classList.remove('bi-arrow-right');
         toggleIconModules.classList.add('bi-arrow-left');
@@ -26,16 +26,16 @@
 
 
 
-    toggleButtonModules2.addEventListener('click', function() {
+    toggleButtonModulesRequirement.addEventListener('click', function() {
         modulesCard.classList.toggle('d-none');
-        if (toggleIconModules2.classList.contains('bi-chevron-compact-left')) {
-        toggleIconModules2.classList.remove('bi-chevron-compact-left');
-        toggleIconModules2.classList.add('bi-chevron-compact-right');
+        if (toggleIconModulesRequirement.classList.contains('bi-chevron-compact-left')) {
+        toggleIconModulesRequirement.classList.remove('bi-chevron-compact-left');
+        toggleIconModulesRequirement.classList.add('bi-chevron-compact-right');
         testCasesCard.classList.add('w-100');
         }
         else {
-        toggleIconModules2.classList.remove('bi-chevron-compact-right');
-        toggleIconModules2.classList.add('bi-chevron-compact-left');
+        toggleIconModulesRequirement.classList.remove('bi-chevron-compact-right');
+        toggleIconModulesRequirement.classList.add('bi-chevron-compact-left');
         testCasesCard.classList.remove('w-100');
         }
     });

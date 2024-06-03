@@ -46,7 +46,7 @@
       tooltipTotalTestCases.title = 'Click to know Total Test Cases';
       tooltipTotalTestCases.style.margin = '0 1rem';
       const imgTotalTestCases = document.createElement('img');
-      imgTotalTestCases.src = '../assets/images/total-test-cases.png';
+      imgTotalTestCases.src = '/images/total-test-cases.png';
       imgTotalTestCases.alt = '';
       imgTotalTestCases.style.width = '1rem';
       imgTotalTestCases.style.height = '1rem';
@@ -59,7 +59,7 @@
       tooltipAdd.setAttribute('data-bs-toggle', 'tooltip');
       tooltipAdd.title = 'Click here to add Newly created Test cases to the Test run';
       const imgAdd = document.createElement('img');
-      imgAdd.src = '../assets/images/add.svg';
+      imgAdd.src = '/images/add.svg';
       imgAdd.alt = '';
       imgAdd.style.width = '1rem';
       imgAdd.style.height = '1rem';
@@ -93,12 +93,12 @@
     const toggleButtonModules = document.getElementById('toggleButtonModules');
     const toggleIconModules = document.getElementById('toggleIconModules');
 
-    const toggleButtonModules2 = document.getElementById('toggleButtonModules2');
-    const toggleIconModules2 = document.getElementById('toggleIconModules2');
+    const toggleButtonModulesTestCase = document.getElementById('toggleButtonModulesTestCase');
+    const toggleIconModulesTestCase = document.getElementById('toggleIconModulesTestCase');
 
     toggleButtonModules.addEventListener('click', function() {
         testCasesCard .classList.toggle('d-none');
-        toggleButtonModules2.classList.toggle('d-none');
+        toggleButtonModulesTestCase.classList.toggle('d-none');
         if (toggleIconModules.classList.contains('bi-arrow-right')) {
         toggleIconModules.classList.remove('bi-arrow-right');
         toggleIconModules.classList.add('bi-arrow-left');
@@ -113,16 +113,16 @@
 
 
 
-    toggleButtonModules2.addEventListener('click', function() {
+    toggleButtonModulesTestCase.addEventListener('click', function() {
         modulesCard.classList.toggle('d-none');
-        if (toggleIconModules2.classList.contains('bi-chevron-compact-left')) {
-        toggleIconModules2.classList.remove('bi-chevron-compact-left');
-        toggleIconModules2.classList.add('bi-chevron-compact-right');
+        if (toggleIconModulesTestCase.classList.contains('bi-chevron-compact-left')) {
+        toggleIconModulesTestCase.classList.remove('bi-chevron-compact-left');
+        toggleIconModulesTestCase.classList.add('bi-chevron-compact-right');
         testCasesCard.classList.add('w-100');
         }
         else {
-        toggleIconModules2.classList.remove('bi-chevron-compact-right');
-        toggleIconModules2.classList.add('bi-chevron-compact-left');
+        toggleIconModulesTestCase.classList.remove('bi-chevron-compact-right');
+        toggleIconModulesTestCase.classList.add('bi-chevron-compact-left');
         testCasesCard.classList.remove('w-100');
         }
     });

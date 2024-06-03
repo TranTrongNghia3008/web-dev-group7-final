@@ -23,6 +23,9 @@ app.set('view engine', 'hbs');
 app.use('/', require('./routes/dasdboardRouter'));
 app.use('/project', require('./routes/projectRouter'));
 app.use('/requirement', require('./routes/requirementRouter'));
+app.use('/release', require('./routes/releaseRouter'));
+app.use('/module', require('./routes/moduleRouter'));
+app.use('/test-case', require('./routes/testCaseRouter'));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);

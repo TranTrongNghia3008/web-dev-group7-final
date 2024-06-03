@@ -7,13 +7,15 @@ const controller = {};
 // const Op = sequelize.Op;
 controller.show = (req, res) => {
     
-    res.render('dashboard', { 
-        title: "ShareBug - Dashboard", 
+    res.render('module', { 
+        title: "ShareBug - Modules", 
         header: `<link rel="stylesheet" href="/css/shared-styles.css" />
-                <link rel="stylesheet" href="/css/dashboard-styles.css" />`, 
-        d1: "selected-menu-item"
+                <link rel="stylesheet" href="/css/modules-view.css" />`, 
+        d2: "selected-menu-item", 
+        n4: "active border-danger"
     });
 }
+
 
 
 module.exports = controller;
