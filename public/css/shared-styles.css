@@ -1,0 +1,173 @@
+body {
+    font-size: 16px;
+    background: #E5E7EB;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+}
+
+.logo {
+    width: 30px;
+    height: 30px;
+}
+
+.dark-mode {
+    display: flex;
+    align-items: center; 
+    width: max-content;
+}
+
+.language {
+    display: flex;
+    align-items: center; 
+}
+
+
+main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.menu {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    height: 100%;
+    /* overflow-y: auto; */
+    background: white;
+}
+a {
+    text-decoration: none;
+}
+.menu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.menu ul li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 150px;
+    height: 90px;
+}
+
+.menu-item:last-child  {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.menu-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.menu-item p {
+    color: black;
+}
+.menu-item:hover {
+    background-color: rgb(199, 199, 199);
+}
+
+.content {
+    margin-top: 72px;
+    margin-left: 155px;
+}
+
+.selected-menu-item {
+    background-color: #F8FAFC;
+    border-left: 0.3rem solid #D21919 !important;
+}
+
+.img-language, .bi-person-circle {
+    width: 2rem;
+}
+
+footer {
+    margin-left: 150px;
+    margin-top: auto;
+}
+
+.status-passed {
+    background-color: rgb(92, 184, 92);
+}
+
+.status-untested {
+    background-color: rgb(70, 191, 189);
+}
+
+.status-blocked {
+    background-color: rgb(77, 83, 96);
+}
+
+.status-retest {
+    background-color: rgb(253, 180, 92);
+}
+
+.status-failed {
+    background-color: rgb(247, 70, 74);
+}
+
+.status-not-applicable {
+    background-color: rgb(147, 119, 85);
+}
+
+.status-in-progress {
+    background-color: rgb(87, 147, 243);
+}
+
+.status-hold {
+    background-color: rgb(23, 162, 184);
+}
+
+.status-new {
+    background-color: #3498db; /* Xanh dương */
+}
+
+.status-assigned {
+    background-color: #9b59b6; /* Tím */
+}
+
+.status-open {
+    background-color: #f1c40f; /* Vàng */
+}
+
+.status-fixed {
+    background-color: #2ecc71; /* Xanh lá cây */
+}
+
+.status-retest {
+    background-color: #e74c3c; /* Đỏ */
+}
+
+.status-verified {
+    background-color: #27ae60; /* Xanh lá cây đậm */
+}
+
+.status-reopen {
+    background-color: #e67e22; /* Cam */
+}
+
+.status-closed {
+    background-color: #34495e; /* Xám */
+}
+
+.status-duplicate {
+    background-color: #95a5a6; /* Xám nhạt */
+}
+
+.status-invalid {
+    background-color: #e74c3c; /* Đỏ */
+}
+
+.status-deferred {
+    background-color: #e67e22; /* Cam */
+}

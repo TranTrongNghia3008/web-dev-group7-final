@@ -1,0 +1,27 @@
+.menu-2 {
+    margin: 1rem 2rem;
+}
+
+.menu-2 li a{
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+.status-num {
+    font-size: large;
+}
+
+.status {
+    color: gray;
+}
+
+.search-module input[type=text] {
+    background-image: url('../assets/images/magnifying-glass-solid.svg');
+    background-position: right 10px top 7px; 
+    background-repeat: no-repeat;
+    padding-right: 20px;
+    background-size: 20px 20px;
+}

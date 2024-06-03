@@ -1,0 +1,130 @@
+.view-bar.container-fluid.row{
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+
+#cards-wrapper-cf.grid-view
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-gap: 2%;
+    justify-content: center;
+}
+
+.card
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-top : 10px solid grey;
+    padding: 0.5em;
+}
+
+.cards-wrapper
+{
+    padding: 0;
+}
+
+#cards-wrapper-cf.grid-view .card .card-body
+{
+  > *
+  {
+    margin: 0.5ex;
+  }
+
+  .card-project-key
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em;
+  }
+
+  .card-project-creation > *
+  {
+    color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    > *
+    {
+      margin: 0.5ex;
+    }
+  }
+
+
+
+  .card-project-stats
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+
+  .card-project-actions
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
+}
+
+.field-label
+{
+  font-weight: bold;
+}
+
+
+#cards-wrapper-cf.list-view .card .card-body
+{
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .card-project-key .field-label
+    {
+        display: none;
+    }
+
+  .card-project-description
+  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .card-project-creation
+  {
+    color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin-right: 1ex;
+    > *
+    {
+      margin: 1ex;
+    }
+  }
+
+  .card-project-stats
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > *
+    {
+      margin: 0.5ex;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+a
+{
+    color: inherit;
+}

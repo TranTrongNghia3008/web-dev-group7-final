@@ -1,0 +1,79 @@
+.menu-2 {
+    margin: 1rem 2rem;
+}
+
+.menu-2 li a{
+    color: black;
+}
+
+a {
+    color: inherit;
+}
+
+.status-num {
+    font-size: large;
+}
+
+.status {
+    color: gray;
+}
+
+.search-module input[type=text] {
+    background-image: url('../assets/images/magnifying-glass-solid.svg');
+    background-position: right 10px top 7px; 
+    background-repeat: no-repeat;
+    padding-right: 20px;
+    background-size: 20px 20px;
+}
+
+#address-bar
+{
+    margin: 1rem 2rem;
+    padding: 1em;
+}
+
+.project-name
+{
+    color: #D21919;
+}
+
+#dropdownMenuButton
+{
+    background-color: #D21919;
+    color: white;
+    font-style: bold;   
+}
+
+.quick-menu
+{
+    padding: 0.75em;
+}
+
+.quick-menu 
+{
+    .bi
+    {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+    }
+}
+
+
+
+.circle {
+    width: 3rem; /* Điều chỉnh kích thước của hình tròn */
+    height: 3rem; /* Điều chỉnh kích thước của hình tròn */
+    border-radius: 50%; /* Biến hình thành hình tròn */
+    overflow: hidden; /* Ẩn phần ngoài của hình tròn */
+    position: relative; /* Để có thể định vị hình ảnh bên trong */
+    
+  }
+  
+  .centered-image {
+    position: absolute; /* Định vị hình ảnh theo tọa độ tương đối với phần tử cha */
+    top: 50%; /* Đưa hình ảnh lên trên 50% của hình tròn */
+    left: 50%; /* Đưa hình ảnh sang trái 50% của hình tròn */
+    transform: translate(-50%, -50%); /* Dịch chuyển hình ảnh để nằm chính giữa hình tròn */
+    max-width: 100%; /* Hình ảnh không vượt quá kích thước của hình tròn */
+    max-height: 100%; /* Hình ảnh không vượt quá kích thước của hình tròn */
+  }

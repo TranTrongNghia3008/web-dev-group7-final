@@ -1,0 +1,19 @@
+.menu-2 {
+    margin: 1rem 2rem;
+}
+
+.menu-2 li a{
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+
+
+
+.modal-backdrop {
+    opacity: 0.5; /* Độ mờ */
+    background-color: #000; /* Màu nền */
+}

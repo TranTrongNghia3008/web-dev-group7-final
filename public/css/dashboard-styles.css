@@ -1,0 +1,29 @@
+.menu-2 {
+    margin: 1rem 2rem;
+}
+
+.menu-2 li a{
+    color: black;
+}
+
+.circle {
+    width: 3rem; /* Điều chỉnh kích thước của hình tròn */
+    height: 3rem; /* Điều chỉnh kích thước của hình tròn */
+    border-radius: 50%; /* Biến hình thành hình tròn */
+    overflow: hidden; /* Ẩn phần ngoài của hình tròn */
+    position: relative; /* Để có thể định vị hình ảnh bên trong */
+    
+  }
+  
+  .centered-image {
+    position: absolute; /* Định vị hình ảnh theo tọa độ tương đối với phần tử cha */
+    top: 50%; /* Đưa hình ảnh lên trên 50% của hình tròn */
+    left: 50%; /* Đưa hình ảnh sang trái 50% của hình tròn */
+    transform: translate(-50%, -50%); /* Dịch chuyển hình ảnh để nằm chính giữa hình tròn */
+    max-width: 100%; /* Hình ảnh không vượt quá kích thước của hình tròn */
+    max-height: 100%; /* Hình ảnh không vượt quá kích thước của hình tròn */
+  }
+  
+
+
+

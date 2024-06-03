@@ -1,0 +1,666 @@
+<div class="content px-5">
+{{>navigation}}
+
+<div class="container bg-white rounded my-3">
+    <div class="row d-flex justify-content-between">
+    <div class="col sm-8 d-flex flex-row align-items-center">
+        <!-- <a href="../pages/project-list.html" class="mx-2 project-name"
+        >My Business Project</a
+        >
+
+        <i class="bi bi-chevron-right"></i> -->
+
+        <span class="mx-2 address-component">Overview</span>
+    </div>
+    <div class="col sm-4 d-flex justify-content-end">
+        <div class="dropdown">
+        <button
+            class="btn btn-outline-seconary dropdown-toggle quick-menu m-2"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+        >
+            <i class="bi bi-grid-3x3"></i> Quick Menu
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+            <a class="dropdown-item quick-menu" href="#"
+                ><i class="bi bi-brush"></i> Edit project</a
+            >
+            </li>
+            <li>
+            <a class="dropdown-item quick-menu" href="#"
+                ><i class="bi bi-person"></i> View assignees</a
+            >
+            </li>
+            <li>
+            <a
+                class="dropdown-item quick-menu"
+                href="requirement-import.html"
+                ><i class="bi bi-cloud-arrow-up"></i> Import
+                requirements</a
+            >
+            </li>
+            <li>
+            <a
+                class="dropdown-item quick-menu"
+                href="test_cases_import_1.html"
+                ><i class="bi bi-cloud-arrow-up"></i> Import test cases</a
+            >
+            </li>
+            <li>
+            <a class="dropdown-item quick-menu" href="reports-view.html"
+                ><i class="bi bi-passport"></i> Reports</a
+            >
+            </li>
+        </ul>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="container my-3 py-2" id="cards-area">
+    <div class="row h-100">
+    <div class="col-sm-9 h-100" id="content-col">
+        <div class="row mb-3" id="overview-row">
+        <div class="col-sm-4 ps-0">
+            <div class="container h-100 w-100 bg-white rounded p-2">
+            <div
+                class="container d-flex flex-column justify-content-between"
+            >
+                <div
+                class="container d-flex flex-column align-items-center"
+                id="project-info"
+                >
+                <img
+                    width="100px"
+                    src="/images/Flag_of_the_United_States.png"
+                    alt=""
+                    class="project-icon"
+                />
+                <h5>My Business Project</h5>
+                <p class="text-muted fw-bold">Created by John Doe</p>
+                <p class="text-muted">Created on 28th June 2022</p>
+                </div>
+
+                <div class="container d-flex justify-content-between">
+                <div><h6>Project key</h6></div>
+                <div class="rounded-pill bg-dark-subtle w-auto px-3">
+                    keygoeshere
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div
+            class="container h-100 w-100 bg-white rounded p-2 position-relative"
+            >
+            <h6>Open Release(s) Status</h6>
+
+            <div
+                class="position-absolute top-50 start-50 translate-middle d-flex flex-row align-content-center"
+            >
+                <div class="icon-holder">
+                <i class="bi bi-file-code fs-2"></i>
+                </div>
+                <div class="d-flex align-items-center text-muted">
+                No status available
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="row" id="resource-row">
+        <div class="col-sm-3 ps-0">
+            <div
+            class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
+            >
+            <a
+                href="#"
+                class="container d-flex flex-column align-items-center"
+            >
+                <div
+                class="icon-holder circle mx-auto"
+                style="background: #fef8f5"
+                >
+                <img
+                    src="/images/releases.svg"
+                    alt=""
+                    class="centered-image"
+                />
+                </div>
+                <!-- <div class="icon-holder">
+                                        <i class="bi bi-unity fs-3"></i>
+                                    </div> -->
+
+                <div id="no-of-releases">
+                <h4>2</h4>
+                </div>
+
+                <div class="container-title">
+                <h6>Releases</h6>
+                </div>
+            </a>
+
+            <div class="item-list overflow-auto mt-5 h-50">
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <!-- <div class="icon-holder">
+                                                <i class="bi bi-unity"></i>
+                                            </div> -->
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/releases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Release 1.23
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <!-- <div class="icon-holder">
+                                                <i class="bi bi-unity"></i>
+                                            </div> -->
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/releases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Release 2.45
+                    </div>
+                </div>
+                </a>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 ps-0">
+            <div
+            class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
+            >
+            <a
+                href="#"
+                class="container d-flex flex-column align-items-center"
+            >
+                <div
+                class="icon-holder circle mx-auto"
+                style="background: #effff0"
+                >
+                <img
+                    src="/images/test_cases.svg"
+                    alt=""
+                    class="centered-image"
+                />
+                </div>
+                <!-- <div class="icon-holder">
+                                        <i class="bi bi-clipboard2-data fs-3"></i>
+                                    </div> -->
+
+                <div id="no-of-test-cases">
+                <h4>7</h4>
+                </div>
+
+                <div class="container-title">
+                <h6>Test cases</h6>
+                </div>
+            </a>
+
+            <div class="item-list overflow-auto mt-5 h-50">
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <!-- <div class="icon-holder">
+                                                <i class="bi bi-clipboard2-data-fill"></i>
+                                            </div> -->
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-345
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-354
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-423
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-532
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-572
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-678
+                    </div>
+                </div>
+                </a>
+
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Test case TC-999
+                    </div>
+                </div>
+                </a>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 ps-0">
+            <div
+            class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
+            >
+            <a
+                href="#"
+                class="container d-flex flex-column align-items-center"
+            >
+                <div class="circle mx-auto" style="background: #fef8f5">
+                <img
+                    src="/images/test_runs.svg"
+                    alt=""
+                    class="centered-image"
+                />
+                </div>
+                <!-- <div class="icon-holder">
+                                        <i class="bi bi-clipboard-check fs-3"></i>
+                                    </div> -->
+
+                <div id="no-of-test-runs">
+                <h4>0</h4>
+                </div>
+
+                <div class="container-title">
+                <h6>Test runs</h6>
+                </div>
+            </a>
+
+            <div class="item-list overflow-auto mt-5 h-50">
+                <div
+                class="d-flex flex-row align-items-center justify-content-center text-muted"
+                >
+                No test runs available
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 ps-0">
+            <div
+            class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
+            >
+            <a
+                href="#"
+                class="container d-flex flex-column align-items-center"
+            >
+                <div class="circle mx-auto" style="background: #f6f1ff">
+                <img
+                    src="/images/issues.svg"
+                    alt=""
+                    class="centered-image"
+                />
+                </div>
+                <!-- <div class="icon-holder">
+                                        <i class="bi bi-exclamation-triangle fs-3"></i>
+                                    </div> -->
+
+                <div id="no-of-issues">
+                <h4>1</h4>
+                </div>
+
+                <div class="container-title">
+                <h6>Issues</h6>
+                </div>
+            </a>
+
+            <div class="item-list overflow-auto mt-5 h-50">
+                <a href="#">
+                <div
+                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                >
+                    <!-- <div class="icon-holder">
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                            </div> -->
+                    <div
+                    style="
+                        width: 2rem;
+                        height: 2rem;
+                        position: relative;
+                    "
+                    >
+                    <img
+                        src="/images/issues.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+
+                    <div
+                    class="release-name d-flex flex-row align-content-center"
+                    >
+                    Issue I-23
+                    </div>
+                </div>
+                </a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3" id="history-col">
+        <div class="bg-white rounded h-75 px-3">
+        <h6 class="py-3">Activity log</h6>
+
+        <div class="container flex-column overflow-auto h-75">
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 28, 2024 23:40
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Al Pacino
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 2 reports</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 27, 2024 12:49
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Daniel Day-Lewis
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Edited requirement R-32</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 23, 2024 04:23
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Humphrey Bogart
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 3 test cases</p>
+                <p class="m-0">Edited 1 release</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 23, 2024 04:23
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Humphrey Bogart
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 3 test cases</p>
+                <p class="m-0">Edited 1 release</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 23, 2024 04:23
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Humphrey Bogart
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 3 test cases</p>
+                <p class="m-0">Edited 1 release</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 23, 2024 04:23
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Humphrey Bogart
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 3 test cases</p>
+                <p class="m-0">Edited 1 release</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 23, 2024 04:23
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Humphrey Bogart
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 3 test cases</p>
+                <p class="m-0">Edited 1 release</p>
+            </div>
+            </div>
+
+            <div
+            class="history-item d-flex flex-column rounded border p-1 m-2"
+            >
+            <div class="text-muted history-item-timestamp">
+                April 23, 2024 04:23
+            </div>
+
+            <div class="history-item-author text-muted">
+                <i class="bi bi-person"></i> Humphrey Bogart
+            </div>
+            <div class="d-flex flex-column history-item-detail">
+                <p class="m-0">Added 3 test cases</p>
+                <p class="m-0">Edited 1 release</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+   
