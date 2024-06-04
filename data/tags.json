@@ -1,0 +1,33 @@
+[
+    {
+      "Name": "Login",
+      "CreatedAt": "2024-06-01T08:30:00Z",
+      "UpdatedAt": "2024-06-01T08:30:00Z",
+      "TestCaseID": 1
+    },
+    {
+      "Name": "Registration",
+      "CreatedAt": "2024-06-02T10:15:00Z",
+      "UpdatedAt": "2024-06-02T10:15:00Z",
+      "TestCaseID": 2
+    },
+    {
+      "Name": "Search",
+      "CreatedAt": "2024-06-03T14:20:00Z",
+      "UpdatedAt": "2024-06-03T14:20:00Z",
+      "TestCaseID": 3
+    },
+    {
+      "Name": "Currency Conversion",
+      "CreatedAt": "2024-06-04T09:45:00Z",
+      "UpdatedAt": "2024-06-04T09:45:00Z",
+      "TestCaseID": 4
+    },
+    {
+      "Name": "Product Details",
+      "CreatedAt": "2024-06-05T11:30:00Z",
+      "UpdatedAt": "2024-06-05T11:30:00Z",
+      "TestCaseID": 5
+    }
+  ]
+  

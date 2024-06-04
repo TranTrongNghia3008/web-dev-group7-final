@@ -1,0 +1,63 @@
+[
+    {
+      "Name": "John Doe",
+      "Gender": "Male",
+      "BirthYear": 1990,
+      "Phone": "123456789",
+      "UserImg": "default-user-image.png",
+      "LastLogin": "2024-06-01T08:30:00Z",
+      "IsAdmin": false,
+      "CreatedAt": "2024-06-01T08:30:00Z",
+      "UpdatedAt": "2024-06-01T08:30:00Z",
+      "AccountEmail": "john.doe@example.com"
+    },
+    {
+      "Name": "Jane Smith",
+      "Gender": "Female",
+      "BirthYear": 1985,
+      "Phone": "987654321",
+      "UserImg": "default-user-image.png",
+      "LastLogin": "2024-06-02T10:15:00Z",
+      "IsAdmin": true,
+      "CreatedAt": "2024-06-02T10:15:00Z",
+      "UpdatedAt": "2024-06-02T10:15:00Z",
+      "AccountEmail": "jane.smith@example.com"
+    },
+    {
+      "Name": "Michael Johnson",
+      "Gender": "Male",
+      "BirthYear": 1995,
+      "Phone": "555555555",
+      "UserImg": "default-user-image.png",
+      "LastLogin": "2024-06-03T14:20:00Z",
+      "IsAdmin": false,
+      "CreatedAt": "2024-06-03T14:20:00Z",
+      "UpdatedAt": "2024-06-03T14:20:00Z",
+      "AccountEmail": "michael.johnson@example.com"
+    },
+    {
+      "Name": "Emily Brown",
+      "Gender": "Female",
+      "BirthYear": 1980,
+      "Phone": "111111111",
+      "UserImg": "default-user-image.png",
+      "LastLogin": "2024-06-04T09:45:00Z",
+      "IsAdmin": false,
+      "CreatedAt": "2024-06-04T09:45:00Z",
+      "UpdatedAt": "2024-06-04T09:45:00Z",
+      "AccountEmail": "emily.brown@example.com"
+    },
+    {
+      "Name": "William Davis",
+      "Gender": "Male",
+      "BirthYear": 1978,
+      "Phone": "999999999",
+      "UserImg": "default-user-image.png",
+      "LastLogin": "2024-06-05T11:30:00Z",
+      "IsAdmin": true,
+      "CreatedAt": "2024-06-05T11:30:00Z",
+      "UpdatedAt": "2024-06-05T11:30:00Z",
+      "AccountEmail": "william.davis@example.com"
+    }
+  ]
+  

@@ -1,0 +1,38 @@
+[
+    {
+      "Role": "Developer",
+      "CreatedAt": "2024-01-01T00:00:00Z",
+      "UpdatedAt": "2024-01-01T00:00:00Z",
+      "UserID": 1,
+      "ProjectID": 1
+    },
+    {
+      "Role": "Tester",
+      "CreatedAt": "2024-02-01T00:00:00Z",
+      "UpdatedAt": "2024-02-01T00:00:00Z",
+      "UserID": 2,
+      "ProjectID": 2
+    },
+    {
+      "Role": "Manager",
+      "CreatedAt": "2024-03-01T00:00:00Z",
+      "UpdatedAt": "2024-03-01T00:00:00Z",
+      "UserID": 3,
+      "ProjectID": 3
+    },
+    {
+      "Role": "Tester",
+      "CreatedAt": "2024-04-01T00:00:00Z",
+      "UpdatedAt": "2024-04-01T00:00:00Z",
+      "UserID": 4,
+      "ProjectID": 4
+    },
+    {
+      "Role": "Developer",
+      "CreatedAt": "2024-05-01T00:00:00Z",
+      "UpdatedAt": "2024-05-01T00:00:00Z",
+      "UserID": 5,
+      "ProjectID": 5
+    }
+  ]
+  

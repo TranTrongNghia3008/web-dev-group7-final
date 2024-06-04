@@ -1,0 +1,103 @@
+[
+    {
+      "Title": "Monthly Progress Report",
+      "Type": "Progress",
+      "StartDate": "2024-05-01T00:00:00Z",
+      "EndDate": "2024-05-31T23:59:59Z",
+      "IsScheduled": true,
+      "CreatedAt": "2024-05-01T00:00:00Z",
+      "UpdatedAt": "2024-05-01T00:00:00Z",
+      "ProjectID": 1
+    },
+    {
+      "Title": "Quarterly Financial Report",
+      "Type": "Financial",
+      "StartDate": "2024-04-01T00:00:00Z",
+      "EndDate": "2024-06-30T23:59:59Z",
+      "IsScheduled": false,
+      "CreatedAt": "2024-04-01T00:00:00Z",
+      "UpdatedAt": "2024-04-01T00:00:00Z",
+      "ProjectID": 2
+    },
+    {
+      "Title": "Annual Project Review",
+      "Type": "Review",
+      "StartDate": "2024-12-01T00:00:00Z",
+      "EndDate": "2024-12-31T23:59:59Z",
+      "IsScheduled": false,
+      "CreatedAt": "2024-12-01T00:00:00Z",
+      "UpdatedAt": "2024-12-01T00:00:00Z",
+      "ProjectID": 3
+    },
+    {
+      "Title": "Weekly Status Report",
+      "Type": "Status",
+      "StartDate": "2024-05-01T00:00:00Z",
+      "EndDate": "2024-05-07T23:59:59Z",
+      "IsScheduled": true,
+      "CreatedAt": "2024-05-01T00:00:00Z",
+      "UpdatedAt": "2024-05-01T00:00:00Z",
+      "ProjectID": 1
+    },
+    {
+      "Title": "Monthly Financial Report",
+      "Type": "Financial",
+      "StartDate": "2024-06-01T00:00:00Z",
+      "EndDate": "2024-06-30T23:59:59Z",
+      "IsScheduled": true,
+      "CreatedAt": "2024-06-01T00:00:00Z",
+      "UpdatedAt": "2024-06-01T00:00:00Z",
+      "ProjectID": 2
+    },
+    {
+      "Title": "Quarterly Progress Report",
+      "Type": "Progress",
+      "StartDate": "2024-04-01T00:00:00Z",
+      "EndDate": "2024-06-30T23:59:59Z",
+      "IsScheduled": false,
+      "CreatedAt": "2024-04-01T00:00:00Z",
+      "UpdatedAt": "2024-04-01T00:00:00Z",
+      "ProjectID": 3
+    },
+    {
+      "Title": "Annual Financial Report",
+      "Type": "Financial",
+      "StartDate": "2024-01-01T00:00:00Z",
+      "EndDate": "2024-12-31T23:59:59Z",
+      "IsScheduled": true,
+      "CreatedAt": "2024-01-01T00:00:00Z",
+      "UpdatedAt": "2024-01-01T00:00:00Z",
+      "ProjectID": 1
+    },
+    {
+      "Title": "Bi-Weekly Progress Report",
+      "Type": "Progress",
+      "StartDate": "2024-05-01T00:00:00Z",
+      "EndDate": "2024-05-14T23:59:59Z",
+      "IsScheduled": true,
+      "CreatedAt": "2024-05-01T00:00:00Z",
+      "UpdatedAt": "2024-05-01T00:00:00Z",
+      "ProjectID": 2
+    },
+    {
+      "Title": "Annual Review",
+      "Type": "Review",
+      "StartDate": "2024-01-01T00:00:00Z",
+      "EndDate": "2024-12-31T23:59:59Z",
+      "IsScheduled": true,
+      "CreatedAt": "2024-01-01T00:00:00Z",
+      "UpdatedAt": "2024-01-01T00:00:00Z",
+      "ProjectID": 3
+    },
+    {
+      "Title": "Monthly Status Update",
+      "Type": "Status",
+      "StartDate": "2024-06-01T00:00:00Z",
+      "EndDate": "2024-06-30T23:59:59Z",
+      "IsScheduled": false,
+      "CreatedAt": "2024-06-01T00:00:00Z",
+      "UpdatedAt": "2024-06-01T00:00:00Z",
+      "ProjectID": 1
+    }
+  ]
+  

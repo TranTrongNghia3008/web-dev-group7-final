@@ -1,0 +1,203 @@
+[
+    {
+      "Title": "Verify login with valid credentials",
+      "Priority": "High",
+      "Precondition": "User is on the login page",
+      "Description": "Enter valid username and password and verify successful login.",
+      "CreatedAt": "2024-06-01T08:30:00Z",
+      "UpdatedAt": "2024-06-01T08:30:00Z",
+      "ModuleID": 1,
+      "TestPlanID": 1
+    },
+    {
+      "Title": "Verify login with invalid credentials",
+      "Priority": "High",
+      "Precondition": "User is on the login page",
+      "Description": "Enter invalid username and password and verify error message.",
+      "CreatedAt": "2024-06-02T10:15:00Z",
+      "UpdatedAt": "2024-06-02T10:15:00Z",
+      "ModuleID": 1,
+      "TestPlanID": 1
+    },
+    {
+      "Title": "Verify registration with valid data",
+      "Priority": "High",
+      "Precondition": "User is on the registration page",
+      "Description": "Enter valid data and verify successful registration.",
+      "CreatedAt": "2024-06-03T14:20:00Z",
+      "UpdatedAt": "2024-06-03T14:20:00Z",
+      "ModuleID": 1,
+      "TestPlanID": 1
+    },
+    {
+      "Title": "Verify registration with invalid data",
+      "Priority": "High",
+      "Precondition": "User is on the registration page",
+      "Description": "Enter invalid data and verify error message.",
+      "CreatedAt": "2024-06-04T09:45:00Z",
+      "UpdatedAt": "2024-06-04T09:45:00Z",
+      "ModuleID": 1,
+      "TestPlanID": 1
+    },
+    {
+      "Title": "Verify search functionality returns correct results",
+      "Priority": "High",
+      "Precondition": "User is on the product search page",
+      "Description": "Enter search query and verify correct products are displayed.",
+      "CreatedAt": "2024-06-05T11:30:00Z",
+      "UpdatedAt": "2024-06-05T11:30:00Z",
+      "ModuleID": 2,
+      "TestPlanID": 2
+    },
+    {
+      "Title": "Verify search functionality handles empty query",
+      "Priority": "Medium",
+      "Precondition": "User is on the product search page",
+      "Description": "Leave search query empty and verify appropriate message is displayed.",
+      "CreatedAt": "2024-06-06T16:00:00Z",
+      "UpdatedAt": "2024-06-06T16:00:00Z",
+      "ModuleID": 2,
+      "TestPlanID": 2
+    },
+    {
+      "Title": "Verify currency conversion accuracy for USD to EUR",
+      "Priority": "High",
+      "Precondition": "User is on the currency conversion page",
+      "Description": "Enter USD amount and verify accurate conversion to EUR.",
+      "CreatedAt": "2024-06-07T13:20:00Z",
+      "UpdatedAt": "2024-06-07T13:20:00Z",
+      "ModuleID": 3,
+      "TestPlanID": 3
+    },
+    {
+      "Title": "Verify currency conversion accuracy for EUR to USD",
+      "Priority": "High",
+      "Precondition": "User is on the currency conversion page",
+      "Description": "Enter EUR amount and verify accurate conversion to USD.",
+      "CreatedAt": "2024-06-08T10:00:00Z",
+      "UpdatedAt": "2024-06-08T10:00:00Z",
+      "ModuleID": 3,
+      "TestPlanID": 3
+    },
+    {
+      "Title": "Verify product details are displayed correctly",
+      "Priority": "High",
+      "Precondition": "User is on the product details page",
+      "Description": "View product details and verify all information is displayed correctly.",
+      "CreatedAt": "2024-06-09T15:45:00Z",
+      "UpdatedAt": "2024-06-09T15:45:00Z",
+      "ModuleID": 4,
+      "TestPlanID": 4
+    },
+    {
+      "Title": "Verify product details page handles invalid product ID",
+      "Priority": "Medium",
+      "Precondition": "User is on the product details page",
+      "Description": "Enter invalid product ID and verify appropriate message is displayed.",
+      "CreatedAt": "2024-06-10T12:30:00Z",
+      "UpdatedAt": "2024-06-10T12:30:00Z",
+      "ModuleID": 4,
+      "TestPlanID": 4
+    },
+    {
+        "Title": "Verify product reviews are displayed correctly",
+        "Priority": "Medium",
+        "Precondition": "User is on the product details page",
+        "Description": "View product reviews and verify they are displayed correctly.",
+        "CreatedAt": "2024-06-11T08:30:00Z",
+        "UpdatedAt": "2024-06-11T08:30:00Z",
+        "ModuleID": 4,
+        "TestPlanID": 4
+      },
+      {
+        "Title": "Verify product reviews are sorted by date",
+        "Priority": "Medium",
+        "Precondition": "User is on the product details page",
+        "Description": "Check if product reviews are sorted by date in descending order.",
+        "CreatedAt": "2024-06-12T10:15:00Z",
+        "UpdatedAt": "2024-06-12T10:15:00Z",
+        "ModuleID": 4,
+        "TestPlanID": 4
+      },
+      {
+        "Title": "Verify product images are displayed correctly",
+        "Priority": "Medium",
+        "Precondition": "User is on the product details page",
+        "Description": "Check if product images are displayed correctly and in high resolution.",
+        "CreatedAt": "2024-06-13T14:20:00Z",
+        "UpdatedAt": "2024-06-13T14:20:00Z",
+        "ModuleID": 4,
+        "TestPlanID": 4
+      },
+      {
+        "Title": "Verify product availability status is accurate",
+        "Priority": "High",
+        "Precondition": "User is on the product details page",
+        "Description": "Check if product availability status is updated in real-time.",
+        "CreatedAt": "2024-06-14T09:45:00Z",
+        "UpdatedAt": "2024-06-14T09:45:00Z",
+        "ModuleID": 4,
+        "TestPlanID": 4
+      },
+      {
+        "Title": "Verify product price is displayed correctly",
+        "Priority": "High",
+        "Precondition": "User is on the product details page",
+        "Description": "Check if product price is displayed accurately with correct currency format.",
+        "CreatedAt": "2024-06-15T11:30:00Z",
+        "UpdatedAt": "2024-06-15T11:30:00Z",
+        "ModuleID": 4,
+        "TestPlanID": 4
+      },
+      {
+        "Title": "Verify user can add product to cart",
+        "Priority": "High",
+        "Precondition": "User is on the product details page",
+        "Description": "Attempt to add product to cart and verify success message is displayed.",
+        "CreatedAt": "2024-06-16T16:00:00Z",
+        "UpdatedAt": "2024-06-16T16:00:00Z",
+        "ModuleID": 5,
+        "TestPlanID": 5
+      },
+      {
+        "Title": "Verify user can remove product from cart",
+        "Priority": "High",
+        "Precondition": "User has items in the shopping cart",
+        "Description": "Attempt to remove product from cart and verify success message is displayed.",
+        "CreatedAt": "2024-06-17T13:20:00Z",
+        "UpdatedAt": "2024-06-17T13:20:00Z",
+        "ModuleID": 5,
+        "TestPlanID": 5
+      },
+      {
+        "Title": "Verify user can proceed to checkout",
+        "Priority": "High",
+        "Precondition": "User has items in the shopping cart",
+        "Description": "Attempt to proceed to checkout and verify correct redirection to checkout page.",
+        "CreatedAt": "2024-06-18T10:00:00Z",
+        "UpdatedAt": "2024-06-18T10:00:00Z",
+        "ModuleID": 5,
+        "TestPlanID": 5
+      },
+      {
+        "Title": "Verify user can apply discount code",
+        "Priority": "Medium",
+        "Precondition": "User is on the checkout page",
+        "Description": "Enter valid discount code and verify discount is applied correctly.",
+        "CreatedAt": "2024-06-19T15:45:00Z",
+        "UpdatedAt": "2024-06-19T15:45:00Z",
+        "ModuleID": 5,
+        "TestPlanID": 5
+      },
+      {
+        "Title": "Verify user can complete purchase",
+        "Priority": "Critical",
+        "Precondition": "User is on the checkout page",
+        "Description": "Enter valid payment details and verify successful purchase completion.",
+        "CreatedAt": "2024-06-20T12:30:00Z",
+        "UpdatedAt": "2024-06-20T12:30:00Z",
+        "ModuleID": 5,
+        "TestPlanID": 5
+      }
+  ]
+  

@@ -13,6 +13,7 @@
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "express-handlebars-paginate": "^1.0.3",
+    "mongoose": "^8.4.1",
     "sequelize": "^6.37.3"
   }
 }

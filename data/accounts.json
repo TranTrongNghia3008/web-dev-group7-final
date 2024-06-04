@@ -1,0 +1,38 @@
+[
+    {
+      "Email": "john.doe@example.com",
+      "Password": "hashedpassword1",
+      "IsVerified": true,
+      "CreatedAt": "2024-06-01T08:30:00Z",
+      "UpdatedAt": "2024-06-01T08:30:00Z"
+    },
+    {
+      "Email": "jane.smith@example.com",
+      "Password": "hashedpassword2",
+      "IsVerified": true,
+      "CreatedAt": "2024-06-02T10:15:00Z",
+      "UpdatedAt": "2024-06-02T10:15:00Z"
+    },
+    {
+      "Email": "michael.johnson@example.com",
+      "Password": "hashedpassword3",
+      "IsVerified": false,
+      "CreatedAt": "2024-06-03T14:20:00Z",
+      "UpdatedAt": "2024-06-03T14:20:00Z"
+    },
+    {
+      "Email": "emily.brown@example.com",
+      "Password": "hashedpassword4",
+      "IsVerified": true,
+      "CreatedAt": "2024-06-04T09:45:00Z",
+      "UpdatedAt": "2024-06-04T09:45:00Z"
+    },
+    {
+      "Email": "william.davis@example.com",
+      "Password": "hashedpassword5",
+      "IsVerified": false,
+      "CreatedAt": "2024-06-05T11:30:00Z",
+      "UpdatedAt": "2024-06-05T11:30:00Z"
+    }
+  ]
+  

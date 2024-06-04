@@ -1,0 +1,30 @@
+[
+    {
+      "Name": "User Authentication Test",
+      "Description": "Test plan for verifying user authentication functionality.",
+      "StartDate": "2024-06-01T00:00:00Z",
+      "EndDate": "2024-06-05T23:59:59Z",
+      "CreatedAt": "2024-06-01T08:30:00Z",
+      "UpdatedAt": "2024-06-01T08:30:00Z",
+      "RequirementID": 1
+    },
+    {
+      "Name": "Product Search Test",
+      "Description": "Test plan for validating search functionality in product catalog.",
+      "StartDate": "2024-06-06T00:00:00Z",
+      "EndDate": "2024-06-10T23:59:59Z",
+      "CreatedAt": "2024-06-02T10:15:00Z",
+      "UpdatedAt": "2024-06-02T10:15:00Z",
+      "RequirementID": 2
+    },
+    {
+      "Name": "Currency Conversion Test",
+      "Description": "Test plan for verifying currency conversion accuracy.",
+      "StartDate": "2024-06-11T00:00:00Z",
+      "EndDate": "2024-06-15T23:59:59Z",
+      "CreatedAt": "2024-06-03T14:20:00Z",
+      "UpdatedAt": "2024-06-03T14:20:00Z",
+      "RequirementID": 3
+    }
+  ]
+  
