@@ -6,6 +6,10 @@ const { createPagination } = require('express-handlebars-paginate');
  
 app.use(express.static(__dirname + "/public"));
 
+const mongoose = require('mongoose');
+const connectDB = require('./connectDB');
+connectDB();
+
 
 app.engine('hbs', expressHandlebars.engine({
     layoutsDir: __dirname + '/views/layouts',

@@ -5,8 +5,8 @@
       "Status": "Passed",
       "CreatedAt": "2024-06-01T08:30:00Z",
       "UpdatedAt": "2024-06-01T08:30:00Z",
-      "AssignTo": 1,
-      "TestCaseID": 1
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59ec"
     },
     {
       "Name": "Login Test Run 2",
@@ -14,8 +14,8 @@
       "Status": "Failed",
       "CreatedAt": "2024-06-02T10:15:00Z",
       "UpdatedAt": "2024-06-02T10:15:00Z",
-      "AssignTo": 1,
-      "TestCaseID": 2
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59ed"
     },
     {
       "Name": "Search Test Run 1",
@@ -23,8 +23,8 @@
       "Status": "Passed",
       "CreatedAt": "2024-06-03T14:20:00Z",
       "UpdatedAt": "2024-06-03T14:20:00Z",
-      "AssignTo": 2,
-      "TestCaseID": 3
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59ee"
     },
     {
       "Name": "Search Test Run 2",
@@ -32,8 +32,8 @@
       "Status": "Passed",
       "CreatedAt": "2024-06-04T09:45:00Z",
       "UpdatedAt": "2024-06-04T09:45:00Z",
-      "AssignTo": 2,
-      "TestCaseID": 4
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59ef"
     },
     {
       "Name": "Currency Conversion Test Run 1",
@@ -41,8 +41,8 @@
       "Status": "Passed",
       "CreatedAt": "2024-06-05T11:30:00Z",
       "UpdatedAt": "2024-06-05T11:30:00Z",
-      "AssignTo": 3,
-      "TestCaseID": 5
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59f0"
     },
     {
       "Name": "Currency Conversion Test Run 2",
@@ -50,8 +50,8 @@
       "Status": "Passed",
       "CreatedAt": "2024-06-06T16:00:00Z",
       "UpdatedAt": "2024-06-06T16:00:00Z",
-      "AssignTo": 3,
-      "TestCaseID": 6
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59f1"
     },
     {
       "Name": "Product Details Test Run 1",
@@ -59,8 +59,8 @@
       "Status": "Passed",
       "CreatedAt": "2024-06-07T13:20:00Z",
       "UpdatedAt": "2024-06-07T13:20:00Z",
-      "AssignTo": 4,
-      "TestCaseID": 7
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59f2"
     },
     {
       "Name": "Product Details Test Run 2",
@@ -68,8 +68,8 @@
       "Status": "Failed",
       "CreatedAt": "2024-06-08T10:00:00Z",
       "UpdatedAt": "2024-06-08T10:00:00Z",
-      "AssignTo": 4,
-      "TestCaseID": 8
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59f3"
     },
     {
       "Name": "Add Product to Cart Test Run",
@@ -77,8 +77,8 @@
       "Status": "Blocked",
       "CreatedAt": "2024-06-09T15:45:00Z",
       "UpdatedAt": "2024-06-09T15:45:00Z",
-      "AssignTo": 5,
-      "TestCaseID": 9
+      "AssignTo": "666011d01cc6e634de0ff70c",
+      "TestCaseID": "66601f5f4ed034920fea59f4"
     },
     {
       "Name": "Remove Product from Cart Test Run",
@@ -86,8 +86,8 @@
       "Status": "In Progress",
       "CreatedAt": "2024-06-10T12:30:00Z",
       "UpdatedAt": "2024-06-10T12:30:00Z",
-      "AssignTo": 5,
-      "TestCaseID": 10
+      "AssignTo": "666011d01cc6e634de0ff70d",
+      "TestCaseID": "66601f5f4ed034920fea59f5"
     },
     {
         "Name": "Proceed to Checkout Test Run",
@@ -95,8 +95,8 @@
         "Status": "Retest",
         "CreatedAt": "2024-06-11T08:30:00Z",
         "UpdatedAt": "2024-06-11T08:30:00Z",
-        "AssignTo": 6,
-        "TestCaseID": 11
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59f6"
       },
       {
         "Name": "Apply Discount Code Test Run",
@@ -104,8 +104,8 @@
         "Status": "In Progress",
         "CreatedAt": "2024-06-12T10:15:00Z",
         "UpdatedAt": "2024-06-12T10:15:00Z",
-        "AssignTo": 6,
-        "TestCaseID": 12
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59f7"
       },
       {
         "Name": "Complete Purchase Test Run",
@@ -113,8 +113,8 @@
         "Status": "Failed",
         "CreatedAt": "2024-06-13T14:20:00Z",
         "UpdatedAt": "2024-06-13T14:20:00Z",
-        "AssignTo": 7,
-        "TestCaseID": 13
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59f8"
       },
       {
         "Name": "Login Test Run 3",
@@ -122,8 +122,8 @@
         "Status": "Failed",
         "CreatedAt": "2024-06-14T09:45:00Z",
         "UpdatedAt": "2024-06-14T09:45:00Z",
-        "AssignTo": 7,
-        "TestCaseID": 2
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59f9"
       },
       {
         "Name": "Search Test Run 3",
@@ -131,8 +131,8 @@
         "Status": "Blocked",
         "CreatedAt": "2024-06-15T11:30:00Z",
         "UpdatedAt": "2024-06-15T11:30:00Z",
-        "AssignTo": 8,
-        "TestCaseID": 3
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59fa"
       },
       {
         "Name": "Currency Conversion Test Run 3",
@@ -140,8 +140,8 @@
         "Status": "Retest",
         "CreatedAt": "2024-06-16T16:00:00Z",
         "UpdatedAt": "2024-06-16T16:00:00Z",
-        "AssignTo": 8,
-        "TestCaseID": 5
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59fb"
       },
       {
         "Name": "Product Details Test Run 3",
@@ -149,8 +149,8 @@
         "Status": "In Progress",
         "CreatedAt": "2024-06-17T13:20:00Z",
         "UpdatedAt": "2024-06-17T13:20:00Z",
-        "AssignTo": 9,
-        "TestCaseID": 7
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59fc"
       },
       {
         "Name": "Add Product to Cart Test Run 2",
@@ -158,8 +158,8 @@
         "Status": "Not Applicable",
         "CreatedAt": "2024-06-18T10:00:00Z",
         "UpdatedAt": "2024-06-18T10:00:00Z",
-        "AssignTo": 9,
-        "TestCaseID": 9
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59fd"
       },
       {
         "Name": "Remove Product from Cart Test Run 2",
@@ -167,8 +167,8 @@
         "Status": "Hold",
         "CreatedAt": "2024-06-19T15:45:00Z",
         "UpdatedAt": "2024-06-19T15:45:00Z",
-        "AssignTo": 10,
-        "TestCaseID": 10
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59fe"
       },
       {
         "Name": "Proceed to Checkout Test Run 2",
@@ -176,8 +176,8 @@
         "Status": "In Progress",
         "CreatedAt": "2024-06-20T12:30:00Z",
         "UpdatedAt": "2024-06-20T12:30:00Z",
-        "AssignTo": 10,
-        "TestCaseID": 11
+        "AssignTo": "666011d01cc6e634de0ff70d",
+        "TestCaseID": "66601f5f4ed034920fea59ff"
       }
   ]
   

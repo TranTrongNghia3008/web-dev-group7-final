@@ -2,11 +2,13 @@
 
 const controller = {};
 // const { where } = require('sequelize');
-// const models = require('../models');
+const testCaseModel = require('../models/testCaseModel');
 // const sequelize = require('sequelize');
 // const Op = sequelize.Op;
-controller.show = (req, res) => {
-    
+controller.show = async (req, res) => {
+    let countTestCase = await testCaseModel.countDocuments();
+    console.log("count"+ countTestCase);
+    res.locals.countTestCase = countTestCase;
     res.render('dashboard', { 
         title: "ShareBug - Dashboard", 
         header: `<link rel="stylesheet" href="/css/shared-styles.css" />

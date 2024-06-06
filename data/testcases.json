@@ -6,8 +6,8 @@
       "Description": "Enter valid username and password and verify successful login.",
       "CreatedAt": "2024-06-01T08:30:00Z",
       "UpdatedAt": "2024-06-01T08:30:00Z",
-      "ModuleID": 1,
-      "TestPlanID": 1
+      "ModuleID": "666017adf902bdf00016abc0",
+      "TestPlanID": "66601d7f32c5408430429d19"
     },
     {
       "Title": "Verify login with invalid credentials",
@@ -16,8 +16,8 @@
       "Description": "Enter invalid username and password and verify error message.",
       "CreatedAt": "2024-06-02T10:15:00Z",
       "UpdatedAt": "2024-06-02T10:15:00Z",
-      "ModuleID": 1,
-      "TestPlanID": 1
+      "ModuleID": "666017adf902bdf00016abc0",
+      "TestPlanID": "66601d7f32c5408430429d19"
     },
     {
       "Title": "Verify registration with valid data",
@@ -26,8 +26,8 @@
       "Description": "Enter valid data and verify successful registration.",
       "CreatedAt": "2024-06-03T14:20:00Z",
       "UpdatedAt": "2024-06-03T14:20:00Z",
-      "ModuleID": 1,
-      "TestPlanID": 1
+      "ModuleID": "666017adf902bdf00016abc0",
+      "TestPlanID": "66601d7f32c5408430429d19"
     },
     {
       "Title": "Verify registration with invalid data",
@@ -36,8 +36,8 @@
       "Description": "Enter invalid data and verify error message.",
       "CreatedAt": "2024-06-04T09:45:00Z",
       "UpdatedAt": "2024-06-04T09:45:00Z",
-      "ModuleID": 1,
-      "TestPlanID": 1
+      "ModuleID": "666017adf902bdf00016abc1",
+      "TestPlanID": "66601d7f32c5408430429d19"
     },
     {
       "Title": "Verify search functionality returns correct results",
@@ -46,8 +46,8 @@
       "Description": "Enter search query and verify correct products are displayed.",
       "CreatedAt": "2024-06-05T11:30:00Z",
       "UpdatedAt": "2024-06-05T11:30:00Z",
-      "ModuleID": 2,
-      "TestPlanID": 2
+      "ModuleID": "666017adf902bdf00016abc1",
+      "TestPlanID": "66601d7f32c5408430429d19"
     },
     {
       "Title": "Verify search functionality handles empty query",
@@ -56,8 +56,8 @@
       "Description": "Leave search query empty and verify appropriate message is displayed.",
       "CreatedAt": "2024-06-06T16:00:00Z",
       "UpdatedAt": "2024-06-06T16:00:00Z",
-      "ModuleID": 2,
-      "TestPlanID": 2
+      "ModuleID": "666017adf902bdf00016abc1",
+      "TestPlanID": "66601d7f32c5408430429d19"
     },
     {
       "Title": "Verify currency conversion accuracy for USD to EUR",
@@ -66,8 +66,8 @@
       "Description": "Enter USD amount and verify accurate conversion to EUR.",
       "CreatedAt": "2024-06-07T13:20:00Z",
       "UpdatedAt": "2024-06-07T13:20:00Z",
-      "ModuleID": 3,
-      "TestPlanID": 3
+      "ModuleID": "666017adf902bdf00016abc1",
+      "TestPlanID": "66601d7f32c5408430429d1b"
     },
     {
       "Title": "Verify currency conversion accuracy for EUR to USD",
@@ -76,8 +76,8 @@
       "Description": "Enter EUR amount and verify accurate conversion to USD.",
       "CreatedAt": "2024-06-08T10:00:00Z",
       "UpdatedAt": "2024-06-08T10:00:00Z",
-      "ModuleID": 3,
-      "TestPlanID": 3
+      "ModuleID": "666017adf902bdf00016abc2",
+      "TestPlanID": "66601d7f32c5408430429d1b"
     },
     {
       "Title": "Verify product details are displayed correctly",
@@ -86,8 +86,8 @@
       "Description": "View product details and verify all information is displayed correctly.",
       "CreatedAt": "2024-06-09T15:45:00Z",
       "UpdatedAt": "2024-06-09T15:45:00Z",
-      "ModuleID": 4,
-      "TestPlanID": 4
+      "ModuleID": "666017adf902bdf00016abc2",
+      "TestPlanID": "66601d7f32c5408430429d1b"
     },
     {
       "Title": "Verify product details page handles invalid product ID",
@@ -96,8 +96,8 @@
       "Description": "Enter invalid product ID and verify appropriate message is displayed.",
       "CreatedAt": "2024-06-10T12:30:00Z",
       "UpdatedAt": "2024-06-10T12:30:00Z",
-      "ModuleID": 4,
-      "TestPlanID": 4
+      "ModuleID": "666017adf902bdf00016abc4",
+      "TestPlanID": "66601d7f32c5408430429d1b"
     },
     {
         "Title": "Verify product reviews are displayed correctly",
@@ -106,8 +106,8 @@
         "Description": "View product reviews and verify they are displayed correctly.",
         "CreatedAt": "2024-06-11T08:30:00Z",
         "UpdatedAt": "2024-06-11T08:30:00Z",
-        "ModuleID": 4,
-        "TestPlanID": 4
+        "ModuleID": "666017adf902bdf00016abc4",
+        "TestPlanID": "66601d7f32c5408430429d1b"
       },
       {
         "Title": "Verify product reviews are sorted by date",
@@ -116,8 +116,8 @@
         "Description": "Check if product reviews are sorted by date in descending order.",
         "CreatedAt": "2024-06-12T10:15:00Z",
         "UpdatedAt": "2024-06-12T10:15:00Z",
-        "ModuleID": 4,
-        "TestPlanID": 4
+        "ModuleID": "666017adf902bdf00016abc4",
+        "TestPlanID": "66601d7f32c5408430429d1b"
       },
       {
         "Title": "Verify product images are displayed correctly",
@@ -126,8 +126,8 @@
         "Description": "Check if product images are displayed correctly and in high resolution.",
         "CreatedAt": "2024-06-13T14:20:00Z",
         "UpdatedAt": "2024-06-13T14:20:00Z",
-        "ModuleID": 4,
-        "TestPlanID": 4
+        "ModuleID": "666017adf902bdf00016abc5",
+        "TestPlanID": "66601d7f32c5408430429d1b"
       },
       {
         "Title": "Verify product availability status is accurate",
@@ -136,8 +136,8 @@
         "Description": "Check if product availability status is updated in real-time.",
         "CreatedAt": "2024-06-14T09:45:00Z",
         "UpdatedAt": "2024-06-14T09:45:00Z",
-        "ModuleID": 4,
-        "TestPlanID": 4
+        "ModuleID": "666017adf902bdf00016abc5",
+        "TestPlanID": "66601d7f32c5408430429d19"
       },
       {
         "Title": "Verify product price is displayed correctly",
@@ -146,8 +146,8 @@
         "Description": "Check if product price is displayed accurately with correct currency format.",
         "CreatedAt": "2024-06-15T11:30:00Z",
         "UpdatedAt": "2024-06-15T11:30:00Z",
-        "ModuleID": 4,
-        "TestPlanID": 4
+        "ModuleID": "666017adf902bdf00016abc6",
+        "TestPlanID": "66601d7f32c5408430429d19"
       },
       {
         "Title": "Verify user can add product to cart",
@@ -156,8 +156,8 @@
         "Description": "Attempt to add product to cart and verify success message is displayed.",
         "CreatedAt": "2024-06-16T16:00:00Z",
         "UpdatedAt": "2024-06-16T16:00:00Z",
-        "ModuleID": 5,
-        "TestPlanID": 5
+        "ModuleID": "666017adf902bdf00016abc7",
+        "TestPlanID": "66601d7f32c5408430429d1a"
       },
       {
         "Title": "Verify user can remove product from cart",
@@ -166,8 +166,8 @@
         "Description": "Attempt to remove product from cart and verify success message is displayed.",
         "CreatedAt": "2024-06-17T13:20:00Z",
         "UpdatedAt": "2024-06-17T13:20:00Z",
-        "ModuleID": 5,
-        "TestPlanID": 5
+        "ModuleID": "666017adf902bdf00016abc9",
+        "TestPlanID": "66601d7f32c5408430429d1a"
       },
       {
         "Title": "Verify user can proceed to checkout",
@@ -176,8 +176,8 @@
         "Description": "Attempt to proceed to checkout and verify correct redirection to checkout page.",
         "CreatedAt": "2024-06-18T10:00:00Z",
         "UpdatedAt": "2024-06-18T10:00:00Z",
-        "ModuleID": 5,
-        "TestPlanID": 5
+        "ModuleID": "666017adf902bdf00016abc9",
+        "TestPlanID": "66601d7f32c5408430429d1a"
       },
       {
         "Title": "Verify user can apply discount code",
@@ -186,8 +186,8 @@
         "Description": "Enter valid discount code and verify discount is applied correctly.",
         "CreatedAt": "2024-06-19T15:45:00Z",
         "UpdatedAt": "2024-06-19T15:45:00Z",
-        "ModuleID": 5,
-        "TestPlanID": 5
+        "ModuleID": "666017adf902bdf00016abc8",
+        "TestPlanID": "66601d7f32c5408430429d1a"
       },
       {
         "Title": "Verify user can complete purchase",
@@ -196,8 +196,8 @@
         "Description": "Enter valid payment details and verify successful purchase completion.",
         "CreatedAt": "2024-06-20T12:30:00Z",
         "UpdatedAt": "2024-06-20T12:30:00Z",
-        "ModuleID": 5,
-        "TestPlanID": 5
+        "ModuleID":"666017adf902bdf00016abc3",
+        "TestPlanID": "66601d7f32c5408430429d1a"
       }
   ]
   
