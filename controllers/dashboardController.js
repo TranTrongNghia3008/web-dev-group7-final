@@ -25,6 +25,19 @@ function formatSize(sizeInBytes) {
         return sizeInMB.toFixed(2) + ' MB';
     }
 }
+
+async function enrichActivityWithUserInfo(activities) {
+    const enrichedActivities = [];
+    for (const activity of activities) {
+        const userInfo = await userModel.findOne({ AccountEmail: activity.UserMail });
+        if (userInfo) {
+            activity.UserImg = userInfo.UserImg;
+            enrichedActivities.push(activity);
+        }
+    }
+    return enrichedActivities;
+}
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.query.projectId;
@@ -38,7 +51,7 @@ controller.show = async (req, res) => {
         let projectName;
         let modules, moduleIds;
 
-        if (projectId && projectId !== '0') {w
+        if (projectId && projectId !== '0') {
             const projectIdObj = new mongoose.Types.ObjectId(projectId);
 
             // Lấy danh sách Module có ProjectID là projectIdObj
@@ -86,6 +99,8 @@ controller.show = async (req, res) => {
         let formattedTotalSize = formatSize(totalSize);
 
         let activities = await activityModel.find({ ModuleID: { $in: moduleIds } });
+
+        activities = await enrichActivityWithUserInfo(activities);
 
         activities.forEach(activity => {
             activity.formattedDate = new Date(activity.ActivityDate).toISOString().split('T')[0];
