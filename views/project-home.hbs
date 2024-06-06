@@ -36,7 +36,7 @@
             <li>
             <a
                 class="dropdown-item quick-menu"
-                href="/requirement/import"
+                href="/project/{{project.ProjectID}}/requirement/import"
                 ><i class="bi bi-cloud-arrow-up"></i> Import
                 requirements</a
             >
@@ -44,12 +44,12 @@
             <li>
             <a
                 class="dropdown-item quick-menu"
-                href="/test-cases/import"
+                href="/project/{{project.ProjectID}}/test-cases/import"
                 ><i class="bi bi-cloud-arrow-up"></i> Import test cases</a
             >
             </li>
             <li>
-            <a class="dropdown-item quick-menu" href="/report"
+            <a class="dropdown-item quick-menu" href="/project/{{project.ProjectID}}/report"
                 ><i class="bi bi-passport"></i> Reports</a
             >
             </li>
@@ -78,16 +78,18 @@
                     alt=""
                     class="project-icon"
                 />
-                <h5>My Business Project</h5>
-                <p class="text-muted fw-bold">Created by John Doe</p>
-                <p class="text-muted">Created on 28th June 2022</p>
+                <h5>{{project.Name}}</h5>
+                {{!-- <p class="text-muted fw-bold">Created by John Doe</p>
+                <p class="text-muted">Created on 28th June 2022</p> --}}
+                <p class="text-muted fw-bold">Created by {{project.Creater}}</p>
+                <p class="text-muted">Created on {{formatDate3 project.CreatedAt}}</p>
                 </div>
 
                 <div class="container d-flex justify-content-between">
-                <div><h6>Project key</h6></div>
-                <div class="rounded-pill bg-dark-subtle w-auto px-3">
-                    keygoeshere
-                </div>
+                    <div><h6>Project key</h6></div>
+                    <div class="rounded-pill bg-dark-subtle w-auto px-3">
+                        {{truncateId project.ProjectID 10}}
+                    </div>
                 </div>
             </div>
             </div>
@@ -117,47 +119,13 @@
             <div
             class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
             >
-            <a
-                href="/release"
-                class="container d-flex flex-column align-items-center"
-            >
-                <div
-                class="icon-holder circle mx-auto"
-                style="background: #fef8f5"
+                <a
+                    href="/project/{{project.ProjectID}}/release"
+                    class="container d-flex flex-column align-items-center"
                 >
-                <img
-                    src="/images/releases.svg"
-                    alt=""
-                    class="centered-image"
-                />
-                </div>
-                <!-- <div class="icon-holder">
-                                        <i class="bi bi-unity fs-3"></i>
-                                    </div> -->
-
-                <div id="no-of-releases">
-                <h4>2</h4>
-                </div>
-
-                <div class="container-title">
-                <h6>Releases</h6>
-                </div>
-            </a>
-
-            <div class="item-list overflow-auto mt-5 h-50">
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <!-- <div class="icon-holder">
-                                                <i class="bi bi-unity"></i>
-                                            </div> -->
                     <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
+                    class="icon-holder circle mx-auto"
+                    style="background: #fef8f5"
                     >
                     <img
                         src="/images/releases.svg"
@@ -165,44 +133,31 @@
                         class="centered-image"
                     />
                     </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Release 1.23
-                    </div>
-                </div>
-                </a>
-
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
                     <!-- <div class="icon-holder">
-                                                <i class="bi bi-unity"></i>
-                                            </div> -->
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/releases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
+                                            <i class="bi bi-unity fs-3"></i>
+                                        </div> -->
+
+                    <div id="no-of-releases">
+                    <h4>{{project.releaseCount}}</h4>
                     </div>
 
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Release 2.45
+                    <div class="container-title">
+                    <h6>Releases</h6>
                     </div>
-                </div>
                 </a>
-            </div>
+
+                <div class="item-list overflow-auto" style="height: 25rem">
+                    {{#each project.releases}}
+                        <a href="#">
+                            <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
+                                <div style="width: 2rem; height: 2rem; position: relative;">
+                                    <img src="/images/releases.svg" alt="" class="centered-image" />
+                                </div>
+                                <div class="release-name d-flex flex-row align-content-center">Release {{truncateId this._id 8}}</div>
+                            </div>
+                        </a>
+                    {{/each}}
+                </div>
             </div>
         </div>
 
@@ -210,219 +165,45 @@
             <div
             class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
             >
-            <a
-                href="/test-case"
-                class="container d-flex flex-column align-items-center"
-            >
-                <div
-                class="icon-holder circle mx-auto"
-                style="background: #effff0"
+                <a
+                    href="/project/{{project.ProjectID}}/test-case"
+                    class="container d-flex flex-column align-items-center"
                 >
-                <img
-                    src="/images/test_cases.svg"
-                    alt=""
-                    class="centered-image"
-                />
-                </div>
-                <!-- <div class="icon-holder">
-                                        <i class="bi bi-clipboard2-data fs-3"></i>
-                                    </div> -->
-
-                <div id="no-of-test-cases">
-                <h4>7</h4>
-                </div>
-
-                <div class="container-title">
-                <h6>Test cases</h6>
-                </div>
-            </a>
-
-            <div class="item-list overflow-auto mt-5 h-50">
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
+                    <div
+                    class="icon-holder circle mx-auto"
+                    style="background: #effff0"
+                    >
+                    <img
+                        src="/images/test_cases.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
                     <!-- <div class="icon-holder">
-                                                <i class="bi bi-clipboard2-data-fill"></i>
-                                            </div> -->
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
+                                            <i class="bi bi-clipboard2-data fs-3"></i>
+                                        </div> -->
+
+                    <div id="no-of-test-cases">
+                    <h4>{{project.testCaseCount}}</h4>
                     </div>
 
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-345
+                    <div class="container-title">
+                    <h6>Test cases</h6>
                     </div>
-                </div>
                 </a>
 
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
-                    </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-354
-                    </div>
+                <div class="item-list overflow-auto" style="height: 25rem">
+                    {{#each project.testCases}}
+                        <a href="#">
+                            <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
+                                <div style="width: 2rem; height: 2rem; position: relative;">
+                                    <img src="/images/test_cases.svg" alt="" class="centered-image" />
+                                </div>
+                                <div class="release-name d-flex flex-row align-content-center">Test case {{truncateId this._id 8}}</div>
+                            </div>
+                        </a>
+                    {{/each}}
                 </div>
-                </a>
-
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
-                    </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-423
-                    </div>
-                </div>
-                </a>
-
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
-                    </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-532
-                    </div>
-                </div>
-                </a>
-
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
-                    </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-572
-                    </div>
-                </div>
-                </a>
-
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
-                    </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-678
-                    </div>
-                </div>
-                </a>
-
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
-                >
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
-                    <img
-                        src="/images/test_cases.svg"
-                        alt=""
-                        class="centered-image"
-                    />
-                    </div>
-
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Test case TC-999
-                    </div>
-                </div>
-                </a>
-            </div>
             </div>
         </div>
 
@@ -430,37 +211,49 @@
             <div
             class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
             >
-            <a
-                href="/test-run"
-                class="container d-flex flex-column align-items-center"
-            >
-                <div class="circle mx-auto" style="background: #fef8f5">
-                <img
-                    src="/images/test_runs.svg"
-                    alt=""
-                    class="centered-image"
-                />
-                </div>
-                <!-- <div class="icon-holder">
-                                        <i class="bi bi-clipboard-check fs-3"></i>
-                                    </div> -->
-
-                <div id="no-of-test-runs">
-                <h4>0</h4>
-                </div>
-
-                <div class="container-title">
-                <h6>Test runs</h6>
-                </div>
-            </a>
-
-            <div class="item-list overflow-auto mt-5 h-50">
-                <div
-                class="d-flex flex-row align-items-center justify-content-center text-muted"
+                <a
+                    href="/project/{{project.ProjectID}}/test-run"
+                    class="container d-flex flex-column align-items-center"
                 >
-                No test runs available
+                    <div class="circle mx-auto" style="background: #fef8f5">
+                    <img
+                        src="/images/test_runs.svg"
+                        alt=""
+                        class="centered-image"
+                    />
+                    </div>
+                    <!-- <div class="icon-holder">
+                                            <i class="bi bi-clipboard-check fs-3"></i>
+                                        </div> -->
+
+                    <div id="no-of-test-runs">
+                    <h4>{{project.testRunCount}}</h4>
+                    </div>
+
+                    <div class="container-title">
+                    <h6>Test runs</h6>
+                    </div>
+                </a>
+
+                {{!-- <div class="item-list overflow-auto mt-5 h-50">
+                    <div
+                    class="d-flex flex-row align-items-center justify-content-center text-muted"
+                    >
+                    No test runs available
+                    </div>
+                </div> --}}
+                <div class="item-list overflow-auto" style="height: 25rem">
+                    {{#each project.testRuns}}
+                        <a href="#">
+                            <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
+                                <div style="width: 2rem; height: 2rem; position: relative;">
+                                    <img src="/images/test_runs.svg" alt="" class="centered-image" />
+                                </div>
+                                <div class="release-name d-flex flex-row align-content-center">Test run {{truncateId this._id 8}}</div>
+                            </div>
+                        </a>
+                    {{/each}}
                 </div>
-            </div>
             </div>
         </div>
 
@@ -468,60 +261,42 @@
             <div
             class="container bg-white rounded h-100 d-flex flex-column justify-content-between py-3 px-1"
             >
-            <a
-                href="/issue"
-                class="container d-flex flex-column align-items-center"
-            >
-                <div class="circle mx-auto" style="background: #f6f1ff">
-                <img
-                    src="/images/issues.svg"
-                    alt=""
-                    class="centered-image"
-                />
-                </div>
-                <!-- <div class="icon-holder">
-                                        <i class="bi bi-exclamation-triangle fs-3"></i>
-                                    </div> -->
-
-                <div id="no-of-issues">
-                <h4>1</h4>
-                </div>
-
-                <div class="container-title">
-                <h6>Issues</h6>
-                </div>
-            </a>
-
-            <div class="item-list overflow-auto mt-5 h-50">
-                <a href="#">
-                <div
-                    class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1"
+                <a
+                    href="/project/{{project.ProjectID}}/issue"
+                    class="container d-flex flex-column align-items-center"
                 >
-                    <!-- <div class="icon-holder">
-                                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                            </div> -->
-                    <div
-                    style="
-                        width: 2rem;
-                        height: 2rem;
-                        position: relative;
-                    "
-                    >
+                    <div class="circle mx-auto" style="background: #f6f1ff">
                     <img
                         src="/images/issues.svg"
                         alt=""
                         class="centered-image"
                     />
                     </div>
+                    <!-- <div class="icon-holder">
+                                            <i class="bi bi-exclamation-triangle fs-3"></i>
+                                        </div> -->
 
-                    <div
-                    class="release-name d-flex flex-row align-content-center"
-                    >
-                    Issue I-23
+                    <div id="no-of-issues">
+                    <h4>{{project.issueCount}}</h4>
                     </div>
-                </div>
+
+                    <div class="container-title">
+                    <h6>Issues</h6>
+                    </div>
                 </a>
-            </div>
+
+                <div class="item-list overflow-auto" style="height: 25rem">
+                    {{#each project.issues}}
+                        <a href="#">
+                            <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
+                                <div style="width: 2rem; height: 2rem; position: relative;">
+                                    <img src="/images/issues.svg" alt="" class="centered-image" />
+                                </div>
+                                <div class="release-name d-flex flex-row align-content-center">Issue {{truncateId this._id 8}}</div>
+                            </div>
+                        </a>
+                    {{/each}}
+                </div>
             </div>
         </div>
         </div>
@@ -532,7 +307,7 @@
         <h6 class="py-3">Activity log</h6>
 
         <div class="container flex-column overflow-auto h-75">
-            <div
+            {{!-- <div
             class="history-item d-flex flex-column rounded border p-1 m-2"
             >
             <div class="text-muted history-item-timestamp">
@@ -545,118 +320,21 @@
             <div class="d-flex flex-column history-item-detail">
                 <p class="m-0">Added 2 reports</p>
             </div>
-            </div>
+            </div> --}}
+            {{#each project.activities}}
+                <div class="history-item d-flex flex-column rounded border p-1 m-2">
+                    <div class="text-muted history-item-timestamp">
+                        {{ formatDate2 ActivityDate }} <!-- Format date function -->
+                    </div>
 
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 27, 2024 12:49
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Daniel Day-Lewis
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Edited requirement R-32</p>
-            </div>
-            </div>
-
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 23, 2024 04:23
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Humphrey Bogart
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Added 3 test cases</p>
-                <p class="m-0">Edited 1 release</p>
-            </div>
-            </div>
-
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 23, 2024 04:23
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Humphrey Bogart
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Added 3 test cases</p>
-                <p class="m-0">Edited 1 release</p>
-            </div>
-            </div>
-
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 23, 2024 04:23
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Humphrey Bogart
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Added 3 test cases</p>
-                <p class="m-0">Edited 1 release</p>
-            </div>
-            </div>
-
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 23, 2024 04:23
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Humphrey Bogart
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Added 3 test cases</p>
-                <p class="m-0">Edited 1 release</p>
-            </div>
-            </div>
-
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 23, 2024 04:23
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Humphrey Bogart
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Added 3 test cases</p>
-                <p class="m-0">Edited 1 release</p>
-            </div>
-            </div>
-
-            <div
-            class="history-item d-flex flex-column rounded border p-1 m-2"
-            >
-            <div class="text-muted history-item-timestamp">
-                April 23, 2024 04:23
-            </div>
-
-            <div class="history-item-author text-muted">
-                <i class="bi bi-person"></i> Humphrey Bogart
-            </div>
-            <div class="d-flex flex-column history-item-detail">
-                <p class="m-0">Added 3 test cases</p>
-                <p class="m-0">Edited 1 release</p>
-            </div>
-            </div>
+                    <div class="history-item-author text-muted">
+                        <i class="bi bi-person"></i> {{ UserName }}
+                    </div>
+                    <div class="d-flex flex-column history-item-detail">
+                        <p class="m-0">{{ Action }}: {{ Title }}</p>
+                    </div>
+                </div>
+            {{/each}}
         </div>
         </div>
     </div>

@@ -10,7 +10,7 @@
               <div class="left-side">
                 <h6 class="mb-0" id="requirement-h">
                   Requirements
-                  <span class="ml-2 count-box">1</span>
+                  <span class="ml-2 count-box">{{project.requirementCount}}</span>
                 </h6>
               </div>
               <div class="right-side">
@@ -27,7 +27,7 @@
                   </div>
                 </a>
                 <a
-                  href="/requirement/import/"
+                  href="/project/{{project.ProjectID}}/requirement/import/"
                   title="Import"
                   class="mr-3 d-flex align-items-center text-dark"
                 >
@@ -55,32 +55,6 @@
             </div>
           </nav>
           <div class="d-flex mt-3 justify-content-between w-100">
-            <!-- <div class="module-section col-3">
-              <div class="module-header">
-                <h6 style="font-size: 1rem; align-items: center; margin: 0">
-                  Requirement Type
-                </h6>
-                <div class="module-action" style="font-size: 20px">
-                  <a title="Add Requirement Type">
-                    <i class="bi bi-plus"></i>
-                  </a>
-                  <a title="Click To Expand">
-                    <i class="bi bi-arrow-right-short"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="module-body h-100" style="min-height: 300px">
-                <div class="example-description">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="font-size: small"
-                    placeholder="Type To Filter Requirement Type"
-                  />
-                </div>
-                <div class="no-record">No Requirement Types Found</div>
-              </div>
-            </div> -->
             <div class="col-3 h-100 modules-card border border-0">
               <div class="card border-0" style="min-height: 400px">
                 <div class="card-header d-flex justify-content-between">
@@ -111,6 +85,8 @@
                       aria-label="default input example"
                     />
                   </form>
+                  
+                  {{#each project.RequirementTypes}}
                   <div class="d-flex py-2">
                     <input
                       class="form-check-input ms-4 me-2"
@@ -119,10 +95,11 @@
                       id="case-code-item"
                     />
                     <div class="d-flex">
-                      <i class="bi bi-folder text-primary me-2"></i>
-                      <div class="">Shopping Cart</div>
+                          <i class="bi bi-folder text-primary me-2"></i>
+                          <div>{{ this }}</div>
                     </div>
                   </div>
+                  {{/each}}
                 </div>
               </div>
             </div>
@@ -292,76 +269,41 @@
                               >
                             </div>
                           </td>
-                          <td scope="col" class="bg-body-tertiary">Title</td>
+                          <td scope="col" class="bg-body-tertiary">Description</td>
                           <td scope="col" class="bg-body-tertiary text-center">
                             Actions
                           </td>
                         </tr>
                       </thead>
                       <tbody>
+                        {{#each project.Requirements}}
                         <tr>
-                          <td scope="col" class="bg-body-tertiary align-middle">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input case-code-item"
-                                type="checkbox"
-                                value=""
-                                id="case-code-item"
-                              />
-                              <label
-                                class="form-check-label"
-                                for="case-code-item"
-                                >R0001</label
-                              >
-                            </div>
-                          </td>
-                          <td scope="col" class="bg-body-tertiary align-middle">
-                            <a href="#"> Shopping Cart 2</a>
-                          </td>
-
-                          <td scope="col" class="bg-body-tertiary align-middle">
-                            <div class="d-flex justify-content-end text-dark">
-                              <a
-                                href="#"
-                                class="mx-2 my-auto text-dark"
-                                title="View"
-                                ><i class="bi bi-eye"></i
-                              ></a>
-                              <a
-                                href="#"
-                                class="mx-2 my-auto text-primary"
-                                title="Edit"
-                                ><i class="bi bi-pencil"></i
-                              ></a>
-                              <a
-                                href="#"
-                                class="mx-2 my-auto text-dark"
-                                title="Clone"
-                                ><i class="bi bi-copy"></i
-                              ></a>
-                              <a
-                                href="#"
-                                class="mx-2 my-auto text-dark fs-5"
-                                title="Link Testcase"
-                                ><i class="bi bi-link-45deg"></i
-                              ></a>
-                              <a
-                                href="#"
-                                data-bs-toggle="tooltip"
-                                title="Timesheet"
-                                class="mx-2 my-auto text-dark"
-                                ><i class="bi bi-clock"></i
-                              ></a>
-                              <a
-                                href="#"
-                                data-bs-toggle="tooltip"
-                                title="Delete"
-                                class="mx-2 my-auto text-danger"
-                                ><i class="bi bi-trash"></i
-                              ></a>
-                            </div>
-                          </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input case-code-item"
+                                        type="checkbox"
+                                        value=""
+                                        id="case-code-item"
+                                    />
+                                    <label class="form-check-label" for="case-code-item">{{truncateId this._id 0}}</label>
+                                </div>
+                            </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                                <a href="#">{{this.Description}}</a>
+                            </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                                <div class="d-flex justify-content-end text-dark">
+                                    <a href="#" class="mx-2 my-auto text-dark" title="View"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="mx-2 my-auto text-primary" title="Edit"><i class="bi bi-pencil"></i></a>
+                                    <a href="#" class="mx-2 my-auto text-dark" title="Clone"><i class="bi bi-copy"></i></a>
+                                    <a href="#" class="mx-2 my-auto text-dark fs-5" title="Link Testcase"><i class="bi bi-link-45deg"></i></a>
+                                    <a href="#" data-bs-toggle="tooltip" title="Timesheet" class="mx-2 my-auto text-dark"><i class="bi bi-clock"></i></a>
+                                    <a href="#" data-bs-toggle="tooltip" title="Delete" class="mx-2 my-auto text-danger"><i class="bi bi-trash"></i></a>
+                                </div>
+                            </td>
                         </tr>
+                        {{/each}}
                       </tbody>
                     </table>
                   </div>

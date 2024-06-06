@@ -84,7 +84,7 @@
                                     class="mt-0 col-4 d-flex justify-content-center me-2"
                                   >
                                     <img
-                                      src="../assets/images/import_file.svg"
+                                      src="/images/import_file.svg"
                                       alt="Import Files"
                                       style="width: 80px"
                                     />
@@ -206,15 +206,15 @@
                 >
                   <div class="d-flex flex-row justify-content-between w-75">
                     <li style="color: blue">
-                      <span id="no-of-open">3</span>
+                      <span id="no-of-open">{{project.OpenReleases.length}}</span>
                       <span>open release(s)</span>
                     </li>
                     <li style="color: brown">
-                      <span id="no-of-upcoming">2</span>
+                      <span id="no-of-upcoming">{{project.UpcomingReleases.length}}</span>
                       <span>upcoming release(s)</span>
                     </li>
                     <li style="color: blue">
-                      <span id="no-of-completed">4</span>
+                      <span id="no-of-completed">{{project.CompletedReleases.length}}</span>
                       <span>completed release(s)</span>
                     </li>
                   </div>
@@ -229,6 +229,7 @@
                   aria-labelledby="open-tab"
                 >
                   <div class="grid-wrapper">
+                    {{#each project.OpenReleases}}
                     <div
                       class="container rounded release-card bg-danger text-bg-danger p-2"
                     >
@@ -236,7 +237,7 @@
                         <div class="col-sm-9">
                           <a href="#">
                             <div class="container release-card-name">
-                              <h4>Version 1.2.3</h4>
+                              <h4>{{this.Name}}</h4>
                             </div>
                           </a>
 
@@ -248,14 +249,14 @@
                               <div
                                 class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
                               >
-                                K-2
+                                {{truncateId this._id 8}}
                               </div>
                             </div>
 
                             <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
+                              <div>Start date: {{formatDate3 this.StartDate}}</div>
 
-                              <div>Release date: Not Set</div>
+                              <div>Release date: {{formatDate3 this.EndDate}}</div>
                             </div>
                           </div>
                         </div>
@@ -277,104 +278,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="#">
-                            <div class="container release-card-name">
-                              <h4>Version 1.2.3</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                K-2
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
-
-                              <div>Release date: Not Set</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="#">
-                            <div class="container release-card-name">
-                              <h4>Version 1.2.3</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                K-2
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
-
-                              <div>Release date: Not Set</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    {{/each}}
                   </div>
                 </div>
 
@@ -385,6 +289,7 @@
                   aria-labelledby="upcoming-tab"
                 >
                   <div class="grid-wrapper">
+                    {{#each project.UpcomingReleases}}
                     <div
                       class="container rounded release-card bg-danger text-bg-danger p-2"
                     >
@@ -392,7 +297,7 @@
                         <div class="col-sm-9">
                           <a href="#">
                             <div class="container release-card-name">
-                              <h4>Version 4.5.6</h4>
+                              <h4>{{this.Name}}</h4>
                             </div>
                           </a>
 
@@ -404,14 +309,14 @@
                               <div
                                 class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
                               >
-                                K-2
+                                {{truncateId this._id 8}}
                               </div>
                             </div>
 
                             <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
+                              <div>Start date: {{formatDate3 this.StartDate}}</div>
 
-                              <div>Release date: Not Set</div>
+                              <div>Release date: {{formatDate3 this.EndDate}}</div>
                             </div>
                           </div>
                         </div>
@@ -433,55 +338,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="#">
-                            <div class="container release-card-name">
-                              <h4>Version 5.6.8</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                K-2
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
-
-                              <div>Release date: Not Set</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    {{/each}}
                   </div>
                 </div>
 
@@ -492,6 +349,7 @@
                   aria-labelledby="completed-tab"
                 >
                   <div class="grid-wrapper">
+                    {{#each project.CompletedReleases}}
                     <div
                       class="container rounded release-card bg-danger text-bg-danger p-2"
                     >
@@ -499,7 +357,7 @@
                         <div class="col-sm-9">
                           <a href="#">
                             <div class="container release-card-name">
-                              <h4>Version 0.5</h4>
+                              <h4>{{this.Name}}</h4>
                             </div>
                           </a>
 
@@ -511,14 +369,14 @@
                               <div
                                 class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
                               >
-                                K-2
+                                {{truncateId this._id 8}}
                               </div>
                             </div>
 
                             <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
+                              <div>Start date: {{formatDate3 this.StartDate}}</div>
 
-                              <div>Release date: Not Set</div>
+                              <div>Release date: {{formatDate3 this.EndDate}}</div>
                             </div>
                           </div>
                         </div>
@@ -540,153 +398,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="#">
-                            <div class="container release-card-name">
-                              <h4>Version 0.8</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                K-2
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
-
-                              <div>Release date: Not Set</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="#">
-                            <div class="container release-card-name">
-                              <h4>Version 0.9.2</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                K-2
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
-
-                              <div>Release date: Not Set</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="#">
-                            <div class="container release-card-name">
-                              <h4>Version 0.10.13</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                K-2
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: Not Set</div>
-
-                              <div>Release date: Not Set</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    {{/each}}
                   </div>
                 </div>
               </div>

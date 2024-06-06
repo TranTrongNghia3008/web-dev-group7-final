@@ -26,7 +26,7 @@
                   </div>
                   <h6 class="card-title mt-3 mb-0">Test Cases</h6>
                   <p class="card-text mb-0">
-                    <span class="text-danger m-0 p-0">0</span> / 100
+                    <span class="text-danger m-0 p-0">{{countTestCase}}</span> / 100
                   </p>
                 </div>
               </div>
@@ -44,7 +44,7 @@
                   </div>
                   <h6 class="card-title mt-3 mb-0">All Projects</h6>
                   <p class="card-text mb-0">
-                    <span class="text-danger m-0 p-0">0</span> / 100
+                    <span class="text-danger m-0 p-0">{{countProject}}</span> / 100
                   </p>
                 </div>
               </div>
@@ -62,7 +62,7 @@
                   </div>
                   <h6 class="card-title mt-3 mb-0">Test Runs</h6>
                   <p class="card-text mb-0">
-                    <span class="text-danger m-0 p-0">0</span> / 100
+                    <span class="text-danger m-0 p-0">{{countTestRun}}</span> / 100
                   </p>
                 </div>
               </div>
@@ -80,7 +80,7 @@
                   </div>
                   <h6 class="card-title mt-3 mb-0">Issues</h6>
                   <p class="card-text mb-0">
-                    <span class="text-danger m-0 p-0">0</span> / 100
+                    <span class="text-danger m-0 p-0">{{countIssue}}</span> / 100
                   </p>
                 </div>
               </div>
@@ -99,7 +99,7 @@
                   </div>
                   <h6 class="card-title mt-3 mb-0">Storage</h6>
                   <p class="card-text mb-0">
-                    <span class="text-danger m-0 p-0">0</span> / 100
+                    <span class="text-danger m-0 p-0">{{totalSize}}</span> / 10MB
                   </p>
                 </div>
               </div>
@@ -118,7 +118,7 @@
                   </div>
                   <h6 class="card-title mt-3 mb-0">Users</h6>
                   <p class="card-text mb-0">
-                    <span class="text-danger m-0 p-0">0</span> / 100
+                    <span class="text-danger m-0 p-0">{{countUser}}</span> / 100
                   </p>
                 </div>
               </div>
@@ -128,23 +128,39 @@
 
         <div class="container my-2">
           <div class="row p-3 bg-white rounded">
+            
+            
             <div class="col">
-              <select
-                class="form-select"
-                style="background-color: #f5f5f5"
-                aria-label="Default select example"
-              >
-                <option selected>All Ongoing Project</option>
-                <option value="1">Web TMS Group 7</option>
-              </select>
+              <form id="projectForm" action="/" method="get">
+                <select
+                  class="form-select"
+                  style="background-color: #f5f5f5"
+                  aria-label="Default select example"
+                  name="projectId"
+                  onchange="document.getElementById('projectForm').submit()"
+                >
+                  {{#if projectName}}
+                  <option value="">{{projectName}}</option>
+                  {{/if}}
+                  
+                  <option value="0">All Ongoing Projects</option>
+                  {{#each projects}}
+                  <option value="{{_id}}">{{Name}}</option>
+                  {{/each}}
+                </select>
+              </form>
             </div>
+            
+
+           
+
             <div class="col d-flex align-middle">
               <img
                 src="/images/test_cases.svg"
                 alt=""
                 style="width: 1.5rem; height: 1.5rem; margin: auto 0"
               />
-              <p class="m-2"><span class="text-danger">0</span> Test Cases</p>
+              <p class="m-2"><span class="text-danger">{{countTestCaseProject}}</span> Test Cases</p>
             </div>
 
             <div class="col d-flex align-middle">
@@ -153,7 +169,7 @@
                 alt=""
                 style="width: 1.5rem; height: 1.5rem; margin: auto 0"
               />
-              <p class="m-2"><span class="text-danger">0</span> Test Runs</p>
+              <p class="m-2"><span class="text-danger">{{countTestRunProject}}</span> Test Runs</p>
             </div>
 
             <div class="col d-flex align-middle">
@@ -162,7 +178,7 @@
                 alt=""
                 style="width: 1.5rem; height: 1.5rem; margin: auto 0"
               />
-              <p class="m-2"><span class="text-danger">0</span> Issues</p>
+              <p class="m-2"><span class="text-danger">{{countIssueProject}}</span> Issues</p>
             </div>
 
             <div class="col d-flex align-middle">
@@ -171,7 +187,7 @@
                 alt=""
                 style="width: 1.5rem; height: 1.5rem; margin: auto 0"
               />
-              <p class="m-2"><span class="text-danger">0</span> Reports</p>
+              <p class="m-2"><span class="text-danger">{{countReportProject}}</span> Reports</p>
             </div>
           </div>
         </div>
@@ -202,55 +218,25 @@
                 class="w-100 h-100"
                 id="myChart"
                 style="display: block"
+                data-labels='{{{labels}}}' 
+                data-data='{{{data}}}'
               ></canvas>
               <div id="listContainer" style="display: none">
-                <div
-                  class="activity d-flex border-bottom border-1 d-flex justify-content-between py-2"
-                >
+                {{#each activities}}
+                <div class="activity d-flex border-bottom border-1 d-flex justify-content-between py-2">
                   <div class="d-flex align-items-center">
                     <i class="bi bi-person-circle fs-3 align-middle"></i>
-                    <span class="user-name fw-bold">Minh-Nhat Nguyen</span>
+                    <span class="user-name fw-bold">{{UserName}}</span>
                     <span class="active">
-                      Created a Test Plan - TP001 - Add test case for shopping
-                      cart</span
+                      {{Action}} - {{Title}}
+                    </span
                     >
                   </div>
                   <div class="d-flex align-items-center">
-                    <span class="day">Mar 29 2024</span>
+                    <span class="day">{{formattedDate}}</span>
                   </div>
                 </div>
-
-                <div
-                  class="activity d-flex border-bottom border-1 d-flex justify-content-between py-2"
-                >
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-person-circle fs-3 align-middle"></i>
-                    <span class="user-name fw-bold">Minh-Nhat Nguyen</span>
-                    <span class="active">
-                      Created a Test Plan - TP001 - Add test case for shopping
-                      cart</span
-                    >
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span class="day">Mar 29 2024</span>
-                  </div>
-                </div>
-
-                <div
-                  class="activity d-flex border-bottom border-1 d-flex justify-content-between py-2"
-                >
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-person-circle fs-3 align-middle"></i>
-                    <span class="user-name fw-bold">Minh-Nhat Nguyen</span>
-                    <span class="active">
-                      Created a Test Plan - TP001 - Add test case for shopping
-                      cart</span
-                    >
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span class="day">Mar 29 2024</span>
-                  </div>
-                </div>
+                {{/each}}
               </div>
             </div>
           </div>

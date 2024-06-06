@@ -2,8 +2,7 @@
 
 const express = require('express');
 const controller = require('../controllers/releaseController');
-const router = express.Router();
-
+const router = express.Router({ mergeParams: true });
 
 
 router.get('/', controller.show);

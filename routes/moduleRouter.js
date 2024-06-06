@@ -2,7 +2,7 @@
 
 const express = require('express');
 const controller = require('../controllers/moduleController');
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 
 

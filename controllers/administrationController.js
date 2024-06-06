@@ -1,18 +1,16 @@
 'use strict';
 
 const controller = {};
-// const { where } = require('sequelize');
-// const models = require('../models');
-// const sequelize = require('sequelize');
-// const Op = sequelize.Op;
+const userModel = require('../models/userModel');
 
-controller.show = (req, res) => {
-    
+controller.show = async (req, res) => {
+    const users = await userModel.find({});
     res.render('administration', { 
         title: "ShareBug - Administration", 
         header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                 <link rel="stylesheet" href="/css/administration-view.css" />`,
         d3: "selected-menu-item", 
+        data: users
     });
 }
 

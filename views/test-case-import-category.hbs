@@ -6,7 +6,7 @@
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
-                <a href="/test-case" class="text-danger fw-semibold">Test Cases</a>
+                <a href="/project/{{project.ProjectID}}/test-case" class="text-danger fw-semibold">Test Cases</a>
             </li>
             <li
                 class="breadcrumb-item active fw-semibold"
@@ -298,7 +298,7 @@
     <script>
       document.getElementById('cancelButtonTestCase').addEventListener('click', function () {
         // Redirect to the cancel page or go back
-        window.location.href = '/test-case';
+        window.location.href = '/project/{{project.ProjectID}}/test-case';
       });
     </script>
 </div>

@@ -41,7 +41,7 @@
                 <button
                     type="button"
                     class="btn btn-danger btn-graph ms-4 my-auto"
-                    onclick="window.location.href = '/report/add';"
+                    onclick="window.location.href = '/project/{{project.ProjectID}}/report/add';"
                     style="width: 10rem"
                 >
                     <i class="bi bi-plus"></i> Add Report
@@ -119,65 +119,34 @@
                 </tr>
                 </thead>
                 <tbody class="">
-                <tr>
-                    <td scope="col" class="pt-3">
-                    <div style="margin-top: 0.8rem">Test Case</div>
-                    </td>
+                    {{#each project.Reports}}
+                    <tr>
+                        <td scope="col" class="pt-3">
+                        <div style="margin-top: 0.8rem">{{this.Type}}</div>
+                        </td>
 
-                    <td scope="col" class="pt-3">
-                    <div style="margin-top: 0.8rem">Report Title</div>
-                    </td>
-                    <td scope="col" class="pt-3">
-                    <div>
-                        <span>Mar 25, 2024</span>
-                        <br />
-                        <br />
-                        <span>03:03:44</span>
-                    </div>
-                    </td>
+                        <td scope="col" class="pt-3">
+                        <div style="margin-top: 0.8rem">{{this.Title}}</div>
+                        </td>
+                        <td scope="col" class="pt-3">
+                        <div>
+                            <span>{{formatDate2 this.CreatedAt}}</span>
+                        </div>
+                        </td>
 
-                    <td scope="col" class="pt-3">
-                    <div class="d-flex" style="margin-top: 0.8rem">
-                        <a
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        title="Edit"
-                        class="my-auto mx-2"
-                        ><i class="bi bi-pencil"></i
-                        ></a>
-                    </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td scope="col" class="pt-3">
-                    <div style="margin-top: 0.8rem">Test Case</div>
-                    </td>
-
-                    <td scope="col" class="pt-3">
-                    <div style="margin-top: 0.8rem">Report Title</div>
-                    </td>
-                    <td scope="col" class="pt-3">
-                    <div>
-                        <span>Mar 25, 2024</span>
-                        <br />
-                        <br />
-                        <span>03:03:44</span>
-                    </div>
-                    </td>
-
-                    <td scope="col" class="pt-3">
-                    <div class="d-flex" style="margin-top: 0.8rem">
-                        <a
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        title="Edit"
-                        class="my-auto mx-2"
-                        ><i class="bi bi-pencil"></i
-                        ></a>
-                    </div>
-                    </td>
-                </tr>
+                        <td scope="col" class="pt-3">
+                        <div class="d-flex" style="margin-top: 0.8rem">
+                            <a
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Edit"
+                            class="my-auto mx-2"
+                            ><i class="bi bi-pencil"></i
+                            ></a>
+                        </div>
+                        </td>
+                    </tr>
+                    {{/each}}
                 </tbody>
             </table>
             </div>

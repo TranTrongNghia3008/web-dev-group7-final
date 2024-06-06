@@ -6,7 +6,7 @@
         <div class="my-auto d-flex">
         <span class="my-auto">Test Runs & Results</span>
         <div class="bg-danger-subtle px-2 mx-2 rounded">
-            <span class="text-danger">0</span>
+            <span class="text-danger">{{project.TestRuns.length}}</span>
         </div>
         </div>
         <div class="right-side d-flex">
@@ -439,6 +439,7 @@
             </tr>
         </thead>
         <tbody class="">
+            {{#each project.TestRuns}}
             <tr>
             <td scope="col" class="pt-3">
                 <div class="d-flex">
@@ -453,8 +454,8 @@
             </td>
             <td scope="col" class="pt-3">
                 <div class="d-flex" style="margin-top: 0.8rem">
-                <a href="/test-run/result" class="mx-1"
-                    >Verify Account</a
+                <a href="/project/{{../project.ProjectID}}/test-run/result" class="mx-1" style="max-width: 180px;"
+                    >{{this.Name}}</a
                 >
                 <a href="#"><i class="bi bi-pencil mx-1"></i></a>
                 <a href="#"><i class="bi bi-paperclip mx-1"></i></a>
@@ -464,26 +465,26 @@
                 <div style="margin-top: 0.8rem">All</div>
             </td>
             <td scope="col" class="pt-3">
+                <div class="d-flex">
                 <div
-                class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
-                style="width: 2rem; height: 2rem"
+                    class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
+                    style="width: 3rem; height: 3rem"
                 >
-                <span class="m-auto">MN</span>
+                    <span class="m-auto">{{getInitials this.AssignTo}}</span>
+                </div>
+                    <span class="my-auto">{{this.AssignTo}}</span>
                 </div>
             </td>
             <td scope="col" class="pt-3">
                 <div>
-                <span>Mar 25, 2024</span>
-                <br />
-                <br />
-                <span>03:03:44</span>
+                <span>{{formatDate2 this.CreatedAt}}</span>
                 </div>
             </td>
             <td scope="col" class="pt-3">
                 <div
                 class="bg-danger-subtle d-inline-block px-2 py-3 rounded"
                 >
-                <span class="text-danger m-0 p-0">34</span>
+                <span class="text-danger m-0 p-0">{{truncateId this.TestCaseID 5}}</span>
                 </div>
             </td>
             <td scope="col" class="pt-3">
@@ -528,7 +529,7 @@
             <td scope="col" class="pt-3">
                 <div class="d-flex" style="margin-top: 0.8rem">
                 <a
-                    href="/test-run/result"
+                    href="/project/{{project.ProjectID}}/test-run/result"
                     data-bs-toggle="tooltip"
                     title="Run"
                     class="my-auto mx-2"
@@ -582,166 +583,7 @@
                 </div>
             </td>
             </tr>
-
-            <tr>
-            <td scope="col" class="pt-3">
-                <div class="d-flex">
-                <div
-                    class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
-                    style="width: 3rem; height: 3rem"
-                >
-                    <span class="m-auto">MN</span>
-                </div>
-                <span class="my-auto">Minh-Nhat Nguyen</span>
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <a href="/test-run/result" class="mx-1"
-                    >Verify Account</a
-                >
-                <a href="#"><i class="bi bi-pencil mx-1"></i></a>
-                <a href="#"><i class="bi bi-paperclip mx-1"></i></a>
-                </div>
-            </td>
-            <td scope="col" class="pt-3 text-center">
-                <div style="margin-top: 0.8rem">All</div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div
-                class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
-                style="width: 2rem; height: 2rem"
-                >
-                <span class="m-auto">MN</span>
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div>
-                <span>Mar 25, 2024</span>
-                <br />
-                <br />
-                <span>03:03:44</span>
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div
-                class="bg-danger-subtle d-inline-block px-2 py-3 rounded"
-                >
-                <span class="text-danger m-0 p-0">34</span>
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div
-                class="rounded status-untested d-flex"
-                style="width: 10rem; height: 100%; margin-top: 1.5rem"
-                >
-                <div
-                    data-bs-toggle="tooltip"
-                    title="Passed"
-                    class="status-passed rounded-start"
-                    style="width: 20%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title="Blocked"
-                    class="status-blocked"
-                    style="width: 0%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title="Retest"
-                    class="status-retest"
-                    style="width: 0%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title="Failed"
-                    class="status-failed"
-                    style="width: 20%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title=" Not Applicable"
-                    class="status-not-applicable"
-                    style="width: 0%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title="In Progress"
-                    class="status-in-progress"
-                    style="width: 0%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title="Hold"
-                    class="status-hold"
-                    style="width: 0%; height: 0.5rem"
-                ></div>
-                <div
-                    data-bs-toggle="tooltip"
-                    title="Untested"
-                    class="status-untested rounded-end"
-                    style="width: 60%; height: 0.5rem"
-                ></div>
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <a
-                    href="/test-run/result"
-                    data-bs-toggle="tooltip"
-                    title="Run"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-play-circle-fill text-success"></i
-                ></a>
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Graph XLS"
-                    class="my-auto mx-2"
-                    ><img
-                    src="/images/graph.png"
-                    alt=""
-                    style="width: 2rem; height: 2rem"
-                /></a>
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Timesheet"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-clock"></i
-                ></a>
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Clone"
-                    class="my-auto mx-2 d-flex"
-                    ><i class="bi bi-copy me-2"></i> Clone</a
-                >
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Share"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-share"></i
-                ></a>
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Edit"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-pencil"></i
-                ></a>
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Delete"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-trash"></i
-                ></a>
-                </div>
-            </td>
-            </tr>
+            {{/each}}
         </tbody>
         </table>
     </div>

@@ -3,7 +3,7 @@
     <div class="container bg-white rounded my-3 py-3">
         <div class="row container bg-white rounded above-part">
         <div class="col my-auto d-flex">
-            <a href="/test-run">Test Runs & Results</a>
+            <a href="/project/{{project.ProjectID}}/test-run">Test Runs & Results</a>
             <i class="bi bi-chevron-right mx-2"></i>
             <span>All - </span>
             <select
@@ -351,767 +351,267 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="form-check">
-                            <input
-                            class="form-check-input case-code-item"
-                            type="checkbox"
-                            value=""
-                            id="case-code-item"
-                            />
-                            <label
-                            class="form-check-label"
-                            for="case-code-item"
-                            >TR0032</label
-                            >
-                        </div>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#">
-                            <img
-                            src="/images/test-case-steps.png"
-                            alt=""
-                            style="width: 1rem; height: 1rem"
-                            />
-                            <i class="bi bi-caret-down-fill"></i>
-                        </a>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#"
-                            >Verify the Get In touch form validation</a
-                        >
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="dropdown">
-                            <button
-                            class="btn"
-                            style="
-                                border-left: 4px solid rgb(70, 191, 189);
-                                background-color: white;
-                                width: 10rem;
-                            "
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            >
-                            <div class="d-flex justify-content-between">
-                                <span id="dropdownMenuButtonText"
-                                >Untested</span
+                        {{#each project.TestCases}}
+                        <tr>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                            <div class="form-check">
+                                <input
+                                class="form-check-input case-code-item"
+                                type="checkbox"
+                                value=""
+                                id="case-code-item"
+                                />
+                                <label
+                                class="form-check-label"
+                                for="case-code-item"
+                                >{{truncateId this._id 8}}</label
                                 >
-                                <i class="bi bi-caret-down-fill"></i>
                             </div>
-                            </button>
-                            <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                            >
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Passed', 'rgb(92, 184, 92)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-passed my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Passed
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Untested', 'rgb(70, 191, 189)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-untested my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Untested
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Blocked', 'rgb(77, 83, 96)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-blocked my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Blocked
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Retest', 'rgb(253, 180, 92)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-retest my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Retest
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Failed', 'rgb(247, 70, 74)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-failed my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Failed
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Not Applicable', 'rgb(147, 119, 85)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-not-applicable my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Not Applicable
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('In Progress', 'rgb(87, 147, 243)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-in-progress my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    In Progress
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Hold', 'rgb(23, 162, 184)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-hold my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Hold
-                                </div>
-                                </a>
-                            </li>
-                            </ul>
-                        </div>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="d-flex">
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Elapsed Time"
-                            class="my-auto mx-2"
-                            ><img
-                                src="/images/elapsed-time.png"
-                                alt=""
-                                style="width: 1.5rem; height: 1.5rem"
-                            /></a>
-                            <a
-                            href="#"
-                            class="my-auto mx-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addIssue"
-                            data-bs-toggle="tooltip"
-                            title="Add Issue"
-                            ><i
-                                class="bi bi-bug"
-                                style="font-size: larger"
-                            ></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Add Result"
-                            class="my-auto mx-2"
-                            ><i
-                                class="bi bi-file-earmark-text"
-                                style="font-size: large"
-                            ></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Add Lated Steps"
-                            class="mx-2 my-auto"
-                            ><img
-                                src="/images/add.svg"
+                            </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                            <a href="#">
+                                <img
+                                src="/images/test-case-steps.png"
                                 alt=""
                                 style="width: 1rem; height: 1rem"
-                            /></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Timesheet"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-clock"></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Delete"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-trash"></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Actions"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-three-dots-vertical"></i
-                            ></a>
-                        </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="form-check">
-                            <input
-                            class="form-check-input case-code-item"
-                            type="checkbox"
-                            value=""
-                            id="case-code-item"
-                            />
-                            <label
-                            class="form-check-label"
-                            for="case-code-item"
-                            >TR0032</label
-                            >
-                        </div>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#">
-                            <img
-                            src="/images/test-case-steps.png"
-                            alt=""
-                            style="width: 1rem; height: 1rem"
-                            />
-                            <i class="bi bi-caret-down-fill"></i>
-                        </a>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#"
-                            >Verify the Get In touch form validation</a
-                        >
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="dropdown">
-                            <button
-                            class="btn"
-                            style="
-                                border-left: 4px solid rgb(70, 191, 189);
-                                background-color: white;
-                                width: 10rem;
-                            "
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            >
-                            <div class="d-flex justify-content-between">
-                                <span id="dropdownMenuButtonText"
-                                >Untested</span
-                                >
+                                />
                                 <i class="bi bi-caret-down-fill"></i>
+                            </a>
+                            </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                            <a href="#"
+                                >{{this.Title}}</a
+                            >
+                            </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                            <div class="dropdown">
+                                <button
+                                class="btn"
+                                style="
+                                    border-left: 4px solid {{this.StatusColor}};
+                                    background-color: white;
+                                    width: 10rem;
+                                "
+                                type="button"
+                                id="dropdownMenuButton"
+                                data-bs-toggle="dropdown"
+                                >
+                                <div class="d-flex justify-content-between">
+                                    <span id="dropdownMenuButtonText"
+                                    >{{this.Status}}</span
+                                    >
+                                    <i class="bi bi-caret-down-fill"></i>
+                                </div>
+                                </button>
+                                <ul
+                                class="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton"
+                                >
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Passed', 'rgb(92, 184, 92)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-passed my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Passed
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Untested', 'rgb(70, 191, 189)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-untested my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Untested
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Blocked', 'rgb(77, 83, 96)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-blocked my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Blocked
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Retest', 'rgb(253, 180, 92)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-retest my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Retest
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Failed', 'rgb(247, 70, 74)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-failed my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Failed
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Not Applicable', 'rgb(147, 119, 85)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-not-applicable my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Not Applicable
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('In Progress', 'rgb(87, 147, 243)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-in-progress my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        In Progress
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick="setStatus('Hold', 'rgb(23, 162, 184)')"
+                                    >
+                                    <div class="d-flex">
+                                        <div
+                                        class="rounded status-hold my-auto me-2"
+                                        style="width: 0.8rem; height: 0.2rem"
+                                        ></div>
+                                        Hold
+                                    </div>
+                                    </a>
+                                </li>
+                                </ul>
                             </div>
-                            </button>
-                            <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                            >
-                            <li>
+                            </td>
+                            <td scope="col" class="bg-body-tertiary align-middle">
+                            <div class="d-flex">
+                                <select class="form-select form-select-sm" aria-label="Small select Assign Issue">
+                                    <option selected>{{this.AssignTo}}</option>
+                                    {{#each ../project.Users}}
+                                        <option value="{{this.Name}}">{{this.Name}}</option>
+                                    {{/each}}
+                                </select>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('Passed', 'rgb(92, 184, 92)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-passed my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Passed
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
+                                data-bs-toggle="tooltip"
+                                title="Elapsed Time"
+                                class="my-auto mx-2"
+                                ><img
+                                    src="/images/elapsed-time.png"
+                                    alt=""
+                                    style="width: 1.5rem; height: 1.5rem"
+                                /></a>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('Untested', 'rgb(70, 191, 189)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-untested my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Untested
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
+                                class="my-auto mx-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addIssue"
+                                data-bs-toggle="tooltip"
+                                title="Add Issue"
+                                ><i
+                                    class="bi bi-bug"
+                                    style="font-size: larger"
+                                ></i
+                                ></a>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('Blocked', 'rgb(77, 83, 96)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-blocked my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Blocked
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
+                                data-bs-toggle="tooltip"
+                                title="Add Result"
+                                class="my-auto mx-2"
+                                ><i
+                                    class="bi bi-file-earmark-text"
+                                    style="font-size: large"
+                                ></i
+                                ></a>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('Retest', 'rgb(253, 180, 92)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-retest my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Retest
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
+                                data-bs-toggle="tooltip"
+                                title="Add Lated Steps"
+                                class="mx-2 my-auto"
+                                ><img
+                                    src="/images/add.svg"
+                                    alt=""
+                                    style="width: 1rem; height: 1rem"
+                                /></a>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('Failed', 'rgb(247, 70, 74)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-failed my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Failed
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
+                                data-bs-toggle="tooltip"
+                                title="Timesheet"
+                                class="mx-2 my-auto"
+                                ><i class="bi bi-clock"></i
+                                ></a>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('Not Applicable', 'rgb(147, 119, 85)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-not-applicable my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Not Applicable
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
+                                data-bs-toggle="tooltip"
+                                title="Delete"
+                                class="mx-2 my-auto"
+                                ><i class="bi bi-trash"></i
+                                ></a>
                                 <a
-                                class="dropdown-item"
                                 href="#"
-                                onclick="setStatus('In Progress', 'rgb(87, 147, 243)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-in-progress my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    In Progress
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Hold', 'rgb(23, 162, 184)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-hold my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Hold
-                                </div>
-                                </a>
-                            </li>
-                            </ul>
-                        </div>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="d-flex">
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Elapsed Time"
-                            class="my-auto mx-2"
-                            ><img
-                                src="/images/elapsed-time.png"
-                                alt=""
-                                style="width: 1.5rem; height: 1.5rem"
-                            /></a>
-                            <a
-                            href="#"
-                            class="my-auto mx-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addIssue"
-                            data-bs-toggle="tooltip"
-                            title="Add Issue"
-                            ><i
-                                class="bi bi-bug"
-                                style="font-size: larger"
-                            ></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Add Result"
-                            class="my-auto mx-2"
-                            ><i
-                                class="bi bi-file-earmark-text"
-                                style="font-size: large"
-                            ></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Add Lated Steps"
-                            class="mx-2 my-auto"
-                            ><img
-                                src="/images/add.svg"
-                                alt=""
-                                style="width: 1rem; height: 1rem"
-                            /></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Timesheet"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-clock"></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Delete"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-trash"></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Actions"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-three-dots-vertical"></i
-                            ></a>
-                        </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="form-check">
-                            <input
-                            class="form-check-input case-code-item"
-                            type="checkbox"
-                            value=""
-                            id="case-code-item"
-                            />
-                            <label
-                            class="form-check-label"
-                            for="case-code-item"
-                            >TR0032</label
-                            >
-                        </div>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#">
-                            <img
-                            src="/images/test-case-steps.png"
-                            alt=""
-                            style="width: 1rem; height: 1rem"
-                            />
-                            <i class="bi bi-caret-down-fill"></i>
-                        </a>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#"
-                            >Verify the Get In touch form validation</a
-                        >
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="dropdown">
-                            <button
-                            class="btn"
-                            style="
-                                border-left: 4px solid rgb(70, 191, 189);
-                                background-color: white;
-                                width: 10rem;
-                            "
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            >
-                            <div class="d-flex justify-content-between">
-                                <span id="dropdownMenuButtonText"
-                                >Untested</span
-                                >
-                                <i class="bi bi-caret-down-fill"></i>
+                                data-bs-toggle="tooltip"
+                                title="Actions"
+                                class="mx-2 my-auto"
+                                ><i class="bi bi-three-dots-vertical"></i
+                                ></a>
                             </div>
-                            </button>
-                            <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                            >
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Passed', 'rgb(92, 184, 92)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-passed my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Passed
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Untested', 'rgb(70, 191, 189)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-untested my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Untested
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Blocked', 'rgb(77, 83, 96)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-blocked my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Blocked
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Retest', 'rgb(253, 180, 92)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-retest my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Retest
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Failed', 'rgb(247, 70, 74)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-failed my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Failed
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Not Applicable', 'rgb(147, 119, 85)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-not-applicable my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Not Applicable
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('In Progress', 'rgb(87, 147, 243)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-in-progress my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    In Progress
-                                </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="setStatus('Hold', 'rgb(23, 162, 184)')"
-                                >
-                                <div class="d-flex">
-                                    <div
-                                    class="rounded status-hold my-auto me-2"
-                                    style="width: 0.8rem; height: 0.2rem"
-                                    ></div>
-                                    Hold
-                                </div>
-                                </a>
-                            </li>
-                            </ul>
-                        </div>
-                        </td>
-                        <td scope="col" class="bg-body-tertiary align-middle">
-                        <div class="d-flex">
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Elapsed Time"
-                            class="my-auto mx-2"
-                            ><img
-                                src="/images/elapsed-time.png"
-                                alt=""
-                                style="width: 1.5rem; height: 1.5rem"
-                            /></a>
-                            <a
-                            href="#"
-                            class="my-auto mx-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addIssue"
-                            data-bs-toggle="tooltip"
-                            title="Add Issue"
-                            ><i
-                                class="bi bi-bug"
-                                style="font-size: larger"
-                            ></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Add Result"
-                            class="my-auto mx-2"
-                            ><i
-                                class="bi bi-file-earmark-text"
-                                style="font-size: large"
-                            ></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Add Lated Steps"
-                            class="mx-2 my-auto"
-                            ><img
-                                src="/images/add.svg"
-                                alt=""
-                                style="width: 1rem; height: 1rem"
-                            /></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Timesheet"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-clock"></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Delete"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-trash"></i
-                            ></a>
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Actions"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-three-dots-vertical"></i
-                            ></a>
-                        </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                        {{/each}}
                     </tbody>
                 </table>
                 <form action="" class="needs-validation" novalidate>
