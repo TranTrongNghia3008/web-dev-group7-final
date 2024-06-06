@@ -1,29 +1,33 @@
 // Dữ liệu cho biểu đồ
-var data = {
-    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7', 'Day 8', 'Day 9', 'Day 10'],
-    datasets: [{
-        label: 'Activity Number',
-        backgroundColor: 'red',
-        borderColor: 'black',
-        data: [15, 10, 20, 18, 25, 22, 30, 12, 20, 0]
-    }]
-};
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Lấy dữ liệu từ thuộc tính data-* của thẻ canvas
+    const labels = JSON.parse(document.getElementById('myChart').getAttribute('data-labels'));
+    const data = JSON.parse(document.getElementById('myChart').getAttribute('data-data'));
 
-// Tạo biểu đồ
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Activity Number',
+                backgroundColor: 'red',
+                borderColor: 'black',
+                data: data
             }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-    }
+    });
 });
+
 
 // Hàm chuyển đổi hiển thị giữa biểu đồ và danh sách
 function switchDisplay(type) {
