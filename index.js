@@ -45,7 +45,7 @@ app.engine('hbs', expressHandlebars.engine({
             const nameParts = name.trim().split(' ');
             const initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
             return initials.substring(0, 2);
-        } 
+        }   
     }
 }));
 
@@ -53,14 +53,14 @@ app.set('view engine', 'hbs');
 
 app.use('/', require('./routes/dasdboardRouter'));
 app.use('/project', require('./routes/projectRouter'));
-app.use('/requirement', require('./routes/requirementRouter'));
-app.use('/release', require('./routes/releaseRouter'));
-app.use('/module', require('./routes/moduleRouter'));
-app.use('/test-case', require('./routes/testCaseRouter'));
-app.use('/test-run', require('./routes/testRunRouter'));
-app.use('/test-plan', require('./routes/testPlanRouter'));
-app.use('/issue', require('./routes/issueRouter'));
-app.use('/report', require('./routes/reportRouter'));
+// app.use('/requirement', require('./routes/requirementRouter'));
+// app.use('/release', require('./routes/releaseRouter'));
+// app.use('/module', require('./routes/moduleRouter'));
+// app.use('/test-case', require('./routes/testCaseRouter'));
+// app.use('/test-run', require('./routes/testRunRouter'));
+// app.use('/test-plan', require('./routes/testPlanRouter'));
+// app.use('/issue', require('./routes/issueRouter'));
+// app.use('/report', require('./routes/reportRouter'));
 app.use('/administration', require('./routes/administrationRouter'));
 
 app.listen(port, () => {

@@ -40,6 +40,7 @@ controller.show = async (req, res) => {
                 <link rel="stylesheet" href="/css/administration-view.css" />`,
         d3: "selected-menu-item", 
         data: users
+        data: users
     });
 }
 

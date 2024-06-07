@@ -2,7 +2,7 @@
 
 const express = require('express');
 const controller = require('../controllers/testRunController');
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 
 

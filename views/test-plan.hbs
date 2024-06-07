@@ -122,23 +122,21 @@
             </tr>
         </thead>
         <tbody class="">
+            {{#each project.TestPlans}}
             <tr>
             <td scope="col" class="pt-3">
-                <div>TP001</div>
+                <div>{{truncateId this._id 10}}</div>
             </td>
             <td scope="col" class="pt-3 text-danger">
-                <div>Add Test Case For Shopping Cart</div>
+                <div>{{this.Name}}</div>
             </td>
             <td scope="col" class="pt-3">
                 <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Laborum velit excepturi neque repellat vitae dolorum labore
-                fugit ipsam aliquam delectus dolores unde sunt quos ducimus
-                qui, corporis quisquam similique quidem.
+                {{this.Description}}
                 </div>
             </td>
             <td scope="col" class="pt-3">
-                <div>March 29, 2024</div>
+                <div>{{formatDate3 this.CreatedAt}}</div>
             </td>
             <td scope="col" class="pt-3">
                 <div class="d-flex" style="margin-top: 0.8rem">
@@ -189,6 +187,7 @@
                 </div>
             </td>
             </tr>
+            {{/each}}
         </tbody>
         </table>
     </div>

@@ -31,7 +31,7 @@
                     type="button"
                     class="btn btn-danger me-4"
                     style="width: 8rem"
-                    onclick="window.location.href = './administration/add-user';"
+                    onclick="window.location.href = '/administration/add-user';"
                   >
                     <i class="bi bi-plus"></i> Add Users
                   </button>
@@ -176,371 +176,62 @@
           <!-- Project grid view -->
           <div class="cards-wrapper mt-3">
             <div class="container-fluid grid-view" id="cards-wrapper-cf">
-              <div class="card grid-view">
-                <a href="/project/home">
-                  <div class="card-header bg-danger- text-bg-danger">
-                    <div class="card-project-name">
-                      <h4>Web Dev Group 7</h4>
-                    </div>
-                  </div>
-                </a>
+              {{#each projects}}
+                  <div class="card grid-view">
+                      <a href="/project/{{ProjectID}}">
+                          <div class="card-header bg-danger text-bg-danger">
+                              <div class="card-project-name">
+                                  <h4>{{Name}}</h4>
+                              </div>
+                          </div>
+                      </a>
+                      <div class="card-body">
+                          <div class="card-project-description">
+                              <div class="card-project-creation">
+                                  <div class="card-project-creation-date">
+                                      <div class="field-label">Created on</div>
+                                      <div class="field-value">{{formatDate CreatedAt}}</div>
+                                  </div>
+                                  <div class="card-project-creation-author">
+                                      <div class="field-label">Created by</div>
+                                      <div class="field-value">{{Creater}}</div>
+                                  </div>
+                              </div>
 
-                <div class="card-body">
-                  <div class="card-project-description">
-                    <div class="card-project-creation">
-                      <div class="card-project-creation-date">
-                        <div class="field-label">Created on</div>
-                        <div class="field-value">2021-10-01</div>
+                              <div class="card-project-key">
+                                  <div class="field-label">Project key</div>
+                                  <div class="field-value">{{ProjectID}}</div>
+                              </div>
+                          </div>
+
+                          <div class="card-project-stats">
+                              <div class="card-project-test-cases">
+                                  <div class="field-label">Test cases</div>
+                                  <div class="field-value">{{testCaseCount}}</div>
+                              </div>
+
+                              <div class="card-project-test-runs">
+                                  <div class="field-label">Test runs</div>
+                                  <div class="field-value">{{testRunCount}}</div>
+                              </div>
+
+                              <div class="card-project-issues">
+                                  <div class="field-label">Issues</div>
+                                  <div class="field-value">{{issueCount}}</div>
+                              </div>
+                          </div>
+
+                          <div class="card-project-actions">
+                              <button class="btn btn-outline-dark bg-danger text-bg-danger me-1">
+                                  <i class="bi bi-pencil"></i>
+                              </button>
+                              <button class="btn btn-outline-dark me-1">
+                                  <i class="bi bi-trash"></i>
+                              </button>
+                          </div>
                       </div>
-                      <div class="card-project-creation-author">
-                        <div class="field-label">Created by</div>
-                        <div class="field-value">John Doe</div>
-                      </div>
-                    </div>
-
-                    <div class="card-project-key">
-                      <div class="field-label">Project key</div>
-                      <div class="field-value">PRJ-001</div>
-                    </div>
                   </div>
-
-                  <div class="card-project-stats">
-                    <div class="card-project-test-cases">
-                      <div class="field-label">Test cases</div>
-
-                      <div class="field-value">10</div>
-                    </div>
-
-                    <div class="card-project-test-runs">
-                      <div class="field-label">Test runs</div>
-
-                      <div class="field-value">5</div>
-                    </div>
-
-                    <div class="card-project-issues">
-                      <div class="field-label">Issues</div>
-
-                      <div class="field-value">3</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-actions">
-                    <button
-                      class="btn btn-outline-dark bg-danger text-bg-danger me-1"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-dark me-1">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card grid-view">
-                <a href="#">
-                  <div class="card-header bg-danger text-bg-danger">
-                    <div class="card-project-name">
-                      <h4>Project name</h4>
-                    </div>
-                  </div>
-                </a>
-
-                <div class="card-body">
-                  <div class="card-project-description">
-                    <div class="card-project-creation">
-                      <div class="card-project-creation-date">
-                        <div class="field-label">Created on</div>
-                        <div class="field-value">2021-10-01</div>
-                      </div>
-                      <div class="card-project-creation-author">
-                        <div class="field-label">Created by</div>
-                        <div class="field-value">John Doe</div>
-                      </div>
-                    </div>
-
-                    <div class="card-project-key">
-                      <div class="field-label">Project key</div>
-                      <div class="field-value">PRJ-001</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-stats">
-                    <div class="card-project-test-cases">
-                      <div class="field-label">Test cases</div>
-
-                      <div class="field-value">10</div>
-                    </div>
-
-                    <div class="card-project-test-runs">
-                      <div class="field-label">Test runs</div>
-
-                      <div class="field-value">5</div>
-                    </div>
-
-                    <div class="card-project-issues">
-                      <div class="field-label">Issues</div>
-
-                      <div class="field-value">3</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-actions">
-                    <button
-                      class="btn btn-outline-dark bg-danger text-bg-danger me-1"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-dark me-1">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card grid-view">
-                <a href="#">
-                  <div class="card-header bg-danger text-bg-danger">
-                    <div class="card-project-name">
-                      <h4>Project name</h4>
-                    </div>
-                  </div>
-                </a>
-
-                <div class="card-body">
-                  <div class="card-project-description">
-                    <div class="card-project-creation">
-                      <div class="card-project-creation-date">
-                        <div class="field-label">Created on</div>
-                        <div class="field-value">2021-10-01</div>
-                      </div>
-                      <div class="card-project-creation-author">
-                        <div class="field-label">Created by</div>
-                        <div class="field-value">John Doe</div>
-                      </div>
-                    </div>
-
-                    <div class="card-project-key">
-                      <div class="field-label">Project key</div>
-                      <div class="field-value">PRJ-001</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-stats">
-                    <div class="card-project-test-cases">
-                      <div class="field-label">Test cases</div>
-
-                      <div class="field-value">10</div>
-                    </div>
-
-                    <div class="card-project-test-runs">
-                      <div class="field-label">Test runs</div>
-
-                      <div class="field-value">5</div>
-                    </div>
-
-                    <div class="card-project-issues">
-                      <div class="field-label">Issues</div>
-
-                      <div class="field-value">3</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-actions">
-                    <button
-                      class="btn btn-outline-dark bg-danger text-bg-danger me-1"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-dark me-1">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card grid-view">
-                <a href="#">
-                  <div class="card-header bg-danger text-bg-danger">
-                    <div class="card-project-name">
-                      <h4>Project name</h4>
-                    </div>
-                  </div>
-                </a>
-
-                <div class="card-body">
-                  <div class="card-project-description">
-                    <div class="card-project-creation">
-                      <div class="card-project-creation-date">
-                        <div class="field-label">Created on</div>
-                        <div class="field-value">2021-10-01</div>
-                      </div>
-                      <div class="card-project-creation-author">
-                        <div class="field-label">Created by</div>
-                        <div class="field-value">John Doe</div>
-                      </div>
-                    </div>
-
-                    <div class="card-project-key">
-                      <div class="field-label">Project key</div>
-                      <div class="field-value">PRJ-001</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-stats">
-                    <div class="card-project-test-cases">
-                      <div class="field-label">Test cases</div>
-
-                      <div class="field-value">10</div>
-                    </div>
-
-                    <div class="card-project-test-runs">
-                      <div class="field-label">Test runs</div>
-
-                      <div class="field-value">5</div>
-                    </div>
-
-                    <div class="card-project-issues">
-                      <div class="field-label">Issues</div>
-
-                      <div class="field-value">3</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-actions">
-                    <button
-                      class="btn btn-outline-dark bg-danger text-bg-danger me-1"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-dark me-1">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card grid-view">
-                <a href="#">
-                  <div class="card-header bg-danger text-bg-danger">
-                    <div class="card-project-name">
-                      <h4>Project name</h4>
-                    </div>
-                  </div>
-                </a>
-
-                <div class="card-body">
-                  <div class="card-project-description">
-                    <div class="card-project-creation">
-                      <div class="card-project-creation-date">
-                        <div class="field-label">Created on</div>
-                        <div class="field-value">2021-10-01</div>
-                      </div>
-                      <div class="card-project-creation-author">
-                        <div class="field-label">Created by</div>
-                        <div class="field-value">John Doe</div>
-                      </div>
-                    </div>
-
-                    <div class="card-project-key">
-                      <div class="field-label">Project key</div>
-                      <div class="field-value">PRJ-001</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-stats">
-                    <div class="card-project-test-cases">
-                      <div class="field-label">Test cases</div>
-
-                      <div class="field-value">10</div>
-                    </div>
-
-                    <div class="card-project-test-runs">
-                      <div class="field-label">Test runs</div>
-
-                      <div class="field-value">5</div>
-                    </div>
-
-                    <div class="card-project-issues">
-                      <div class="field-label">Issues</div>
-
-                      <div class="field-value">3</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-actions">
-                    <button
-                      class="btn btn-outline-dark bg-danger text-bg-danger me-1"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-dark me-1">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card grid-view">
-                <a href="#">
-                  <div class="card-header bg-danger text-bg-danger">
-                    <div class="card-project-name">
-                      <h4>Project name</h4>
-                    </div>
-                  </div>
-                </a>
-
-                <div class="card-body">
-                  <div class="card-project-description">
-                    <div class="card-project-creation">
-                      <div class="card-project-creation-date">
-                        <div class="field-label">Created on</div>
-                        <div class="field-value">2021-10-01</div>
-                      </div>
-                      <div class="card-project-creation-author">
-                        <div class="field-label">Created by</div>
-                        <div class="field-value">John Doe</div>
-                      </div>
-                    </div>
-
-                    <div class="card-project-key">
-                      <div class="field-label">Project key</div>
-                      <div class="field-value">PRJ-001</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-stats">
-                    <div class="card-project-test-cases">
-                      <div class="field-label">Test cases</div>
-
-                      <div class="field-value">10</div>
-                    </div>
-
-                    <div class="card-project-test-runs">
-                      <div class="field-label">Test runs</div>
-
-                      <div class="field-value">5</div>
-                    </div>
-
-                    <div class="card-project-issues">
-                      <div class="field-label">Issues</div>
-
-                      <div class="field-value">3</div>
-                    </div>
-                  </div>
-
-                  <div class="card-project-actions">
-                    <button
-                      class="btn btn-outline-dark bg-danger text-bg-danger me-1"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-dark me-1">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              {{/each}}
             </div>
           </div>
         </div>

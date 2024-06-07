@@ -2,7 +2,7 @@
     {{>navigation}}
     <div class="container bg-white rounded my-3 p-1">
         <div class="d-flex bg-body-secondary p-2">
-        <a href="/report" class="text-primary">Reports</a>
+        <a href="/project/{{project.ProjectID}}/report" class="text-primary">Reports</a>
         <i class="bi bi-chevron-right mx-2"></i>
         <span>Add Reports</span>
         </div>
@@ -214,7 +214,7 @@
             <button
             type="button"
             class="btn btn-outline-danger mx-2"
-            onclick="window.location.href = '/report';"
+            onclick="window.location.href = '/project/{{project.ProjectID}}/report';"
             >
             Cancel
             </button>
