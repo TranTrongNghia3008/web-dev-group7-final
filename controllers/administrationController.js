@@ -4,7 +4,32 @@ const controller = {};
 const userModel = require('../models/userModel');
 
 controller.show = async (req, res) => {
-    const users = await userModel.find({});
+
+
+
+    // Pagination
+    let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    let limit = 3;
+    let skip = (page - 1) * limit;
+
+    let options = {};
+    options.limit = limit;
+    options.skip = skip;  
+    console.log(options);
+
+    const users = await userModel.find(null, null, options);     //console.log(users);
+    const usersCount = await userModel.countDocuments(); 
+    res.locals.pagination = 
+    {
+        page: page,
+        limit: limit,
+        showing: users.length,
+        totalRows: usersCount,
+        queryParams: req.query
+    };
+    console.log(res.locals.pagination);
+
+
     res.render('administration', { 
         title: "ShareBug - Administration", 
         header: `<link rel="stylesheet" href="/css/shared-styles.css" />

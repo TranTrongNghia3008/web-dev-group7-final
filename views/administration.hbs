@@ -313,29 +313,42 @@
         class="container bg-white rounded-bottom d-flex justify-content-between py-4 mb-3"
     >
         <div>
-        <span>Showing </span><span>2</span><span> to </span><span>2</span
-        ><span> of entries</span>
+        <span>Showing </span> <span>{{{pagination.showing}}} </span><span> of </span><span> {{{pagination.totalRows}}} total entries</span
+        >
         </div>
 
         <div class="d-flex my-auto justify-content-end">
-        <button
-            class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-            style="width: 2rem; height: 2rem"
-        >
-            <i class="bi bi-chevron-compact-left m-auto"></i>
-        </button>
-        <button
-            class="rounded-circle bg-danger d-flex mx-1 border-0"
-            style="width: 2rem; height: 2rem"
-        >
-            <span class="m-auto">1</span>
-        </button>
-        <button
-            class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-            style="width: 2rem; height: 2rem"
-        >
-            <i class="bi bi-chevron-compact-right m-auto"></i>
-        </button>
+            {{{createPagination pagination paginationClass="pagination" paginationStyle="justify-content-end" leftText="Prev" rightText="Next" }}}
+            {{!-- <button
+                class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
+                style="width: 2rem; height: 2rem"
+            >
+                <i class="bi bi-chevron-compact-left m-auto"></i>
+            </button>
+            <button
+                class="rounded-circle bg-danger d-flex mx-1 border-0"
+                style="width: 2rem; height: 2rem"
+            >
+                <span class="m-auto">1</span>
+            </button>
+            <button
+                class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
+                style="width: 2rem; height: 2rem"
+            >
+                <i class="bi bi-chevron-compact-right m-auto"></i>
+            </button> --}}
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll(".pagination li").forEach((li, index) => {
+    li.classList.add("page-item");
+    });
+
+    document.querySelectorAll(".pagination a").forEach(a => {
+        a.classList.add("page-link");
+    });
+
+
+</script>
