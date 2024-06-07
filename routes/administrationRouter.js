@@ -7,6 +7,7 @@ const router = express.Router();
 
 
 router.get('/', controller.show);
+router.get('/:page', controller.show);
 router.get('/add-user', controller.showAddUser);
 
 
