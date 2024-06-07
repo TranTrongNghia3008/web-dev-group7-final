@@ -655,6 +655,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{#each data}}
                     <tr>
                     <td scope="col" class="align-middle">
                         <div class="form-check">
@@ -742,93 +743,8 @@
                         </div>
                     </td>
                     </tr>
-                    <tr>
-                    <td scope="col" class="align-middle">
-                        <div class="form-check">
-                        <input
-                            class="form-check-input code-item"
-                            type="checkbox"
-                            value=""
-                            id="code-item"
-                        />
-                        <label class="form-check-label" for="code-item"
-                            ><i
-                            class="bi bi-bug me-1"
-                            style="color: orange"
-                            ></i
-                            >D0002</label
-                        >
-                        </div>
-                    </td>
-                    <td scope="col" class="align-middle">
-                        <span>Bug in verify account</span>
-                    </td>
-                    <td scope="col" class="align-middle">
-                        <div
-                        class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
-                        style="width: 2rem; height: 2rem"
-                        >
-                        <span class="m-auto">MN</span>
-                        </div>
-                    </td>
-                    <td scope="col" class="align-middle"></td>
-                    <td scope="col" class="align-middle">
-                        <span>New</span>
-                    </td>
-                    <td scope="col" class="align-middle">
-                        <span>Hight</span>
-                    </td>
-                    <td scope="col" class="align-middle">
-                        <span>March 29, 2024</span>
-                    </td>
-                    <td scope="col" class="align-middle">
-                        <div class="d-flex">
-                        <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Timesheet"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-clock"></i
-                        ></a>
-                        <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Edit"
-                            class="my-auto mx-2"
-                            ><i class="bi bi-pencil"></i
-                        ></a>
-                        <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="View"
-                            class="my-auto mx-2"
-                            ><i class="bi bi-eye"></i
-                        ></a>
-                        <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Delete"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-trash"></i
-                        ></a>
-                        <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Actions"
-                            class="mx-2 my-auto"
-                            ><i class="bi bi-three-dots-vertical"></i
-                        ></a>
+                    {{/each}}
 
-                        <!-- <a href="#" data-bs-toggle="tooltip" title="Elapsed Time" class="my-auto mx-2"><img src="/images/elapsed-time.png" alt="" style="width: 1.5rem; height: 1.5rem;"></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Add Issue" class="my-auto mx-2"><i class="bi bi-bug" style="font-size:larger;"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Add Result" class="my-auto mx-2"><i class="bi bi-file-earmark-text" style="font-size:large;"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Add Lated Steps" class="mx-2 my-auto"><img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem;"></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Timesheet" class="mx-2 my-auto"><i class="bi bi-clock"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Delete" class="mx-2 my-auto"><i class="bi bi-trash"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Actions" class="mx-2 my-auto"><i class="bi bi-three-dots-vertical"></i></a> -->
-                        </div>
-                    </td>
-                    </tr>
                 </tbody>
                 </table>
             </div>

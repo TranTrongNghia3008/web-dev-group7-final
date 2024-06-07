@@ -18,7 +18,34 @@ app.engine('hbs', expressHandlebars.engine({
     defaultLayout: 'layout',
     runtimeOptions: {allowProtoPropertiesByDefault: true},
     helpers: {
-        createPagination
+        createPagination,
+        formatDate: function (date) {
+            return new Date(date).toISOString().split('T')[0];
+        },
+        formatDate2: function (date) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            return new Date(date).toLocaleDateString('en-US', options);
+        },
+        formatDate3: function (date) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric'};
+            return new Date(date).toLocaleDateString('en-US', options);
+        },
+        truncateId: function (id, limit) {
+            const strId = String(id);
+            if (limit === 0 || limit >= strId.length) {
+                return strId;
+            } else {
+                const halfLimit = Math.floor(limit / 2);
+                const firstPart = strId.substring(0, halfLimit);
+                const secondPart = strId.substring(strId.length - halfLimit);
+                return firstPart + "..." + secondPart;
+            }
+        },
+        getInitials: function (name) {
+            const nameParts = name.trim().split(' ');
+            const initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
+            return initials.substring(0, 2);
+        } 
     }
 }));
 
