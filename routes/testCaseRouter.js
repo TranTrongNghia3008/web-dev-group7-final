@@ -7,6 +7,7 @@ const router = express.Router({ mergeParams: true });
 
 
 router.get('/', controller.show);
+router.get('/:testCaseId', controller.showDetail);
 router.get('/add-case-BDD', controller.showAddBDD);
 router.get('/import', controller.showImport);
 router.get('/import-category', controller.showImportCategory);

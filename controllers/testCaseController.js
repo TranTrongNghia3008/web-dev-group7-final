@@ -4,6 +4,8 @@ const controller = {};
 
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
+const testPlanModel = require('../models/testPlanModel');
+const tagModel = require('../models/tagModel');
 
 controller.show = async (req, res) => {
     try {
@@ -64,6 +66,95 @@ controller.show = async (req, res) => {
             Modules: JSON.stringify(modulesWithTestCaseCount)
         };
 
+
+        // Gọi view và truyền dữ liệu vào
+        res.render('test-case', { 
+            title: "ShareBug - Test Cases", 
+            header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                    <link rel="stylesheet" href="/css/test-runs-results-styles.css" />`, 
+            d2: "selected-menu-item", 
+            n5: "active border-danger",
+            project: projectData,
+            modules: JSON.stringify(modulesWithTestCaseCount)
+        });
+    } catch (error) {
+        console.error('Error fetching test cases:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+controller.showDetail = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        
+        const moduleId = req.query.ModuleID ? req.query.ModuleID : 0;
+        let testCaseCount = req.query.TestCaseCount ? req.query.TestCaseCount : 0;
+        let testCaseKeyword = req.query.testCaseKeyword || '';
+        let moduleKeyword = req.query.moduleKeyword || '';
+
+
+        let modules = await moduleModel.find({ ProjectID: projectId, Name: { $regex: moduleKeyword, $options: 'i' } });
+
+        const moduleIds = modules.map(module => module._id);
+
+        
+        const allTestCases = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+
+        let testCases, moduleName;
+        if (moduleId !== 0) {
+            // Nếu moduleId khác 0, chỉ lấy các test case có moduleId tương ứng
+            testCases = await testCaseModel.find({ ModuleID: moduleId, Title: { $regex: testCaseKeyword, $options: 'i' } });
+            const module = await moduleModel.findById(moduleId).select('Name');
+            moduleName = module.Name;
+        } else {
+            // Nếu moduleId là 0, lấy tất cả các test case
+            testCases = await testCaseModel.find({ Title: { $regex: testCaseKeyword, $options: 'i' } });
+            moduleName = "All Test Cases";
+            testCaseCount = allTestCases.length;
+        }
+
+        // Lấy số lượng test case cho mỗi module
+        const testCaseCounts = await testCaseModel.aggregate([
+            { $match: { ModuleID: { $in: moduleIds } } },
+            { $group: { _id: "$ModuleID", count: { $sum: 1 } } }
+        ]);
+
+        const testCaseCountsMap = testCaseCounts.reduce((map, testCaseCount) => {
+            map[testCaseCount._id] = testCaseCount;
+            return map;
+        }, {});
+
+
+        const modulesWithTestCaseCount = modules.map(module => {
+            return {
+                ...module._doc, // spread the document properties
+                TestCaseCount: testCaseCountsMap[module._id] ? testCaseCountsMap[module._id].count : 0 // Assuming 'name' is the field in userAssign model
+            };
+        });
+
+        const testCaseId = req.params.testCaseId;
+        const testCaseDetail = await testCaseModel.findOne({ _id: testCaseId });
+
+        const moduleDetail = await moduleModel.findOne({ _id: testCaseDetail.ModuleID });
+        const testPlanDetail = await testPlanModel.findOne({ _id: testCaseDetail.TestPlanID });
+
+        const tags = await tagModel.find({ TestCaseID: testCaseId });
+
+        testCaseDetail.Module = moduleDetail;
+        testCaseDetail.TestPlan = testPlanDetail;
+        testCaseDetail.Tags = tags;
+
+        // Gói dữ liệu trong projectData
+        const projectData = {
+            ProjectID: projectId,
+            TotalTestCase: allTestCases.length,
+            ModuleID: moduleId,
+            moduleName: moduleName,
+            testCaseCount: testCaseCount,
+            TestCases: testCases,
+            Modules: JSON.stringify(modulesWithTestCaseCount),
+            TestCaseDetail: testCaseDetail
+        };
 
         // Gọi view và truyền dữ liệu vào
         res.render('test-case', { 
