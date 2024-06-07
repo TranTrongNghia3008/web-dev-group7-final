@@ -90,6 +90,7 @@
                 max-height: 10rem;
                 height: 10rem;
                 "
+                data-numProjectStatus="{{project.numProjectStatus}}"
             ></canvas>
             <div class="project-status-container row ms-2"></div>
             </div>
@@ -106,6 +107,7 @@
                 max-height: 10rem;
                 height: 10rem;
                 "
+                data-numIssueStatus="{{project.numIssueStatus}}"
             ></canvas>
 
             <div class="issue-status-container row ms-2"></div>
@@ -150,21 +152,38 @@
                 </button>
             </div>
             <div class="card-body">
-                <form action="" class="search-module">
+                <form action="/project/{{project.ProjectID}}/test-case" class="search-module" method="get">
                 <input
                     class="form-control mb-2"
                     type="text"
-                    name="filterModule"
+                    name="moduleKeyword"
                     placeholder="Type To Filter Module"
                     aria-label="default input example"
                 />
                 </form>
-                <button type="button" class="btn btn-danger all-test-case">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-module');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="moduleKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('moduleKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
+                <a href="/project/{{project.ProjectID}}/test-run/result">
+                    <button type="button" class="btn btn-danger all-test-case">
                 <i class="bi bi-folder2 me-2"></i> All/Filtered Test Cases
-                (<span id="totalTestCases">34</span>)
-                </button>
-
-                <div class="list-group list-modules"></div>
+                (<span id="totalTestCases">{{project.TotalTestCase}}</span>)
+                </button> 
+                </a>               
+                <div class="list-group list-modules" id="list-modules" data-modules="{{project.Modules}}" data-moduleID="{{project.ModuleID}}"></div>
+                <form id="moduleForm" action="/project/{{project.ProjectID}}/test-run/result" method="get" style="display: none;">
+                    <input type="hidden" name="ModuleID" id="moduleIDInput">
+                    <input type="hidden" name="TestCaseCount" id="testCaseCountInput">
+                </form>
             </div>
             </div>
         </div>
@@ -189,9 +208,9 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                 <div class="d-flex">
-                    <span class="module-name">Contact</span>
+                    <span class="module-name">{{project.moduleName}}</span>
                     <div class="bg-danger-subtle px-2 mx-2 rounded">
-                    <span class="text-danger">0</span>
+                    <span class="text-danger">{{project.testCaseCount}}</span>
                     </div>
                     <div class="bg-success-subtle px-2 mx-2 rounded">
                     <span class="text-success">00:00:03</span>
@@ -291,14 +310,29 @@
                         </select>
                     </form>
                     </div>
-                    <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search By Case Title"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    style="width: 12rem"
-                    />
+                    
+                    <form action="" class="search-testcase" method="get">
+                        <input
+                        class="form-control"
+                        type="text"
+                        name="testCaseKeyword"
+                        placeholder="Search By Case Title"
+                        aria-label="default input example"
+                        style="width: 12rem"
+                        />
+                    </form>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-testcase');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="testCaseKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('testCaseKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
                     <div class="d-flex my-auto justify-content-end">
                     <button
                         class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"

@@ -76,31 +76,110 @@
                   </div>
                 </div>
                 <div class="card-body" style="background-color: #f8f9fa">
-                  <form action="" class="search-module">
+                  <form action="" class="search-requirementType">
                     <input
                       class="form-control mb-2"
                       type="text"
-                      name="filterModule"
+                      name="requirementTypeKeyword"
                       placeholder="Type To Filter Requirement Type"
                       aria-label="default input example"
                     />
                   </form>
+
+                  <script>
+                          document.addEventListener('DOMContentLoaded', function() {
+                              const form = document.querySelector('.search-requirementType');
+                              form.addEventListener('submit', function(event) {
+                                  event.preventDefault(); 
+                                  const keyword = document.querySelector('input[name="requirementTypeKeyword"]').value;
+                                  const currentUrl = new URL(window.location.href);
+                                  currentUrl.searchParams.set('requirementTypeKeyword', keyword);
+                                  window.location.href = currentUrl.toString();
+                              });
+                          });
+                      </script>
                   
                   {{#each project.RequirementTypes}}
-                  <div class="d-flex py-2">
-                    <input
-                      class="form-check-input ms-4 me-2"
-                      type="checkbox"
-                      value=""
-                      id="case-code-item"
-                    />
-                    <div class="d-flex">
-                          <i class="bi bi-folder text-primary me-2"></i>
-                          <div>{{ this }}</div>
+                    <div class="d-flex py-2">
+                        <input
+                            class="form-check-input ms-4 me-2 checkbox-RequirementTypes-item"
+                            type="checkbox"
+                            value="{{ this }}"
+                            id="checkbox-RequirementTypes-item-{{@index}}"
+                        />
+                        <div class="d-flex">
+                            <i class="bi bi-folder text-primary me-2"></i>
+                            <div>{{ this }}</div>
+                        </div>
                     </div>
-                  </div>
-                  {{/each}}
+                {{/each}}
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const checkboxes = document.querySelectorAll('.checkbox-RequirementTypes-item');
+
+                    // Kiểm tra URL hiện tại để lấy RequirementTypes
+                    const currentUrl = new URL(window.location.href);
+                    const selectedTypes = currentUrl.searchParams.get('RequirementTypes');
+                    const selectedTypesArray = selectedTypes ? selectedTypes.split(',') : [];
+
+                    // Tick sẵn các checkbox tương ứng
+                    checkboxes.forEach(checkbox => {
+                        if (selectedTypesArray.includes(checkbox.value)) {
+                            checkbox.checked = true;
+                        }
+                    });
+
+                    // Thêm sự kiện thay đổi cho các checkbox
+                    checkboxes.forEach(checkbox => {
+                        checkbox.addEventListener('change', function() {
+                            const selectedTypes = [];
+                            checkboxes.forEach(cb => {
+                                if (cb.checked) {
+                                    selectedTypes.push(cb.value);
+                                }
+                            });
+
+                            if (selectedTypes.length > 0) {
+                                currentUrl.searchParams.set('RequirementTypes', selectedTypes.join(','));
+                            } else {
+                                currentUrl.searchParams.delete('RequirementTypes');
+                            }
+
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                });
+                </script>
+
+
+
+      
                 </div>
+                {{!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.form-check-input');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const selectedTypes = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    selectedTypes.push(cb.value);
+                }
+            });
+
+            const currentUrl = new URL(window.location.href);
+            if (selectedTypes.length > 0) {
+                currentUrl.searchParams.set('RequirementTypes', selectedTypes.join(','));
+            } else {
+                currentUrl.searchParams.delete('RequirementTypes');
+            }
+
+            window.location.href = currentUrl.toString();
+        });
+    });
+});
+</script> --}}
               </div>
             </div>
             <div
@@ -124,9 +203,9 @@
                 <div class="card-header">
                   <div class="row">
                     <div class="col-3 d-flex align-items-center">
-                      <div>Shopping Cart</div>
+                      <div>Total</div>
                       <div class="bg-danger-subtle px-2 mx-2 rounded">
-                        <span class="text-danger">1</span>
+                        <span class="text-danger">{{project.Requirements.length}}</span>
                       </div>
                       <a href="#" class="ms-3"><i class="bi bi-pencil"></i></a>
                     </div>
@@ -136,21 +215,49 @@
                           list="brow-module"
                           placeholder="Select an Assigned To"
                           class="form-select border-0 bg-light"
+                          id="assignedToInput"
+                          onchange="handleChange(this.value)"
                         />
                         <datalist id="brow-module">
-                          <option value="Minh-Nhat Nguyen"></option>
+                          {{#each project.Users}}
+                          <option value="{{Name}}"></option>
+                          {{/each}}
                         </datalist>
+                        <script>
+                          function handleChange(selectedValue) {
+                          // Lấy đường dẫn hiện tại
+                          const currentUrl = new URL(window.location.href);
+
+                          // Thêm giá trị đã chọn vào đường dẫn hiện tại
+                          currentUrl.searchParams.set('assignedTo', selectedValue);
+
+                          // Chuyển hướng đến đường dẫn mới
+                          window.location.href = currentUrl.toString();
+                      }
+                      </script>
                       </div>
                       <div class="col-3">
-                        <form action="" class="search-module">
+                        <form action="" class="search-requirement">
                           <input
                             class="form-control"
                             type="text"
-                            name="filterModule"
-                            placeholder="Search By Title"
+                            name="requirementKeyword"
+                            placeholder="Search By Description"
                             aria-label="default input example"
                           />
                         </form>
+                        <script>
+                          document.addEventListener('DOMContentLoaded', function() {
+                              const form = document.querySelector('.search-requirement');
+                              form.addEventListener('submit', function(event) {
+                                  event.preventDefault(); 
+                                  const keyword = document.querySelector('input[name="requirementKeyword"]').value;
+                                  const currentUrl = new URL(window.location.href);
+                                  currentUrl.searchParams.set('requirementKeyword', keyword);
+                                  window.location.href = currentUrl.toString();
+                              });
+                          });
+                      </script>
                       </div>
                       <div class="col-5 d-flex justify-content-between fs-6">
                         <a href="#" title="Add" class="my-auto fs-4 text-dark"
@@ -262,7 +369,7 @@
                                 type="checkbox"
                                 value=""
                                 id="case-code"
-                                onchange="toggleCheckAll(this)"
+                                onchange="toggleCheckAllRequirement(this)"
                               />
                               <label class="form-check-label" for="case-code"
                                 >Requirement Code</label
@@ -281,12 +388,12 @@
                             <td scope="col" class="bg-body-tertiary align-middle">
                                 <div class="form-check">
                                     <input
-                                        class="form-check-input case-code-item"
+                                        class="form-check-input code-requirement-item"
                                         type="checkbox"
                                         value=""
-                                        id="case-code-item"
+                                        id="code-requirement-item"
                                     />
-                                    <label class="form-check-label" for="case-code-item">{{truncateId this._id 0}}</label>
+                                    <label class="form-check-label" for="code-requirement-item">{{truncateId this._id 0}}</label>
                                 </div>
                             </td>
                             <td scope="col" class="bg-body-tertiary align-middle">

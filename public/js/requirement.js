@@ -41,3 +41,13 @@
     });
 
 }
+
+
+function toggleCheckAllRequirement(source) {
+    var checkboxes = document.querySelectorAll('.code-requirement-item');
+    checkboxes.forEach(function(checkbox) {
+        if (checkbox !== source) {
+            checkbox.checked = source.checked;
+        }
+    });
+  }
