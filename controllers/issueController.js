@@ -62,10 +62,18 @@ controller.show = async (req, res) => {
         // Tạo một danh sách các userId để tìm kiếm thông tin người được giao
         const assignToIds = issues.map(issue => issue.AssignedTo);
 
+        const createdByIds = issues.map(issue => issue.CreatedBy);
+
         // Tìm thông tin người được giao từ bảng user
-        const users = await userModel.find({ _id: { $in: assignToIds } });
-        const userMap = users.reduce((map, user) => {
-            map[user._id] = user;
+        const userAssigns = await userModel.find({ _id: { $in: assignToIds } });
+        const userAssignMap = userAssigns.reduce((map, userAssign) => {
+            map[userAssign._id] = userAssign;
+            return map;
+        }, {});
+
+        const userCreates = await userModel.find({ _id: { $in: createdByIds } });
+        const userCreatedMap = userCreates.reduce((map, userCreated) => {
+            map[userCreated._id] = userCreated;
             return map;
         }, {});
 
@@ -73,7 +81,8 @@ controller.show = async (req, res) => {
         const issuesWithUser = issues.map(issue => {
             return {
                 ...issue._doc, // spread the document properties
-                AssignTo: userMap[issue.AssignedTo] ? userMap[issue.AssignedTo].Name : 'Unknown' // Assuming 'name' is the field in user model
+                AssignTo: userAssignMap[issue.AssignedTo] ? userAssignMap[issue.AssignedTo].Name : 'Unknown', // Assuming 'name' is the field in user model
+                CreatedBy: userCreatedMap[issue.CreatedBy] ? userCreatedMap[issue.CreatedBy].Name : 'Unknown'
             };
         });
 

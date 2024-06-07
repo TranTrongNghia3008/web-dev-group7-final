@@ -6,7 +6,7 @@
         <div class="my-auto d-flex">
         <span class="my-auto fw-semibold">Test Cases</span>
         <div class="bg-danger-subtle px-2 mx-2 rounded">
-            <span class="text-danger">{{project.TestCases.length}}</span>
+            <span class="text-danger">{{project.TotalTestCase}}</span>
         </div>
         </div>
         <div class="d-flex header-menu">
@@ -1002,21 +1002,38 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="" class="search-module">
+                <form action="/project/{{project.ProjectID}}/test-case" class="search-module" method="get">
                 <input
                     class="form-control mb-2"
                     type="text"
-                    name="filterModule"
+                    name="moduleKeyword"
                     placeholder="Type To Filter Module"
                     aria-label="default input example"
                 />
                 </form>
-                <button type="button" class="btn btn-danger all-test-case">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-module');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="moduleKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('moduleKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
+                <a href="/project/{{project.ProjectID}}/test-case">
+                    <button type="button" class="btn btn-danger all-test-case">
                 <i class="bi bi-folder2 me-2"></i> All/Filtered Test Cases
-                (<span id="totalTestCases">34</span>)
-                </button>
-
-                <div class="list-group list-modules"></div>
+                (<span id="totalTestCases">{{project.TotalTestCase}}</span>)
+                </button> 
+                </a>               
+                <div class="list-group list-modules" id="list-modules" data-modules="{{project.Modules}}" data-moduleID="{{project.ModuleID}}"></div>
+                <form id="moduleForm" action="/project/{{project.ProjectID}}/test-case" method="get" style="display: none;">
+                    <input type="hidden" name="ModuleID" id="moduleIDInput">
+                    <input type="hidden" name="TestCaseCount" id="testCaseCountInput">
+                </form>
             </div>
             </div>
         </div>
@@ -1040,8 +1057,9 @@
             <div class="card bg-body-tertiary h-100">
             <div class="card-header">
                 <div class="row">
-                <div class="col-3 d-flex align-items-center">
-                    <div
+                <div class="col-4 d-flex align-items-center">
+                    <span>{{project.moduleName}}</span>
+                    {{!-- <div
                     class="btn-group mx-2 my-auto bg-danger"
                     role="group"
                     style="height: 2rem"
@@ -1067,23 +1085,35 @@
                         <a class="dropdown-item" href="#">Dropdown link</a>
                         </li>
                     </ul>
-                    </div>
+                    </div> --}}
                     <div class="bg-danger-subtle px-2 mx-2 rounded">
-                    <span class="text-danger">3</span>
+                    <span class="text-danger">{{project.TestCases.length}}</span>
                     </div>
                     <a href="#" class="mx-2"><i class="bi bi-pencil"></i></a>
                 </div>
                 <div class="row col-8 ms-auto my-auto align-items-center">
                     <div class="col-7">
-                    <form action="" class="search-module">
+                    <form action="/project/{{project.ProjectID}}/test-case" class="search-testcase" method="get">
                         <input
                         class="form-control"
                         type="text"
-                        name="filterModule"
+                        name="testCaseKeyword"
                         placeholder="ModuleLevel Search By Title"
                         aria-label="default input example"
                         />
                     </form>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-testcase');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="testCaseKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('testCaseKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
                     </div>
                     <div class="col-5 d-flex justify-content-between fs-6">
                     <a href="#" title="Add" class="my-auto fs-4"

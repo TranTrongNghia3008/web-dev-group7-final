@@ -5,7 +5,7 @@
         <div class="col my-auto d-flex">
             <span class="my-auto">All Modules List</span>
             <div class="bg-danger-subtle px-2 mx-2 rounded">
-            <span class="text-danger">6</span>
+            <span class="text-danger">{{numModules}}</span>
             </div>
         </div>
         <div class="col right-side d-flex justify-content-end">
@@ -58,7 +58,7 @@
                     onchange="toggleCheckAll(this)"
                 />
                 <label class="form-check-label" for="modules"
-                    >Modules (<span class="num-modules">6</span>)</label
+                    >Modules (<span class="num-modules">{{numModules}}</span>)</label
                 >
                 </div>
 
@@ -124,7 +124,7 @@
                                         </div>
                                     </a>
                                 </div> -->
-                <div id="module-list" class="list-group"></div>
+                <div id="module-list" class="list-group" data-modules="{{modulesData}}"></div>
             </div>
             </div>
         </div>

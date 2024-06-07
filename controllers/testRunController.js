@@ -56,11 +56,28 @@ controller.show = async (req, res) => {
 
         // Tạo một danh sách các userId để tìm kiếm thông tin người được giao
         const assignToIds = testRuns.map(testRun => testRun.AssignTo);
+    
+        const createdByIds = testRuns.map(testRun => testRun.CreatedBy);
 
         // Tìm thông tin người được giao từ bảng user
-        const users = await userModel.find({ _id: { $in: assignToIds } });
-        const userMap = users.reduce((map, user) => {
-            map[user._id] = user;
+        const userAssigns = await userModel.find({ _id: { $in: assignToIds } });
+        const userAssignMap = userAssigns.reduce((map, userAssign) => {
+            map[userAssign._id] = userAssign;
+            return map;
+        }, {});
+
+        // Kết hợp dữ liệu test run với thông tin người được giao
+        // const testRunsWithUserAssign = testRuns.map(testRun => {
+        //     return {
+        //         ...testRun._doc, // spread the document properties
+        //         AssignTo: userAssignMap[testRun.AssignTo] ? userAssignMap[testRun.AssignTo].Name : 'Unknown' // Assuming 'name' is the field in userAssign model
+        //     };
+        // });
+
+        // Tìm thông tin người được giao từ bảng user
+        const userCreates = await userModel.find({ _id: { $in: createdByIds } });
+        const userCreatedMap = userCreates.reduce((map, userCreated) => {
+            map[userCreated._id] = userCreated;
             return map;
         }, {});
 
@@ -68,7 +85,8 @@ controller.show = async (req, res) => {
         const testRunsWithUser = testRuns.map(testRun => {
             return {
                 ...testRun._doc, // spread the document properties
-                AssignTo: userMap[testRun.AssignTo] ? userMap[testRun.AssignTo].Name : 'Unknown' // Assuming 'name' is the field in user model
+                AssignTo: userAssignMap[testRun.AssignTo] ? userAssignMap[testRun.AssignTo].Name : 'Unknown', // Assuming 'name' is the field in userAssign model
+                CreatedBy: userCreatedMap[testRun.CreatedBy] ? userCreatedMap[testRun.CreatedBy].Name : 'Unknown' // Assuming 'name' is the field in userAssign model
             };
         });
 

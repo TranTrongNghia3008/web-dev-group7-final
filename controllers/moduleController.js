@@ -6,15 +6,21 @@ const moduleModel = require('../models/moduleModel');
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
+        console.log(projectId);
 
         // Tìm tất cả các module thuộc project đó
         const modules = await moduleModel.find({ ProjectID: projectId });
+        const modulesData = JSON.stringify(modules);
+        const numModules = modules.length;
 
-        // Tạo projectData chỉ với thông tin về modules và ProjectID
+        // // Tạo projectData chỉ với thông tin về modules và ProjectID
         const projectData = {
-            Modules: modules, // Thêm thông tin về modules
+            // Modules: modulesData, // Thêm thông tin về modules
             ProjectID: projectId // Thêm ProjectID
         };
+
+        
+    
 
         // Render view module với thông tin các module thuộc project
         res.render('module', { 
@@ -23,7 +29,10 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/modules-view.css" />`, 
             d2: "selected-menu-item", 
             n4: "active border-danger",
-            project: projectData
+            project: projectData,
+            // modules: modules,
+            modulesData: modulesData,
+            numModules: numModules,
         });
     } catch (error) {
         console.error('Error fetching modules:', error);

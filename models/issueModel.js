@@ -13,6 +13,7 @@ const issueSchema = new mongoose.Schema({
   Description: { type: String },
   CreatedAt: { type: Date, default: Date.now },
   UpdatedAt: { type: Date, default: Date.now },
+  CreatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   AssignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   TestRunID: { type: mongoose.Schema.Types.ObjectId, ref: 'TestRun' }
 });

@@ -40,21 +40,21 @@ function createModuleCard(moduleName) {
     document.getElementById('modules-container').appendChild(cardContainer);
 }
 
+console.log("dfdfgh");
 
 // Tạo danh sách module
-{
-    
-    
+document.addEventListener('DOMContentLoaded', function(even) {
+ 
 
     // Danh sách các modules
-    const modules = ['Contact', 'Blog', 'Pricing', 'Home page', 'Header section', 'Footer section'];
-                                    
-    // Lặp qua mảng modules và tạo phần tử HTML cho mỗi module
+    // const modules = ['Contact', 'Blog', 'Pricing', 'Home page', 'Header section', 'Footer section'];
+    const modules = JSON.parse(document.getElementById('module-list').getAttribute('data-modules'));    
+
     modules.forEach(module => {
         // Tạo phần tử <a> cho module
         var moduleLink = document.createElement('a');
         
-        const moduleId = module.toLowerCase().replace(/\s/g, '-'); // Unique ID for module link
+        const moduleId = module.Name.toLowerCase().replace(/\s/g, '-'); // Unique ID for module link
         moduleLink.href = '#';
         moduleLink.id = `module-link-${moduleId}`; // Unique ID for module link
         moduleLink.className = 'list-group-item list-group-item-action rounded border my-2 py-3';
@@ -75,7 +75,7 @@ function createModuleCard(moduleName) {
         const label = document.createElement('label');
         label.className = 'form-check-label';
         label.htmlFor = `module-item-${moduleId}`;
-        label.textContent = module;
+        label.textContent = module.Name;
         
     
         // Thêm input và label vào div
@@ -86,7 +86,7 @@ function createModuleCard(moduleName) {
         moduleLink.appendChild(div); 
 
         moduleLink.onclick = function() {
-            createModuleCard(module); // Gọi hàm createModuleCard khi thẻ <a> được nhấn
+            createModuleCard(module.Name); // Gọi hàm createModuleCard khi thẻ <a> được nhấn
         };
     
     
@@ -96,7 +96,8 @@ function createModuleCard(moduleName) {
     
 
     
-}
+});
+
 
 {
     function toggleCheckAll(source) {
@@ -111,31 +112,31 @@ function createModuleCard(moduleName) {
 
 //Kéo thả modules trong danh sách
 
-// {
-//     $(function() {
-//         // Kích hoạt tính năng kéo và thả
-//         $("#module-list").sortable({
-//             // Chọn các item có thể kéo và thả
-//             items: ".list-group-item",
-//             // Cài đặt lại chiều dọc
-//             axis: "y",
-//             // Xử lý sự kiện khi hoàn thành kéo và thả
-//             stop: function(event, ui) {
-//                 // Cập nhật vị trí mới của các item
-//                 updateModuleOrder();
-//             }
-//         });
+{
+    $(function() {
+        // Kích hoạt tính năng kéo và thả
+        $("#module-list").sortable({
+            // Chọn các item có thể kéo và thả
+            items: ".list-group-item",
+            // Cài đặt lại chiều dọc
+            axis: "y",
+            // Xử lý sự kiện khi hoàn thành kéo và thả
+            stop: function(event, ui) {
+                // Cập nhật vị trí mới của các item
+                updateModuleOrder();
+            }
+        });
 
-//         // Hàm cập nhật vị trí mới của các module
-//         function updateModuleOrder() {
-//             var moduleOrder = [];
-//             // Lặp qua mỗi item và lấy id của nó
-//             $("#module-list .list-group-item").each(function(index) {
-//                 moduleOrder.push($(this).attr('id'));
-//             });
-//             // In ra để kiểm tra
-//             console.log(moduleOrder);
-//             // Gửi moduleOrder đến máy chủ hoặc xử lý nó ở đây
-//         }
-//     });
-// }
+        // Hàm cập nhật vị trí mới của các module
+        function updateModuleOrder() {
+            var moduleOrder = [];
+            // Lặp qua mỗi item và lấy id của nó
+            $("#module-list .list-group-item").each(function(index) {
+                moduleOrder.push($(this).attr('id'));
+            });
+            // In ra để kiểm tra
+            console.log(moduleOrder);
+            // Gửi moduleOrder đến máy chủ hoặc xử lý nó ở đây
+        }
+    });
+}
