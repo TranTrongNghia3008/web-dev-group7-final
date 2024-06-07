@@ -59,7 +59,7 @@ app.use('/project', require('./routes/projectRouter'));
 // app.use('/test-case', require('./routes/testCaseRouter'));
 // app.use('/test-run', require('./routes/testRunRouter'));
 // app.use('/test-plan', require('./routes/testPlanRouter'));
-app.use('/issue', require('./routes/issueRouter'));
+// app.use('/issue', require('./routes/issueRouter'));
 // app.use('/report', require('./routes/reportRouter'));
 app.use('/administration', require('./routes/administrationRouter'));
 

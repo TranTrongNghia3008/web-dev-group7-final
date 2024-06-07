@@ -75,7 +75,7 @@ controller.show = async (req, res) => {
             d2: "selected-menu-item", 
             n5: "active border-danger",
             project: projectData,
-            modules: JSON.stringify(modulesWithTestCaseCount)
+            // modules: JSON.stringify(modulesWithTestCaseCount)
         });
     } catch (error) {
         console.error('Error fetching test cases:', error);
