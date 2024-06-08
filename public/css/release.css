@@ -29,3 +29,56 @@ a {
 .menu-2 li a{
     color: black;
 }
+
+.title-hero {
+    display: flex;
+    align-items: center;
+}
+
+.panel {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-buttons-separator {
+    display: flex;
+    gap: 10px;
+}
+
+.example-box-wrapper {
+    margin-top: 20px;
+}
+
+.ribbon .bg-open-ms {
+    background-color: #5cb85c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.chart-details-jit {
+    margin-top: 20px;
+}
+
+.chart-heading {
+    font-weight: bold;
+}
+
+.avg-count {
+    text-align: center;
+}
+
+.milestone-detail-jit {
+    margin-top: 20px;
+}

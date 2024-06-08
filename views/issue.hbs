@@ -739,7 +739,7 @@
                         </div>
                     </td>
                     <td scope="col" class="align-middle" style="max-width: 200px;">
-                        <span>{{this.Title}}</span>
+                        <a href="/project/{{../project.ProjectID}}/issue/{{this._id}}" class="issue-link-modal">{{this.Title}}</a>
                     </td>
                     <td scope="col" class="align-middle">
                         <div
@@ -1215,4 +1215,138 @@
         </div>
     </div>
      <script src="/js/issues-view.js"></script>
+
+     {{!-- <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#issueModal">
+        Open Modal
+    </button> --}}
+
+    <!-- Modal -->
+    <div class="modal fade" id="issueModal" tabindex="-1" aria-labelledby="issueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="issueModalLabel">Issue Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row gx-2 section_formField">
+            <div class="col-12 form-field my-2 p-3 rounded bg-detail">
+                <div class="">
+                    <div class="fw-4 fw-semibold">Issue title</div>
+                    <div class="">Issue example</div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Category</label>
+                    <div>
+                    <b class="fw-semibold">Bug</b>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Status</label>
+                    <div>
+                    <div class="text-revamp">Open</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Priority</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <div class="text-revamp">Medium</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Issue Type</label>
+                    <div>
+                    <div class="text-revamp">-</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Assigned to</label>
+                    <div>
+                    <div class="text-revamp">-</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Module</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <div class="text-revamp">-</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Severity</label>
+                    <div>
+                    <div class="text-revamp">-</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Environment</label>
+                    <div>
+                    <div class="text-revamp">-</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Release</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <div class="text-revamp">-</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Operating systems</label>
+                    <div>
+                    <div class="text-revamp">-</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Due Date</label>
+                    <div>
+                    <div class="text-revamp">Apr/13/2024 - Apr/13/2024</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 my-2 p-3 form-field description-view rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Description</label>
+                <div>
+                <div class="text-revamp text-left">-</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger">Edit</button>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('a.issue-link-modal').click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr('href');
+                window.location.href = url;
+            });
+        });
+
+        window.onload = function() {
+            var newUrl = window.location.pathname;
+            var regex = /\/issue\/([^/]+)$/;
+
+            if (regex.test(newUrl)) {
+                var $targetModal = $('#issueModal');
+                var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#issueModal"]');
+
+                $targetModal.modal('show');
+            }
+        };
+    </script>
 </div>

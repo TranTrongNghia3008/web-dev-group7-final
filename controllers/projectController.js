@@ -100,7 +100,6 @@ controller.showHome = async (req, res) => {
         const releases = await releaseModel.find({ ProjectID: project._id });
 
         const activities = await activityModel.find({ ModuleID: { $in: moduleIds } });
-
         // Đếm số lượng test run theo status
         const openReleaseStatus = ['Passed', 'Untested', 'Blocked', 'Retest', 'Failed', 'Not Applicable', 'In Progress', 'Hold'];
         const numOpenReleaseStatus= openReleaseStatus.map(status => {

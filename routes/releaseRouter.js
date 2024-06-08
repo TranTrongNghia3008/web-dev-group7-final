@@ -6,6 +6,7 @@ const router = express.Router({ mergeParams: true });
 
 
 router.get('/', controller.show);
+router.get('/:releaseId', controller.show);
 
 
 

@@ -235,7 +235,7 @@
                     >
                       <div class="row">
                         <div class="col-sm-9">
-                          <a href="#">
+                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
                             <div class="container release-card-name">
                               <h4>{{this.Name}}</h4>
                             </div>
@@ -405,4 +405,145 @@
             </div>
           </div>
         </div>
+
+  {{!-- <!-- Trigger button -->
+    <button id="openModalBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#releaseModal">Open Modal</button> --}}
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Release Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane fade show active" id="ms-status">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <div class="header-container">
+                                            <strong class="milestone_title fw-5">Web 7 ver 1.0</strong>
+                                        </div>
+                                        <div class="example-box-wrapper d-flex">
+                                            <div class="col-6" id="status-chart-container">
+                                                <canvas id="release_piechart" height="292" width="584"></canvas>
+                                            </div>
+                                            <div class="col-3 canvas-detail d-block" id="chart-details">
+                                                <span class="chart-heading">Total Test Cases: 34</span>
+                                                <table class="chart-details-jit ms-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                                                    <div style="width:4px;height:0;border:5px solid #5CB85C;overflow:hidden; "></div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span>Passed : 1</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                                                    <div style="width:4px;height:0;border:5px solid #F7464A;overflow:hidden; "></div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span>Failed : 1</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                                                    <div style="width:4px;height:0;border:5px solid #46BFBD;overflow:hidden; "></div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span>Untested : 32</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-3 p-2 avg-count">
+                                                <span class="chart-heading">Avg. Test Execution/Day</span>
+                                                <span class="display-4">0.38</span>
+                                            </div>
+                                        </div>
+                                        <div class="milestone-detail-jit">
+                                            <span class="chart-heading">Milestone Details</span>
+                                            <table class="table mt-2">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Milestone</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Web 7 ver 1.0</td>
+                                                        <td class="milestone_startdate">a</td>
+                                                        <td class="milestone_enddate">a</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#releaseModal').on('shown.bs.modal', function () {
+            renderChart();
+        });
+
+        function renderChart() {
+            var ctx = document.getElementById('release_piechart').getContext('2d');
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Passed', 'Failed', 'Untested'],
+                    datasets: [{
+                        data: [1, 1, 32],
+                        backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD']
+                    }]
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('a.release-link-modal').click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr('href');
+                window.location.href = url;
+            });
+        });
+
+        window.onload = function() {
+            var newUrl = window.location.pathname;
+            var regex = /\/release\/([^/]+)$/;
+
+            if (regex.test(newUrl)) {
+                var $targetModal = $('#releaseModal');
+                var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#releaseModal"]');
+
+                $targetModal.modal('show');
+            }
+        };
+    </script>
 </div>
