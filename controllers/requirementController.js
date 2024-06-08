@@ -18,6 +18,18 @@ controller.show = async (req, res) => {
         let requirementTypeKeyword = req.query.requirementTypeKeyword || '';
         let assignToKeyword = req.query.assignedTo || '';
 
+         // Lấy các tham số sắp xếp từ query params
+         const sortField = req.query.sortField || 'created-date';
+         const sortOrder = req.query.sortOrder || 'desc';
+         const sortCriteria = {};
+         if (sortField === 'created-date') {
+             sortCriteria.CreatedAt = sortOrder === 'desc' ? -1 : 1;
+         } else if (sortField === 'title') {
+             sortCriteria.Description = sortOrder === 'desc' ? -1 : 1;
+         } else if (sortField === 'case-code') {
+             sortCriteria._id = sortOrder === 'desc' ? -1 : 1;
+         }
+
 
         // Fetch the project details
         const project = await projectModel.findById(projectId);
@@ -54,14 +66,14 @@ controller.show = async (req, res) => {
                 Type: { $in: selectedRequirementTypes },
                 Description: { $regex: requirementKeyword, $options: 'i' },
                 AssignTo: { $in: filteredUserIds },
-            });
+            }).sort(sortCriteria);
         } else {
             // Nếu không có RequirementTypes được chọn, lấy tất cả các requirements
             requirements = await requirementModel.find({ 
                 ReleaseID: { $in: releaseIds }, 
                 Description: { $regex: requirementKeyword, $options: 'i' },
                 AssignTo: { $in: filteredUserIds },
-            });
+            }).sort(sortCriteria);
         }
         let requirementTypes = [...new Set(allRequirements.map(requirement => requirement.Type))];
         if (requirementTypeKeyword) {
@@ -74,7 +86,9 @@ controller.show = async (req, res) => {
             Users: users,
             requirementCount: allRequirements.length,
             Requirements: requirements,
-            RequirementTypes: requirementTypes
+            RequirementTypes: requirementTypes,
+            sortField,
+            sortOrder
         };
 
         res.render('requirement', { 

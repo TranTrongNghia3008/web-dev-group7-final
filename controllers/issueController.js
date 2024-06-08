@@ -31,7 +31,17 @@ controller.show = async (req, res) => {
         const releaseFilter = req.query.release ? req.query.release.split(',') : [];
         const moduleFilter = req.query.module ? req.query.module.split(',') : [];
 
-
+        // Lấy các tham số sắp xếp từ query params
+        const sortField = req.query.sortField || 'created-date';
+        const sortOrder = req.query.sortOrder || 'desc';
+        const sortCriteria = {};
+        if (sortField === 'created-date') {
+            sortCriteria.CreatedAt = sortOrder === 'desc' ? -1 : 1;
+        } else if (sortField === 'title') {
+            sortCriteria.Title = sortOrder === 'desc' ? -1 : 1;
+        } else if (sortField === 'case-code') {
+            sortCriteria._id = sortOrder === 'desc' ? -1 : 1;
+        }
 
         // Tìm tất cả các module thuộc project đó
         const allModules = await moduleModel.find({ ProjectID: projectId });
@@ -84,7 +94,7 @@ controller.show = async (req, res) => {
         if (createdByFilter.length > 0) query.CreatedBy = { $in: createdByFilter };
         if (environmentFilter.length > 0) query.Environment = { $in: environmentFilter };
 
-        const issuesTemp = await issueModel.find(query);
+        const issuesTemp = await issueModel.find(query).sort(sortCriteria);
         
         const issues = issuesTemp.filter(issue => issue._id.toString().includes(issueCodeKeyword));
         
@@ -131,7 +141,9 @@ controller.show = async (req, res) => {
             Status: ['Assigned', 'Closed', 'Deferred', 'Duplicate', 'Fixed', 'Invalid', 'New', 'Open', 'Reopen', 'Retest', 'Verified'],
             Priorities: ['Show stopper', 'High', 'Medium', 'Low'],
             BugTypes: ['Not Applicable', 'UI/Design', 'Performance', 'Validations', 'Functionality', 'SEO', 'Console Error', 'Server Error', 'Tracking'],
-            Environments: ['QA', 'Staging', 'Development', 'Production', 'UAT']
+            Environments: ['QA', 'Staging', 'Development', 'Production', 'UAT'],
+            sortField,
+            sortOrder
 
         };
 

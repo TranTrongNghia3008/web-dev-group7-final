@@ -137,3 +137,12 @@ document.addEventListener('DOMContentLoaded', function(even) {
     });
 
 }
+
+function toggleCheckAllTestCase(source) {
+  var checkboxes = document.querySelectorAll('.code-test-case-item');
+  checkboxes.forEach(function(checkbox) {
+      if (checkbox !== source) {
+          checkbox.checked = source.checked;
+      }
+  });
+}
