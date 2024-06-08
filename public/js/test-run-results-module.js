@@ -320,3 +320,12 @@
   });
 
 }
+
+function toggleCheckAllTestCase2(source) {
+  var checkboxes = document.querySelectorAll('.code-test-case-item-2');
+  checkboxes.forEach(function(checkbox) {
+      if (checkbox !== source) {
+          checkbox.checked = source.checked;
+      }
+  });
+}

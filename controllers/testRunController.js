@@ -136,6 +136,18 @@ controller.showResult = async (req, res) => {
         let testCaseKeyword = req.query.testCaseKeyword || '';
         let moduleKeyword = req.query.moduleKeyword || '';
 
+        // Lấy các tham số sắp xếp từ query params
+        const sortField = req.query.sortField || 'created-date';
+        const sortOrder = req.query.sortOrder || 'desc';
+        const sortCriteria = {};
+        if (sortField === 'created-date') {
+            sortCriteria.CreatedAt = sortOrder === 'desc' ? -1 : 1;
+        } else if (sortField === 'title') {
+            sortCriteria.Title = sortOrder === 'desc' ? -1 : 1;
+        } else if (sortField === 'case-code') {
+            sortCriteria._id = sortOrder === 'desc' ? -1 : 1;
+        }
+
        
         let modules = await moduleModel.find({ ProjectID: projectId, Name: { $regex: moduleKeyword, $options: 'i' } });
 
@@ -148,12 +160,12 @@ controller.showResult = async (req, res) => {
         let testCases, moduleName;
         if (moduleId !== 0) {
             // Nếu moduleId khác 0, chỉ lấy các test case có moduleId tương ứng
-            testCases = await testCaseModel.find({ ModuleID: moduleId, Title: { $regex: testCaseKeyword, $options: 'i' } });
+            testCases = await testCaseModel.find({ ModuleID: moduleId, Title: { $regex: testCaseKeyword, $options: 'i' } }).sort(sortCriteria);
             const module = await moduleModel.findById(moduleId).select('Name');
             moduleName = module.Name;
         } else {
             // Nếu moduleId là 0, lấy tất cả các test case
-            testCases = await testCaseModel.find({ Title: { $regex: testCaseKeyword, $options: 'i' } });
+            testCases = await testCaseModel.find({ Title: { $regex: testCaseKeyword, $options: 'i' } }).sort(sortCriteria);
             moduleName = "All Test Cases";
             testCaseCount = allTestCases.length;
         }
@@ -246,7 +258,9 @@ controller.showResult = async (req, res) => {
             testCaseCount: testCaseCount,
             Modules: JSON.stringify(modulesWithTestCaseCount),
             numProjectStatus: numProjectStatus,
-            numIssueStatus: numIssueStatus
+            numIssueStatus: numIssueStatus,
+            sortField,
+            sortOrder
         };
 
         // Gọi các view cần thiết và truyền dữ liệu vào

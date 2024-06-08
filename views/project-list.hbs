@@ -107,27 +107,44 @@
 
               <div class="row align-items-center">
                 <div class="col-md-8" id="search-bar">
-                  <div class="input-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Search By Project Name"
-                      aria-label="Search"
-                      id="search-input"
-                    />
-                    <button
-                      class="btn btn-outline-secondary"
-                      type="button"
-                      onclick="query()"
-                    >
-                      <i class="bi bi-search"></i>
-                    </button>
-                  </div>
+                  <form action="" class="search-Project  w-100">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search By Project Name"
+                          aria-label="Search"
+                          id="search-input"
+                          name="projectKeyword"
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="submit"
+                        >
+                          <i class="bi bi-search"></i>
+                        </button>
+          
+
+                    
+                    </div>
+                  </form>
+                   <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const form = document.querySelector('.search-project');
+                                form.addEventListener('submit', function(event) {
+                                    event.preventDefault(); 
+                                    const keyword = document.querySelector('input[name="projectKeyword"]').value;
+                                    const currentUrl = new URL(window.location.href);
+                                    currentUrl.searchParams.set('projectKeyword', keyword);
+                                    window.location.href = currentUrl.toString();
+                                });
+                            });
+                        </script>
                 </div>
 
-                <div class="col-md-4" id="filter-bar">
+                <div class="col-md-4 mt-3" id="filter-bar">
                   <div class="row">
-                    <div class="col-auto" id="filter-dropdown">
+                    {{!-- <div class="col-auto" id="filter-dropdown">
                       <div class="dropdown">
                         <button
                           class="btn btn-secondary dropdown-toggle"
@@ -155,9 +172,9 @@
                           <!-- <li><a class="dropdown-item" href="#" data-attribute="name">Project Name</a></li> -->
                         </ul>
                       </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="col-auto" id="sort">
+                    {{!-- <div class="col-auto" id="sort">
                       <button
                         id="sort-button"
                         class="btn btn-secondary"
@@ -166,7 +183,60 @@
                         <span id="sort-text">Ascending</span>
                         <i id="sort-icon" class="bi bi-arrow-up"></i>
                       </button>
-                    </div>
+                    </div> --}}
+                      <div class="mx-2 d-flex">
+                          <span class="my-auto">Sort</span>
+                          <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                              <select
+                                  name="sortField"
+                                  class="form-select border-0 rounded-0 rounded-start"
+                                  aria-label="Default select example"
+                                  style="width: 10rem"
+                              >
+                                  <option value="created-date" {{#if (eq sortField 'created-date')}}selected{{/if}}>Created Date</option>
+                                  <option value="title" {{#if (eq sortField 'title')}}selected{{/if}}>Project Name</option>
+                                  <option value="case-code" {{#if (eq sortField 'case-code')}}selected{{/if}}>Code</option>
+                              </select>
+                              <select
+                                  name="sortOrder"
+                                  class="form-select border-0 rounded-0 ms-1 rounded-end"
+                                  aria-label="Default select example"
+                                  style="width: 7rem"
+                              >
+                                  <option value="desc" {{#if (eq sortOrder 'desc')}}selected{{/if}}>Desc</option>
+                                  <option value="asc" {{#if (eq sortOrder 'asc')}}selected{{/if}}>Asc</option>
+                              </select>
+                          </form>
+                      </div>
+
+
+                      <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const sortForm = document.getElementById('form-sort');
+                            const sortFields = sortForm.querySelectorAll('select');
+
+                            sortFields.forEach(select => {
+                                select.addEventListener('change', function() {
+                                    // Lấy URL hiện tại
+                                    const currentUrl = new URL(window.location.href);
+                                    
+                                    // Lấy các tham số hiện tại từ URL
+                                    const params = new URLSearchParams(currentUrl.search);
+
+                                    // Cập nhật các tham số sắp xếp
+                                    sortFields.forEach(field => {
+                                        params.set(field.name, field.value);
+                                    });
+
+                                    // Tạo URL mới với các tham số đã cập nhật
+                                    const newUrl = `${currentUrl.pathname}?${params.toString()}`;
+
+                                    // Chuyển hướng đến URL mới
+                                    window.location.href = newUrl;
+                                });
+                            });
+                        });
+                      </script>
                   </div>
                 </div>
               </div>

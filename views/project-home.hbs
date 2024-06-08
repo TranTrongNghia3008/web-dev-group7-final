@@ -98,7 +98,21 @@
             <div
             class="container h-100 w-100 bg-white rounded p-2 position-relative"
             >
-            <h6>Open Release(s) Status</h6>
+            <h6 class="m-3">Open Release(s) Status</h6>
+            <div class="d-flex mb-2">
+            <canvas
+                id="chartOpenReleaseStatus"
+                style="
+                max-width: 8rem;
+                width: 8rem;
+                max-height: 8rem;
+                height: 8rem;
+                "
+                data-numOpenReleaseStatus="{{project.numOpenReleaseStatus}}"
+            ></canvas>
+            <div class="open-release-status-container row ms-2"></div>
+            </div>
+            {{!-- <h6>Open Release(s) Status</h6>
 
             <div
                 class="position-absolute top-50 start-50 translate-middle d-flex flex-row align-content-center"
@@ -109,7 +123,7 @@
                 <div class="d-flex align-items-center text-muted">
                 No status available
                 </div>
-            </div>
+            </div> --}}
             </div>
         </div>
         </div>

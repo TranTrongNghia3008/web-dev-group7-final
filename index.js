@@ -45,7 +45,8 @@ app.engine('hbs', expressHandlebars.engine({
             const nameParts = name.trim().split(' ');
             const initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
             return initials.substring(0, 2);
-        }   
+        },
+        eq: (a, b) => a === b,
     }
 }));
 

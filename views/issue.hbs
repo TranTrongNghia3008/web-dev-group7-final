@@ -566,28 +566,59 @@
                     <option value="3">100</option>
                 </select>
 
-                <div class="d-flex">
-                    <span class="my-auto ms-3">Sort</span>
-                    <form action="" class="mx-2 d-flex bg-white rounded">
-                    <select
-                        class="form-select border-0 rounded-0 rounded-start"
-                        aria-label="Default select example"
-                        style="width: 10rem"
-                    >
-                        <option value="created-date">Created date</option>
-                        <option value="title">Title</option>
-                        <option value="case-code">Case Code</option>
-                    </select>
-                    <select
-                        class="form-select border-0 rounded-0 ms-1 rounded-end"
-                        aria-label="Default select example"
-                        style="width: 7rem"
-                    >
-                        <option value="created-date">Desc</option>
-                        <option value="title">Asc</option>
-                    </select>
-                    </form>
-                </div>
+                    <div class="d-flex">
+                        <span class="my-auto">Sort</span>
+                        <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                            <select
+                                name="sortField"
+                                class="form-select border-0 rounded-0 rounded-start"
+                                aria-label="Default select example"
+                                style="width: 10rem"
+                            >
+                                <option value="created-date" {{#if (eq project.sortField 'created-date')}}selected{{/if}}>Created date</option>
+                                <option value="title" {{#if (eq project.sortField 'title')}}selected{{/if}}>Title</option>
+                                <option value="case-code" {{#if (eq project.sortField 'case-code')}}selected{{/if}}>Code</option>
+                            </select>
+                            <select
+                                name="sortOrder"
+                                class="form-select border-0 rounded-0 ms-1 rounded-end"
+                                aria-label="Default select example"
+                                style="width: 7rem"
+                            >
+                                <option value="desc" {{#if (eq project.sortOrder 'desc')}}selected{{/if}}>Desc</option>
+                                <option value="asc" {{#if (eq project.sortOrder 'asc')}}selected{{/if}}>Asc</option>
+                            </select>
+                        </form>
+                    </div>
+
+
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const sortForm = document.getElementById('form-sort');
+                        const sortFields = sortForm.querySelectorAll('select');
+
+                        sortFields.forEach(select => {
+                            select.addEventListener('change', function() {
+                                // Lấy URL hiện tại
+                                const currentUrl = new URL(window.location.href);
+                                
+                                // Lấy các tham số hiện tại từ URL
+                                const params = new URLSearchParams(currentUrl.search);
+
+                                // Cập nhật các tham số sắp xếp
+                                sortFields.forEach(field => {
+                                    params.set(field.name, field.value);
+                                });
+
+                                // Tạo URL mới với các tham số đã cập nhật
+                                const newUrl = `${currentUrl.pathname}?${params.toString()}`;
+
+                                // Chuyển hướng đến URL mới
+                                window.location.href = newUrl;
+                            });
+                        });
+                    });
+                    </script>
                 <form action="" class="search-issueCode  mx-2">
                     <input
                         type="text"
