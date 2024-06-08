@@ -43,7 +43,7 @@ controller.show = async (req, res) => {
         const releases = await releaseModel.find({ ProjectID: project._id });
         const releaseIds = releases.map(release => release._id);
 
-        const allRequirements = await requirementModel.find({ ReleaseID: { $in: releaseIds } });
+        const allRequirements = await requirementModel.find({ ReleaseID: { $in: releaseIds }, AssignTo: { $in: userIds }, });
 
 
         let requirements;

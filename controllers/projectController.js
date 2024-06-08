@@ -84,6 +84,13 @@ controller.showHome = async (req, res) => {
 
         const activities = await activityModel.find({ ModuleID: { $in: moduleIds } });
 
+        // Đếm số lượng test run theo status
+        const openReleaseStatus = ['Passed', 'Untested', 'Blocked', 'Retest', 'Failed', 'Not Applicable', 'In Progress', 'Hold'];
+        const numOpenReleaseStatus= openReleaseStatus.map(status => {
+            return testRuns.filter(testRun => testRun.Status === status).length;
+        });
+
+
         // Prepare the data to be sent to the view
         const projectData = {
             ProjectID: project._id,
@@ -99,7 +106,8 @@ controller.showHome = async (req, res) => {
             testRuns: testRuns.map(testRun => testRun._id),
             issues: issues.map(issue => issue._id),
             releases: releases.map(release => release._id),
-            activities: activities
+            activities: activities,
+            numOpenReleaseStatus: numOpenReleaseStatus
         };
         
         // Render the project home view with the project data
