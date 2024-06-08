@@ -1,7 +1,8 @@
 //Vẽ biểu đồ Project Status, Issue Status
 {
   const projectStatus = ['Passed', 'Untested', 'Blocked', 'Retest', 'Failed', 'Not Applicable', 'In Progress', 'Hold'];
-  const numProjectStatus = [1, 32, 0, 0, 1, 0, 0, 0];
+  const numProjectStatus = document.getElementById('chartProjectStatus').getAttribute('data-numProjectStatus').split(',');
+ 
   const barColorsProjectStatus = [
   "rgb(92, 184, 92)",
   "rgb(70, 191, 189)",
@@ -98,7 +99,7 @@
 
 
   const issueStatus = ['New', 'Assigned', 'Open', 'Fixed', 'Retest', 'Verified', 'Reopen', 'Closed', 'Duplicate', 'Invalid', 'Deferred'];
-  var numIssueStatus = [1, 4, 6, 8, 1, 3, 1, 8, 2, 2, 4]; // Số lượng vấn đề cho mỗi trạng thái
+  const numIssueStatus = document.getElementById('chartIssueStatus').getAttribute('data-numIssueStatus').split(',');
   const barColorsIssueStatus = [
       "#3498db", // New - Xanh dương
       "#9b59b6", // Assigned - Tím
@@ -144,90 +145,90 @@
 
 //Tạo cart Modules
 
-{
-    // Mảng module và số lượng test case tương ứng
-  const modules = ['Contact', 'Blog', 'Pricing', 'Footer Section', 'Header Section', 'Home Page'];
-  const testCaseCount = [3, 4, 5, 6, 6, 10];
+// {
+//     // Mảng module và số lượng test case tương ứng
+//   const modules = ['Contact', 'Blog', 'Pricing', 'Footer Section', 'Header Section', 'Home Page'];
+//   const testCaseCount = [3, 4, 5, 6, 6, 10];
 
-  let totalTestCases = 0;
+//   let totalTestCases = 0;
 
-  // Duyệt qua từng phần tử trong mảng và cộng dồn vào biến totalTestCases
-  for (let i = 0; i < testCaseCount.length; i++) {
-      totalTestCases += testCaseCount[i];
-  }
+//   // Duyệt qua từng phần tử trong mảng và cộng dồn vào biến totalTestCases
+//   for (let i = 0; i < testCaseCount.length; i++) {
+//       totalTestCases += testCaseCount[i];
+//   }
 
-  document.getElementById('totalTestCases').textContent = totalTestCases;
+//   document.getElementById('totalTestCases').textContent = totalTestCases;
 
-  // Lặp qua mảng module để tạo các thẻ button
-  const listGroup = document.querySelector('.list-modules');
-  for (let i = 0; i < modules.length; i++) {
-      // Tạo thẻ button
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'list-group-item list-group-item-action border-0';
+//   // Lặp qua mảng module để tạo các thẻ button
+//   const listGroup = document.querySelector('.list-modules');
+//   for (let i = 0; i < modules.length; i++) {
+//       // Tạo thẻ button
+//       const button = document.createElement('button');
+//       button.type = 'button';
+//       button.className = 'list-group-item list-group-item-action border-0';
 
-      // Tạo icon
-      const icon = document.createElement('i');
-      icon.className = 'bi bi-folder2 me-2';
-      button.appendChild(icon);
+//       // Tạo icon
+//       const icon = document.createElement('i');
+//       icon.className = 'bi bi-folder2 me-2';
+//       button.appendChild(icon);
 
-      // Thêm tên module
-      const spanModule = document.createElement('span');
-      spanModule.className = 'me-2';
-      spanModule.textContent = modules[i];
-      button.appendChild(spanModule);
+//       // Thêm tên module
+//       const spanModule = document.createElement('span');
+//       spanModule.className = 'me-2';
+//       spanModule.textContent = modules[i];
+//       button.appendChild(spanModule);
 
-      // Thêm số lượng test case
-      const spanCount = document.createElement('span');
-      spanCount.className = 'num';
-      spanCount.textContent = '(' + testCaseCount[i] + ')';
-      button.appendChild(spanCount);
+//       // Thêm số lượng test case
+//       const spanCount = document.createElement('span');
+//       spanCount.className = 'num';
+//       spanCount.textContent = '(' + testCaseCount[i] + ')';
+//       button.appendChild(spanCount);
 
-      // Tạo tooltip cho hình ảnh total test cases
-      const tooltipTotalTestCases = document.createElement('a');
-      tooltipTotalTestCases.href = '#';
-      tooltipTotalTestCases.setAttribute('data-bs-toggle', 'tooltip');
-      tooltipTotalTestCases.title = 'Click to know Total Test Cases';
-      tooltipTotalTestCases.style.margin = '0 1rem';
-      const imgTotalTestCases = document.createElement('img');
-      imgTotalTestCases.src = '/images/total-test-cases.png';
-      imgTotalTestCases.alt = '';
-      imgTotalTestCases.style.width = '1rem';
-      imgTotalTestCases.style.height = '1rem';
-      tooltipTotalTestCases.appendChild(imgTotalTestCases);
-      button.appendChild(tooltipTotalTestCases);
+//       // Tạo tooltip cho hình ảnh total test cases
+//       const tooltipTotalTestCases = document.createElement('a');
+//       tooltipTotalTestCases.href = '#';
+//       tooltipTotalTestCases.setAttribute('data-bs-toggle', 'tooltip');
+//       tooltipTotalTestCases.title = 'Click to know Total Test Cases';
+//       tooltipTotalTestCases.style.margin = '0 1rem';
+//       const imgTotalTestCases = document.createElement('img');
+//       imgTotalTestCases.src = '/images/total-test-cases.png';
+//       imgTotalTestCases.alt = '';
+//       imgTotalTestCases.style.width = '1rem';
+//       imgTotalTestCases.style.height = '1rem';
+//       tooltipTotalTestCases.appendChild(imgTotalTestCases);
+//       button.appendChild(tooltipTotalTestCases);
 
-      // Tạo tooltip cho hình ảnh add
-      const tooltipAdd = document.createElement('a');
-      tooltipAdd.href = '#';
-      tooltipAdd.setAttribute('data-bs-toggle', 'tooltip');
-      tooltipAdd.title = 'Click here to add Newly created Test cases to the Test run';
-      const imgAdd = document.createElement('img');
-      imgAdd.src = '/images/add.svg';
-      imgAdd.alt = '';
-      imgAdd.style.width = '1rem';
-      imgAdd.style.height = '1rem';
-      tooltipAdd.appendChild(imgAdd);
-      button.appendChild(tooltipAdd);
+//       // Tạo tooltip cho hình ảnh add
+//       const tooltipAdd = document.createElement('a');
+//       tooltipAdd.href = '#';
+//       tooltipAdd.setAttribute('data-bs-toggle', 'tooltip');
+//       tooltipAdd.title = 'Click here to add Newly created Test cases to the Test run';
+//       const imgAdd = document.createElement('img');
+//       imgAdd.src = '/images/add.svg';
+//       imgAdd.alt = '';
+//       imgAdd.style.width = '1rem';
+//       imgAdd.style.height = '1rem';
+//       tooltipAdd.appendChild(imgAdd);
+//       button.appendChild(tooltipAdd);
 
-      // Thêm button vào list-group
-      listGroup.appendChild(button);
-  }
+//       // Thêm button vào list-group
+//       listGroup.appendChild(button);
+//   }
 
-  const buttons = document.querySelectorAll('.list-group-item');
-  const allTestCaseButton = document.querySelector('.all-test-case');
+//   const buttons = document.querySelectorAll('.list-group-item');
+//   const allTestCaseButton = document.querySelector('.all-test-case');
 
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        buttons.forEach(btn => btn.classList.remove('text-danger'));
-        button.classList.add('text-danger');
-      });
-    });
+//     buttons.forEach(button => {
+//       button.addEventListener('click', () => {
+//         buttons.forEach(btn => btn.classList.remove('text-danger'));
+//         button.classList.add('text-danger');
+//       });
+//     });
 
-    allTestCaseButton.addEventListener('click', () => {
-      buttons.forEach(btn => btn.classList.remove('text-danger'));
-    });
-}
+//     allTestCaseButton.addEventListener('click', () => {
+//       buttons.forEach(btn => btn.classList.remove('text-danger'));
+//     });
+// }
 
 //Tạo dropdown cho status
 {

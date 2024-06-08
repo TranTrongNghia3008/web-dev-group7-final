@@ -6,9 +6,10 @@ const reportModel = require('../models/reportModel');
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
+        let reportKeyword = req.query.reportKeyword || '';
 
         // Tìm tất cả các báo cáo thuộc project đó
-        const reports = await reportModel.find({ ProjectID: projectId });
+        const reports = await reportModel.find({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' } });
 
         // Gói dữ liệu trong projectData
         const projectData = {

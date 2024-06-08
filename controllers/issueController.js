@@ -9,25 +9,86 @@ const testPlanModel = require('../models/testPlanModel');
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
 const userModel = require('../models/userModel');
+const mongoose = require('mongoose');
+const Module = require('../models/moduleModel');
+const Release = require('../models/releaseModel');
 
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
+        let issueTitleKeyword = req.query.issueTitleKeyword || '';
+        let issueCodeKeyword = req.query.issueCodeKeyword || '';
+
+
+        const categoryFilter = req.query.category ? req.query.category.split(',') : [];
+        const statusFilter = req.query.status ? req.query.status.split(',') : [];
+        const priorityFilter = req.query.priority ? req.query.priority.split(',') : [];
+        const bugTypeFilter = req.query.bugType ? req.query.bugType.split(',') : [];
+        const assigneeFilter = req.query.assignee ? req.query.assignee.split(',') : [];
+        const createdByFilter = req.query.createdBy ? req.query.createdBy.split(',') : [];
+        const environmentFilter = req.query.environment ? req.query.environment.split(',') : [];
+        const releaseFilter = req.query.release ? req.query.release.split(',') : [];
+        const moduleFilter = req.query.module ? req.query.module.split(',') : [];
+
+
 
         // Tìm tất cả các module thuộc project đó
-        const modules = await moduleModel.find({ ProjectID: projectId });
+        const allModules = await moduleModel.find({ ProjectID: projectId });
+        let modules;
+        if (moduleFilter.length > 0) modules = await moduleModel.find({ ProjectID: projectId, _id: { $in: moduleFilter } })
+        else  modules = allModules;
         const moduleIds = modules.map(module => module._id);
 
-        const testCases = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+        // const testCases = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+
+        let testCases;
+        if (releaseFilter.length > 0) {
+
+
+            const requirements = await requirementModel.find({ ReleaseID: { $in: releaseFilter } });
+            const requirementIds = requirements.map(requirement => requirement._id);
+
+            // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc dự án đó
+            const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
+            const testPlanIds = testPlans.map(testPlan => testPlan._id);
+
+
+            testCases = await testCaseModel.find({ 
+                ModuleID: { $in: moduleIds }, 
+                TestPlanID: { $in: testPlanIds } 
+            });
+        } else {
+            testCases = await testCaseModel.find({ 
+                ModuleID: { $in: moduleIds }, 
+            });
+        }
         const testCaseIds = testCases.map(testCase => testCase._id);
 
         // Tìm tất cả các test run thuộc các test case thuộc project đó
         const testRuns = await testRunModel.find({ TestCaseID: { $in: testCaseIds } });
         const testRunIds = testRuns.map(testRun => testRun._id);
 
-        // Tìm tất cả các issue thuộc các test run thuộc project đó
-        const issues = await issueModel.find({ TestRunID: { $in: testRunIds } });
+        // Tạo đối tượng query cho MongoDB
+        let query = { 
+            TestRunID: { $in: testRunIds },
+            Title: { $regex: issueTitleKeyword, $options: 'i' }
+        };
+
+        // Áp dụng các bộ lọc
+        if (categoryFilter.length > 0) query.Category = { $in: categoryFilter };
+        if (statusFilter.length > 0) query.Status = { $in: statusFilter };
+        if (priorityFilter.length > 0) query.Priority = { $in: priorityFilter };
+        if (bugTypeFilter.length > 0) query.IssueType = { $in: bugTypeFilter };
+        if (assigneeFilter.length > 0) query.AssignedTo = { $in: assigneeFilter };
+        if (createdByFilter.length > 0) query.CreatedBy = { $in: createdByFilter };
+        if (environmentFilter.length > 0) query.Environment = { $in: environmentFilter };
+
+        const issuesTemp = await issueModel.find(query);
+        
+        const issues = issuesTemp.filter(issue => issue._id.toString().includes(issueCodeKeyword));
+        
+
 
         // Tạo một danh sách các userId để tìm kiếm thông tin người được giao
         const assignToIds = issues.map(issue => issue.AssignedTo);
@@ -56,10 +117,22 @@ controller.show = async (req, res) => {
             };
         });
 
+        const releases = await releaseModel.find({ ProjectID: projectId });
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            Issues: issuesWithUser
+            Issues: issuesWithUser,
+            Modules: allModules,
+            UserAssigns: userAssigns,
+            UserCreates: userCreates,
+            Releases: releases,
+            Categories: ['Bug', 'Task', 'Subtask'],
+            Status: ['Assigned', 'Closed', 'Deferred', 'Duplicate', 'Fixed', 'Invalid', 'New', 'Open', 'Reopen', 'Retest', 'Verified'],
+            Priorities: ['Show stopper', 'High', 'Medium', 'Low'],
+            BugTypes: ['Not Applicable', 'UI/Design', 'Performance', 'Validations', 'Functionality', 'SEO', 'Console Error', 'Server Error', 'Tracking'],
+            Environments: ['QA', 'Staging', 'Development', 'Production', 'UAT']
+
         };
 
         // Gọi view và truyền dữ liệu vào

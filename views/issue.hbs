@@ -588,22 +588,55 @@
                     </select>
                     </form>
                 </div>
-                <input
-                    type="text"
-                    class="form-control mx-2"
-                    placeholder="Search By Issues Id"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    style="width: 12rem"
-                />
-                <input
-                    type="text"
-                    class="form-control mx-2"
-                    placeholder="Search By Issues Id"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    style="width: 12rem"
-                />
+                <form action="" class="search-issueCode  mx-2">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search By Issues Code"
+                        aria-label="Recipient's username"
+                        aria-describedby="button-addon2"
+                        name="issueCodeKeyword"
+                        style="width: 12rem"
+                    />
+                </form>
+
+                <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form = document.querySelector('.search-issueCode');
+                            form.addEventListener('submit', function(event) {
+                                event.preventDefault(); 
+                                const keyword = document.querySelector('input[name="issueCodeKeyword"]').value;
+                                const currentUrl = new URL(window.location.href);
+                                currentUrl.searchParams.set('issueCodeKeyword', keyword);
+                                window.location.href = currentUrl.toString();
+                            });
+                        });
+                    </script>
+
+                <form action="" class="search-issueTitle  mx-2">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search By Issues Title"
+                        aria-label="Recipient's username"
+                        aria-describedby="button-addon2"
+                        name="issueTitleKeyword"
+                        style="width: 12rem"
+                    />
+                </form>
+
+                <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form = document.querySelector('.search-issueTitle');
+                            form.addEventListener('submit', function(event) {
+                                event.preventDefault(); 
+                                const keyword = document.querySelector('input[name="issueTitleKeyword"]').value;
+                                const currentUrl = new URL(window.location.href);
+                                currentUrl.searchParams.set('issueTitleKeyword', keyword);
+                                window.location.href = currentUrl.toString();
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="d-flex my-auto justify-content-end">
                 <button
@@ -638,7 +671,7 @@
                             type="checkbox"
                             value=""
                             id="code"
-                            onchange="toggleCheckAll(this)"
+                            onchange="toggleCheckAllIssue(this)"
                         />
                         <label class="form-check-label" for="code"
                             >Code</label
@@ -660,12 +693,12 @@
                     <td scope="col" class="align-middle">
                         <div class="form-check">
                         <input
-                            class="form-check-input code-item"
+                            class="form-check-input code-issue-item"
                             type="checkbox"
                             value=""
-                            id="code-item"
+                            id="code-issue-item"
                         />
-                        <label class="form-check-label" for="code-item"
+                        <label class="form-check-label" for="code-issue-item"
                             ><i
                             class="bi bi-bug me-1"
                             style="color: orange"
@@ -781,54 +814,25 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.Categories}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input category-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{this}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Bug
+                            {{this}}
                         </label>
                         </div>
                     </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input category-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Task
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input category-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Subtask
-                        </label>
-                        </div>
-                    </li>
+                    {{/each}}
+                    
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -845,166 +849,26 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.Status}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input status-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{this}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Assgined
+                            {{this}}
                         </label>
                         </div>
                     </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Closed
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Deferred
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Duplicate
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Fixed
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Invalid
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            New
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Reopen
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Retest
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input status-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Verified
-                        </label>
-                        </div>
-                    </li>
+                    {{/each}}
+                    
+                    
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -1021,70 +885,25 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.Priorities}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input priority-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{this}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Show stopper
+                            {{this}}
                         </label>
                         </div>
                     </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input priority-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Hight
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input priority-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Medium
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input priority-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Low
-                        </label>
-                        </div>
-                    </li>
+                    {{/each}}
+                  
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -1101,218 +920,28 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.BugTypes}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input bug-type-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{this}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Validation
+                            {{this}}
                         </label>
                         </div>
                     </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input bug-type-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Functionality
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input bug-type-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            SEO
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input bug-type-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Console Error
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input bug-type-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Server Error
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input bug-type-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Tracking
-                        </label>
-                        </div>
-                    </li>
+                    {{/each}}
+                   
                     </ul>
                 </div>
-                <div class="dropdown mb-2">
-                    <button
-                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    >
-                    Operating systems (<span class="num-operating-systems"
-                        >0</span
-                    >)
-                    </button>
-                    <ul
-                    class="dropdown-menu px-2"
-                    aria-labelledby="dropdownMenuButton1"
-                    >
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input operating-systems-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            All
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input operating-systems-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Mac os
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input operating-systems-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Ipad
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input operating-systems-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Iphone
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input operating-systems-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Android
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input operating-systems-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Windows os
-                        </label>
-                        </div>
-                    </li>
-                    </ul>
-                </div>
+                
                 <div class="dropdown mb-2">
                     <button
                     class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
@@ -1343,22 +972,24 @@
                         </label>
                         </div>
                     </li>
+                    {{#each project.UserAssigns}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input assignee-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{_id}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Minh-Nhat Nguyen
+                            {{Name}}
                         </label>
                         </div>
                     </li>
+                    {{/each}}
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -1375,22 +1006,24 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.UserCreates}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input created-by-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{_id}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Minh-Nhat Nguyen
+                            {{Name}}
                         </label>
                         </div>
                     </li>
+                    {{/each}}
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -1407,86 +1040,25 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.Environments}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input environment-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{this}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            qa
+                            {{this}}
                         </label>
                         </div>
                     </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input environment-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            staging
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input environment-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            development
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input environment-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            production
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input environment-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            uat
-                        </label>
-                        </div>
-                    </li>
+                    {{/each}}
+                    
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -1503,22 +1075,24 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.Releases}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input release-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{_id}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Web 7 ver 1.0
+                            {{Name}}
                         </label>
                         </div>
                     </li>
+                    {{/each}}
                     </ul>
                 </div>
                 <div class="dropdown mb-2">
@@ -1535,108 +1109,79 @@
                     class="dropdown-menu px-2"
                     aria-labelledby="dropdownMenuButton1"
                     >
+                    {{#each project.Modules}}
                     <li>
                         <div class="form-check">
                         <input
                             class="form-check-input module-checkbox"
                             type="checkbox"
-                            value=""
+                            value="{{_id}}"
                             id="flexCheckDefault"
                         />
                         <label
                             class="form-check-label"
                             for="flexCheckDefault"
                         >
-                            Home page
+                            {{Name}}
                         </label>
                         </div>
                     </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input module-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Header section
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input module-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Footer section
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input module-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Pricing
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input module-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Blog
-                        </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check">
-                        <input
-                            class="form-check-input module-checkbox"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexCheckDefault"
-                        >
-                            Contact
-                        </label>
-                        </div>
-                    </li>
+                    {{/each}}
                     </ul>
                 </div>
                 </div>
+                <div class="p-2">
+                    <button
+                    type="button"
+                    class="btn btn-danger w-100"
+                    id="applyFilters"
+                >
+                    Apply
+                </button>
+                </div>
             </div>
             </div>
+            <script>
+    function getCheckedValues(className) {
+        const checkboxes = document.querySelectorAll(`.${className}`);
+        let values = [];
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                values.push(checkbox.value);
+            }
+        });
+        return values.join(',');
+    }
+
+    document.getElementById('applyFilters').addEventListener('click', () => {
+        const category = getCheckedValues('category-checkbox');
+        const status = getCheckedValues('status-checkbox');
+        const priority = getCheckedValues('priority-checkbox');
+        const bugType = getCheckedValues('bug-type-checkbox');
+        const assignee = getCheckedValues('assignee-checkbox');
+        const createdBy = getCheckedValues('created-by-checkbox');
+        const environment = getCheckedValues('environment-checkbox');
+        const release = getCheckedValues('release-checkbox');
+        const module = getCheckedValues('module-checkbox');
+
+        let queryParams = [];
+        if (category) queryParams.push(`category=${category}`);
+        if (status) queryParams.push(`status=${status}`);
+        if (priority) queryParams.push(`priority=${priority}`);
+        if (bugType) queryParams.push(`bugType=${bugType}`);
+        if (assignee) queryParams.push(`assignee=${assignee}`);
+        if (createdBy) queryParams.push(`createdBy=${createdBy}`);
+        if (environment) queryParams.push(`environment=${environment}`);
+        if (release) queryParams.push(`release=${release}`);
+        if (module) queryParams.push(`module=${module}`);
+
+        const queryString = queryParams.join('&');
+        const currentUrl = window.location.href.split('?')[0]; // Lấy URL hiện tại mà không có query params
+        window.location.href = `${currentUrl}?${queryString}`;
+    });
+</script>
         </div>
         </div>
     </div>
+     <script src="/js/issues-view.js"></script>
 </div>

@@ -8,6 +8,7 @@ const releaseModel = require('../models/releaseModel');
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
+        let testPlanKeyword = req.query.testPlanKeyword || '';
 
         // Tìm release thuộc project đó
         const releases = await releaseModel.find({ ProjectID: projectId });
@@ -18,7 +19,7 @@ controller.show = async (req, res) => {
         const requirementIds = requirements.map(requirement => requirement._id);
         
         // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc project đó
-        const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
+        const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds }, Name: { $regex: testPlanKeyword, $options: 'i' } });
 
         // Gói dữ liệu trong projectData
         const projectData = {
