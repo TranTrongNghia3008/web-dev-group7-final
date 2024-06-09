@@ -77,10 +77,25 @@ controller.show = async (req, res) => {
             };
         });
 
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = issuesWithUser.length;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            Issues: issuesWithUser
+            Issues: issuesWithUser.slice(skip, skip + limit)
         };
 
         // Gọi view và truyền dữ liệu vào
