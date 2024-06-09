@@ -7,7 +7,7 @@ const router = express.Router({ mergeParams: true });
 
 
 router.get('/', controller.show);
-
+router.get('/:page', controller.show);
 
 
 
