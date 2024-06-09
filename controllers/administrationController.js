@@ -1,10 +1,18 @@
 'use strict';
 
 const controller = {};
+// const { where } = require('sequelize');
+// const models = require('../models');
+// const sequelize = require('sequelize');
+// const Op = sequelize.Op;
 const userModel = require('../models/userModel');
 
 controller.show = async (req, res) => {
-
+    let options = {};
+    // Sort
+    // let sortby = req.query.sortby || 'Name';
+    // let order = req.query.order || 'asc';
+    // options.order = [[sortby, order]];
 
 
     // Pagination
@@ -12,7 +20,6 @@ controller.show = async (req, res) => {
     let limit = 3;
     let skip = (page - 1) * limit;
 
-    let options = {};
     options.limit = limit;
     options.skip = skip;  
     console.log(options);
@@ -27,7 +34,6 @@ controller.show = async (req, res) => {
         totalRows: usersCount,
         queryParams: req.query
     };
-    console.log(res.locals.pagination);
 
 
     res.render('administration', { 
@@ -35,9 +41,10 @@ controller.show = async (req, res) => {
         header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                 <link rel="stylesheet" href="/css/administration-view.css" />`,
         d3: "selected-menu-item", 
-        data: users
+        data: users,
     });
 }
+
 
 controller.showAddUser = (req, res) => {
     

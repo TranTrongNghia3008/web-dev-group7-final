@@ -9,6 +9,12 @@ const userModel = require('../models/userModel');
 
 controller.show = async (req, res) => {
     try {
+        //pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+
+
         const projectId = req.params.projectId;
 
         // Lấy RequirementTypes từ query params và tách thành danh sách
@@ -85,10 +91,24 @@ controller.show = async (req, res) => {
             ProjectID: project._id,
             Users: users,
             requirementCount: allRequirements.length,
-            Requirements: requirements,
+            // requirementCount: requirements.length,
+            Requirements: requirements.slice(skip, skip + limit),
             RequirementTypes: requirementTypes,
             sortField,
             sortOrder
+        };
+        //console.log(page, " ", skip, " ", skip + limit);
+
+        // Only get the requirements for the current page
+
+
+        res.locals.pagination =
+        {
+            page: page,
+            limit: limit,
+            showing: projectData.Requirements.length,
+            totalRows: requirements.length,
+            queryParams: req.query
         };
 
         res.render('requirement', { 

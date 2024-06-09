@@ -67,6 +67,34 @@ controller.show = async (req, res) => {
             };
         });
 
+        // // Tìm tất cả các test case thuộc các module
+        // const testCasesFromModules = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+        // testCasesFromModules.forEach(testCase => {
+        //     testCaseIdsSet.add(testCase._id.toString()); // Chuyển đổi ID sang chuỗi để tránh sự khác biệt trong so sánh
+        // });
+
+        // // Chuyển lại set thành mảng các ID test case
+        // const uniqueTestCaseIds = Array.from(testCaseIdsSet);
+
+        // // Tìm tất cả các test case dựa trên các ID duy nhất đã thu thập
+        // const testCases = await testCaseModel.find({ _id: { $in: uniqueTestCaseIds } });
+
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = testCases.length;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
@@ -74,7 +102,7 @@ controller.show = async (req, res) => {
             ModuleID: moduleId,
             moduleName: moduleName,
             testCaseCount: testCaseCount,
-            TestCases: testCases,
+            TestCases: testCases.slice(skip, skip + limit),
             Modules: JSON.stringify(modulesWithTestCaseCount),
             sortField,
             sortOrder

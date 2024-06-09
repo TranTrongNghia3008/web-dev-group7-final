@@ -2,569 +2,380 @@
     {{>navigation}}
     <div class="container mb-3">
         <div class="row">
-        <div class="col left-col w-100 pe-0">
-            <div
-            class="issue-list-header container bg-white rounded-top border-bottom mt-3 py-3"
-            >
-            <div class="row container bg-white rounded pe-0">
-                <div class="col my-auto d-flex">
-                <span class="my-auto">Issues</span>
-                <div class="bg-danger-subtle px-2 mx-2 rounded">
-                    <span class="text-danger">{{project.Issues.length}}</span>
-                </div>
-                </div>
-                <div class="col d-flex justify-content-end pe-0">
-                <a href="#" class="mx-2 my-auto d-flex">
-                    <i class="bi bi-share me-2"></i>
-                    Share
-                </a>
-
-                <a href="#" class="mx-2 my-auto d-flex">
-                    <img
-                    src="/images/report.png"
-                    alt=""
-                    style="margin: 0 0.5rem; width: 1.2rem; height: 1.2rem"
-                    />
-                    Reports
-                </a>
-
-                <a href="#" class="mx-2 my-auto d-flex">
-                    <i class="bi bi-cloud-upload me-2"></i>
-                    Import
-                </a>
-
-                <button
-                    type="button"
-                    class="btn btn-danger mx-2 my-auto"
-                    style="width: 8rem"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addIssue"
-                >
-                    <i class="bi bi-plus"></i> Add Issue
-                </button>
-                <form action="" class="needs-validation" novalidate>
-                    <div
-                    class="modal fade"
-                    id="addIssue"
-                    tabindex="-1"
-                    aria-labelledby="exampleModalFullscreenLabel"
-                    style="display: none"
-                    aria-hidden="true"
-                    >
-                    <div class="modal-dialog modal-fullscreen">
-                        <div
-                        class="modal-content"
-                        style="margin-left: 300px; padding-right: 300px"
-                        >
-                        <div class="modal-header">
-                            <div>
-                            <h6 class="m-3">Add Issue</h6>
-                            <ul class="nav nav-underline menu-2">
-                                <li class="nav-item mx-2">
-                                <a
-                                    class="nav-link active border-danger"
-                                    aria-current="page"
-                                    href="#"
-                                    >Details</a
-                                >
-                                </li>
-                                <li class="nav-item mx-2">
-                                <a class="nav-link" href="#">Attachment</a>
-                                </li>
-                                <li class="nav-item mx-2">
-                                <a class="nav-link" href="#"
-                                    >Custom Fields</a
-                                >
-                                </li>
-                                <li class="nav-item mx-2">
-                                <a class="nav-link" href="#">Others</a>
-                                </li>
-                            </ul>
+            <div class="col left-col w-100 pe-0">
+                <div class="issue-list-header container bg-white rounded-top border-bottom mt-3 py-3">
+                    <div class="row container bg-white rounded pe-0">
+                        <div class="col my-auto d-flex">
+                            <span class="my-auto">Issues</span>
+                            <div class="bg-danger-subtle px-2 mx-2 rounded">
+                                <span class="text-danger">{{project.Issues.length}}</span>
                             </div>
-
-                            <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            ></button>
                         </div>
-                        <div class="modal-body px-5">
-                            <div class="container">
-                            <div class="row row-cols-md-2">
-                                <div class="col mb-3">
-                                <label for="fIssueTitle" class="form-label"
-                                    >Issue Title
-                                    <span class="text-danger">*</span></label
-                                >
-                                <textarea
-                                    class="form-control"
-                                    id="fIssueTitle"
-                                    rows="3"
-                                    name="issue-title"
-                                    placeholder="Enter Issue Title"
-                                    required
-                                ></textarea>
-                                <div class="invalid-feedback">
-                                    Please Enter Issue Title.
-                                </div>
-                                </div>
-                                <div class="col mb-3">
-                                <label
-                                    for="fIssueDescription"
-                                    class="form-label"
-                                    >Description</label
-                                >
-                                <div class="rounded-top border d-flex p-2">
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-type-bold"></i>
-                                    </button>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-type-italic"></i>
-                                    </button>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-link"></i>
-                                    </button>
-                                    <form action="">
-                                    <select
-                                        class="form-select border-0"
-                                        aria-label="Default select example"
-                                        style="width: 8rem"
-                                    >
-                                        <option selected>Normal</option>
-                                        <option value="1">Small</option>
-                                        <option value="2">Normal</option>
-                                        <option value="3">Large</option>
-                                    </select>
-                                    </form>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-list-ol"></i>
-                                    </button>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-list-ul"></i>
-                                    </button>
-                                </div>
-                                <textarea
-                                    class="form-control rounded-top-0"
-                                    id="fIssueDescription"
-                                    rows="5"
-                                    name="issue-description"
-                                    placeholder="Insert text here..."
-                                ></textarea>
-                                </div>
-                            </div>
-                            <div class="row row-cols-md-3">
-                                <div class="col mb-3">
-                                <label for="fCategory" class="form-label"
-                                    >Category
-                                    <span class="text-danger">*</span></label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistCategory"
-                                    id="fCategory"
-                                    name="category"
-                                    placeholder="Select a Category"
-                                    required
-                                />
-                                <datalist id="datalistCategory">
-                                    <option value="Bug"></option>
-                                    <option value="Task"></option>
-                                    <option value="Subtask"></option>
-                                </datalist>
+                        <div class="col d-flex justify-content-end pe-0">
+                            <a href="#" class="mx-2 my-auto d-flex">
+                                <i class="bi bi-share me-2"></i>
+                                Share
+                            </a>
 
-                                <div class="invalid-feedback">
-                                    Please Select a Category.
-                                </div>
-                                </div>
-                                <div class="col mb-3">
-                                <label for="fStatus" class="form-label"
-                                    >Status
-                                    <span class="text-danger">*</span></label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistStatus"
-                                    id="fStatus"
-                                    name="status"
-                                    placeholder="Select a Status"
-                                    required
-                                />
-                                <datalist id="datalistStatus">
-                                    <option value="Assigned"></option>
-                                    <option value="Closed"></option>
-                                    <option value="Deferred"></option>
-                                    <option value="Duplicate"></option>
-                                    <option value="Fixed"></option>
-                                    <option value="Invalid"></option>
-                                    <option value="New"></option>
-                                    <option value="Open"></option>
-                                    <option value="Reopen"></option>
-                                    <option value="Retest"></option>
-                                    <option value="Verified"></option>
-                                </datalist>
+                            <a href="#" class="mx-2 my-auto d-flex">
+                                <img src="/images/report.png" alt=""
+                                    style="margin: 0 0.5rem; width: 1.2rem; height: 1.2rem" />
+                                Reports
+                            </a>
 
-                                <div class="invalid-feedback">
-                                    Please Select a Status.
-                                </div>
-                                </div>
+                            <a href="#" class="mx-2 my-auto d-flex">
+                                <i class="bi bi-cloud-upload me-2"></i>
+                                Import
+                            </a>
 
-                                <div class="col mb-3">
-                                <label for="fPriority" class="form-label"
-                                    >Priority
-                                    <span class="text-danger">*</span></label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistPriority"
-                                    id="fPriority"
-                                    name="priority"
-                                    placeholder="Select a Priority"
-                                    required
-                                />
-                                <datalist id="datalistPriority">
-                                    <option value="Show topper"></option>
-                                    <option value="Hight"></option>
-                                    <option value="Medium"></option>
-                                    <option value="Low"></option>
-                                </datalist>
+                            <button type="button" class="btn btn-danger mx-2 my-auto" style="width: 8rem"
+                                data-bs-toggle="modal" data-bs-target="#addIssue">
+                                <i class="bi bi-plus"></i> Add Issue
+                            </button>
+                            <form action="" class="needs-validation" novalidate>
+                                <div class="modal fade" id="addIssue" tabindex="-1"
+                                    aria-labelledby="exampleModalFullscreenLabel" style="display: none"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-fullscreen">
+                                        <div class="modal-content" style="margin-left: 300px; padding-right: 300px">
+                                            <div class="modal-header">
+                                                <div>
+                                                    <h6 class="m-3">Add Issue</h6>
+                                                    <ul class="nav nav-underline menu-2">
+                                                        <li class="nav-item mx-2">
+                                                            <a class="nav-link active border-danger" aria-current="page"
+                                                                href="#">Details</a>
+                                                        </li>
+                                                        <li class="nav-item mx-2">
+                                                            <a class="nav-link" href="#">Attachment</a>
+                                                        </li>
+                                                        <li class="nav-item mx-2">
+                                                            <a class="nav-link" href="#">Custom Fields</a>
+                                                        </li>
+                                                        <li class="nav-item mx-2">
+                                                            <a class="nav-link" href="#">Others</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
 
-                                <div class="invalid-feedback">
-                                    Please Select a Priority.
-                                </div>
-                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body px-5">
+                                                <div class="container">
+                                                    <div class="row row-cols-md-2">
+                                                        <div class="col mb-3">
+                                                            <label for="fIssueTitle" class="form-label">Issue Title
+                                                                <span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="fIssueTitle" rows="3"
+                                                                name="issue-title" placeholder="Enter Issue Title"
+                                                                required></textarea>
+                                                            <div class="invalid-feedback">
+                                                                Please Enter Issue Title.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col mb-3">
+                                                            <label for="fIssueDescription"
+                                                                class="form-label">Description</label>
+                                                            <div class="rounded-top border d-flex p-2">
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-type-bold"></i>
+                                                                </button>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-type-italic"></i>
+                                                                </button>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-link"></i>
+                                                                </button>
+                                                                <form action="">
+                                                                    <select class="form-select border-0"
+                                                                        aria-label="Default select example"
+                                                                        style="width: 8rem">
+                                                                        <option selected>Normal</option>
+                                                                        <option value="1">Small</option>
+                                                                        <option value="2">Normal</option>
+                                                                        <option value="3">Large</option>
+                                                                    </select>
+                                                                </form>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-list-ol"></i>
+                                                                </button>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-list-ul"></i>
+                                                                </button>
+                                                            </div>
+                                                            <textarea class="form-control rounded-top-0"
+                                                                id="fIssueDescription" rows="5" name="issue-description"
+                                                                placeholder="Insert text here..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-cols-md-3">
+                                                        <div class="col mb-3">
+                                                            <label for="fCategory" class="form-label">Category
+                                                                <span class="text-danger">*</span></label>
+                                                            <input class="form-control" list="datalistCategory"
+                                                                id="fCategory" name="category"
+                                                                placeholder="Select a Category" required />
+                                                            <datalist id="datalistCategory">
+                                                                <option value="Bug"></option>
+                                                                <option value="Task"></option>
+                                                                <option value="Subtask"></option>
+                                                            </datalist>
 
-                                <div class="col mb-3">
-                                <label for="fIssueType" class="form-label"
-                                    >Issue Type</label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistIssueType"
-                                    id="fIssueType"
-                                    name="issue-type"
-                                    placeholder="Select a Issue Type"
-                                />
-                                <datalist id="datalistIssueType">
-                                    <option value="Not Applicable"></option>
-                                    <option value="UI/Design"></option>
-                                    <option value="Performance"></option>
-                                    <option value="Validations"></option>
-                                    <option value="Functionality"></option>
-                                    <option value="SEO"></option>
-                                    <option value="Console Error"></option>
-                                    <option value="Server Error"></option>
-                                    <option value="Tracking"></option>
-                                </datalist>
-                                </div>
+                                                            <div class="invalid-feedback">
+                                                                Please Select a Category.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col mb-3">
+                                                            <label for="fStatus" class="form-label">Status
+                                                                <span class="text-danger">*</span></label>
+                                                            <input class="form-control" list="datalistStatus"
+                                                                id="fStatus" name="status" placeholder="Select a Status"
+                                                                required />
+                                                            <datalist id="datalistStatus">
+                                                                <option value="Assigned"></option>
+                                                                <option value="Closed"></option>
+                                                                <option value="Deferred"></option>
+                                                                <option value="Duplicate"></option>
+                                                                <option value="Fixed"></option>
+                                                                <option value="Invalid"></option>
+                                                                <option value="New"></option>
+                                                                <option value="Open"></option>
+                                                                <option value="Reopen"></option>
+                                                                <option value="Retest"></option>
+                                                                <option value="Verified"></option>
+                                                            </datalist>
 
-                                <div class="col mb-3">
-                                <label for="fAssignedTo" class="form-label"
-                                    >Assigned To</label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistAssignedTo"
-                                    id="fAssignedTo"
-                                    name="assigned-to"
-                                    placeholder="Select an Assigned To"
-                                />
-                                <datalist id="datalistAssignedTo">
-                                    <option value="Minh-Nhat Nguyen"></option>
-                                </datalist>
-                                </div>
+                                                            <div class="invalid-feedback">
+                                                                Please Select a Status.
+                                                            </div>
+                                                        </div>
 
-                                <div class="col mb-3">
-                                <label for="fModule" class="form-label"
-                                    >Module</label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistModule"
-                                    id="fModule"
-                                    name="module"
-                                    placeholder="Select a Module"
-                                />
-                                <datalist id="datalistModule">
-                                    <option value="Home page"></option>
-                                    <option value="Header section"></option>
-                                    <option value="Footer section"></option>
-                                    <option value="Pricing"></option>
-                                    <option value="Blog"></option>
-                                    <option value="Contact"></option>
-                                </datalist>
-                                </div>
+                                                        <div class="col mb-3">
+                                                            <label for="fPriority" class="form-label">Priority
+                                                                <span class="text-danger">*</span></label>
+                                                            <input class="form-control" list="datalistPriority"
+                                                                id="fPriority" name="priority"
+                                                                placeholder="Select a Priority" required />
+                                                            <datalist id="datalistPriority">
+                                                                <option value="Show topper"></option>
+                                                                <option value="Hight"></option>
+                                                                <option value="Medium"></option>
+                                                                <option value="Low"></option>
+                                                            </datalist>
 
-                                <div class="col mb-3">
-                                <label for="fSeverity" class="form-label"
-                                    >Severity</label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistSeverity"
-                                    id="fSeverity"
-                                    name="severity"
-                                    placeholder="Select a Severity"
-                                />
-                                <datalist id="datalistSeverity">
-                                    <option value="Critical"></option>
-                                    <option value="Blocker"></option>
-                                    <option value="Major"></option>
-                                    <option value="Minor"></option>
-                                    <option value="Trivial"></option>
-                                </datalist>
-                                </div>
+                                                            <div class="invalid-feedback">
+                                                                Please Select a Priority.
+                                                            </div>
+                                                        </div>
 
-                                <div class="col mb-3">
-                                <label for="fEnvironment" class="form-label"
-                                    >Environment
-                                </label>
-                                <input
-                                    class="form-control"
-                                    list="datalistEnvironment"
-                                    id="fEnvironment"
-                                    name="environment"
-                                    placeholder="Select an Environment"
-                                />
-                                <datalist id="datalistEnvironment">
-                                    <option
-                                    value="Sorry, no matching options."
-                                    ></option>
-                                </datalist>
-                                </div>
+                                                        <div class="col mb-3">
+                                                            <label for="fIssueType" class="form-label">Issue
+                                                                Type</label>
+                                                            <input class="form-control" list="datalistIssueType"
+                                                                id="fIssueType" name="issue-type"
+                                                                placeholder="Select a Issue Type" />
+                                                            <datalist id="datalistIssueType">
+                                                                <option value="Not Applicable"></option>
+                                                                <option value="UI/Design"></option>
+                                                                <option value="Performance"></option>
+                                                                <option value="Validations"></option>
+                                                                <option value="Functionality"></option>
+                                                                <option value="SEO"></option>
+                                                                <option value="Console Error"></option>
+                                                                <option value="Server Error"></option>
+                                                                <option value="Tracking"></option>
+                                                            </datalist>
+                                                        </div>
 
-                                <div class="col mb-3">
-                                <label for="fRelease" class="form-label"
-                                    >Release</label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistRelease"
-                                    id="fRelease"
-                                    name="release"
-                                    placeholder="Select a Release"
-                                />
-                                <datalist id="datalistRelease">
-                                    <option value="Web 7 ver 1.0"></option>
-                                </datalist>
-                                </div>
+                                                        <div class="col mb-3">
+                                                            <label for="fAssignedTo" class="form-label">Assigned
+                                                                To</label>
+                                                            <input class="form-control" list="datalistAssignedTo"
+                                                                id="fAssignedTo" name="assigned-to"
+                                                                placeholder="Select an Assigned To" />
+                                                            <datalist id="datalistAssignedTo">
+                                                                <option value="Minh-Nhat Nguyen"></option>
+                                                            </datalist>
+                                                        </div>
 
-                                <div class="col mb-3">
-                                <label
-                                    for="fOperatingSystems"
-                                    class="form-label"
-                                    >Operating systems</label
-                                >
-                                <input
-                                    class="form-control"
-                                    list="datalistOperatingSystems"
-                                    id="fOperatingSystems"
-                                    name="operating-systems"
-                                    placeholder="Select Operating systems"
-                                />
-                                <datalist id="datalistOperatingSystems">
-                                    <option value="All"></option>
-                                    <option value="Mac os"></option>
-                                    <option value="Ipad"></option>
-                                    <option value="Iphone"></option>
-                                    <option value="Android"></option>
-                                    <option value="Windows os"></option>
-                                </datalist>
-                                </div>
-                                <div class="col-2 mb-3">
-                                <p class="mb-2">Due date</p>
-                                <div class="row row-cols-md-2">
-                                    <div class="col d-flex">
-                                    <label
-                                        for="startDay"
-                                        class="my-auto me-2"
-                                        >From</label
-                                    >
-                                    <input
-                                        class="form-control"
-                                        type="date"
-                                        id="startDay"
-                                        name="start-day"
-                                    />
-                                    </div>
-                                    <div class="col d-flex">
-                                    <label for="endDay" class="my-auto me-2"
-                                        >To</label
-                                    >
-                                    <input
-                                        class="form-control"
-                                        type="date"
-                                        id="endDay"
-                                        name="end-day"
-                                    />
+                                                        <div class="col mb-3">
+                                                            <label for="fModule" class="form-label">Module</label>
+                                                            <input class="form-control" list="datalistModule"
+                                                                id="fModule" name="module"
+                                                                placeholder="Select a Module" />
+                                                            <datalist id="datalistModule">
+                                                                <option value="Home page"></option>
+                                                                <option value="Header section"></option>
+                                                                <option value="Footer section"></option>
+                                                                <option value="Pricing"></option>
+                                                                <option value="Blog"></option>
+                                                                <option value="Contact"></option>
+                                                            </datalist>
+                                                        </div>
+
+                                                        <div class="col mb-3">
+                                                            <label for="fSeverity" class="form-label">Severity</label>
+                                                            <input class="form-control" list="datalistSeverity"
+                                                                id="fSeverity" name="severity"
+                                                                placeholder="Select a Severity" />
+                                                            <datalist id="datalistSeverity">
+                                                                <option value="Critical"></option>
+                                                                <option value="Blocker"></option>
+                                                                <option value="Major"></option>
+                                                                <option value="Minor"></option>
+                                                                <option value="Trivial"></option>
+                                                            </datalist>
+                                                        </div>
+
+                                                        <div class="col mb-3">
+                                                            <label for="fEnvironment" class="form-label">Environment
+                                                            </label>
+                                                            <input class="form-control" list="datalistEnvironment"
+                                                                id="fEnvironment" name="environment"
+                                                                placeholder="Select an Environment" />
+                                                            <datalist id="datalistEnvironment">
+                                                                <option value="Sorry, no matching options."></option>
+                                                            </datalist>
+                                                        </div>
+
+                                                        <div class="col mb-3">
+                                                            <label for="fRelease" class="form-label">Release</label>
+                                                            <input class="form-control" list="datalistRelease"
+                                                                id="fRelease" name="release"
+                                                                placeholder="Select a Release" />
+                                                            <datalist id="datalistRelease">
+                                                                <option value="Web 7 ver 1.0"></option>
+                                                            </datalist>
+                                                        </div>
+
+                                                        <div class="col mb-3">
+                                                            <label for="fOperatingSystems" class="form-label">Operating
+                                                                systems</label>
+                                                            <input class="form-control" list="datalistOperatingSystems"
+                                                                id="fOperatingSystems" name="operating-systems"
+                                                                placeholder="Select Operating systems" />
+                                                            <datalist id="datalistOperatingSystems">
+                                                                <option value="All"></option>
+                                                                <option value="Mac os"></option>
+                                                                <option value="Ipad"></option>
+                                                                <option value="Iphone"></option>
+                                                                <option value="Android"></option>
+                                                                <option value="Windows os"></option>
+                                                            </datalist>
+                                                        </div>
+                                                        <div class="col-2 mb-3">
+                                                            <p class="mb-2">Due date</p>
+                                                            <div class="row row-cols-md-2">
+                                                                <div class="col d-flex">
+                                                                    <label for="startDay"
+                                                                        class="my-auto me-2">From</label>
+                                                                    <input class="form-control" type="date"
+                                                                        id="startDay" name="start-day" />
+                                                                </div>
+                                                                <div class="col d-flex">
+                                                                    <label for="endDay" class="my-auto me-2">To</label>
+                                                                    <input class="form-control" type="date" id="endDay"
+                                                                        name="end-day" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row row-cols-md-2">
+                                                        <div class="col mb-3">
+                                                            <label for="fStepsToReproduce" class="form-label">Steps to
+                                                                reproduce</label>
+                                                            <div class="rounded-top border d-flex p-2">
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-type-bold"></i>
+                                                                </button>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-type-italic"></i>
+                                                                </button>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-link"></i>
+                                                                </button>
+                                                                <select class="form-select border-0"
+                                                                    aria-label="Default select example"
+                                                                    style="width: 8rem">
+                                                                    <option selected>Normal</option>
+                                                                    <option value="1">Small</option>
+                                                                    <option value="2">Normal</option>
+                                                                    <option value="3">Large</option>
+                                                                </select>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-list-ol"></i>
+                                                                </button>
+                                                                <button type="button" class="bg-white border-0 mx-1">
+                                                                    <i class="bi bi-list-ul"></i>
+                                                                </button>
+                                                            </div>
+                                                            <textarea class="form-control rounded-top-0"
+                                                                id="fStepsToReproduce" rows="5"
+                                                                name="steps-to-reproduce"
+                                                                placeholder="Insert text here..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="right-side d-flex">
+                                                    <button type="button" class="btn btn-outline-danger mx-2"
+                                                        data-bs-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger mx-2">
+                                                        Save
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger mx-2">
+                                                        Save & Continue
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                            </div>
+                            </form>
 
-                            <div class="row row-cols-md-2">
-                                <div class="col mb-3">
-                                <label
-                                    for="fStepsToReproduce"
-                                    class="form-label"
-                                    >Steps to reproduce</label
-                                >
-                                <div class="rounded-top border d-flex p-2">
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-type-bold"></i>
-                                    </button>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-type-italic"></i>
-                                    </button>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-link"></i>
-                                    </button>
-                                    <select
-                                    class="form-select border-0"
-                                    aria-label="Default select example"
-                                    style="width: 8rem"
-                                    >
-                                    <option selected>Normal</option>
-                                    <option value="1">Small</option>
-                                    <option value="2">Normal</option>
-                                    <option value="3">Large</option>
-                                    </select>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-list-ol"></i>
-                                    </button>
-                                    <button
-                                    type="button"
-                                    class="bg-white border-0 mx-1"
-                                    >
-                                    <i class="bi bi-list-ul"></i>
-                                    </button>
+                            <a href="#" class="guide mx-2 my-auto">
+                                <div class="text-center">
+                                    <img src="/images/guide.png" alt="" style="width: 2rem" />
+                                    <br />
+                                    <span>Guide</span>
                                 </div>
-                                <textarea
-                                    class="form-control rounded-top-0"
-                                    id="fStepsToReproduce"
-                                    rows="5"
-                                    name="steps-to-reproduce"
-                                    placeholder="Insert text here..."
-                                ></textarea>
-                                </div>
+                            </a>
+
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-danger ms-2 my-auto rounded-end-0"
+                                    style="width: 6rem">
+                                    Classic
+                                </button>
+                                <button type="button" class="btn btn-outline-danger me-2 my-auto rounded-start-0"
+                                    style="width: 6rem">
+                                    Advanced
+                                </button>
                             </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="right-side d-flex">
-                            <button
-                                type="button"
-                                class="btn btn-outline-danger mx-2"
-                                data-bs-dismiss="modal"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                class="btn btn-danger mx-2"
-                            >
-                                Save
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-danger mx-2"
-                            >
-                                Save & Continue
-                            </button>
-                            </div>
-                        </div>
+                            <a href="#" class="mx-2 my-auto" data-bs-toggle="tooltip" title="Actions"><img
+                                    src="/images/9dots.png" alt="" style="width: 1.5rem; height: 1.5rem" /></a>
                         </div>
                     </div>
-                    </div>
-                </form>
-
-                <a href="#" class="guide mx-2 my-auto">
-                    <div class="text-center">
-                    <img
-                        src="/images/guide.png"
-                        alt=""
-                        style="width: 2rem"
-                    />
-                    <br />
-                    <span>Guide</span>
-                    </div>
-                </a>
-
-                <div class="d-flex">
-                    <button
-                    type="button"
-                    class="btn btn-danger ms-2 my-auto rounded-end-0"
-                    style="width: 6rem"
-                    >
-                    Classic
-                    </button>
-                    <button
-                    type="button"
-                    class="btn btn-outline-danger me-2 my-auto rounded-start-0"
-                    style="width: 6rem"
-                    >
-                    Advanced
-                    </button>
                 </div>
-                <a
-                    href="#"
-                    class="mx-2 my-auto"
-                    data-bs-toggle="tooltip"
-                    title="Actions"
-                    ><img
-                    src="/images/9dots.png"
-                    alt=""
-                    style="width: 1.5rem; height: 1.5rem"
-                /></a>
-                </div>
-            </div>
-            </div>
-            <div class="issue-list-body bg-white rounded-bottom">
-            <div class="above d-flex justify-content-between py-3 px-2">
-                <div class="w-25 d-flex">
-                <span class="my-auto">Show</span>
-                <select
-                    class="form-select mx-2 my-auto"
-                    style="
+                <div class="issue-list-body bg-white rounded-bottom">
+                    <div class="above d-flex justify-content-between py-3 px-2">
+                        <div class="w-25 d-flex">
+                            {{!-- <span class="my-auto">Show</span>
+                            <select class="form-select mx-2 my-auto" style="
                     background-color: #f5f5f5;
                     height: 2.5rem;
                     width: 6rem;
-                    "
-                    aria-label="Default select example"
-                >
-                    <option selected>10</option>
-                    <option value="1">20</option>
-                    <option value="2">30</option>
-                    <option value="3">50</option>
-                    <option value="3">100</option>
-                </select>
+                    " aria-label="Default select example">
+                                <option selected>10</option>
+                                <option value="1">20</option>
+                                <option value="2">30</option>
+                                <option value="3">50</option>
+                                <option value="3">100</option>
+                            </select> --}}
 
                     <div class="d-flex">
                         <span class="my-auto">Sort</span>
@@ -590,7 +401,6 @@
                             </select>
                         </form>
                     </div>
-
 
                     <script>
                     document.addEventListener('DOMContentLoaded', function() {
@@ -668,9 +478,11 @@
                             });
                         });
                     </script>
+                    
                 </div>
                 <div class="d-flex my-auto justify-content-end">
-                <button
+                {{!-- old --}}
+                {{!-- <button
                     class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
                     style="width: 2rem; height: 2rem"
                 >
@@ -687,7 +499,13 @@
                     style="width: 2rem; height: 2rem"
                 >
                     <i class="bi bi-chevron-compact-right m-auto"></i>
-                </button>
+                </button> --}}
+                </div>
+
+                {{!-- new --}}
+                <div class="d-flex my-auto justify-content-end">
+                            {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
                 </div>
             </div>
 
@@ -1171,7 +989,6 @@
                 </button>
                 </div>
             </div>
-            </div>
             <script>
     function getCheckedValues(className) {
         const checkboxes = document.querySelectorAll(`.${className}`);
@@ -1349,4 +1166,14 @@
             }
         };
     </script>
+{{!-- new --}}
+    <script>
+    document.querySelectorAll(".pagination li").forEach((li, index) => {
+        li.classList.add("page-item");
+    });
+
+    document.querySelectorAll(".pagination a").forEach(a => {
+        a.classList.add("page-link");
+    });
+</script>
 </div>

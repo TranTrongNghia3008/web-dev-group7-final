@@ -21,11 +21,28 @@ controller.show = async (req, res) => {
         // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc project đó
         const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds }, Name: { $regex: testPlanKeyword, $options: 'i' } });
 
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = testPlans.length;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            TestPlans: testPlans
+            TestPlans: testPlans.slice(skip, skip + limit)
         };
+
 
         // Gọi view và truyền dữ liệu vào
         res.render('test-plan', { 

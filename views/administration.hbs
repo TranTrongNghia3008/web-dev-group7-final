@@ -1,340 +1,275 @@
 <div class="content px-3">
     <ul class="nav nav-underline menu-2 d-flex">
-          <li class="nav-item">
-            <a
-              class="nav-link active border-danger mx-2"
-              href="#"
-              aria-current="page"
-              >User Management</a
-            >
-          </li>
-          <li class="nav-item">
+        <li class="nav-item">
+            <a class="nav-link active border-danger mx-2" href="#" aria-current="page">User Management</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">WorkSpace</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Role Management</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Site Settings</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Subscription</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Billing Address</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Custom Options</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Integration Settings</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Custom Fields</a>
-          </li>
-          <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link mx-2" href="#">Activity Log</a>
-          </li>
+        </li>
     </ul>
     <div class="container bg-white rounded my-3">
         <div class="row d-flex justify-content-between">
-        <div class="col my-auto">
-            <input
-            class="form-control"
-            list="datalistUserType"
-            id="userType"
-            placeholder="Select User Type"
-            style="width: 15rem"
-            />
-            <datalist id="datalistUserType">
-            <option value="Tester"></option>
-            <option value="Developer"></option>
-            <option value="Manager"></option>
-            <option value="Admin"></option>
-            </datalist>
-        </div>
-        <div class="col my-auto">
-            <select
-            class="form-select"
-            aria-label="Default select example"
-            style="width: 15rem"
-            >
-            <option selected value="All Users">All Users</option>
-            <option value="Active Users">Active Users</option>
-            <option value="Inactive Users">Inactive Users</option>
-            </select>
-        </div>
-        <div class="col right-side d-flex justify-content-end">
-            <a href="#" class="guide mx-2 my-auto">
-            <div class="text-center">
-                <img
-                src="/images/guide.png"
-                alt=""
-                style="width: 2rem"
-                />
-                <br />
-                <span>Guide</span>
+            <div class="col my-auto">
+                <input class="form-control" list="datalistUserType" id="userType" placeholder="Select User Type"
+                    style="width: 15rem" />
+                <datalist id="datalistUserType">
+                    <option value="Tester"></option>
+                    <option value="Developer"></option>
+                    <option value="Manager"></option>
+                    <option value="Admin"></option>
+                </datalist>
             </div>
-            </a>
+            <div class="col my-auto">
+                <select class="form-select" aria-label="Default select example" style="width: 15rem">
+                    <option selected value="All Users">All Users</option>
+                    <option value="Active Users">Active Users</option>
+                    <option value="Inactive Users">Inactive Users</option>
+                </select>
+            </div>
+            <div class="col right-side d-flex justify-content-end">
+                <a href="#" class="guide mx-2 my-auto">
+                    <div class="text-center">
+                        <img src="/images/guide.png" alt="" style="width: 2rem" />
+                        <br />
+                        <span>Guide</span>
+                    </div>
+                </a>
 
-            <a href="#" class="ms-2 my-auto d-flex" style="width: 8rem">
-            <i class="bi bi-cloud-upload me-2"></i>
-            Import Users
-            </a>
+                <a href="#" class="ms-2 my-auto d-flex" style="width: 8rem">
+                    <i class="bi bi-cloud-upload me-2"></i>
+                    Import Users
+                </a>
 
-            <a href="#" class="mx-2 my-auto d-flex">
-            <i class="bi bi-archive me-2"></i>
-            Archived
-            </a>
+                <a href="#" class="mx-2 my-auto d-flex">
+                    <i class="bi bi-archive me-2"></i>
+                    Archived
+                </a>
 
-            <button
-            type="button"
-            class="btn btn-danger ms-4 my-auto"
-            style="width: 8rem"
-            onclick="window.location.href = '/administration/add-user';"
-            >
-            <i class="bi bi-plus"></i> Add Users
-            </button>
+                <button type="button" class="btn btn-danger ms-4 my-auto" style="width: 8rem"
+                    onclick="window.location.href = '/administration/add-user';">
+                    <i class="bi bi-plus"></i> Add Users
+                </button>
 
-            <button
-            type="button"
-            class="btn btn-outline-danger ms-4 my-auto"
-            style="width: 8rem"
-            >
-            <i class="bi bi-cloud-download"></i> Export
-            </button>
-        </div>
+                <button type="button" class="btn btn-outline-danger ms-4 my-auto" style="width: 8rem">
+                    <i class="bi bi-cloud-download"></i> Export
+                </button>
+            </div>
         </div>
     </div>
 
     <div class="container d-flex mb-3">
         <div class="d-flex mx-3">
-        <div
-            class="rounded-circle shadow bg-body d-flex me-2"
-            style="width: 3rem; height: 3rem"
-        >
-            <i class="bi bi-people-fill m-auto text-danger fs-3"></i>
-        </div>
-        <div>
-            <strong>Total Users</strong>
-            <br />
-            <span class="num-total-users">{{data.length}}</span>
-        </div>
+            <div class="rounded-circle shadow bg-body d-flex me-2" style="width: 3rem; height: 3rem">
+                <i class="bi bi-people-fill m-auto text-danger fs-3"></i>
+            </div>
+            <div>
+                <strong>Total Users</strong>
+                <br />
+                <span class="num-total-users">{{data.length}}</span>
+            </div>
         </div>
         <div class="d-flex mx-3">
-        <div
-            class="rounded-circle shadow bg-body d-flex me-2"
-            style="width: 3rem; height: 3rem"
-        >
-            <i class="bi bi-person-check-fill m-auto text-success fs-3"></i>
-        </div>
-        <div>
-            <strong>Active Users</strong>
-            <br />
-            <span class="num-total-users">{{data.length}}</span>
-        </div>
+            <div class="rounded-circle shadow bg-body d-flex me-2" style="width: 3rem; height: 3rem">
+                <i class="bi bi-person-check-fill m-auto text-success fs-3"></i>
+            </div>
+            <div>
+                <strong>Active Users</strong>
+                <br />
+                <span class="num-total-users">{{data.length}}</span>
+            </div>
         </div>
         <div class="d-flex mx-3">
-        <div
-            class="rounded-circle shadow bg-body d-flex me-2"
-            style="width: 3rem; height: 3rem"
-        >
-            <i class="bi bi-person-x-fill m-auto text-warning fs-3"></i>
-        </div>
-        <div>
-            <strong>Inactive Users</strong>
-            <br />
-            <span class="num-total-users">0</span>
-        </div>
+            <div class="rounded-circle shadow bg-body d-flex me-2" style="width: 3rem; height: 3rem">
+                <i class="bi bi-person-x-fill m-auto text-warning fs-3"></i>
+            </div>
+            <div>
+                <strong>Inactive Users</strong>
+                <br />
+                <span class="num-total-users">0</span>
+            </div>
         </div>
     </div>
 
     <div class="container bg-white rounded-top d-flex">
         <div class="w-25 d-flex py-3">
-        <span class="my-auto">Show</span>
-        <select
-            class="form-select mx-2 my-auto"
-            style="background-color: #f5f5f5; height: 2.5rem; width: 10rem"
-            aria-label="Default select example"
-        >
-            <option selected>10</option>
-            <option value="1">20</option>
-            <option value="2">30</option>
-            <option value="3">50</option>
-            <option value="3">100</option>
-        </select>
-        <span class="my-auto">entries</span>
+            <span class="my-auto">Show</span>
+            <select class="form-select mx-2 my-auto" style="background-color: #f5f5f5; height: 2.5rem; width: 10rem"
+                aria-label="Default select example">
+                <option selected>10</option>
+                <option value="1">20</option>
+                <option value="2">30</option>
+                <option value="3">50</option>
+                <option value="3">100</option>
+            </select>
+            <span class="my-auto">entries</span>
+            
         </div>
         <div class="input-group mb-3 w-50 px-5 my-auto">
-        <input
-            type="text"
-            class="form-control w-100"
-            placeholder="Search By Name/Email"
-            aria-label="Recipient's username"
-            aria-describedby="button-addon2"
-        />
+            <input type="text" class="form-control w-100" placeholder="Search By Name/Email"
+                aria-label="Recipient's username" aria-describedby="button-addon2" />
         </div>
-        <div class="d-flex w-25 my-auto justify-content-end">
-        <button
-            class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-            style="width: 2rem; height: 2rem"
-        >
-            <i class="bi bi-chevron-compact-left m-auto"></i>
-        </button>
-        <button
-            class="rounded-circle bg-danger d-flex mx-1 border-0"
-            style="width: 2rem; height: 2rem"
-        >
-            <span class="m-auto">1</span>
-        </button>
-        <button
-            class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-            style="width: 2rem; height: 2rem"
-        >
-            <i class="bi bi-chevron-compact-right m-auto"></i>
-        </button>
+        <div class="d-flex my-auto justify-content-end">
+            <div class="sort-controller">
+                <div class="dropdown">
+                    <button class="btn btn-outline-danger dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort By
+
+                    <div class="dropdown-menu dropdown-menu right">
+                        <a href="/administration?sortby=name" class="dropdown-item">Name</a>
+                        <a href="/administration?sortby=status" class="dropdown-item">Status</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="container bg-white px-0" style="min-height: 50vh">
+
+
+
+    <div class="container bg-white px-3" style="min-height: 50vh">
         <table class="table px-0 mb-0">
-        <thead class="table-danger text-light">
-            <tr>
-            <td scope="col" class="border border-light-subtle">Name</td>
-            <td scope="col" class="border border-light-subtle">Email</td>
-            <td scope="col" class="border border-light-subtle">
-                User Type
-            </td>
-            <td scope="col" class="border border-light-subtle">Status</td>
-            <td scope="col" class="border border-light-subtle">
-                Designation
-            </td>
-            <td scope="col" class="border border-light-subtle">Action</td>
-            </tr>
-        </thead>
-        <tbody class="">
-            {{#each data}}
-            <tr>
-            <td scope="col" class="pt-3">
-                <div class="d-flex">
-                <div
-                    class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
-                    style="width: 3rem; height: 3rem"
-                >
-                    <span class="m-auto">{{getInitials this.Name}}</span>
-                </div>
-                <span class="my-auto">{{this.Name}}</span>
-                </div>
-            </td>
+            <thead class="table-danger text-light">
+                <tr>
+                    <td scope="col" class="border border-light-subtle">Name</td>
+                    <td scope="col" class="border border-light-subtle">Email</td>
+                    <td scope="col" class="border border-light-subtle">
+                        User Type
+                    </td>
+                    <td scope="col" class="border border-light-subtle">Status</td>
+                    <td scope="col" class="border border-light-subtle">
+                        Designation
+                    </td>
+                    <td scope="col" class="border border-light-subtle">Action</td>
+                </tr>
+            </thead>
+            <tbody class="">
+                {{#each data}}
+                <tr>
+                    <td scope="col" class="pt-3">
+                        <div class="d-flex">
+                            <div class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
+                                style="width: 3rem; height: 3rem">
+                                <span class="m-auto">{{getInitials this.Name}}</span>
+                            </div>
+                            <span class="my-auto">{{this.Name}}</span>
+                        </div>
+                    </td>
 
-            <td scope="col" class="pt-3">
-                <div style="margin-top: 0.8rem">
-                {{this.AccountEmail}}
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div style="margin-top: 0.8rem">
-                    {{#if this.IsAdmin}}
-                        Admin
-                    {{else}}
-                        User
-                    {{/if}}
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <div class="rounded-5 bg-success-subtle px-2">
-                    <span class="text-success">Active</span>
-                </div>
-                </div>
-            </td>
+                    <td scope="col" class="pt-3">
+                        <div style="margin-top: 0.8rem">
+                            {{this.AccountEmail}}
+                        </div>
+                    </td>
+                    <td scope="col" class="pt-3">
+                        <div style="margin-top: 0.8rem">
+                            {{#if this.IsAdmin}}
+                            Admin
+                            {{else}}
+                            User
+                            {{/if}}
+                        </div>
+                    </td>
+                    <td scope="col" class="pt-3">
+                        <div class="d-flex" style="margin-top: 0.8rem">
+                            <div class="rounded-5 bg-success-subtle px-2">
+                                <span class="text-success">Active</span>
+                            </div>
+                        </div>
+                    </td>
 
-            <td scope="col" class="pt-3"></td>
+                    <td scope="col" class="pt-3"></td>
 
-            <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Edit"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-pencil"></i
-                ></a>
-                </div>
-            </td>
-            </tr>
-            {{/each}}
-            {{!-- <tr>
-            <td scope="col" class="pt-3">
-                <div class="d-flex">
-                <div
-                    class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
-                    style="width: 3rem; height: 3rem"
-                >
-                    <span class="m-auto">MN</span>
-                </div>
-                <span class="my-auto">Minh-Nhat Nguyen</span>
-                </div>
-            </td>
+                    <td scope="col" class="pt-3">
+                        <div class="d-flex" style="margin-top: 0.8rem">
+                            <a href="#" data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"><i
+                                    class="bi bi-pencil"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+                {{!-- <tr>
+                    <td scope="col" class="pt-3">
+                        <div class="d-flex">
+                            <div class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
+                                style="width: 3rem; height: 3rem">
+                                <span class="m-auto">MN</span>
+                            </div>
+                            <span class="my-auto">Minh-Nhat Nguyen</span>
+                        </div>
+                    </td>
 
-            <td scope="col" class="pt-3">
-                <div style="margin-top: 0.8rem">
-                21120107@student.hcmus.edu.vn
-                </div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div style="margin-top: 0.8rem">Super Admin</div>
-            </td>
-            <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <div class="rounded-5 bg-warning-subtle px-2">
-                    <span class="text-warning">Inactive</span>
-                </div>
-                </div>
-            </td>
+                    <td scope="col" class="pt-3">
+                        <div style="margin-top: 0.8rem">
+                            21120107@student.hcmus.edu.vn
+                        </div>
+                    </td>
+                    <td scope="col" class="pt-3">
+                        <div style="margin-top: 0.8rem">Super Admin</div>
+                    </td>
+                    <td scope="col" class="pt-3">
+                        <div class="d-flex" style="margin-top: 0.8rem">
+                            <div class="rounded-5 bg-warning-subtle px-2">
+                                <span class="text-warning">Inactive</span>
+                            </div>
+                        </div>
+                    </td>
 
-            <td scope="col" class="pt-3"></td>
+                    <td scope="col" class="pt-3"></td>
 
-            <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Edit"
-                    class="my-auto mx-2"
-                    ><i class="bi bi-pencil"></i
-                ></a>
-                </div>
-            </td>
-            </tr> --}}
-        </tbody>
+                    <td scope="col" class="pt-3">
+                        <div class="d-flex" style="margin-top: 0.8rem">
+                            <a href="#" data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"><i
+                                    class="bi bi-pencil"></i></a>
+                        </div>
+                    </td>
+                </tr> --}}
+            </tbody>
         </table>
     </div>
-    <div
-        class="container bg-white rounded-bottom d-flex justify-content-between py-4 mb-3"
-    >
+
+    <div class="container bg-white px-3 rounded-bottom d-flex justify-content-between py-4 mb-3">
         <div>
-        <span>Showing </span> <span>{{{pagination.showing}}} </span><span> of </span><span> {{{pagination.totalRows}}} total entries</span
-        >
+            <span>Showing </span> <span>{{{pagination.showing}}} </span><span> of </span><span>
+                {{{pagination.totalRows}}} total entries</span>
         </div>
 
         <div class="d-flex my-auto justify-content-end">
-            {{{createPagination pagination paginationClass="pagination" paginationStyle="justify-content-end" leftText="Prev" rightText="Next" }}}
-            {{!-- <button
-                class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-                style="width: 2rem; height: 2rem"
-            >
+            <div class="d-flex align-items-center">
+            {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
+            </div>
+            {{!-- <button class="rounded-circle bg-dark-subtle d-flex mx-1 border-0" style="width: 2rem; height: 2rem">
                 <i class="bi bi-chevron-compact-left m-auto"></i>
             </button>
-            <button
-                class="rounded-circle bg-danger d-flex mx-1 border-0"
-                style="width: 2rem; height: 2rem"
-            >
+            <button class="rounded-circle bg-danger d-flex mx-1 border-0" style="width: 2rem; height: 2rem">
                 <span class="m-auto">1</span>
             </button>
-            <button
-                class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-                style="width: 2rem; height: 2rem"
-            >
+            <button class="rounded-circle bg-dark-subtle d-flex mx-1 border-0" style="width: 2rem; height: 2rem">
                 <i class="bi bi-chevron-compact-right m-auto"></i>
             </button> --}}
         </div>
@@ -343,12 +278,10 @@
 
 <script>
     document.querySelectorAll(".pagination li").forEach((li, index) => {
-    li.classList.add("page-item");
+        li.classList.add("page-item");
     });
 
     document.querySelectorAll(".pagination a").forEach(a => {
         a.classList.add("page-link");
     });
-
-
 </script>

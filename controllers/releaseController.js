@@ -9,6 +9,7 @@ controller.show = async (req, res) => {
         const currentDate = new Date();
 
         // Tìm tất cả các release thuộc project đó
+        // Vì lý do này mà xử lý pagination khó
         const releases = await releaseModel.find({ ProjectID: projectId });
 
         // Tạo các mảng để lưu các release theo loại
@@ -32,11 +33,43 @@ controller.show = async (req, res) => {
             }
         });
 
+
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 2;
+        let skip = (page - 1) * limit;
+        res.locals.pagination = {
+            openReleases:
+            {
+                page: page,
+                limit: limit,
+                showing: Math.min(limit, openReleases.length - skip),
+                totalRows: openReleases.length,
+                queryParams: req.query
+            },
+            upcomingReleases:
+            {
+                page: page,
+                limit: limit,
+                showing: Math.min(limit, upcomingReleases.length - skip),
+                totalRows: upcomingReleases.length,
+                queryParams: req.query
+            },
+            completedReleases:
+            {
+                page: page,
+                limit: limit,
+                showing: Math.min(limit, completedReleases.length - skip),
+                totalRows: completedReleases.length,
+                queryParams: req.query
+            }
+        };
+
         // Tạo projectData với thông tin về các loại release và ProjectID
         const projectData = {
-            OpenReleases: openReleases,
-            UpcomingReleases: upcomingReleases,
-            CompletedReleases: completedReleases,
+            OpenReleases: openReleases.slice(skip, skip + limit),
+            UpcomingReleases: upcomingReleases.slice(skip, skip + limit),
+            CompletedReleases: completedReleases.slice(skip, skip + limit),
             ProjectID: projectId
         };
 

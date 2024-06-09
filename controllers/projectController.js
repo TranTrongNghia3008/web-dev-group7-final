@@ -58,13 +58,28 @@ controller.showList = async (req, res) => {
 
         const projectsWithDetails = await Promise.all(projectPromises);
 
+        // Pagination 
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = projectsWithDetails.length;
+        let showing = Math.min(limit, total - skip);
+        res.locals.pagination =
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+
         // Render view project-list với dữ liệu các project
         res.render('project-list', { 
             title: "ShareBug - Project list", 
             header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                     <link rel="stylesheet" href="/css/project-list.css" />`, 
             d2: "selected-menu-item",
-            projects: projectsWithDetails, // Truyền danh sách các project với thông tin chi tiết tới view
+            projects: projectsWithDetails.slice(skip, skip + limit), // Truyền danh sách các project với thông tin chi tiết tới view
             sortField,
             sortOrder
         });

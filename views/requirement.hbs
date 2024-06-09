@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="card-body">
                   <div class="above d-flex justify-content-between">
-                    <div class="w-25 d-flex">
+                    {{!-- <div class="w-25 d-flex">
                       <span class="my-auto">Show</span>
                       <select
                         class="form-select mx-2 my-auto"
@@ -311,8 +311,8 @@ document.addEventListener('DOMContentLoaded', function() {
                       <span class="my-auto" style="font-size: medium"
                         >entries</span
                       >
-                    </div>
-                    <div class="d-flex">
+                    </div> --}}
+                    <div class="d-flex col-md-12 justify-content-between">
                       <div class="mx-2 d-flex">
                           <span class="my-auto">Sort</span>
                           <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
@@ -367,9 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                       </script>
 
-
+                      {{!-- old --}}
                       <div class="d-flex my-auto justify-content-end">
-                        <button
+                        {{!-- <button
                           class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
                           style="width: 2rem; height: 2rem"
                         >
@@ -386,7 +386,12 @@ document.addEventListener('DOMContentLoaded', function() {
                           style="width: 2rem; height: 2rem"
                         >
                           <i class="bi bi-chevron-compact-right m-auto"></i>
-                        </button>
+                        </button> --}}
+                      </div>
+
+                      <div class="d-flex align-middle">
+                        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
                       </div>
                     </div>
                   </div>
@@ -600,3 +605,14 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </form>
       </div>
+
+
+<script>
+document.querySelectorAll(".pagination li").forEach((li, index) => {
+  li.classList.add("page-item");
+});
+
+document.querySelectorAll(".pagination a").forEach(a => {
+  a.classList.add("page-link");
+});
+</script>

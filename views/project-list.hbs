@@ -304,5 +304,25 @@
               {{/each}}
             </div>
           </div>
+
+          <div class="row align-items-between mt-3">
+            <div>
+            </div>
+
+            <div class="container d-flex justify-content-end col-sm-4">
+              {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+              leftText="Prev" rightText="Next" }}}
+            </div>
+
+          </div>
         </div>
+        <script>
+            document.querySelectorAll(".pagination li").forEach((li, index) => {
+                li.classList.add("page-item");
+            });
+
+            document.querySelectorAll(".pagination a").forEach(a => {
+                a.classList.add("page-link");
+            });
+        </script>
       </div>

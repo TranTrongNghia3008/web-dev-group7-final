@@ -2,60 +2,46 @@
     {{>navigation}}
     <div class="container">
         <div class="row">
-        <div class="col left-col w-100 pe-0">
-            <div class="container bg-white rounded-top mt-3 py-3">
-            <div class="row d-flex justify-content-between">
-                <div class="col my-auto">
-                <ul class="nav nav-underline menu-2 m-0">
-                    <li class="nav-item mx-2">
-                    <a
-                        class="nav-link active border-danger"
-                        aria-current="page"
-                        href="#"
-                        >Reports</a
-                    >
-                    </li>
-                    <li class="nav-item mx-2">
-                    <a class="nav-link" href="#">Intergration Reports</a>
-                    </li>
-                </ul>
-                </div>
-                <div class="col right-side d-flex justify-content-end">
-                <a href="#" class="guide mx-2 my-auto">
-                    <div class="text-center">
-                    <img
-                        src="/images/guide.png"
-                        alt=""
-                        style="width: 2rem"
-                    />
-                    <br />
-                    <span>Guide</span>
+            <div class="col left-col w-100 pe-0">
+                <div class="container bg-white rounded-top mt-3 py-3">
+                    <div class="row d-flex justify-content-between">
+                        <div class="col my-auto">
+                            <ul class="nav nav-underline menu-2 m-0">
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link active border-danger" aria-current="page" href="#">Reports</a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link" href="#">Intergration Reports</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col right-side d-flex justify-content-end">
+                            <a href="#" class="guide mx-2 my-auto">
+                                <div class="text-center">
+                                    <img src="/images/guide.png" alt="" style="width: 2rem" />
+                                    <br />
+                                    <span>Guide</span>
+                                </div>
+                            </a>
+
+                            <a href="#" class="mx-2 my-auto d-flex">
+                                <i class="bi bi-archive me-2"></i>
+                                Archived
+                            </a>
+
+                            <button type="button" class="btn btn-danger btn-graph ms-4 my-auto"
+                                onclick="window.location.href = '/project/{{project.ProjectID}}/report/add';"
+                                style="width: 10rem">
+                                <i class="bi bi-plus"></i> Add Report
+                            </button>
+                        </div>
                     </div>
-                </a>
-
-                <a href="#" class="mx-2 my-auto d-flex">
-                    <i class="bi bi-archive me-2"></i>
-                    Archived
-                </a>
-
-                <button
-                    type="button"
-                    class="btn btn-danger btn-graph ms-4 my-auto"
-                    onclick="window.location.href = '/project/{{project.ProjectID}}/report/add';"
-                    style="width: 10rem"
-                >
-                    <i class="bi bi-plus"></i> Add Report
-                </button>
                 </div>
-            </div>
-            </div>
 
-            <div class="container bg-white d-flex">
-            <div class="w-25 d-flex py-3">
-                <span class="my-auto">Show</span>
-                <select
-                class="form-select mx-2 my-auto"
-                style="
+                <div class="container bg-white d-flex">
+                    {{!-- <div class="w-25 d-flex py-3">
+                        <span class="my-auto">Show</span>
+                        <select class="form-select mx-2 my-auto" style="
                     background-color: #f5f5f5;
                     height: 2.5rem;
                     width: 10rem;
@@ -69,7 +55,7 @@
                 <option value="3">100</option>
                 </select>
                 <span class="my-auto">entries</span>
-            </div>
+            </div> --}}
             <div class="input-group mb-3 w-50 px-5 my-auto">
                
 
@@ -98,7 +84,8 @@
                     </script>
             </div>
             <div class="d-flex w-25 my-auto justify-content-end">
-                <button
+                {{!-- old --}}
+                {{!-- <button
                 class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
                 style="width: 2rem; height: 2rem"
                 >
@@ -115,7 +102,7 @@
                 style="width: 2rem; height: 2rem"
                 >
                 <i class="bi bi-chevron-compact-right m-auto"></i>
-                </button>
+                </button> --}}
             </div>
             </div>
             <div class="container bg-white px-0" style="min-height: 50vh">
@@ -143,212 +130,189 @@
                         <div style="margin-top: 0.8rem">{{this.Type}}</div>
                         </td>
 
-                        <td scope="col" class="pt-3">
-                        <div style="margin-top: 0.8rem">{{this.Title}}</div>
-                        </td>
-                        <td scope="col" class="pt-3">
-                        <div>
-                            <span>{{formatDate2 this.CreatedAt}}</span>
-                        </div>
-                        </td>
+                                <td scope="col" class="pt-3">
+                                    <div style="margin-top: 0.8rem">{{this.Title}}</div>
+                                </td>
+                                <td scope="col" class="pt-3">
+                                    <div>
+                                        <span>{{formatDate2 this.CreatedAt}}</span>
+                                    </div>
+                                </td>
 
-                        <td scope="col" class="pt-3">
-                        <div class="d-flex" style="margin-top: 0.8rem">
-                            <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            title="Edit"
-                            class="my-auto mx-2"
-                            ><i class="bi bi-pencil"></i
-                            ></a>
-                        </div>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            </div>
-            <div
-            class="container bg-white rounded-bottom d-flex justify-content-between py-4 mb-3"
-            >
-            <div>
-                <span>Showing </span><span>2</span><span> to </span
-                ><span>2</span><span> of entries</span>
-            </div>
+                                <td scope="col" class="pt-3">
+                                    <div class="d-flex" style="margin-top: 0.8rem">
+                                        <a href="#" data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"><i
+                                                class="bi bi-pencil"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container bg-white rounded-bottom d-flex justify-content-between py-4 mb-3">
+                    <div>
+                        
+                    </div>
 
-            <div class="d-flex my-auto justify-content-end">
-                <button
-                class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-                style="width: 2rem; height: 2rem"
-                >
-                <i class="bi bi-chevron-compact-left m-auto"></i>
-                </button>
-                <button
-                class="rounded-circle bg-danger d-flex mx-1 border-0"
-                style="width: 2rem; height: 2rem"
-                >
-                <span class="m-auto">1</span>
-                </button>
-                <button
-                class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-                style="width: 2rem; height: 2rem"
-                >
-                <i class="bi bi-chevron-compact-right m-auto"></i>
-                </button>
+                    <div class="d-flex my-auto justify-content-end">
+                        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
+                    </div>
+                </div>
             </div>
+            <div class="col-1 d-flex my-auto" style="margin-right: -0.5rem; z-index: 1000; width: 20px">
+                <a href="#" id="toggleButtonNote">
+                    <div class="rounded bg-success d-flex text-white" style="width: 30px; height: 40px">
+                        <i class="bi bi-chevron-compact-right m-auto" id="toggleIconNote"></i>
+                    </div>
+                </a>
             </div>
-        </div>
-        <div
-            class="col-1 d-flex my-auto"
-            style="margin-right: -0.5rem; z-index: 1000; width: 20px"
-        >
-            <a href="#" id="toggleButtonNote">
-            <div
-                class="rounded bg-success d-flex text-white"
-                style="width: 30px; height: 40px"
-            >
-                <i
-                class="bi bi-chevron-compact-right m-auto"
-                id="toggleIconNote"
-                ></i>
+            <div class="col-4 right-col note-card mb-4">
+                <div class="container rounded bg-white h-100 my-3 px-3 py-4">
+                    <h6>Note:</h6>
+                    <div class="listNote">
+                        <ul class="p-0">
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">AS</strong>
+                                    <div>Activity Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">RS</strong>
+                                    <div>Releases Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">TRS</strong>
+                                    <div>Test Runs Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">IS</strong>
+                                    <div>Issue Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">RES</strong>
+                                    <div>Requirement Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">RTRS</strong>
+                                    <div>Recent Test Runs Status</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">RESS</strong>
+                                    <div>Result Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">CTS</strong>
+                                    <div>Case Traceability Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">TPS</strong>
+                                    <div>Test Plan Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">MS</strong>
+                                    <div>Module Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">CDS</strong>
+                                    <div>Case Detail Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">TRAS</strong>
+                                    <div>Test Run Assignee Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">TCSS</strong>
+                                    <div>Test Cases Steps Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">RTS</strong>
+                                    <div>Requirements Traceability Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">DSR</strong>
+                                    <div>Data Summary Report</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">TCAS</strong>
+                                    <div>Test Case Approval Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">RRS</strong>
+                                    <div>Release Requirement Summary</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="d-flex me-2">
+                                    <strong style="width: 4rem">MWTCR</strong>
+                                    <div>Module Wise Test Case Result</div>
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            </a>
-        </div>
-        <div class="col-4 right-col note-card mb-4">
-            <div class="container rounded bg-white h-100 my-3 px-3 py-4">
-            <h6>Note:</h6>
-            <div class="listNote">
-                <ul class="p-0">
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">AS</strong>
-                    <div>Activity Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">RS</strong>
-                    <div>Releases Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">TRS</strong>
-                    <div>Test Runs Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">IS</strong>
-                    <div>Issue Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">RES</strong>
-                    <div>Requirement Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">RTRS</strong>
-                    <div>Recent Test Runs Status</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">RESS</strong>
-                    <div>Result Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">CTS</strong>
-                    <div>Case Traceability Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">TPS</strong>
-                    <div>Test Plan Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">MS</strong>
-                    <div>Module Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">CDS</strong>
-                    <div>Case Detail Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">TRAS</strong>
-                    <div>Test Run Assignee Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">TCSS</strong>
-                    <div>Test Cases Steps Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">RTS</strong>
-                    <div>Requirements Traceability Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">DSR</strong>
-                    <div>Data Summary Report</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">TCAS</strong>
-                    <div>Test Case Approval Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">RRS</strong>
-                    <div>Release Requirement Summary</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                <li class="d-flex justify-content-between mb-3">
-                    <div class="d-flex me-2">
-                    <strong style="width: 4rem">MWTCR</strong>
-                    <div>Module Wise Test Case Result</div>
-                    </div>
-                    <a href="#" class="read-more">Read More</a>
-                </li>
-                </ul>
-            </div>
-            </div>
-        </div>
         </div>
     </div>
+    <script>
+    document.querySelectorAll(".pagination li").forEach((li, index) => {
+        li.classList.add("page-item");
+    });
+
+    document.querySelectorAll(".pagination a").forEach(a => {
+        a.classList.add("page-link");
+    });
+</script>
 </div>
+

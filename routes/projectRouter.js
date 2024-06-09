@@ -5,6 +5,7 @@ const controller = require('../controllers/projectController');
 const router = express.Router();
 
 router.get('/list', controller.showList);
+router.get('/list/:page', controller.showList);
 router.get('/:projectId', controller.showHome);
 
 router.use('/:projectId/requirement', require('./requirementRouter'));
