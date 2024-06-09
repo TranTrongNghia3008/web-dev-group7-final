@@ -48,10 +48,26 @@ controller.show = async (req, res) => {
         // Tìm tất cả các test case dựa trên các ID duy nhất đã thu thập
         const testCases = await testCaseModel.find({ _id: { $in: uniqueTestCaseIds } });
 
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = testCases.length;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            TestCases: testCases
+            TestCases: testCases.slice(skip, skip + limit)
         };
 
         // Gọi view và truyền dữ liệu vào

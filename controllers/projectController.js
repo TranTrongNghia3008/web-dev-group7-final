@@ -45,7 +45,7 @@ controller.showList = async (req, res) => {
 
         // Pagination 
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 2;
+        let limit = 5;
         let skip = (page - 1) * limit;
         let total = projectsWithDetails.length;
         let showing = Math.min(limit, total - skip);
