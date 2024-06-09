@@ -9,6 +9,7 @@ const router = express.Router({ mergeParams: true });
 router.get('/', controller.show);
 router.get(':page', controller.show);
 router.get('/result', controller.showResult);
+router.get('/result:page', controller.showResult);
 
 
 

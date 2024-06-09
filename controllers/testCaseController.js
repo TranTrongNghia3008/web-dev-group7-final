@@ -99,7 +99,7 @@ controller.show = async (req, res) => {
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            TotalTestCase: allTestCases.length,
+            TotalTestCase: testCases.length,
             ModuleID: moduleId,
             moduleName: moduleName,
             testCaseCount: testCaseCount,
@@ -230,7 +230,7 @@ controller.showDetail = async (req, res) => {
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            TotalTestCase: allTestCases.length,
+            TotalTestCase: testCases.length,
             ModuleID: moduleId,
             moduleName: moduleName,
             testCaseCount: testCaseCount,

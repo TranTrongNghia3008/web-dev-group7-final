@@ -72,8 +72,11 @@ controller.show = async (req, res) => {
         // Tạo projectData với thông tin về các loại release và ProjectID
         const projectData = {
             OpenReleases: openReleases.slice(skip, skip + limit),
+            OpenReleasesCount: openReleases.length,
             UpcomingReleases: upcomingReleases.slice(skip, skip + limit),
+            UpcomingReleasesCount: upcomingReleases.length,
             CompletedReleases: completedReleases.slice(skip, skip + limit),
+            CompletedReleasesCount: completedReleases.length,
             ProjectID: projectId
         };
 
@@ -197,8 +200,11 @@ controller.showDetail = async (req, res) => {
         // Tạo projectData với thông tin về các loại release và ProjectID
         const projectData = {
             OpenReleases: openReleases.slice(skip, skip + limit),
+            OpenReleasesCount: openReleases.length,
             UpcomingReleases: upcomingReleases.slice(skip, skip + limit),
+            UpcomingReleasesCount: upcomingReleases.length,
             CompletedReleases: completedReleases.slice(skip, skip + limit),
+            CompletedReleasesCount: completedReleases.length,
             ReleaseDetail: releaseDetail,
             ProjectID: projectId
         };

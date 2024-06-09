@@ -90,7 +90,7 @@ controller.show = async (req, res) => {
         const projectData = {
             ProjectID: project._id,
             Users: users,
-            requirementCount: allRequirements.length,
+            requirementCount: requirements.length,
             // requirementCount: requirements.length,
             Requirements: requirements.slice(skip, skip + limit),
             RequirementTypes: requirementTypes,

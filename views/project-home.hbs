@@ -162,7 +162,7 @@
 
                 <div class="item-list overflow-auto" style="height: 25rem">
                     {{#each project.releases}}
-                        <a href="#">
+                        <a href="/project/{{../project.ProjectID}}/release/{{this._id}}">
                             <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
                                 <div style="width: 2rem; height: 2rem; position: relative;">
                                     <img src="/images/releases.svg" alt="" class="centered-image" />
@@ -208,7 +208,7 @@
 
                 <div class="item-list overflow-auto" style="height: 25rem">
                     {{#each project.testCases}}
-                        <a href="#">
+                        <a href="/project/{{../project.ProjectID}}/test-case/{{this._id}}">
                             <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
                                 <div style="width: 2rem; height: 2rem; position: relative;">
                                     <img src="/images/test_cases.svg" alt="" class="centered-image" />
@@ -258,7 +258,7 @@
                 </div> --}}
                 <div class="item-list overflow-auto" style="height: 25rem">
                     {{#each project.testRuns}}
-                        <a href="#">
+                        <a href="/project/{{../project.ProjectID}}/test-run/result">
                             <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
                                 <div style="width: 2rem; height: 2rem; position: relative;">
                                     <img src="/images/test_runs.svg" alt="" class="centered-image" />
@@ -301,7 +301,7 @@
 
                 <div class="item-list overflow-auto" style="height: 25rem">
                     {{#each project.issues}}
-                        <a href="#">
+                        <a href="/project/{{../project.ProjectID}}/issue/{{this._id}}">
                             <div class="item-container container bg-body-secondary rounded-4 d-flex justify-content-between w-100 align-items-center my-1">
                                 <div style="width: 2rem; height: 2rem; position: relative;">
                                     <img src="/images/issues.svg" alt="" class="centered-image" />

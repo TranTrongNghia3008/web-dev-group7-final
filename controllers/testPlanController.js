@@ -40,7 +40,8 @@ controller.show = async (req, res) => {
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            TestPlans: testPlans.slice(skip, skip + limit)
+            TestPlans: testPlans.slice(skip, skip + limit),
+            TestPlansCount: testPlans.length
         };
 
 

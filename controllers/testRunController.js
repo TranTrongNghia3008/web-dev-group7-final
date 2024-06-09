@@ -101,6 +101,7 @@ controller.show = async (req, res) => {
             ProjectID: projectId,
             releaseName: releaseName,
             TestRuns: testRunsWithUser.slice(skip, skip + limit),
+            TestRunsCount: testRunsWithUser.length,
             Releases: allReleases
         };
 
@@ -260,17 +261,30 @@ controller.showResult = async (req, res) => {
             return allIssues.filter(allIssue => allIssue.Status === status).length;
         });
         
-        
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = testCasesFull.length;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
 
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
             Users: usersFull,
-            TestCases: testCasesFull,
+            TestCases: testCasesFull.slice(skip, skip + limit),
             TotalTestCase: allTestCases.length,
             ModuleID: moduleId,
             moduleName: moduleName,
-            testCaseCount: testCaseCount,
+            testCaseCount: testCasesFull.length,
             Modules: JSON.stringify(modulesWithTestCaseCount),
             numProjectStatus: numProjectStatus,
             numIssueStatus: numIssueStatus,

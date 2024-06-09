@@ -268,27 +268,9 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="above d-flex justify-content-between">
-                <div class="w-25 d-flex">
-                    <span class="my-auto">Show</span>
-                    <select
-                    class="form-select mx-2 my-auto"
-                    style="
-                        background-color: #f5f5f5;
-                        height: 2.5rem;
-                        width: 6rem;
-                    "
-                    aria-label="Default select example"
-                    >
-                    <option selected>10</option>
-                    <option value="1">20</option>
-                    <option value="2">30</option>
-                    <option value="3">50</option>
-                    <option value="3">100</option>
-                    </select>
-                </div>
                 <div class="d-flex">
-                    <div class="d-flex">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex col-6">
                           <span class="my-auto">Sort</span>
                           <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
                               <select
@@ -364,8 +346,12 @@
                             window.location.href = currentUrl.toString();
                         });
                     });
-                </script>
-                    <div class="d-flex my-auto justify-content-end">
+                    </script>
+                    <div class="d-flex ms-5 my-auto justify-content-end">
+                        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+                        leftText="Prev" rightText="Next" }}}
+                    </div>
+                    {{!-- <div class="d-flex my-auto justify-content-end">
                     <button
                         class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
                         style="width: 2rem; height: 2rem"
@@ -384,7 +370,7 @@
                     >
                         <i class="bi bi-chevron-compact-right m-auto"></i>
                     </button>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
 

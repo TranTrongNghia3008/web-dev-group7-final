@@ -145,6 +145,7 @@ controller.show = async (req, res) => {
         const projectData = {
             ProjectID: projectId,
             Issues: issuesWithUser.slice(skip, skip + limit),
+            IssuesCount: issuesWithUser.length,
             Modules: allModules,
             UserAssigns: userAssigns,
             UserCreates: userCreates,
