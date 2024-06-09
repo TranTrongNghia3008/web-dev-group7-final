@@ -1051,26 +1051,26 @@
             <div class="col-12 form-field my-2 p-3 rounded bg-detail">
                 <div class="">
                     <div class="fw-4 fw-semibold">Issue title</div>
-                    <div class="">Issue example</div>
+                    <div class="">{{project.IssueDetail.Title}}</div>
                 </div>
             </div>
             <div class="d-flex ps-0 pe-4">
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Category</label>
                     <div>
-                    <b class="fw-semibold">Bug</b>
+                    <b class="fw-semibold">{{project.IssueDetail.Category}}</b>
                     </div>
                 </div>
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Status</label>
                     <div>
-                    <div class="text-revamp">Open</div>
+                    <div class="text-revamp">{{project.IssueDetail.Status}}</div>
                     </div>
                 </div>
                 <div class="col-4 form-field my-2 p-3 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Priority</label>
                     <div class="d-inline-flex align-items-center justify-content-start w-100">
-                        <div class="text-revamp">Medium</div>
+                        <div class="text-revamp">{{project.IssueDetail.Priority}}</div>
                     </div>
                 </div>
             </div>
@@ -1078,19 +1078,19 @@
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Issue Type</label>
                     <div>
-                    <div class="text-revamp">-</div>
+                    <div class="text-revamp">{{project.IssueDetail.IssueType}}</div>
                     </div>
                 </div>
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Assigned to</label>
                     <div>
-                    <div class="text-revamp">-</div>
+                    <div class="text-revamp">{{project.IssueDetail.User.Name}}</div>
                     </div>
                 </div>
                 <div class="col-4 form-field my-2 p-3 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Module</label>
                     <div class="d-inline-flex align-items-center justify-content-start w-100">
-                        <div class="text-revamp">-</div>
+                        <div class="text-revamp">{{project.IssueDetail.Module.Name}}</div>
                     </div>
                 </div>
             </div>
@@ -1098,19 +1098,19 @@
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Severity</label>
                     <div>
-                    <div class="text-revamp">-</div>
+                    <div class="text-revamp">{{project.IssueDetail.Severity}}</div>
                     </div>
                 </div>
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Environment</label>
                     <div>
-                    <div class="text-revamp">-</div>
+                    <div class="text-revamp">{{project.IssueDetail.Environment}}</div>
                     </div>
                 </div>
                 <div class="col-4 form-field my-2 p-3 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Release</label>
                     <div class="d-inline-flex align-items-center justify-content-start w-100">
-                        <div class="text-revamp">-</div>
+                        <div class="text-revamp">{{project.IssueDetail.Release.Name}}</div>
                     </div>
                 </div>
             </div>
@@ -1124,7 +1124,7 @@
                 <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
                     <label class="label label-revamp fw-semibold">Due Date</label>
                     <div>
-                    <div class="text-revamp">Apr/13/2024 - Apr/13/2024</div>
+                    <div class="text-revamp">{{formatDate3 project.IssueDetail.StartDate}} - {{formatDate3 project.IssueDetail.EndDate}}</div>
                     </div>
                 </div>
             </div>
@@ -1132,7 +1132,7 @@
             <div class="col-12 my-2 p-3 form-field description-view rounded bg-detail">
                 <label class="label label-revamp fw-semibold">Description</label>
                 <div>
-                <div class="text-revamp text-left">-</div>
+                <div class="text-revamp text-left">{{project.IssueDetail.Description}}</div>
                 </div>
             </div>
             </div>
