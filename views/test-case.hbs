@@ -1455,7 +1455,13 @@
             <div class="col-6 form-field d-flex">
                 <label class="col-4 fw-semibold">Type</label>
                 <div>
-                <p class="text-revamp">-</p>
+                <p class="text-revamp">
+                    {{#each project.TestCaseDetail.TestRuns}}
+                    <span class="tag text-white">
+                        <span>{{this.Status}}</span>
+                    </span>
+                    {{/each}}
+                </p>
                 </div>
             </div>
             <div class="col-6 form-field d-flex">

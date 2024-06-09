@@ -302,7 +302,7 @@
                     >
                       <div class="row">
                         <div class="col-sm-9">
-                          <a href="#">
+                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
                             <div class="container release-card-name">
                               <h4>{{this.Name}}</h4>
                             </div>
@@ -369,7 +369,7 @@
                     >
                       <div class="row">
                         <div class="col-sm-9">
-                          <a href="#">
+                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
                             <div class="container release-card-name">
                               <h4>{{this.Name}}</h4>
                             </div>
@@ -443,14 +443,14 @@
                                 <div class="panel">
                                     <div class="panel-body">
                                         <div class="header-container">
-                                            <strong class="milestone_title fw-5">Web 7 ver 1.0</strong>
+                                            <strong class="milestone_title fw-5">{{project.ReleaseDetail.Name}}</strong>
                                         </div>
                                         <div class="example-box-wrapper d-flex">
                                             <div class="col-6" id="status-chart-container">
                                                 <canvas id="release_piechart" height="292" width="584"></canvas>
                                             </div>
                                             <div class="col-3 canvas-detail d-block" id="chart-details">
-                                                <span class="chart-heading">Total Test Cases: 34</span>
+                                                <span class="chart-heading">Total Test Runs: {{project.ReleaseDetail.TestRuns.length}}</span>
                                                 <table class="chart-details-jit ms-2">
                                                     <tbody>
                                                         <tr>
@@ -460,7 +460,7 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <span>Passed : 1</span>
+                                                                <span>Passed : {{project.ReleaseDetail.StatusCounts.Passed}}</span>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -470,7 +470,7 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <span>Failed : 1</span>
+                                                                <span>Failed : {{project.ReleaseDetail.StatusCounts.Failed}}</span>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -480,7 +480,17 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <span>Untested : 32</span>
+                                                                <span>Untested : {{project.ReleaseDetail.StatusCounts.Untested}}</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                                                    <div style="width:4px;height:0;border:5px solid #fdb45c;overflow:hidden; "></div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span>Other : {{project.ReleaseDetail.StatusCounts.Other}}</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -503,9 +513,9 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Web 7 ver 1.0</td>
-                                                        <td class="milestone_startdate">a</td>
-                                                        <td class="milestone_enddate">a</td>
+                                                        <td>{{project.ReleaseDetail.Name}}</td>
+                                                        <td class="milestone_startdate">{{formatDate2 project.ReleaseDetail.StartDate}}</td>
+                                                        <td class="milestone_enddate">{{formatDate2 project.ReleaseDetail.EndDate}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -533,10 +543,10 @@
             var myPieChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['Passed', 'Failed', 'Untested'],
+                    labels: ['Passed', 'Failed', 'Untested', 'Other'],
                     datasets: [{
-                        data: [1, 1, 32],
-                        backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD']
+                        data: [{{project.ReleaseDetail.StatusCounts.Passed}}, {{project.ReleaseDetail.StatusCounts.Failed}}, {{project.ReleaseDetail.StatusCounts.Untested}}, {{project.ReleaseDetail.StatusCounts.Other}}],
+                        backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD', '#fdb45c']
                     }]
                 }
             });
