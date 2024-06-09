@@ -221,13 +221,18 @@
                 </div>
               </div>
 
-              <div class="tab-content mt-4 p-5">
+              <div class="tab-content mt-4 p-2">
                 <div
                   class="tab-pane active"
                   id="open"
                   role="tabpanel"
                   aria-labelledby="open-tab"
                 >
+                  <div class="container bg-white rounded-top d-flex mb-5">
+                    {{{createPagination pagination.openReleases paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
+                  </div>
+
                   <div class="grid-wrapper">
                     {{#each project.OpenReleases}}
                     <div
@@ -288,6 +293,11 @@
                   role="tabpanel"
                   aria-labelledby="upcoming-tab"
                 >
+                  <div class="container bg-white rounded-top d-flex mb-5">
+                    {{{createPagination pagination.upcomingReleases paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
+                  </div>
+
                   <div class="grid-wrapper">
                     {{#each project.UpcomingReleases}}
                     <div
@@ -348,6 +358,11 @@
                   role="tabpanel"
                   aria-labelledby="completed-tab"
                 >
+                  <div class="container bg-white rounded-top d-flex mb-5">
+                    {{{createPagination pagination.completedReleases paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
+                  </div>
+
                   <div class="grid-wrapper">
                     {{#each project.CompletedReleases}}
                     <div
