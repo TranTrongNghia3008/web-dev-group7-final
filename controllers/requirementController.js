@@ -7,6 +7,12 @@ const requirementModel = require('../models/requirementModel');
 
 controller.show = async (req, res) => {
     try {
+        //pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+
+
         const projectId = req.params.projectId;
 
         // Fetch the project details
@@ -25,8 +31,21 @@ controller.show = async (req, res) => {
         const projectData = {
             ProjectID: project._id,
             requirementCount: requirements.length,
-            Requirements: requirements,
-            RequirementTypes: requirementTypes
+            Requirements: requirements.slice(skip, skip + limit),
+            RequirementTypes: requirementTypes,
+        };
+        //console.log(page, " ", skip, " ", skip + limit);
+
+        // Only get the requirements for the current page
+
+
+        res.locals.pagination =
+        {
+            page: page,
+            limit: limit,
+            showing: projectData.Requirements.length,
+            totalRows: requirements.length,
+            queryParams: req.query
         };
 
         res.render('requirement', { 
