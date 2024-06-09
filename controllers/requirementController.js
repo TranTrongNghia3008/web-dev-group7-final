@@ -91,6 +91,7 @@ controller.show = async (req, res) => {
             ProjectID: project._id,
             Users: users,
             requirementCount: requirements.length,
+            requirementTotal: allRequirements.length,
             // requirementCount: requirements.length,
             Requirements: requirements.slice(skip, skip + limit),
             RequirementTypes: requirementTypes,
