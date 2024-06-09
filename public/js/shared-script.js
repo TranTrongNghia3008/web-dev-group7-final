@@ -16,3 +16,12 @@
       }, false)
     })
   })()
+
+
+document.querySelectorAll(".pagination li").forEach((li, index) => {
+    li.classList.add("page-item");
+});
+
+document.querySelectorAll(".pagination a").forEach(a => {
+    a.classList.add("page-link");
+});
