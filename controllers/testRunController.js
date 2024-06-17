@@ -9,6 +9,7 @@ const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
 const userModel = require('../models/userModel');
 const issueModel = require('../models/issueModel');
+const participationModel = require('../models/participationModel'); 
 
 controller.show = async (req, res) => {
     try {
@@ -72,14 +73,30 @@ controller.show = async (req, res) => {
             return map;
         }, {});
 
+        // Tạo một map từ TestCaseID đến TestCaseName
+        const testCaseMap = testCases.reduce((map, testCase) => {
+            map[testCase._id] = testCase.Title;
+            return map;
+        }, {});
+
         // Kết hợp dữ liệu test run với thông tin người được giao
         const testRunsWithUser = testRuns.map(testRun => {
             return {
                 ...testRun._doc, // spread the document properties
                 AssignTo: userAssignMap[testRun.AssignTo] ? userAssignMap[testRun.AssignTo].Name : 'Unknown', // Assuming 'name' is the field in userAssign model
-                CreatedBy: userCreatedMap[testRun.CreatedBy] ? userCreatedMap[testRun.CreatedBy].Name : 'Unknown' // Assuming 'name' is the field in userAssign model
+                CreatedBy: userCreatedMap[testRun.CreatedBy] ? userCreatedMap[testRun.CreatedBy].Name : 'Unknown', // Assuming 'name' is the field in userAssign model
+                TestCaseName: testCaseMap[testRun.TestCaseID] ? testCaseMap[testRun.TestCaseID] : 'Unknown'
             };
         });
+
+         // Lấy tất cả các bản ghi từ bảng Participation có ProjectID tương ứng
+         const participations = await participationModel.find({ ProjectID: projectId });
+
+         // Lấy danh sách các UserID từ participations
+         const userIds = participations.map(participation => participation.UserID);
+ 
+         // Lấy thông tin chi tiết của các User thông qua UserID
+         const users = await userModel.find({ _id: { $in: userIds } });
 
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
@@ -102,7 +119,9 @@ controller.show = async (req, res) => {
             releaseName: releaseName,
             TestRuns: testRunsWithUser.slice(skip, skip + limit),
             TestRunsCount: testRunsWithUser.length,
-            Releases: allReleases
+            Releases: allReleases,
+            Users: users,
+            TestCases: testCases
         };
 
         // Gọi các view cần thiết và truyền dữ liệu vào
@@ -306,5 +325,85 @@ controller.showResult = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
+
+controller.addTestRun = async (req, res) => {
+    try {
+        const { 'test-run-name': name, version, browser, description, 'assign-to': assignToName, testcase, projectID } = req.body;
+        
+        // Tìm kiếm user và testcase từ cơ sở dữ liệu
+        const assignTo = await userModel.findOne({ Name: assignToName });
+        const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
+
+
+        const newTestRun = new testRunModel({
+            Name: name,
+            Version: version || null,
+            Browser: browser || null,
+            Description: description || null,
+            Status: "Untested",
+            CreatedBy: "666011d01cc6e634de0ff70b", // Assuming you have user info in req.user
+            AssignTo: assignTo._id,
+            TestCaseID: testcase ? testCase._id : null
+        });
+
+        await newTestRun.save();
+
+        res.redirect(`/project/${projectID}/test-run`); // Redirect back to the admin page
+    } catch (error) {
+        console.error('Error adding test run:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
+controller.editTestRun = async (req, res) => {
+    try {
+        const { 'test-run-id': id, 'test-run-name': name, version, browser, description, status, 'createdBy': createdByName, 'assign-to': assignToName, testcase, projectID } = req.body;
+
+        // Tìm kiếm user và testcase từ cơ sở dữ liệu
+        const assignTo = await userModel.findOne({ Name: assignToName });
+        const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
+        const createdBy = await userModel.findOne({ Name: createdByName });
+
+        if (!assignTo || !testCase) {
+            return res.status(400).send('Invalid assign-to user or testcase');
+        }
+
+        await testRunModel.findByIdAndUpdate(id, {
+            Name: name,
+            Version: version || null,
+            Browser: browser || null,
+            Description: description || null,
+            Status: status,
+            CreatedBy: createdBy._id,
+            AssignTo: assignTo._id,
+            TestCaseID: testCase ? testCase._id : null,
+            UpdatedAt: Date.now()
+        });
+
+        res.redirect(`/project/${projectID}/test-run`); // Redirect back to the project test runs page
+    } catch (error) {
+        console.error('Error editing test run:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+controller.deleteTestRun = async (req, res) => {
+    try {
+        const testRunId = req.params.id;
+        const result = await testRunModel.findByIdAndDelete(testRunId);
+        if (result) {
+            res.status(200).json({ message: 'Test run deleted successfully.' });
+        } else {
+            res.status(404).json({ message: 'Test run not found.' });
+        }
+    } catch (error) {
+        console.error('Error deleting test run:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
 
 module.exports = controller;
