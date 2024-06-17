@@ -9,6 +9,7 @@ const testPlanModel = require('../models/testPlanModel');
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
 const userModel = require('../models/userModel');
+const participationModel = require('../models/participationModel'); 
 
 controller.show = async (req, res) => {
     try {
@@ -115,12 +116,18 @@ controller.show = async (req, res) => {
             return map;
         }, {});
 
+        const testRunMap = testRuns.reduce((map, testRun) => {
+            map[testRun._id] = testRun.Name;
+            return map;
+        }, {});
+
         // Kết hợp dữ liệu test run với thông tin người được giao
         const issuesWithUser = issues.map(issue => {
             return {
                 ...issue._doc, // spread the document properties
                 AssignTo: userAssignMap[issue.AssignedTo] ? userAssignMap[issue.AssignedTo].Name : 'Unknown', // Assuming 'name' is the field in user model
-                CreatedBy: userCreatedMap[issue.CreatedBy] ? userCreatedMap[issue.CreatedBy].Name : 'Unknown'
+                CreatedBy: userCreatedMap[issue.CreatedBy] ? userCreatedMap[issue.CreatedBy].Name : 'Unknown',
+                TestRunName: testRunMap[issue.TestRunID] ? testRunMap[issue.TestRunID] : 'Unknown'
             };
         });
 
@@ -141,6 +148,16 @@ controller.show = async (req, res) => {
             queryParams: req.query
         };
 
+
+        // Lấy tất cả các bản ghi từ bảng Participation có ProjectID tương ứng
+        const participations = await participationModel.find({ ProjectID: projectId });
+
+        // Lấy danh sách các UserID từ participations
+        const userIds = participations.map(participation => participation.UserID);
+
+        // Lấy thông tin chi tiết của các User thông qua UserID
+        const users = await userModel.find({ _id: { $in: userIds } });
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
@@ -155,8 +172,11 @@ controller.show = async (req, res) => {
             Priorities: ['Show stopper', 'High', 'Medium', 'Low'],
             BugTypes: ['Not Applicable', 'UI/Design', 'Performance', 'Validations', 'Functionality', 'SEO', 'Console Error', 'Server Error', 'Tracking'],
             Environments: ['QA', 'Staging', 'Development', 'Production', 'UAT'],
+            Severities: ['Critical', 'Blocker', 'Major', 'Minor', 'Trivial'],
             sortField,
-            sortOrder
+            sortOrder,
+            Users: users,
+            TestRuns: testRuns
 
         };
 
@@ -339,10 +359,10 @@ controller.showDetail = async (req, res) => {
             Priorities: ['Show stopper', 'High', 'Medium', 'Low'],
             BugTypes: ['Not Applicable', 'UI/Design', 'Performance', 'Validations', 'Functionality', 'SEO', 'Console Error', 'Server Error', 'Tracking'],
             Environments: ['QA', 'Staging', 'Development', 'Production', 'UAT'],
+            Severities: ['Critical', 'Blocker', 'Major', 'Minor', 'Trivial'],
             IssueDetail: issueDetail,
             sortField,
-            sortOrder
-
+            sortOrder     
         };
 
         // Gọi view và truyền dữ liệu vào
@@ -359,5 +379,131 @@ controller.showDetail = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
+controller.addIssue = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const {
+            'issue-title': issueTitle,
+            category,
+            status,
+            priority,
+            'start-day': startDay,
+            'end-day': endDay,
+            'issue-type': issueType,
+            severity,
+            environment,
+            'issue-description': issueDescription,
+            'steps-to-reproduce': stepsToReproduce,
+            'assigned-to': assignToName,
+            'testRun': testrun
+        } = req.body;
+
+        // Tìm kiếm thông tin của người được phân công và test run từ cơ sở dữ liệu
+        const assignTo = assignToName ? await userModel.findOne({ Name: assignToName }) : null;
+        const testRun = testrun ? await testRunModel.findOne({ Name: testrun }) : null;
+
+        // Chuyển đổi startDay và endDay thành đối tượng Date nếu có giá trị
+        const startDate = startDay ? new Date(startDay) : null;
+        const endDate = endDay ? new Date(endDay) : null;
+
+        const formattedStartDate = startDate ? startDate.toISOString() : null;
+        const formattedEndDate = endDate ? endDate.toISOString() : null;
+        
+        // Tạo đối tượng mới Issue
+        const newIssue = new issueModel({
+            Title: issueTitle,
+            Category: category,
+            Status: status,
+            Priority: priority,
+            StartDate: formattedStartDate,
+            EndDate: formattedEndDate,
+            IssueType: issueType || null,
+            Severity: severity || null,
+            Environment: environment || null,
+            Description: issueDescription || null, // Gán giá trị null nếu không có dữ liệu
+            StepsToReproduce: stepsToReproduce || null, // Gán giá trị null nếu không có dữ liệu
+            CreatedBy: "666011d01cc6e634de0ff70b",
+            AssignedTo: assignTo ? assignTo._id : null, // Gán giá trị null nếu không tìm thấy người được phân công
+            TestRunID: testRun ? testRun._id : null // Gán giá trị null nếu không tìm thấy test run
+        });
+
+        // Lưu issue vào cơ sở dữ liệu
+        await newIssue.save();
+
+        res.redirect(`/project/${projectId}/issue`);
+
+    } catch (error) {
+        console.error('Error adding issue:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+controller.editIssue = async (req, res) => {
+    try {
+        const { 'issue-id': id, 'issue-title': title, 'issue-description': description, category, status, priority, 'issue-type': issueType, severity, environment, 'start-day': startDay, 'end-day': endDay, 'assigned-to': assignedToName, 'testRun': testRunName, 'steps-to-reproduce': stepsToReproduce, projectID } = req.body;
+
+        // Tìm kiếm user và test run từ cơ sở dữ liệu (nếu có)
+        const assignTo = assignedToName ? await userModel.findOne({ Name: assignedToName }) : null;
+        const testRun = testRunName ? await testRunModel.findOne({ Name: testRunName }) : null;
+
+        // Chuyển đổi startDay và endDay thành đối tượng Date nếu có giá trị
+        const startDate = startDay ? new Date(startDay) : null;
+        const endDate = endDay ? new Date(endDay) : null;
+        console.log(assignTo);
+
+        // Tạo đối tượng chứa các trường cập nhật
+        const updateFields = {
+            Title: title,
+            Description: description || null,
+            Category: category,
+            Status: status,
+            Priority: priority,
+            IssueType: issueType || null,
+            Severity: severity || null,
+            Environment: environment || null,
+            StartDate: startDate,
+            EndDate: endDate,
+            AssignedTo: assignTo ? assignTo._id : null,
+            TestRunID: testRun ? testRun._id : null,
+            StepsToReproduce: stepsToReproduce || null,
+            UpdatedAt: Date.now()
+        };
+
+        // Xây dựng object để chỉ cập nhật các trường có giá trị (loại bỏ các trường null)
+        const filteredUpdateFields = {};
+        Object.keys(updateFields).forEach(key => {
+            if (updateFields[key] !== null && updateFields[key] !== undefined) {
+                filteredUpdateFields[key] = updateFields[key];
+            }
+        });
+
+        await issueModel.findByIdAndUpdate(id, filteredUpdateFields);
+
+        res.redirect(`/project/${projectID}/issue`); // Redirect về trang danh sách issues của dự án
+    } catch (error) {
+        console.error('Error editing issue:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+controller.deleteIssue = async (req, res) => {
+    try {
+        const issueId = req.params.id;
+        const result = await issueModel.findByIdAndDelete(issueId);
+        if (result) {
+            res.status(200).json({ message: 'Issue deleted successfully.' });
+        } else {
+            res.status(404).json({ message: 'Issue not found.' });
+        }
+    } catch (error) {
+        console.error('Error deleting issue:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
 
 module.exports = controller;

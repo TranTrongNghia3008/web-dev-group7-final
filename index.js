@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 const expressHandlebars = require('express-handlebars');
 const { createPagination } = require('express-handlebars-paginate');
+const bodyParser = require('body-parser');
  
 app.use(express.static(__dirname + "/public"));
 
@@ -51,6 +52,10 @@ app.engine('hbs', expressHandlebars.engine({
 }));
 
 app.set('view engine', 'hbs');
+
+// Cấu hình body-parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use('/', require('./routes/dasdboardRouter'));
 app.use('/project', require('./routes/projectRouter'));
