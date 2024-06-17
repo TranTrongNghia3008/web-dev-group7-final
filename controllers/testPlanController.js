@@ -60,4 +60,76 @@ controller.show = async (req, res) => {
     }
 }
 
+controller.addTestPlan = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const { name, startDate, endDate, description } = req.body;
+
+        const startDay = startDate ? new Date(startDate) : null;
+        const endDay = endDate ? new Date(startDate) : null;
+        const formattedStartDate = startDay ? startDay.toISOString() : null;
+        const formattedEndDate = endDay ? endDay.toISOString() : null;
+
+        const newTestPlan = await testPlanModel.create({
+            Name: name,
+            StartDate: formattedStartDate,
+            EndDate: formattedEndDate,
+            Description: description || null,
+            RequirementID: "66601c17e78adfc3981db376",
+        });
+
+        res.redirect(`/project/${projectId}/test-plan`);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating Test Plan', error });
+    }
+};
+
+controller.editTestPlan = async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const { nameEdit, startDateEdit, endDateEdit, descriptionEdit, idEdit } = req.body;
+
+        const startDay = startDateEdit ? new Date(startDateEdit) : null;
+        const endDay = endDateEdit ? new Date(endDateEdit) : null;
+        const formattedStartDate = startDay ? startDay.toISOString() : null;
+        const formattedEndDate = endDay ? endDay.toISOString() : null;
+
+        const updatedTestPlan = await testPlanModel.findByIdAndUpdate(
+            idEdit,
+            {
+                Name: nameEdit,
+                StartDate: formattedStartDate,
+                EndDate: formattedEndDate,
+                Description: descriptionEdit || null,
+                UpdatedAt: Date.now()
+                // RequirementID: if it is to be updated, include here
+            },
+        );
+
+        if (!updatedTestPlan) {
+            return res.status(404).json({ message: 'Test Plan not found' });
+        }
+        else
+            res.status(200).json({ message: 'Test Plan Updated successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating Test Plan', error });
+    }
+};
+
+controller.deleteTestPlan = async (req, res) => {
+    try {
+        const testPlanId = req.params.testPlanId;
+        const deletedTestPlan = await testPlanModel.findByIdAndDelete(testPlanId);
+
+        if (!deletedTestPlan) {
+            return res.status(404).json({ message: "Test plan not found" });
+        }
+
+        res.json({ message: "Test plan deleted successfully", deletedTestPlan });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete test plan", error });
+    }
+};
+
 module.exports = controller;
