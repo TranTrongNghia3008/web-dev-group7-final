@@ -95,6 +95,7 @@ controller.show = async (req, res) => {
             // requirementCount: requirements.length,
             Requirements: requirements.slice(skip, skip + limit),
             RequirementTypes: requirementTypes,
+            Releases: releases,
             sortField,
             sortOrder
         };
@@ -149,6 +150,72 @@ controller.showImport = (req, res) => {
     });
 }
 
+controller.addRequirement = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const { releaseName, type, description } = req.body;
+
+        const release = await releaseModel.findOne({ Name: releaseName });
+
+        const newRequirement = await requirementModel.create({
+            Type: type,
+            Description: description || null,
+            ReleaseID: release._id || "66601b671ef4a55f282208d3",
+            AssignTo: "666011d01cc6e634de0ff70d",
+        });
+
+
+        res.redirect(`/project/${projectId}/requirement`);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating Requirement', error });
+    }
+};
+
+controller.editRequirement = async (req, res) => {
+    try {
+        const { releaseNameEdit, typeEdit, descriptionEdit, idEdit } = req.body;
+
+        const release = await releaseModel.findOne({ Name: releaseNameEdit });
+
+        const currentRequirement = await requirementModel.findById(idEdit);
+        const typeChanged = currentRequirement.Type !== typeEdit;
+
+        const updatedRequirement = await requirementModel.findByIdAndUpdate(
+            idEdit,
+            {
+                Type: typeEdit,
+                Description: descriptionEdit || null,
+                ReleaseID: release._id || "66601b671ef4a55f282208d3",
+                UpdatedAt: Date.now()
+                // AssignTo: if it is to be updated, include here
+            },
+        );
+
+        if (!updatedRequirement) {
+            return res.status(404).json({ message: 'Requirement not found' });
+        }
+        else
+            res.status(200).json({ message: 'Requirement Updated successfully!', typeChanged: typeChanged });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating Requirement', error });
+    }
+};
+
+controller.deleteRequirement = async (req, res) => {
+    try {
+        const requirementId = req.params.requirementId;
+        const deletedRequirement = await requirementModel.findByIdAndDelete(requirementId);
+
+        if (!deletedRequirement) {
+            return res.status(404).json({ message: "Requirement not found" });
+        }
+
+        res.json({ message: "Requirement deleted successfully", deletedRequirement });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete requirement", error });
+    }
+};
 
 
 

@@ -86,7 +86,6 @@ controller.addTestPlan = async (req, res) => {
 
 controller.editTestPlan = async (req, res) => {
     try {
-        const { projectId } = req.params;
         const { nameEdit, startDateEdit, endDateEdit, descriptionEdit, idEdit } = req.body;
 
         const startDay = startDateEdit ? new Date(startDateEdit) : null;

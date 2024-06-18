@@ -46,10 +46,10 @@
                   type="button"
                   class="btn btn-danger btn-graph px-3 my-auto"
                   data-bs-toggle="modal"
-                  data-bs-target="#addRequirementType"
-                  style="width: 13rem"
+                  data-bs-target="#addRequirement"
+                  style="width: 12rem"
                 >
-                  Add Requirement Type
+                  Add Requirement
                 </button>
               </div>
             </div>
@@ -207,7 +207,11 @@ document.addEventListener('DOMContentLoaded', function() {
                       <div class="bg-danger-subtle px-2 mx-2 rounded">
                         <span class="text-danger">{{project.requirementCount}}</span>
                       </div>
-                      <a href="#" class="ms-3"><i class="bi bi-pencil"></i></a>
+                      <a 
+                        href="#" 
+                        class="ms-3"
+                        ><i class="bi bi-pencil"></i>
+                      </a>
                     </div>
                     <div class="row col-9 ms-auto my-auto align-items-center">
                       <div class="col-4">
@@ -440,11 +444,32 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td scope="col" class="bg-body-tertiary align-middle">
                                 <div class="d-flex justify-content-end text-dark">
                                     <a href="#" class="mx-2 my-auto text-dark" title="View"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="mx-2 my-auto text-primary" title="Edit"><i class="bi bi-pencil"></i></a>
+                                    <a 
+                                      href="#" 
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#editRequirement"
+                                      onclick="showEditRequirementModal(this)" 
+                                      data-project-id="{{../project.ProjectID}}" 
+                                      data-id="{{this._id}}" 
+                                      data-release-id="{{this.ReleaseID}}" 
+                                      data-type="{{this.Type}}" 
+                                      data-description="{{this.Description}}" 
+                                      class="mx-2 my-auto text-primary" 
+                                      title="Edit">
+                                      <i class="bi bi-pencil"></i>
+                                    </a>
                                     <a href="#" class="mx-2 my-auto text-dark" title="Clone"><i class="bi bi-copy"></i></a>
                                     <a href="#" class="mx-2 my-auto text-dark fs-5" title="Link Testcase"><i class="bi bi-link-45deg"></i></a>
                                     <a href="#" data-bs-toggle="tooltip" title="Timesheet" class="mx-2 my-auto text-dark"><i class="bi bi-clock"></i></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Delete" class="mx-2 my-auto text-danger"><i class="bi bi-trash"></i></a>
+                                    <a 
+                                      href="#" 
+                                      data-bs-toggle="tooltip" 
+                                      data-projectId="{{../project.ProjectID}}"
+                                      data-id="{{this._id}}"
+                                      title="Delete" 
+                                      class="mx-2 my-auto text-danger delete-btn">
+                                        <i class="bi bi-trash"></i>
+                                      </a>
                                 </div>
                             </td>
                         </tr>
@@ -458,12 +483,13 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
 
-        <form action="" class="needs-validation" novalidate>
+        {{!-- modal add --}}
+        <form action="/project/{{project.ProjectID}}/requirement/" id="addRequirementForm" method="post" class="needs-validation" novalidate>
           <div
             class="modal fade"
-            id="addRequirementType"
+            id="addRequirement"
             tabindex="-1"
-            aria-labelledby="addModuleLabel"
+            aria-labelledby="addRequirementLabel"
             aria-hidden="true"
           >
             <div
@@ -476,9 +502,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="modal-header">
                   <div
                     class="modal-title fs-5 fw-semibold text-dark w-100 text-center"
-                    id="addTestPlanLabel"
+                    id="addRequirementLabel"
                   >
-                    Add Requirement Type
+                    Add Requirement
                   </div>
                   <button
                     type="button"
@@ -490,66 +516,57 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="modal-body">
                   <div class="mb-4">
                     <label
-                      for="brow-release"
+                      for="releaseName"
                       class="form-label d-flex justify-content-between"
                     >
                       <div>Select Release</div>
                     </label>
                     <input
-                      list="brow-release"
+                      id="releaseName"
+                      name="releaseName"
+                      list="releaseList"
                       placeholder="Select a Release"
                       class="form-select border-0 bg-light"
                     />
-                    <datalist id="brow-release">
-                      <option value="Web 7 ver 1.0"></option>
+                    <datalist id="releaseList">
+                      {{#each project.Releases}}
+                        <option value="{{this.Name}}"></option>
+                      {{/each}}
                     </datalist>
                   </div>
                   <div class="mb-4">
                     <label
-                      for="brow-requirement-type"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div>Select Requirement Type</div>
-                    </label>
-                    <input
-                      list="brow-requirement-type"
-                      placeholder=""
-                      class="form-select border-0 bg-light"
-                    />
-                    <datalist id="brow-requirement-type">
-                      <option value="Shopping Cart"></option>
-                      <option value="Login"></option>
-                    </datalist>
-                  </div>
-                  <div class="mb-4">
-                    <label
-                      for="form-requirement-type"
+                      for="type"
                       class="form-label d-flex justify-content-between"
                     >
                       <div>
-                        Requirement Type
+                        Select Requirement Type
                         <span style="color: #f44336">*</span>
                       </div>
                     </label>
                     <input
+                      id="type"
+                      name="type"
                       type="text"
-                      class="form-control bg-light"
-                      id="form-requirement-type"
+                      list="typeList"
                       placeholder="Please Enter Requirement Type"
+                      class="form-select border-0 bg-light"
                       style="color: #757575"
                       required
                     />
-                    <div class="invalid-feedback">
-                      Please Enter Your Requirement Type.
-                    </div>
+                    <datalist id="typeList">
+                      {{#each project.RequirementTypes}}
+                        <option value="{{this}}"></option>
+                      {{/each}}
+                    </datalist>
                   </div>
                   <div class="mb-2">
                     <label
-                      for="form-test-plan-name"
+                      for="description"
                       class="form-label d-flex justify-content-between"
                     >
-                      <div for="RequirementDescription" class="form-label">
-                        Requirement Type Description
+                      <div for="description" class="form-label">
+                        Requirement Description
                       </div>
                     </label>
                     <div class="rounded-top border d-flex p-2 bg-light">
@@ -581,10 +598,154 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <textarea
                       class="form-control rounded-top-0 bg-light"
-                      id="RequirementDescription"
+                      id="description"
                       rows="4"
-                      name="testplan-description"
-                      placeholder="Please Enter Requirement Type Description"
+                      name="description"
+                      placeholder="Please Enter Requirement Description"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger mx-2">
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger mx-2"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {{!-- modal edit --}}
+        <form action="" id="editRequirementForm" onsubmit="editRequirement(event)" class="needs-validation" novalidate>
+          <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
+          <input type="hidden" name="idEdit" id="idEdit"/>
+          <div
+            class="modal fade"
+            id="editRequirement"
+            tabindex="-1"
+            aria-labelledby="editRequirementLabel"
+            aria-hidden="true"
+          >
+            <div
+              class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+            >
+              <div
+                class="modal-content border border-1 rounded-2"
+                style="color: #919faf"
+              >
+                <div class="modal-header">
+                  <div
+                    class="modal-title fs-5 fw-semibold text-dark w-100 text-center"
+                    id="editRequirementLabel"
+                  >
+                    Edit Requirement
+                  </div>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-4">
+                    <label
+                      for="releaseNameEdit"
+                      class="form-label d-flex justify-content-between"
+                    >
+                      <div>Select Release</div>
+                    </label>
+                    <input
+                      id="releaseNameEdit"
+                      name="releaseNameEdit"
+                      list="releaseListEdit"
+                      placeholder="Select a Release"
+                      class="form-select border-0 bg-light"
+                    />
+                    <datalist id="releaseListEdit">
+                      {{#each project.Releases}}
+                        <option value="{{this.Name}}"></option>
+                      {{/each}}
+                    </datalist>
+                  </div>
+                  <div class="mb-4">
+                    <label
+                      for="typeEdit"
+                      class="form-label d-flex justify-content-between"
+                    >
+                      <div>
+                        Select Requirement Type
+                        <span style="color: #f44336">*</span>
+                      </div>
+                    </label>
+                    <input
+                      id="typeEdit"
+                      name="typeEdit"
+                      type="text"
+                      list="typeListEdit"
+                      placeholder="Please Enter Requirement Type"
+                      class="form-select border-0 bg-light"
+                      style="color: #757575"
+                      required
+                    />
+                    <datalist id="typeListEdit">
+                      {{#each project.RequirementTypes}}
+                        <option value="{{this}}"></option>
+                      {{/each}}
+                    </datalist>
+                    <div class="invalid-feedback">
+                      Please Enter Requirement.
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label
+                      for="descriptionEdit"
+                      class="form-label d-flex justify-content-between"
+                    >
+                      <div for="descriptionEdit" class="form-label">
+                        Requirement Description
+                      </div>
+                    </label>
+                    <div class="rounded-top border d-flex p-2 bg-light">
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-type-bold"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-type-italic"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-link"></i>
+                      </button>
+                      <select
+                        class="form-select border-0 bg-light"
+                        aria-label="Default select example"
+                        style="width: 8rem"
+                      >
+                        <option selected>Normal</option>
+                        <option value="1">Small</option>
+                        <option value="2">Normal</option>
+                        <option value="3">Large</option>
+                      </select>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-list-ol"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-list-ul"></i>
+                      </button>
+                    </div>
+                    <textarea
+                      class="form-control rounded-top-0 bg-light"
+                      id="descriptionEdit"
+                      rows="4"
+                      name="descriptionEdit"
+                      placeholder="Please Enter Requirement Description"
                     ></textarea>
                   </div>
                 </div>
@@ -616,3 +777,5 @@ document.querySelectorAll(".pagination a").forEach(a => {
   a.classList.add("page-link");
 });
 </script>
+
+<script src="/js/requirement-CRUD.js"></script>

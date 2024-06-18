@@ -224,5 +224,17 @@ controller.showDetail = async (req, res) => {
     }
 }
 
+controller.getReleaseNameById = async (req, res) => {
+    try {
+        const releaseId = req.params.releaseId;
+        const release = await releaseModel.findById(releaseId);
+        if (!release) {
+            return res.status(404).json({ message: 'Release not found' });
+        }
+        res.json({ ReleaseName: release.Name });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching release name', error });
+    }
+};
 
 module.exports = controller;
