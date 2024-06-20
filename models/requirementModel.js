@@ -5,7 +5,8 @@ const requirementSchema = new mongoose.Schema({
   Description: { type: String },
   CreatedAt: { type: Date, default: Date.now },
   UpdatedAt: { type: Date, default: Date.now },
-  ReleaseID: { type: mongoose.Schema.Types.ObjectId, ref: 'Release', required: true }
+  ReleaseID: { type: mongoose.Schema.Types.ObjectId, ref: 'Release', required: true },
+  AssignTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 const Requirement = mongoose.model('Requirement', requirementSchema);

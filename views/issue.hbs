@@ -1,6 +1,6 @@
 <div class="content px-3">
     {{>navigation}}
-    <div class="container">
+    <div class="container mb-3">
         <div class="row">
             <div class="col left-col w-100 pe-0">
                 <div class="issue-list-header container bg-white rounded-top border-bottom mt-3 py-3">
@@ -8,7 +8,7 @@
                         <div class="col my-auto d-flex">
                             <span class="my-auto">Issues</span>
                             <div class="bg-danger-subtle px-2 mx-2 rounded">
-                                <span class="text-danger">{{project.Issues.length}}</span>
+                                <span class="text-danger">{{project.IssuesCount}}</span>
                             </div>
                         </div>
                         <div class="col d-flex justify-content-end pe-0">
@@ -32,7 +32,7 @@
                                 data-bs-toggle="modal" data-bs-target="#addIssue">
                                 <i class="bi bi-plus"></i> Add Issue
                             </button>
-                            <form action="" class="needs-validation" novalidate>
+                            <form action="/project/{{project.ProjectID}}/issue/add" class="needs-validation" method="post" novalidate>
                                 <div class="modal fade" id="addIssue" tabindex="-1"
                                     aria-labelledby="exampleModalFullscreenLabel" style="display: none"
                                     aria-hidden="true">
@@ -109,7 +109,7 @@
                                                                 placeholder="Insert text here..."></textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="row row-cols-md-3">
+                                                    <div class="row row-cols-md-2">
                                                         <div class="col mb-3">
                                                             <label for="fCategory" class="form-label">Category
                                                                 <span class="text-danger">*</span></label>
@@ -117,9 +117,9 @@
                                                                 id="fCategory" name="category"
                                                                 placeholder="Select a Category" required />
                                                             <datalist id="datalistCategory">
-                                                                <option value="Bug"></option>
-                                                                <option value="Task"></option>
-                                                                <option value="Subtask"></option>
+                                                                {{#each project.Categories}}
+                                                                <option value="{{this}}"></option>
+                                                                {{/each}}
                                                             </datalist>
 
                                                             <div class="invalid-feedback">
@@ -133,17 +133,9 @@
                                                                 id="fStatus" name="status" placeholder="Select a Status"
                                                                 required />
                                                             <datalist id="datalistStatus">
-                                                                <option value="Assigned"></option>
-                                                                <option value="Closed"></option>
-                                                                <option value="Deferred"></option>
-                                                                <option value="Duplicate"></option>
-                                                                <option value="Fixed"></option>
-                                                                <option value="Invalid"></option>
-                                                                <option value="New"></option>
-                                                                <option value="Open"></option>
-                                                                <option value="Reopen"></option>
-                                                                <option value="Retest"></option>
-                                                                <option value="Verified"></option>
+                                                                {{#each project.Status}}
+                                                                <option value="{{this}}"></option>
+                                                                {{/each}}
                                                             </datalist>
 
                                                             <div class="invalid-feedback">
@@ -158,10 +150,9 @@
                                                                 id="fPriority" name="priority"
                                                                 placeholder="Select a Priority" required />
                                                             <datalist id="datalistPriority">
-                                                                <option value="Show topper"></option>
-                                                                <option value="Hight"></option>
-                                                                <option value="Medium"></option>
-                                                                <option value="Low"></option>
+                                                                {{#each project.Priorities}}
+                                                                <option value="{{this}}"></option>
+                                                                {{/each}}
                                                             </datalist>
 
                                                             <div class="invalid-feedback">
@@ -176,15 +167,9 @@
                                                                 id="fIssueType" name="issue-type"
                                                                 placeholder="Select a Issue Type" />
                                                             <datalist id="datalistIssueType">
-                                                                <option value="Not Applicable"></option>
-                                                                <option value="UI/Design"></option>
-                                                                <option value="Performance"></option>
-                                                                <option value="Validations"></option>
-                                                                <option value="Functionality"></option>
-                                                                <option value="SEO"></option>
-                                                                <option value="Console Error"></option>
-                                                                <option value="Server Error"></option>
-                                                                <option value="Tracking"></option>
+                                                                {{#each project.BugTypes}}
+                                                                <option value="{{this}}"></option>
+                                                                {{/each}}
                                                             </datalist>
                                                         </div>
 
@@ -195,22 +180,21 @@
                                                                 id="fAssignedTo" name="assigned-to"
                                                                 placeholder="Select an Assigned To" />
                                                             <datalist id="datalistAssignedTo">
-                                                                <option value="Minh-Nhat Nguyen"></option>
+                                                                {{#each project.Users}}
+                                                                <option value="{{Name}}"></option>
+                                                                {{/each}}
                                                             </datalist>
                                                         </div>
 
                                                         <div class="col mb-3">
-                                                            <label for="fModule" class="form-label">Module</label>
-                                                            <input class="form-control" list="datalistModule"
-                                                                id="fModule" name="module"
-                                                                placeholder="Select a Module" />
-                                                            <datalist id="datalistModule">
-                                                                <option value="Home page"></option>
-                                                                <option value="Header section"></option>
-                                                                <option value="Footer section"></option>
-                                                                <option value="Pricing"></option>
-                                                                <option value="Blog"></option>
-                                                                <option value="Contact"></option>
+                                                            <label for="fTestRun" class="form-label">Test Run</label>
+                                                            <input class="form-control" list="datalistTestRun"
+                                                                id="fTestRun" name="testRun"
+                                                                placeholder="Select a Test Run" />
+                                                            <datalist id="datalistTestRun">
+                                                                {{#each project.TestRuns}}
+                                                                <option value="{{Name}}"></option>
+                                                                {{/each}}
                                                             </datalist>
                                                         </div>
 
@@ -220,11 +204,9 @@
                                                                 id="fSeverity" name="severity"
                                                                 placeholder="Select a Severity" />
                                                             <datalist id="datalistSeverity">
-                                                                <option value="Critical"></option>
-                                                                <option value="Blocker"></option>
-                                                                <option value="Major"></option>
-                                                                <option value="Minor"></option>
-                                                                <option value="Trivial"></option>
+                                                                {{#each project.Severities}}
+                                                                <option value="{{this}}"></option>
+                                                                {{/each}}
                                                             </datalist>
                                                         </div>
 
@@ -235,11 +217,13 @@
                                                                 id="fEnvironment" name="environment"
                                                                 placeholder="Select an Environment" />
                                                             <datalist id="datalistEnvironment">
-                                                                <option value="Sorry, no matching options."></option>
+                                                                {{#each project.Environments}}
+                                                                <option value="{{this}}"></option>
+                                                                {{/each}}
                                                             </datalist>
                                                         </div>
 
-                                                        <div class="col mb-3">
+                                                        {{!-- <div class="col mb-3">
                                                             <label for="fRelease" class="form-label">Release</label>
                                                             <input class="form-control" list="datalistRelease"
                                                                 id="fRelease" name="release"
@@ -247,9 +231,9 @@
                                                             <datalist id="datalistRelease">
                                                                 <option value="Web 7 ver 1.0"></option>
                                                             </datalist>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col mb-3">
+                                                        {{!-- <div class="col mb-3">
                                                             <label for="fOperatingSystems" class="form-label">Operating
                                                                 systems</label>
                                                             <input class="form-control" list="datalistOperatingSystems"
@@ -263,7 +247,7 @@
                                                                 <option value="Android"></option>
                                                                 <option value="Windows os"></option>
                                                             </datalist>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="col-2 mb-3">
                                                             <p class="mb-2">Due date</p>
                                                             <div class="row row-cols-md-2">
@@ -377,669 +361,1173 @@
                                 <option value="3">100</option>
                             </select> --}}
 
-                            <div class="d-flex">
-                                <span class="my-auto ms-3">Sort</span>
-                                <form action="" class="mx-2 d-flex bg-white rounded">
-                                    <select class="form-select border-0 rounded-0 rounded-start"
-                                        aria-label="Default select example" style="width: 10rem">
-                                        <option value="created-date">Created date</option>
-                                        <option value="title">Title</option>
-                                        <option value="case-code">Case Code</option>
-                                    </select>
-                                    <select class="form-select border-0 rounded-0 ms-1 rounded-end"
-                                        aria-label="Default select example" style="width: 7rem">
-                                        <option value="created-date">Desc</option>
-                                        <option value="title">Asc</option>
-                                    </select>
-                                </form>
-                            </div>
-                            <input type="text" class="form-control mx-2" placeholder="Search By Issues Id"
-                                aria-label="Recipient's username" aria-describedby="button-addon2"
-                                style="width: 12rem" />
-                            <input type="text" class="form-control mx-2" placeholder="Search By Issues Id"
-                                aria-label="Recipient's username" aria-describedby="button-addon2"
-                                style="width: 12rem" />
-                        </div>
-                        <div class="d-flex my-auto justify-content-end">
-                            {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
-                        </div>
+                    <div class="d-flex">
+                        <span class="my-auto">Sort</span>
+                        <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                            <select
+                                name="sortField"
+                                class="form-select border-0 rounded-0 rounded-start"
+                                aria-label="Default select example"
+                                style="width: 10rem"
+                            >
+                                <option value="created-date" {{#if (eq project.sortField 'created-date')}}selected{{/if}}>Created date</option>
+                                <option value="title" {{#if (eq project.sortField 'title')}}selected{{/if}}>Title</option>
+                                <option value="case-code" {{#if (eq project.sortField 'case-code')}}selected{{/if}}>Code</option>
+                            </select>
+                            <select
+                                name="sortOrder"
+                                class="form-select border-0 rounded-0 ms-1 rounded-end"
+                                aria-label="Default select example"
+                                style="width: 7rem"
+                            >
+                                <option value="desc" {{#if (eq project.sortOrder 'desc')}}selected{{/if}}>Desc</option>
+                                <option value="asc" {{#if (eq project.sortOrder 'asc')}}selected{{/if}}>Asc</option>
+                            </select>
+                        </form>
                     </div>
 
-                    <div class="below px-2" style="height: 55vh">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <td scope="col" class="">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="code"
-                                                onchange="toggleCheckAll(this)" />
-                                            <label class="form-check-label" for="code">Code</label>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="">Title</td>
-                                    <td scope="col" class="">Created By</td>
-                                    <td scope="col" class="">Assigned to</td>
-                                    <td scope="col" class="">Status</td>
-                                    <td scope="col" class="">Priority</td>
-                                    <td scope="col" class="">Created Date</td>
-                                    <td scope="col" class="">Actions</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each project.Issues}}
-                                <tr>
-                                    <td scope="col" class="align-middle">
-                                        <div class="form-check">
-                                            <input class="form-check-input code-item" type="checkbox" value=""
-                                                id="code-item" />
-                                            <label class="form-check-label" for="code-item"><i class="bi bi-bug me-1"
-                                                    style="color: orange"></i>{{truncateId this._id 8}}</label>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="align-middle" style="max-width: 200px;">
-                                        <span>{{this.Title}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <div class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
-                                            style="width: 2rem; height: 2rem">
-                                            <span class="m-auto">MN</span>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="align-middle">{{this.AssignTo}}</td>
-                                    <td scope="col" class="align-middle">
-                                        <span>{{this.Status}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>{{this.Priority}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>{{formatDate3 this.CreatedAt}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <div class="d-flex">
-                                            <a href="#" data-bs-toggle="tooltip" title="Timesheet"
-                                                class="mx-2 my-auto"><i class="bi bi-clock"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"><i
-                                                    class="bi bi-pencil"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="View" class="my-auto mx-2"><i
-                                                    class="bi bi-eye"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="Delete" class="mx-2 my-auto"><i
-                                                    class="bi bi-trash"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="Actions" class="mx-2 my-auto"><i
-                                                    class="bi bi-three-dots-vertical"></i></a>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const sortForm = document.getElementById('form-sort');
+                        const sortFields = sortForm.querySelectorAll('select');
 
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{!-- <tr>
-                                    <td scope="col" class="align-middle">
-                                        <div class="form-check">
-                                            <input class="form-check-input code-item" type="checkbox" value=""
-                                                id="code-item" />
-                                            <label class="form-check-label" for="code-item"><i class="bi bi-bug me-1"
-                                                    style="color: orange"></i>D0002</label>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>Bug in verify account</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <div class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
-                                            style="width: 2rem; height: 2rem">
-                                            <span class="m-auto">MN</span>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="align-middle"></td>
-                                    <td scope="col" class="align-middle">
-                                        <span>New</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>Hight</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>March 29, 2024</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <div class="d-flex">
-                                            <a href="#" data-bs-toggle="tooltip" title="Timesheet"
-                                                class="mx-2 my-auto"><i class="bi bi-clock"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"><i
-                                                    class="bi bi-pencil"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="View" class="my-auto mx-2"><i
-                                                    class="bi bi-eye"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="Delete" class="mx-2 my-auto"><i
-                                                    class="bi bi-trash"></i></a>
-                                            <a href="#" data-bs-toggle="tooltip" title="Actions" class="mx-2 my-auto"><i
-                                                    class="bi bi-three-dots-vertical"></i></a>
+                        sortFields.forEach(select => {
+                            select.addEventListener('change', function() {
+                                // Lấy URL hiện tại
+                                const currentUrl = new URL(window.location.href);
+                                
+                                // Lấy các tham số hiện tại từ URL
+                                const params = new URLSearchParams(currentUrl.search);
 
-                                            <!-- <a href="#" data-bs-toggle="tooltip" title="Elapsed Time" class="my-auto mx-2"><img src="/images/elapsed-time.png" alt="" style="width: 1.5rem; height: 1.5rem;"></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Add Issue" class="my-auto mx-2"><i class="bi bi-bug" style="font-size:larger;"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Add Result" class="my-auto mx-2"><i class="bi bi-file-earmark-text" style="font-size:large;"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Add Lated Steps" class="mx-2 my-auto"><img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem;"></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Timesheet" class="mx-2 my-auto"><i class="bi bi-clock"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Delete" class="mx-2 my-auto"><i class="bi bi-trash"></i></a>
-                                                <a href="#" data-bs-toggle="tooltip" title="Actions" class="mx-2 my-auto"><i class="bi bi-three-dots-vertical"></i></a> -->
+                                // Cập nhật các tham số sắp xếp
+                                sortFields.forEach(field => {
+                                    params.set(field.name, field.value);
+                                });
+
+                                // Tạo URL mới với các tham số đã cập nhật
+                                const newUrl = `${currentUrl.pathname}?${params.toString()}`;
+
+                                // Chuyển hướng đến URL mới
+                                window.location.href = newUrl;
+                            });
+                        });
+                    });
+                    </script>
+                <form action="" class="search-issueCode  mx-2">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search By Issues Code"
+                        aria-label="Recipient's username"
+                        aria-describedby="button-addon2"
+                        name="issueCodeKeyword"
+                        style="width: 12rem"
+                    />
+                </form>
+
+                <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form = document.querySelector('.search-issueCode');
+                            form.addEventListener('submit', function(event) {
+                                event.preventDefault(); 
+                                const keyword = document.querySelector('input[name="issueCodeKeyword"]').value;
+                                const currentUrl = new URL(window.location.href);
+                                currentUrl.searchParams.set('issueCodeKeyword', keyword);
+                                window.location.href = currentUrl.toString();
+                            });
+                        });
+                    </script>
+
+                <form action="" class="search-issueTitle  mx-2">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search By Issues Title"
+                        aria-label="Recipient's username"
+                        aria-describedby="button-addon2"
+                        name="issueTitleKeyword"
+                        style="width: 12rem"
+                    />
+                </form>
+
+                <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form = document.querySelector('.search-issueTitle');
+                            form.addEventListener('submit', function(event) {
+                                event.preventDefault(); 
+                                const keyword = document.querySelector('input[name="issueTitleKeyword"]').value;
+                                const currentUrl = new URL(window.location.href);
+                                currentUrl.searchParams.set('issueTitleKeyword', keyword);
+                                window.location.href = currentUrl.toString();
+                            });
+                        });
+                    </script>
+                    
+                </div>
+                <div class="d-flex my-auto justify-content-end">
+                {{!-- old --}}
+                {{!-- <button
+                    class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
+                    style="width: 2rem; height: 2rem"
+                >
+                    <i class="bi bi-chevron-compact-left m-auto"></i>
+                </button>
+                <button
+                    class="rounded-circle bg-danger d-flex mx-1 border-0"
+                    style="width: 2rem; height: 2rem"
+                >
+                    <span class="m-auto">1</span>
+                </button>
+                <button
+                    class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
+                    style="width: 2rem; height: 2rem"
+                >
+                    <i class="bi bi-chevron-compact-right m-auto"></i>
+                </button> --}}
+                </div>
+
+                {{!-- new --}}
+                <div class="d-flex my-auto justify-content-end">
+                            {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+            leftText="Prev" rightText="Next" }}}
+                </div>
+            </div>
+
+            <div class="below px-2 pb-2" style="">
+                <table class="table">
+                <thead>
+                    <tr>
+                    <td scope="col" class="">
+                        <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="code"
+                            onchange="toggleCheckAllIssue(this)"
+                        />
+                        <label class="form-check-label" for="code"
+                            >Code</label
+                        >
+                        </div>
+                    </td>
+                    <td scope="col" class="">Title</td>
+                    <td scope="col" class="">Created By</td>
+                    <td scope="col" class="">Assigned to</td>
+                    <td scope="col" class="">Status</td>
+                    <td scope="col" class="">Priority</td>
+                    <td scope="col" class="">Created Date</td>
+                    <td scope="col" class="">Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each project.Issues}}
+                    <tr>
+                    <td scope="col" class="align-middle">
+                        <div class="form-check">
+                        <input
+                            class="form-check-input code-issue-item"
+                            type="checkbox"
+                            value=""
+                            id="code-issue-item"
+                        />
+                        <label class="form-check-label" for="code-issue-item"
+                            ><i
+                            class="bi bi-bug me-1"
+                            style="color: orange"
+                            ></i
+                            >{{truncateId this._id 8}}</label
+                        >
+                        </div>
+                    </td>
+                    <td scope="col" class="align-middle" style="max-width: 200px;">
+                        <a href="/project/{{../project.ProjectID}}/issue/{{this._id}}" class="issue-link-modal">{{this.Title}}</a>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <div
+                        class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
+                        style="width: 2rem; height: 2rem"
+                        >
+                        <span class="m-auto">{{getInitials this.CreatedBy}}</span>
+                        </div>
+                    </td>
+                    <td scope="col" class="align-middle">{{this.AssignTo}}</td>
+                    <td scope="col" class="align-middle">
+                        <span>{{this.Status}}</span>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <span>{{this.Priority}}</span>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <span>{{formatDate3 this.CreatedAt}}</span>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <div class="d-flex">
+                        <a
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Timesheet"
+                            class="mx-2 my-auto"
+                            ><i class="bi bi-clock"></i
+                        ></a>
+                        <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#editIssue"
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Edit"
+                            class="my-auto mx-2"
+                            data-id="{{this._id}}"
+                            data-title="{{this.Title}}"
+                            data-description="{{this.Description}}"
+                            data-category="{{this.Category}}"
+                            data-status="{{this.Status}}"
+                            data-priority="{{this.Priority}}"
+                            data-issue-type="{{this.IssueType}}"
+                            data-severity="{{this.Severity}}"
+                            data-environment="{{this.Environment}}"
+                            data-start-day="{{this.StartDate}}"
+                            data-end-day="{{this.EndDate}}"
+                            data-assign-to="{{this.AssignTo}}"
+                            data-test-run="{{this.TestRunName}}"
+                            data-steps-to-reproduce="{{this.StepsToReproduce}}"
+                        >
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
+
+                        <form action="/project/{{../project.ProjectID}}/issue/edit" class="needs-validation" method="post" novalidate>
+                            <input type="hidden" name="projectID" value="{{../project.ProjectID}}">
+                            <input type="hidden" name="issue-id" value="{{this._id}}">
+                            <div class="modal fade" id="editIssue" tabindex="-1"
+                                aria-labelledby="exampleModalFullscreenLabel" style="display: none"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-fullscreen">
+                                    <div class="modal-content" style="margin-left: 300px; padding-right: 300px">
+                                        <div class="modal-header">
+                                            <div>
+                                                <h6 class="m-3">Edit Issue</h6>
+                                                <ul class="nav nav-underline menu-2">
+                                                    <li class="nav-item mx-2">
+                                                        <a class="nav-link active border-danger" aria-current="page"
+                                                            href="#">Details</a>
+                                                    </li>
+                                                    <li class="nav-item mx-2">
+                                                        <a class="nav-link" href="#">Attachment</a>
+                                                    </li>
+                                                    <li class="nav-item mx-2">
+                                                        <a class="nav-link" href="#">Custom Fields</a>
+                                                    </li>
+                                                    <li class="nav-item mx-2">
+                                                        <a class="nav-link" href="#">Others</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
-                                    </td>
-                                </tr> --}}
-                                {{/each}}
-                            </tbody>
-                        </table>
+                                        <div class="modal-body px-5">
+                                            <div class="container">
+                                                <div class="row row-cols-md-2">
+                                                    <div class="col mb-3">
+                                                        <label for="fIssueTitle" class="form-label">Issue Title
+                                                            <span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="fIssueTitle" rows="3"
+                                                            name="issue-title" placeholder="Enter Issue Title"
+                                                            required></textarea>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Issue Title.
+                                                        </div>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="fIssueDescription"
+                                                            class="form-label">Description</label>
+                                                        <div class="rounded-top border d-flex p-2">
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-type-bold"></i>
+                                                            </button>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-type-italic"></i>
+                                                            </button>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-link"></i>
+                                                            </button>
+                                                            <form action="">
+                                                                <select class="form-select border-0"
+                                                                    aria-label="Default select example"
+                                                                    style="width: 8rem">
+                                                                    <option selected>Normal</option>
+                                                                    <option value="1">Small</option>
+                                                                    <option value="2">Normal</option>
+                                                                    <option value="3">Large</option>
+                                                                </select>
+                                                            </form>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-list-ol"></i>
+                                                            </button>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-list-ul"></i>
+                                                            </button>
+                                                        </div>
+                                                        <textarea class="form-control rounded-top-0"
+                                                            id="fIssueDescription" rows="5" name="issue-description"
+                                                            placeholder="Insert text here..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-cols-md-2">
+                                                    <div class="col mb-3">
+                                                        <label for="fCategory" class="form-label">Category
+                                                            <span class="text-danger">*</span></label>
+                                                        <input class="form-control" list="datalistCategory"
+                                                            id="fCategory" name="category"
+                                                            placeholder="Select a Category" required />
+                                                        <datalist id="datalistCategory">
+                                                            {{#each project.Categories}}
+                                                            <option value="{{this}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+
+                                                        <div class="invalid-feedback">
+                                                            Please Select a Category.
+                                                        </div>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="fStatus" class="form-label">Status
+                                                            <span class="text-danger">*</span></label>
+                                                        <input class="form-control" list="datalistStatus"
+                                                            id="fStatus" name="status" placeholder="Select a Status"
+                                                            required />
+                                                        <datalist id="datalistStatus">
+                                                            {{#each project.Status}}
+                                                            <option value="{{this}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+
+                                                        <div class="invalid-feedback">
+                                                            Please Select a Status.
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col mb-3">
+                                                        <label for="fPriority" class="form-label">Priority
+                                                            <span class="text-danger">*</span></label>
+                                                        <input class="form-control" list="datalistPriority"
+                                                            id="fPriority" name="priority"
+                                                            placeholder="Select a Priority" required />
+                                                        <datalist id="datalistPriority">
+                                                            {{#each project.Priorities}}
+                                                            <option value="{{this}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+
+                                                        <div class="invalid-feedback">
+                                                            Please Select a Priority.
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col mb-3">
+                                                        <label for="fIssueType" class="form-label">Issue
+                                                            Type</label>
+                                                        <input class="form-control" list="datalistIssueType"
+                                                            id="fIssueType" name="issue-type"
+                                                            placeholder="Select a Issue Type" />
+                                                        <datalist id="datalistIssueType">
+                                                            {{#each project.BugTypes}}
+                                                            <option value="{{this}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+                                                    </div>
+
+                                                    <div class="col mb-3">
+                                                        <label for="fAssignedTo" class="form-label">Assigned
+                                                            To</label>
+                                                        <input class="form-control" list="datalistAssignedTo"
+                                                            id="fAssignedTo" name="assigned-to"
+                                                            placeholder="Select an Assigned To" />
+                                                        <datalist id="datalistAssignedTo">
+                                                            {{#each project.Users}}
+                                                            <option value="{{Name}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+                                                    </div>
+
+                                                    <div class="col mb-3">
+                                                        <label for="fTestRun" class="form-label">Test Run</label>
+                                                        <input class="form-control" list="datalistTestRun"
+                                                            id="fTestRun" name="testRun"
+                                                            placeholder="Select a Test Run" />
+                                                        <datalist id="datalistTestRun">
+                                                            {{#each project.TestRuns}}
+                                                            <option value="{{Name}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+                                                    </div>
+
+                                                    <div class="col mb-3">
+                                                        <label for="fSeverity" class="form-label">Severity</label>
+                                                        <input class="form-control" list="datalistSeverity"
+                                                            id="fSeverity" name="severity"
+                                                            placeholder="Select a Severity" />
+                                                        <datalist id="datalistSeverity">
+                                                            {{#each project.Severities}}
+                                                            <option value="{{this}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+                                                    </div>
+
+                                                    <div class="col mb-3">
+                                                        <label for="fEnvironment" class="form-label">Environment
+                                                        </label>
+                                                        <input class="form-control" list="datalistEnvironment"
+                                                            id="fEnvironment" name="environment"
+                                                            placeholder="Select an Environment" />
+                                                        <datalist id="datalistEnvironment">
+                                                            {{#each project.Environments}}
+                                                            <option value="{{this}}"></option>
+                                                            {{/each}}
+                                                        </datalist>
+                                                    </div>
+
+                                                    <div class="col-2 mb-3">
+                                                        <p class="mb-2">Due date</p>
+                                                        <div class="row row-cols-md-2">
+                                                            <div class="col d-flex">
+                                                                <label for="startDay"
+                                                                    class="my-auto me-2">From</label>
+                                                                <input class="form-control" type="date"
+                                                                    id="startDay" name="start-day" />
+                                                            </div>
+                                                            <div class="col d-flex">
+                                                                <label for="endDay" class="my-auto me-2">To</label>
+                                                                <input class="form-control" type="date" id="endDay"
+                                                                    name="end-day" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-cols-md-2">
+                                                    <div class="col mb-3">
+                                                        <label for="fStepsToReproduce" class="form-label">Steps to
+                                                            reproduce</label>
+                                                        <div class="rounded-top border d-flex p-2">
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-type-bold"></i>
+                                                            </button>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-type-italic"></i>
+                                                            </button>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-link"></i>
+                                                            </button>
+                                                            <select class="form-select border-0"
+                                                                aria-label="Default select example"
+                                                                style="width: 8rem">
+                                                                <option selected>Normal</option>
+                                                                <option value="1">Small</option>
+                                                                <option value="2">Normal</option>
+                                                                <option value="3">Large</option>
+                                                            </select>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-list-ol"></i>
+                                                            </button>
+                                                            <button type="button" class="bg-white border-0 mx-1">
+                                                                <i class="bi bi-list-ul"></i>
+                                                            </button>
+                                                        </div>
+                                                        <textarea class="form-control rounded-top-0"
+                                                            id="fStepsToReproduce" rows="5"
+                                                            name="steps-to-reproduce"
+                                                            placeholder="Insert text here..."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="right-side d-flex">
+                                                <button type="button" class="btn btn-outline-danger mx-2"
+                                                    data-bs-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <button type="submit" class="btn btn-danger mx-2">
+                                                    Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                            var editIssueModal = document.getElementById('editIssue');
+                            editIssueModal.addEventListener('show.bs.modal', function (event) {
+                                // Button that triggered the modal
+                                var button = event.relatedTarget;
+                                // Extract info from data-* attributes
+                                var title = button.getAttribute('data-title');
+                                var description = button.getAttribute('data-description');
+                                var category = button.getAttribute('data-category');
+                                var status = button.getAttribute('data-status');
+                                var priority = button.getAttribute('data-priority');
+                                var issueType = button.getAttribute('data-issue-type');
+                                var severity = button.getAttribute('data-severity');
+                                var environment = button.getAttribute('data-environment');
+                                var assignedTo = button.getAttribute('data-assign-to');
+                                var testRun = button.getAttribute('data-test-run');
+                                var stepsToReproduce = button.getAttribute('data-steps-to-reproduce');
+                                var startDay = button.getAttribute('data-start-day');
+                                var endDay = button.getAttribute('data-end-day')
+
+                                // Chuyển đổi định dạng ngày tháng
+                                var startDayFormat = startDay ? new Date(startDay).toISOString().split('T')[0] : null;
+                                var endDayFormat = endDay ? new Date(endDay).toISOString().split('T')[0] : null;
+
+                                // Update the modal's form fields
+                                var modal = this;
+                                modal.querySelector('textarea[name="issue-title"]').value = title;
+                                modal.querySelector('textarea[name="issue-description"]').value = description;
+                                modal.querySelector('input[name="category"]').value = category;
+                                modal.querySelector('input[name="status"]').value = status;
+                                modal.querySelector('input[name="priority"]').value = priority;
+                                modal.querySelector('input[name="issue-type"]').value = issueType;
+                                modal.querySelector('input[name="severity"]').value = severity;
+                                modal.querySelector('input[name="environment"]').value = environment;
+                                modal.querySelector('input[name="start-day"]').value = startDayFormat;
+                                modal.querySelector('input[name="end-day"]').value = endDayFormat;
+                                modal.querySelector('input[name="assigned-to"]').value = assignedTo;
+                                modal.querySelector('input[name="testRun"]').value = testRun;
+                                modal.querySelector('textarea[name="steps-to-reproduce"]').value = stepsToReproduce;
+                            });
+                        });
+                        
+
+                    </script>
+
+                        <a
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="View"
+                            class="my-auto mx-2"
+                            ><i class="bi bi-eye"></i
+                        ></a>
+                        <a
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Delete"
+                            class="mx-2 my-auto delete-issue"
+                            data-id="{{this._id}}"
+                            data-projectID="{{../project.ProjectID}}"
+                            ><i class="bi bi-trash"></i
+                        ></a>
+
+                        
+                        <a
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Actions"
+                            class="mx-2 my-auto"
+                            ><i class="bi bi-three-dots-vertical"></i
+                        ></a>
+
+                        </div>
+                    </td>
+                    </tr>
+                    {{/each}}
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const deleteButtons = document.querySelectorAll('.delete-issue');
+
+                            deleteButtons.forEach(button => {
+                                button.addEventListener('click', function(event) {
+                                    event.preventDefault();
+
+                                    const issueId = this.getAttribute('data-id');
+                                    const projectId = this.getAttribute('data-projectID');
+
+                                    if (confirm('Are you sure you want to delete this issue?')) {
+                                        const originalContent = this.innerHTML;
+                                        this.innerHTML = '<i class="bi bi-hourglass-split"></i>';
+                                        this.disabled = true;
+
+
+                                        fetch(`/project/${projectId}/issue/${issueId}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                location.reload(); // Reload the page to reflect the changes
+                                            } else {
+                                                alert('Failed to delete the issue.');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            alert('An error occurred while deleting the issue.');
+                                            // Khôi phục nội dung ban đầu và trạng thái của nút
+                                            this.innerHTML = originalContent;
+                                            this.disabled = false;
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        <div
+            class="col-1 d-flex my-auto"
+            style="margin-right: -0.5rem; z-index: 1000; width: 20px"
+        >
+            <a href="#" id="toggleButtonFilter">
+            <div
+                class="rounded bg-success d-flex text-white"
+                style="width: 30px; height: 40px"
+            >
+                <i
+                class="bi bi-chevron-compact-right m-auto"
+                id="toggleIconFilter"
+                ></i>
+            </div>
+            </a>
+        </div>
+        <div class="col-2 right-col filter-card mb-3">
+            <div class="container rounded bg-white h-100 my-3 p-2">
+            <div>
+                <h6>Filter</h6>
+                <div class="d-flex justify-content-between border-bottom p-2">
+                <span>Filter</span>
+                <button class="border-0 bg-white btn-clear">Clear</button>
+                </div>
+                <div class="p-2">
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Category (<span class="num-category">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.Categories}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input category-checkbox"
+                            type="checkbox"
+                            value="{{this}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{this}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Status (<span class="num-status">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.Status}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input status-checkbox"
+                            type="checkbox"
+                            value="{{this}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{this}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    
+                    
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Priority (<span class="num-priority">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.Priorities}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input priority-checkbox"
+                            type="checkbox"
+                            value="{{this}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{this}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                  
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Bug Type (<span class="num-bug-type">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.BugTypes}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input bug-type-checkbox"
+                            type="checkbox"
+                            value="{{this}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{this}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                   
+                    </ul>
+                </div>
+                
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Assignee (<span class="num-assignee">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input assignee-checkbox"
+                            type="checkbox"
+                            value=""
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            Unassigned
+                        </label>
+                        </div>
+                    </li>
+                    {{#each project.UserAssigns}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input assignee-checkbox"
+                            type="checkbox"
+                            value="{{_id}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{Name}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Created By (<span class="num-created-by">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.UserCreates}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input created-by-checkbox"
+                            type="checkbox"
+                            value="{{_id}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{Name}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Environment (<span class="num-environment">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.Environments}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input environment-checkbox"
+                            type="checkbox"
+                            value="{{this}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{this}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Release (<span class="num-release">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.Releases}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input release-checkbox"
+                            type="checkbox"
+                            value="{{_id}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{Name}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    </ul>
+                </div>
+                <div class="dropdown mb-2">
+                    <button
+                    class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    Module (<span class="num-module">0</span>)
+                    </button>
+                    <ul
+                    class="dropdown-menu px-2"
+                    aria-labelledby="dropdownMenuButton1"
+                    >
+                    {{#each project.Modules}}
+                    <li>
+                        <div class="form-check">
+                        <input
+                            class="form-check-input module-checkbox"
+                            type="checkbox"
+                            value="{{_id}}"
+                            id="flexCheckDefault"
+                        />
+                        <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                        >
+                            {{Name}}
+                        </label>
+                        </div>
+                    </li>
+                    {{/each}}
+                    </ul>
+                </div>
+                </div>
+                <div class="p-2">
+                    <button
+                    type="button"
+                    class="btn btn-danger w-100"
+                    id="applyFilters"
+                >
+                    Apply
+                </button>
+                </div>
+            </div>
+            <script>
+    function getCheckedValues(className) {
+        const checkboxes = document.querySelectorAll(`.${className}`);
+        let values = [];
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                values.push(checkbox.value);
+            }
+        });
+        return values.join(',');
+    }
+
+    document.getElementById('applyFilters').addEventListener('click', () => {
+        const category = getCheckedValues('category-checkbox');
+        const status = getCheckedValues('status-checkbox');
+        const priority = getCheckedValues('priority-checkbox');
+        const bugType = getCheckedValues('bug-type-checkbox');
+        const assignee = getCheckedValues('assignee-checkbox');
+        const createdBy = getCheckedValues('created-by-checkbox');
+        const environment = getCheckedValues('environment-checkbox');
+        const release = getCheckedValues('release-checkbox');
+        const module = getCheckedValues('module-checkbox');
+
+        let queryParams = [];
+        if (category) queryParams.push(`category=${category}`);
+        if (status) queryParams.push(`status=${status}`);
+        if (priority) queryParams.push(`priority=${priority}`);
+        if (bugType) queryParams.push(`bugType=${bugType}`);
+        if (assignee) queryParams.push(`assignee=${assignee}`);
+        if (createdBy) queryParams.push(`createdBy=${createdBy}`);
+        if (environment) queryParams.push(`environment=${environment}`);
+        if (release) queryParams.push(`release=${release}`);
+        if (module) queryParams.push(`module=${module}`);
+
+        const queryString = queryParams.join('&');
+        const currentUrl = window.location.href.split('?')[0]; // Lấy URL hiện tại mà không có query params
+        window.location.href = `${currentUrl}?${queryString}`;
+    });
+</script>
+        </div>
+        </div>
+    </div>
+     <script src="/js/issues-view.js"></script>
+
+     {{!-- <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#issueModal">
+        Open Modal
+    </button> --}}
+
+    <!-- Modal -->
+    <div class="modal fade" id="issueModal" tabindex="-1" aria-labelledby="issueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="issueModalLabel">Issue Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row gx-2 section_formField">
+            <div class="col-12 form-field my-2 p-3 rounded bg-detail">
+                <div class="">
+                    <div class="fw-4 fw-semibold">Issue title</div>
+                    <div class="">{{project.IssueDetail.Title}}</div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Category</label>
+                    <div>
+                    <b class="fw-semibold">{{project.IssueDetail.Category}}</b>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Status</label>
+                    <div>
+                    <div class="text-revamp">{{project.IssueDetail.Status}}</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Priority</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <div class="text-revamp">{{project.IssueDetail.Priority}}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-1 d-flex my-auto" style="margin-right: -0.5rem; z-index: 1000; width: 20px">
-                <a href="#" id="toggleButtonFilter">
-                    <div class="rounded bg-success d-flex text-white" style="width: 30px; height: 40px">
-                        <i class="bi bi-chevron-compact-right m-auto" id="toggleIconFilter"></i>
-                    </div>
-                </a>
-            </div>
-            <div class="col-2 right-col filter-card">
-                <div class="container rounded bg-white h-100 my-3 p-2">
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Issue Type</label>
                     <div>
-                        <h6>Filter</h6>
-                        <div class="d-flex justify-content-between border-bottom p-2">
-                            <span>Filter</span>
-                            <button class="border-0 bg-white btn-clear">Clear</button>
-                        </div>
-                        <div class="p-2">
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Category (<span class="num-category">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input category-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Bug
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input category-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Task
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input category-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Subtask
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Status (<span class="num-status">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Assgined
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Closed
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Deferred
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Duplicate
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Fixed
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Invalid
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                New
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Reopen
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Retest
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input status-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Verified
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Priority (<span class="num-priority">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input priority-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Show stopper
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input priority-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Hight
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input priority-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Medium
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input priority-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Low
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Bug Type (<span class="num-bug-type">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input bug-type-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Validation
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input bug-type-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Functionality
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input bug-type-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                SEO
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input bug-type-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Console Error
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input bug-type-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Server Error
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input bug-type-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Tracking
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Operating systems (<span class="num-operating-systems">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input operating-systems-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                All
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input operating-systems-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Mac os
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input operating-systems-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Ipad
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input operating-systems-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Iphone
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input operating-systems-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Android
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input operating-systems-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Windows os
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Assignee (<span class="num-assignee">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input assignee-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Unassigned
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input assignee-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Minh-Nhat Nguyen
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Created By (<span class="num-created-by">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input created-by-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Minh-Nhat Nguyen
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Environment (<span class="num-environment">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input environment-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                qa
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input environment-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                staging
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input environment-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                development
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input environment-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                production
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input environment-checkbox" type="checkbox"
-                                                value="" id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                uat
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Release (<span class="num-release">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input release-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Web 7 ver 1.0
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown mb-2">
-                                <button class="btn dropdown-toggleb btn-sm w-100 text-start bg-body-tertiary"
-                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Module (<span class="num-module">0</span>)
-                                </button>
-                                <ul class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input module-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Home page
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input module-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Header section
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input module-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Footer section
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input module-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Pricing
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input module-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Blog
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input module-checkbox" type="checkbox" value=""
-                                                id="flexCheckDefault" />
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Contact
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="text-revamp">{{project.IssueDetail.IssueType}}</div>
                     </div>
-                </div>  
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Assigned to</label>
+                    <div>
+                    <div class="text-revamp">{{project.IssueDetail.User.Name}}</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Module</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <div class="text-revamp">{{project.IssueDetail.Module.Name}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Severity</label>
+                    <div>
+                    <div class="text-revamp">{{project.IssueDetail.Severity}}</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Environment</label>
+                    <div>
+                    <div class="text-revamp">{{project.IssueDetail.Environment}}</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Release</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <div class="text-revamp">{{project.IssueDetail.Release.Name}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-4">
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Operating systems</label>
+                    <div>
+                    <div class="text-revamp">-</div>
+                    </div>
+                </div>
+                <div class="col-4 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Due Date</label>
+                    <div>
+                    <div class="text-revamp">{{formatDate3 project.IssueDetail.StartDate}} - {{formatDate3 project.IssueDetail.EndDate}}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 my-2 p-3 form-field description-view rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Description</label>
+                <div>
+                <div class="text-revamp text-left">{{project.IssueDetail.Description}}</div>
+                </div>
+            </div>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger">Edit</button>
+        </div>
+        </div>
     </div>
-</div>
 
-<script>
+    <script>
+        $(document).ready(function() {
+            $('a.issue-link-modal').click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr('href');
+                window.location.href = url;
+            });
+        });
+
+        window.onload = function() {
+            var newUrl = window.location.pathname;
+            var regex = /\/issue\/([^/]+)$/;
+
+            if (regex.test(newUrl)) {
+                var $targetModal = $('#issueModal');
+                var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#issueModal"]');
+
+                $targetModal.modal('show');
+            }
+        };
+    </script>
+{{!-- new --}}
+    <script>
     document.querySelectorAll(".pagination li").forEach((li, index) => {
         li.classList.add("page-item");
     });
@@ -1048,3 +1536,4 @@
         a.classList.add("page-link");
     });
 </script>
+</div>

@@ -17,8 +17,13 @@ controller.show = async (req, res) => {
         
         
         const projectId = req.params.projectId;
+        let reportKeyword = req.query.reportKeyword || '';
+
         // Tìm tất cả các báo cáo thuộc project đó
-        const reports = await reportModel.find({ ProjectID: projectId }, null, options);
+        const reports = await reportModel.find({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }}, null, options);
+        
+        // Tìm tất cả các báo cáo thuộc project đó
+        // const reports = await reportModel.find({ ProjectID: projectId }, null, options);
         const reportsCount = await reportModel.countDocuments({ ProjectID: projectId });
         res.locals.pagination =
         {
@@ -49,7 +54,7 @@ controller.show = async (req, res) => {
         console.error('Error fetching reports:', error);
         res.status(500).send('Internal Server Error');
     }
-}
+};
 
 controller.showAdd = (req, res) => {
     const projectId = req.params.projectId;
@@ -68,6 +73,17 @@ controller.showAdd = (req, res) => {
         n9: "active border-danger",
         project: projectData
     });
-}
+};
+
+controller.addReport = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        conole.log(req.body);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating Report', error });
+    }
+};
+
 
 module.exports = controller;

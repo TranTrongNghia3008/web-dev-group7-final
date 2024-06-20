@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   UserImg: { type: String, default: 'default-user-image.png' },
   LastLogin: { type: Date },
   IsAdmin: { type: Boolean, default: false },
+  Status: { type: String, enum: ['Active', 'Inactive'] },
   CreatedAt: { type: Date, default: Date.now },
   UpdatedAt: { type: Date, default: Date.now },
   AccountEmail: { type: String, ref: 'Account', required: true },

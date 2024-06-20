@@ -29,9 +29,8 @@
                                 Archived
                             </a>
 
-                            <button type="button" class="btn btn-danger btn-graph ms-4 my-auto"
-                                onclick="window.location.href = '/project/{{project.ProjectID}}/report/add';"
-                                style="width: 10rem">
+                            <button type="button" class="btn btn-danger btn-graph ms-4 my-auto" data-bs-toggle="modal"
+                                data-bs-target="#addReport" style="width: 12rem">
                                 <i class="bi bi-plus"></i> Add Report
                             </button>
                         </div>
@@ -55,10 +54,29 @@
                         <span class="my-auto">entries</span>
                     </div> --}}
                     <div class="input-group mb-3 w-50 px-5 my-auto">
-                        <input type="text" class="form-control w-100" placeholder="Search By Title"
-                            aria-label="Recipient's username" aria-describedby="button-addon2" />
+
+
+                        <form action="" class="search-report  w-100">
+                            <input type="text" class="form-control" placeholder="Search by Title"
+                                aria-label="Recipient's username" aria-describedby="button-addon2"
+                                name="reportKeyword" />
+                        </form>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const form = document.querySelector('.search-report');
+                                form.addEventListener('submit', function (event) {
+                                    event.preventDefault();
+                                    const keyword = document.querySelector('input[name="reportKeyword"]').value;
+                                    const currentUrl = new URL(window.location.href);
+                                    currentUrl.searchParams.set('reportKeyword', keyword);
+                                    window.location.href = currentUrl.toString();
+                                });
+                            });
+                        </script>
                     </div>
                     <div class="d-flex w-25 my-auto justify-content-end">
+                        {{!-- old --}}
                         {{!-- <button class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
                             style="width: 2rem; height: 2rem">
                             <i class="bi bi-chevron-compact-left m-auto"></i>
@@ -119,12 +137,13 @@
                 </div>
                 <div class="container bg-white rounded-bottom d-flex justify-content-between py-4 mb-3">
                     <div>
-                        
+
                     </div>
 
                     <div class="d-flex my-auto justify-content-end">
-                        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
+                        {{{createPagination pagination paginationClass="pagination my-0"
+                        paginationStyle="justify-content-end"
+                        leftText="Prev" rightText="Next" }}}
                     </div>
                 </div>
             </div>
@@ -272,7 +291,175 @@
             </div>
         </div>
     </div>
+
+
+    {{! Modals}}
+    {{! Modal: Add report }}
+    <form action="/project/{{project.ProjectID}}/report" id="addReportForm" method="post" class="needs-validation" novalidate>
+        <div class="modal fade" id="addReport" tabindex="-1" arialabelledby="addReportLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <div class="modal-content border border-1 border-2" style="color: #919faf">
+                    <div class="modal-header">
+                        <div class="modal-title fs-5 fw-semibold text-dark w-100 text-center" id="addReportLabel">
+                            Add Report
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row p-3">
+                            <div class="col">
+                                <div class="mb-3 d-flex">
+                                    <label fors="fReports" class="form-label fw-bold" style="width: 17rem">Reports</label>
+                                    <div class="w-100">
+                                        <select class="form-select mb-3" id="fReports" name="reportType"
+                                            aria-label="Default select example">
+                                            <option selected value="Activity Summary">
+                                                Activity Summary
+                                            </option>
+                                            <option value="Releases Summary">Releases Summary</option>
+                                            <option value="Test Runs Summary">
+                                                Test Runs Summary
+                                            </option>
+                                            <option value="Issue Summary">Issue Summary</option>
+                                            <option value="Requirement Summary">
+                                                Requirement Summary
+                                            </option>
+                                            <option value="Recent Test Runs Status">
+                                                Recent Test Runs Status
+                                            </option>
+                                            <option value="Result Summary">Result Summary</option>
+                                            <option value="Case Traceability Summary">
+                                                Case Traceability Summary
+                                            </option>
+                                            <option value="Test Plan Summary">
+                                                Test Plan Summary
+                                            </option>
+                                            <option value="Module Summary">Module Summary</option>
+                                            <option value="Case Detail Summary">
+                                                Case Detail Summary
+                                            </option>
+                                            <option value="Test Run Assignee Summary">
+                                                Test Run Assignee Summary
+                                            </option>
+                                            <option value="Test Cases Steps Summary">
+                                                Test Cases Steps Summary
+                                            </option>
+                                            <option value="Requirements Traceability Summary">
+                                                Requirements Traceability Summary
+                                            </option>
+                                            <option value="Data Summary Report">
+                                                Data Summary Report
+                                            </option>
+                                            <option value="Test Case Approval Summary">
+                                                Test Case Approval Summary
+                                            </option>
+                                            <option value="Release Requirement Summary">
+                                                Release Requirement Summary
+                                            </option>
+                                            <option value="Module Wise Test Case Result">
+                                                Module Wise Test Case Result
+                                            </option>
+                                        </select>
+                                        <p class="text-secondary mb-0">
+                                            <strong>Note: </strong>Summary of Activities performed in
+                                            the project in a given time span including(Releases, Test
+                                            cases, Test Runs, and Issues)
+                                        </p>
+                                        <a href="#" class="read-more">Read more</a>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 d-flex">
+                                    <label for="fReportType" class="form-label fw-bold" style="width: 17rem">Resource type</label>
+                                    <div class="w-100">
+                                        <select class="form-select mb-3" id="fReportType" name="resourceType"
+                                            aria-label="Default select example">
+                                            <option selected value="Select All">Select All</option>
+                                            <option value="Releases">Releases</option>
+                                            <option value="Test Case">Test Case</option>
+                                            <option value="Test Run">Test Run</option>
+                                            <option value="Issue">Issue</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 d-flex">
+                                    <label for="fTitle" class="form-label fw-bold" style="width: 17rem">Title <span
+                                            class="text-danger">*</span></label>
+                                    <div class="w-100">
+                                        <input class="form-control" id="fTitle" name="title" type="text"
+                                            placeholder="Title..." aria-label="default input example" required />
+                                    </div>
+                                    <div class="invalid-feedback">Please enter the Title.</div>
+                                </div>
+                                
+                                <div class="mb-3 d-flex flex-column">
+                                    <div class="fw-bold">Duration</div>
+
+                                    <div class="w-100">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="fStartDate">From: </label>
+                                                <input class="form-control" id="fStartDate" name="startDate"
+                                                    type="date" />
+                                            </div>
+                                            <div class="col">
+                                                <label for="fStartTime">Time: </label>
+                                                <input class="form-control" type="time" id="fStartTime"
+                                                    name="startTime" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="fEndDate">To: </label>
+                                                <input class="form-control" id="fEndDate" name="endDate" type="date" />
+                                            </div>
+                                            <div class="col">
+                                                <label for="fEndTime">Time: </label>
+                                                <input class="form-control" type="time" id="fEndTime" name="endTime" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="mb-3 d-flex form-check form-switch ps-0">
+                                    <label class="form-check-label fw-bold" for="fAccessingAndScheduling"
+                                        style="width: 17rem">Accessing
+                                        & Scheduling</label>
+                                    <div class="w-100">
+                                        <input class="form-check-input mx-0 mt-1" type="checkbox"
+                                            id="fAccessingAndScheduling" name="isScheduled" checked />
+                                    </div>
+                                </div>
+                                <p class="text-secondary">
+                                    Note: Switching this ON will allow you to enable scheduled
+                                    Email Report and Accessing Controls
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger mx-2">
+                            Save and add
+                        </button>
+                        <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
 </div>
+</form>
+
 
 <script>
     document.querySelectorAll(".pagination li").forEach((li, index) => {
@@ -283,3 +470,4 @@
         a.classList.add("page-link");
     });
 </script>
+</div>

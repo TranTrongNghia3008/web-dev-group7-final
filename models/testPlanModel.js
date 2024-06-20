@@ -12,7 +12,7 @@ const testPlanSchema = new mongoose.Schema({
 
 // Custom validation for EndDate > StartDate
 testPlanSchema.pre('save', function(next) {
-  if (this.EndDate <= this.StartDate) {
+  if (this.StartDate && this.EndDate && this.EndDate <= this.StartDate) {
     const err = new Error('EndDate must be greater than StartDate');
     next(err);
   } else {

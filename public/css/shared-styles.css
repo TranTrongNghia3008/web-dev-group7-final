@@ -171,3 +171,26 @@ footer {
 .status-deferred {
     background-color: #e67e22; /* Cam */
 }
+
+.bg-detail {
+    background-color: #f5f5f5 !important;
+}
+
+.tagsinput {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    border-radius: 0.25em;
+}
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2em 0.5em;
+    background-color: #f15752;
+    border-radius: 0.5em;
+    border: 1px solid #ced4da;
+}
+.tag .btn-delete-tag {
+    margin-left: 0.5em;
+    cursor: pointer;
+}

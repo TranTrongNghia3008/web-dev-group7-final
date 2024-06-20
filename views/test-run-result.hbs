@@ -5,8 +5,8 @@
         <div class="col my-auto d-flex">
             <a href="/project/{{project.ProjectID}}/test-run">Test Runs & Results</a>
             <i class="bi bi-chevron-right mx-2"></i>
-            <span>All - </span>
-            <select
+            <span>All</span>
+            {{!-- <select
             class="border-0"
             aria-label="Default select example"
             style="width: 10rem"
@@ -15,7 +15,7 @@
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
-            </select>
+            </select> --}}
         </div>
         <div class="col right-side d-flex justify-content-between">
             <button
@@ -90,6 +90,7 @@
                 max-height: 10rem;
                 height: 10rem;
                 "
+                data-numProjectStatus="{{project.numProjectStatus}}"
             ></canvas>
             <div class="project-status-container row ms-2"></div>
             </div>
@@ -106,6 +107,7 @@
                 max-height: 10rem;
                 height: 10rem;
                 "
+                data-numIssueStatus="{{project.numIssueStatus}}"
             ></canvas>
 
             <div class="issue-status-container row ms-2"></div>
@@ -150,21 +152,38 @@
                 </button>
             </div>
             <div class="card-body">
-                <form action="" class="search-module">
+                <form action="/project/{{project.ProjectID}}/test-case" class="search-module" method="get">
                 <input
                     class="form-control mb-2"
                     type="text"
-                    name="filterModule"
+                    name="moduleKeyword"
                     placeholder="Type To Filter Module"
                     aria-label="default input example"
                 />
                 </form>
-                <button type="button" class="btn btn-danger all-test-case">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-module');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="moduleKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('moduleKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
+                <a href="/project/{{project.ProjectID}}/test-run/result">
+                    <button type="button" class="btn btn-danger all-test-case">
                 <i class="bi bi-folder2 me-2"></i> All/Filtered Test Cases
-                (<span id="totalTestCases">34</span>)
-                </button>
-
-                <div class="list-group list-modules"></div>
+                (<span id="totalTestCases">{{project.TotalTestCase}}</span>)
+                </button> 
+                </a>               
+                <div class="list-group list-modules" id="list-modules" data-modules="{{project.Modules}}" data-moduleID="{{project.ModuleID}}"></div>
+                <form id="moduleForm" action="/project/{{project.ProjectID}}/test-run/result" method="get" style="display: none;">
+                    <input type="hidden" name="ModuleID" id="moduleIDInput">
+                    <input type="hidden" name="TestCaseCount" id="testCaseCountInput">
+                </form>
             </div>
             </div>
         </div>
@@ -189,9 +208,9 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                 <div class="d-flex">
-                    <span class="module-name">Contact</span>
+                    <span class="module-name">{{project.moduleName}}</span>
                     <div class="bg-danger-subtle px-2 mx-2 rounded">
-                    <span class="text-danger">0</span>
+                    <span class="text-danger">{{project.testCaseCount}}</span>
                     </div>
                     <div class="bg-success-subtle px-2 mx-2 rounded">
                     <span class="text-success">00:00:03</span>
@@ -249,57 +268,90 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="above d-flex justify-content-between">
-                <div class="w-25 d-flex">
-                    <span class="my-auto">Show</span>
-                    <select
-                    class="form-select mx-2 my-auto"
-                    style="
-                        background-color: #f5f5f5;
-                        height: 2.5rem;
-                        width: 6rem;
-                    "
-                    aria-label="Default select example"
-                    >
-                    <option selected>10</option>
-                    <option value="1">20</option>
-                    <option value="2">30</option>
-                    <option value="3">50</option>
-                    <option value="3">100</option>
-                    </select>
-                </div>
                 <div class="d-flex">
-                    <div class="d-flex">
-                    <span class="my-auto">Sort</span>
-                    <form action="" class="mx-2 d-flex bg-white rounded">
-                        <select
-                        class="form-select border-0 rounded-0 rounded-start"
-                        aria-label="Default select example"
-                        style="width: 10rem"
-                        >
-                        <option value="created-date">Created date</option>
-                        <option value="title">Title</option>
-                        <option value="case-code">Case Code</option>
-                        </select>
-                        <select
-                        class="form-select border-0 rounded-0 ms-1 rounded-end"
-                        aria-label="Default select example"
-                        style="width: 7rem"
-                        >
-                        <option value="created-date">Desc</option>
-                        <option value="title">Asc</option>
-                        </select>
-                    </form>
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex col-6">
+                          <span class="my-auto">Sort</span>
+                          <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                              <select
+                                  name="sortField"
+                                  class="form-select border-0 rounded-0 rounded-start"
+                                  aria-label="Default select example"
+                                  style="width: 10rem"
+                              >
+                                  <option value="created-date" {{#if (eq project.sortField 'created-date')}}selected{{/if}}>Created date</option>
+                                  <option value="title" {{#if (eq project.sortField 'title')}}selected{{/if}}>Title</option>
+                                  <option value="case-code" {{#if (eq project.sortField 'case-code')}}selected{{/if}}>Case Code</option>
+                              </select>
+                              <select
+                                  name="sortOrder"
+                                  class="form-select border-0 rounded-0 ms-1 rounded-end"
+                                  aria-label="Default select example"
+                                  style="width: 7rem"
+                              >
+                                  <option value="desc" {{#if (eq project.sortOrder 'desc')}}selected{{/if}}>Desc</option>
+                                  <option value="asc" {{#if (eq project.sortOrder 'asc')}}selected{{/if}}>Asc</option>
+                              </select>
+                          </form>
                     </div>
-                    <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search By Case Title"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    style="width: 12rem"
-                    />
-                    <div class="d-flex my-auto justify-content-end">
+
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const sortForm = document.getElementById('form-sort');
+                            const sortFields = sortForm.querySelectorAll('select');
+
+                            sortFields.forEach(select => {
+                                select.addEventListener('change', function() {
+                                    // Lấy URL hiện tại
+                                    const currentUrl = new URL(window.location.href);
+                                    
+                                    // Lấy các tham số hiện tại từ URL
+                                    const params = new URLSearchParams(currentUrl.search);
+
+                                    // Cập nhật các tham số sắp xếp
+                                    sortFields.forEach(field => {
+                                        params.set(field.name, field.value);
+                                    });
+
+                                    // Tạo URL mới với các tham số đã cập nhật
+                                    const newUrl = `${currentUrl.pathname}?${params.toString()}`;
+
+                                    // Chuyển hướng đến URL mới
+                                    window.location.href = newUrl;
+                                });
+                            });
+                        });
+                    </script>
+
+                    
+                    <form action="" class="search-testcase" method="get">
+                        <input
+                        class="form-control"
+                        type="text"
+                        name="testCaseKeyword"
+                        placeholder="Search By Case Title"
+                        aria-label="default input example"
+                        style="width: 12rem"
+                        />
+                    </form>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-testcase');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="testCaseKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('testCaseKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                    </script>
+                    <div class="d-flex ms-5 my-auto justify-content-end">
+                        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+                        leftText="Prev" rightText="Next" }}}
+                    </div>
+                    {{!-- <div class="d-flex my-auto justify-content-end">
                     <button
                         class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
                         style="width: 2rem; height: 2rem"
@@ -318,7 +370,7 @@
                     >
                         <i class="bi bi-chevron-compact-right m-auto"></i>
                     </button>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
 
@@ -333,7 +385,7 @@
                             type="checkbox"
                             value=""
                             id="case-code"
-                            onchange="toggleCheckAll(this)"
+                            onchange="toggleCheckAllTestCase2(this)"
                             />
                             <label class="form-check-label" for="case-code"
                             >Case Code</label
@@ -356,10 +408,10 @@
                             <td scope="col" class="bg-body-tertiary align-middle">
                             <div class="form-check">
                                 <input
-                                class="form-check-input case-code-item"
+                                class="form-check-input code-test-case-item-2"
                                 type="checkbox"
                                 value=""
-                                id="case-code-item"
+                                id="code-test-case-item-2"
                                 />
                                 <label
                                 class="form-check-label"

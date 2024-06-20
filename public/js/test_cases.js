@@ -1,74 +1,83 @@
 //Tạo cart Modules
 
-{
+document.addEventListener('DOMContentLoaded', function(even) {
     // Mảng module và số lượng test case tương ứng
-  const modules = ['Contact', 'Blog', 'Pricing', 'Footer Section', 'Header Section', 'Home Page'];
-  const testCaseCount = [3, 4, 5, 6, 6, 10];
+  // const modules = ['Contact', 'Blog', 'Pricing', 'Footer Section', 'Header Section', 'Home Page'];
+  // const testCaseCount = [3, 4, 5, 6, 6, 10];
 
-  let totalTestCases = 0;
+  const modules = JSON.parse(document.getElementById('list-modules').getAttribute('data-modules'));    
+  const moduleID = document.getElementById('list-modules').getAttribute('data-moduleID');
+      console.log(moduleID);
+ 
 
-  // Duyệt qua từng phần tử trong mảng và cộng dồn vào biến totalTestCases
-  for (let i = 0; i < testCaseCount.length; i++) {
-      totalTestCases += testCaseCount[i];
-  }
-
-  document.getElementById('totalTestCases').textContent = totalTestCases;
-
-  // Lặp qua mảng module để tạo các thẻ button
   const listGroup = document.querySelector('.list-modules');
-  for (let i = 0; i < modules.length; i++) {
-      // Tạo thẻ button
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'list-group-item list-group-item-action border-0';
+  modules.forEach(module => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'list-group-item list-group-item-action border-0';
 
-      // Tạo icon
-      const icon = document.createElement('i');
-      icon.className = 'bi bi-folder2 me-2';
-      button.appendChild(icon);
+    // Tạo icon
+    const icon = document.createElement('i');
+    icon.className = 'bi bi-folder2 me-2';
+    button.appendChild(icon);
 
-      // Thêm tên module
-      const spanModule = document.createElement('span');
-      spanModule.className = 'me-2';
-      spanModule.textContent = modules[i];
-      button.appendChild(spanModule);
+    // Thêm tên module
+    const spanModule = document.createElement('span');
+    spanModule.className = 'me-2';
+    spanModule.textContent = module.Name;
+    button.appendChild(spanModule);
 
-      // Thêm số lượng test case
-      const spanCount = document.createElement('span');
-      spanCount.className = 'num';
-      spanCount.textContent = '(' + testCaseCount[i] + ')';
-      button.appendChild(spanCount);
+    // Thêm số lượng test case
+    const spanCount = document.createElement('span');
+    spanCount.className = 'num';
+    spanCount.textContent = '(' + module.TestCaseCount + ')';
+    button.appendChild(spanCount);
 
-      // Tạo tooltip cho hình ảnh total test cases
-      const tooltipTotalTestCases = document.createElement('a');
-      tooltipTotalTestCases.href = '#';
-      tooltipTotalTestCases.setAttribute('data-bs-toggle', 'tooltip');
-      tooltipTotalTestCases.title = 'Click to know Total Test Cases';
-      tooltipTotalTestCases.style.margin = '0 1rem';
-      const imgTotalTestCases = document.createElement('img');
-      imgTotalTestCases.src = '/images/total-test-cases.png';
-      imgTotalTestCases.alt = '';
-      imgTotalTestCases.style.width = '1rem';
-      imgTotalTestCases.style.height = '1rem';
-      tooltipTotalTestCases.appendChild(imgTotalTestCases);
-      button.appendChild(tooltipTotalTestCases);
+    // Tạo tooltip cho hình ảnh total test cases
+    const tooltipTotalTestCases = document.createElement('a');
+    tooltipTotalTestCases.href = '#';
+    tooltipTotalTestCases.setAttribute('data-bs-toggle', 'tooltip');
+    tooltipTotalTestCases.title = 'Click to know Total Test Cases';
+    tooltipTotalTestCases.style.margin = '0 1rem';
+    const imgTotalTestCases = document.createElement('img');
+    imgTotalTestCases.src = '/images/total-test-cases.png';
+    imgTotalTestCases.alt = '';
+    imgTotalTestCases.style.width = '1rem';
+    imgTotalTestCases.style.height = '1rem';
+    tooltipTotalTestCases.appendChild(imgTotalTestCases);
+    button.appendChild(tooltipTotalTestCases);
 
-      // Tạo tooltip cho hình ảnh add
-      const tooltipAdd = document.createElement('a');
-      tooltipAdd.href = '#';
-      tooltipAdd.setAttribute('data-bs-toggle', 'tooltip');
-      tooltipAdd.title = 'Click here to add Newly created Test cases to the Test run';
-      const imgAdd = document.createElement('img');
-      imgAdd.src = '/images/add.svg';
-      imgAdd.alt = '';
-      imgAdd.style.width = '1rem';
-      imgAdd.style.height = '1rem';
-      tooltipAdd.appendChild(imgAdd);
-      button.appendChild(tooltipAdd);
+    // Tạo tooltip cho hình ảnh add
+    const tooltipAdd = document.createElement('a');
+    tooltipAdd.href = '#';
+    tooltipAdd.setAttribute('data-bs-toggle', 'tooltip');
+    tooltipAdd.title = 'Click here to add Newly created Test cases to the Test run';
+    const imgAdd = document.createElement('img');
+    imgAdd.src = '/images/add.svg';
+    imgAdd.alt = '';
+    imgAdd.style.width = '1rem';
+    imgAdd.style.height = '1rem';
+    tooltipAdd.appendChild(imgAdd);
+    button.appendChild(tooltipAdd);
 
-      // Thêm button vào list-group
-      listGroup.appendChild(button);
-  }
+    button.addEventListener('click', function() {
+      // const moduleID = this.getAttribute('data-module-id');
+      // const testCaseCount = this.getAttribute('data-test-case-count');
+
+      document.getElementById('moduleIDInput').value = module._id;
+      document.getElementById('testCaseCountInput').value = module.TestCaseCount;
+
+      // Submit form
+      document.getElementById('moduleForm').submit();
+    });
+
+    if (moduleID == module._id) button.classList.add('text-danger');
+
+    // Thêm button vào list-group
+    listGroup.appendChild(button);
+  });
+
+
 
   const buttons = document.querySelectorAll('.list-group-item');
   const allTestCaseButton = document.querySelector('.all-test-case');
@@ -83,7 +92,7 @@
     allTestCaseButton.addEventListener('click', () => {
       buttons.forEach(btn => btn.classList.remove('text-danger'));
     });
-}
+});
   
 // Đóng mở modules
 {
@@ -127,6 +136,15 @@
         }
     });
 
+}
+
+function toggleCheckAllTestCase(source) {
+  var checkboxes = document.querySelectorAll('.code-test-case-item');
+  checkboxes.forEach(function(checkbox) {
+      if (checkbox !== source) {
+          checkbox.checked = source.checked;
+      }
+  });
 }
 
 {

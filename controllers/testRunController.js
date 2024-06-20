@@ -8,59 +8,74 @@ const testPlanModel = require('../models/testPlanModel');
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
 const userModel = require('../models/userModel');
+const issueModel = require('../models/issueModel');
+const participationModel = require('../models/participationModel'); 
 
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
-        // Tìm tất cả các release thuộc dự án đó
-        const releases = await releaseModel.find({ ProjectID: projectId });
-        const releaseIds = releases.map(release => release._id);
+        let testRunKeyword = req.query.testRunKeyword || '';
+        let selectedReleaseId = req.query.selectedReleaseId || '';
 
-        // Tìm tất cả các requirement thuộc các release đó
-        const requirements = await requirementModel.find({ ReleaseID: { $in: releaseIds } });
-        const requirementIds = requirements.map(requirement => requirement._id);
-
-        // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc dự án đó
-        const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
-        const testPlanIds = testPlans.map(testPlan => testPlan._id);
+        const allReleases = await releaseModel.find({ ProjectID: projectId });
 
         // Tìm tất cả các module thuộc project đó
         const modules = await moduleModel.find({ ProjectID: projectId });
         const moduleIds = modules.map(module => module._id);
 
-        // Lưu trữ ID của các test case mà không bị trùng lặp
-        const testCaseIdsSet = new Set();
+        let testCases, releaseName;
+        if (selectedReleaseId && selectedReleaseId != '0') {
+            const release = await releaseModel.findById(selectedReleaseId).select('Name');
+            releaseName = release.Name;
 
-        // Tìm tất cả các test case thuộc các test plan
-        const testCasesFromTestPlans = await testCaseModel.find({ TestPlanID: { $in: testPlanIds } });
-        testCasesFromTestPlans.forEach(testCase => {
-            testCaseIdsSet.add(testCase._id.toString()); // Chuyển đổi ID sang chuỗi để tránh sự khác biệt trong so sánh
-        });
+            const requirements = await requirementModel.find({ ReleaseID: selectedReleaseId });
+            const requirementIds = requirements.map(requirement => requirement._id);
 
-        // Tìm tất cả các test case thuộc các module
-        const testCasesFromModules = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
-        testCasesFromModules.forEach(testCase => {
-            testCaseIdsSet.add(testCase._id.toString()); // Chuyển đổi ID sang chuỗi để tránh sự khác biệt trong so sánh
-        });
+            // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc dự án đó
+            const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
+            const testPlanIds = testPlans.map(testPlan => testPlan._id);
 
-        // Chuyển lại set thành mảng các ID test case
-        const uniqueTestCaseIds = Array.from(testCaseIdsSet);
 
-        // Tìm tất cả các test case dựa trên các ID duy nhất đã thu thập
-        const testCases = await testCaseModel.find({ _id: { $in: uniqueTestCaseIds } });
+            testCases = await testCaseModel.find({ 
+                ModuleID: { $in: moduleIds }, 
+                TestPlanID: { $in: testPlanIds } 
+            });
+        } else {
+            releaseName = "";
+            testCases = await testCaseModel.find({ 
+                ModuleID: { $in: moduleIds }, 
+            });
+        }
+               
         const testCaseIds = testCases.map(testCase => testCase._id);
 
         // Tìm tất cả các test run thuộc các test case thuộc project đó
-        const testRuns = await testRunModel.find({ TestCaseID: { $in: testCaseIds } });
+        const testRuns = await testRunModel.find({ TestCaseID: { $in: testCaseIds },  Name: { $regex: testRunKeyword, $options: 'i' } });
 
         // Tạo một danh sách các userId để tìm kiếm thông tin người được giao
         const assignToIds = testRuns.map(testRun => testRun.AssignTo);
+    
+        const createdByIds = testRuns.map(testRun => testRun.CreatedBy);
 
         // Tìm thông tin người được giao từ bảng user
-        const users = await userModel.find({ _id: { $in: assignToIds } });
-        const userMap = users.reduce((map, user) => {
-            map[user._id] = user;
+        const userAssigns = await userModel.find({ _id: { $in: assignToIds } });
+        const userAssignMap = userAssigns.reduce((map, userAssign) => {
+            map[userAssign._id] = userAssign;
+            return map;
+        }, {});
+
+
+        // Tìm thông tin người được giao từ bảng user
+        const userCreates = await userModel.find({ _id: { $in: createdByIds } });
+        const userCreatedMap = userCreates.reduce((map, userCreated) => {
+            map[userCreated._id] = userCreated;
+            return map;
+        }, {});
+
+        // Tạo một map từ TestCaseID đến TestCaseName
+        const testCaseMap = testCases.reduce((map, testCase) => {
+            map[testCase._id] = testCase.Title;
             return map;
         }, {});
 
@@ -68,9 +83,20 @@ controller.show = async (req, res) => {
         const testRunsWithUser = testRuns.map(testRun => {
             return {
                 ...testRun._doc, // spread the document properties
-                AssignTo: userMap[testRun.AssignTo] ? userMap[testRun.AssignTo].Name : 'Unknown' // Assuming 'name' is the field in user model
+                AssignTo: userAssignMap[testRun.AssignTo] ? userAssignMap[testRun.AssignTo].Name : 'Unknown', // Assuming 'name' is the field in userAssign model
+                CreatedBy: userCreatedMap[testRun.CreatedBy] ? userCreatedMap[testRun.CreatedBy].Name : 'Unknown', // Assuming 'name' is the field in userAssign model
+                TestCaseName: testCaseMap[testRun.TestCaseID] ? testCaseMap[testRun.TestCaseID] : 'Unknown'
             };
         });
+
+         // Lấy tất cả các bản ghi từ bảng Participation có ProjectID tương ứng
+         const participations = await participationModel.find({ ProjectID: projectId });
+
+         // Lấy danh sách các UserID từ participations
+         const userIds = participations.map(participation => participation.UserID);
+ 
+         // Lấy thông tin chi tiết của các User thông qua UserID
+         const users = await userModel.find({ _id: { $in: userIds } });
 
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
@@ -90,7 +116,12 @@ controller.show = async (req, res) => {
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            TestRuns: testRunsWithUser.slice(skip, skip + limit)
+            releaseName: releaseName,
+            TestRuns: testRunsWithUser.slice(skip, skip + limit),
+            TestRunsCount: testRunsWithUser.length,
+            Releases: allReleases,
+            Users: users,
+            TestCases: testCases
         };
 
         // Gọi các view cần thiết và truyền dữ liệu vào
@@ -135,43 +166,64 @@ function getStatusColor(status) {
 controller.showResult = async (req, res) => {
     try {
         const projectId = req.params.projectId;
+        const moduleId = req.query.ModuleID ? req.query.ModuleID : 0;
+        let testCaseCount = req.query.TestCaseCount ? req.query.TestCaseCount : 0;
+        let testCaseKeyword = req.query.testCaseKeyword || '';
+        let moduleKeyword = req.query.moduleKeyword || '';
 
-        // Tìm tất cả các release thuộc dự án đó
-        const releases = await releaseModel.find({ ProjectID: projectId });
-        const releaseIds = releases.map(release => release._id);
+        // Lấy các tham số sắp xếp từ query params
+        const sortField = req.query.sortField || 'created-date';
+        const sortOrder = req.query.sortOrder || 'desc';
+        const sortCriteria = {};
+        if (sortField === 'created-date') {
+            sortCriteria.CreatedAt = sortOrder === 'desc' ? -1 : 1;
+        } else if (sortField === 'title') {
+            sortCriteria.Title = sortOrder === 'desc' ? -1 : 1;
+        } else if (sortField === 'case-code') {
+            sortCriteria._id = sortOrder === 'desc' ? -1 : 1;
+        }
 
-        // Tìm tất cả các requirement thuộc các release đó
-        const requirements = await requirementModel.find({ ReleaseID: { $in: releaseIds } });
-        const requirementIds = requirements.map(requirement => requirement._id);
+       
+        let modules = await moduleModel.find({ ProjectID: projectId, Name: { $regex: moduleKeyword, $options: 'i' } });
 
-        // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc dự án đó
-        const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
-        const testPlanIds = testPlans.map(testPlan => testPlan._id);
-
-        // Tìm tất cả các module thuộc project đó
-        const modules = await moduleModel.find({ ProjectID: projectId });
         const moduleIds = modules.map(module => module._id);
 
-        // Lưu trữ ID của các test case mà không bị trùng lặp
-        const testCaseIdsSet = new Set();
+        
+        const allTestCases = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+        const allTestCaseIds = allTestCases.map(allTestCase => allTestCase._id);
 
-        // Tìm tất cả các test case thuộc các test plan
-        const testCasesFromTestPlans = await testCaseModel.find({ TestPlanID: { $in: testPlanIds } });
-        testCasesFromTestPlans.forEach(testCase => {
-            testCaseIdsSet.add(testCase._id.toString()); // Chuyển đổi ID sang chuỗi để tránh sự khác biệt trong so sánh
+        let testCases, moduleName;
+        if (moduleId !== 0) {
+            // Nếu moduleId khác 0, chỉ lấy các test case có moduleId tương ứng
+            testCases = await testCaseModel.find({ ModuleID: moduleId, Title: { $regex: testCaseKeyword, $options: 'i' } }).sort(sortCriteria);
+            const module = await moduleModel.findById(moduleId).select('Name');
+            moduleName = module.Name;
+        } else {
+            // Nếu moduleId là 0, lấy tất cả các test case
+            testCases = await testCaseModel.find({ Title: { $regex: testCaseKeyword, $options: 'i' } }).sort(sortCriteria);
+            moduleName = "All Test Cases";
+            testCaseCount = allTestCases.length;
+        }
+
+        // Lấy số lượng test case cho mỗi module
+        const testCaseCounts = await testCaseModel.aggregate([
+            { $match: { ModuleID: { $in: moduleIds } } },
+            { $group: { _id: "$ModuleID", count: { $sum: 1 } } }
+        ]);
+
+        const testCaseCountsMap = testCaseCounts.reduce((map, testCaseCount) => {
+            map[testCaseCount._id] = testCaseCount;
+            return map;
+        }, {});
+
+
+        const modulesWithTestCaseCount = modules.map(module => {
+            return {
+                ...module._doc, // spread the document properties
+                TestCaseCount: testCaseCountsMap[module._id] ? testCaseCountsMap[module._id].count : 0 // Assuming 'name' is the field in userAssign model
+            };
         });
 
-        // Tìm tất cả các test case thuộc các module
-        const testCasesFromModules = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
-        testCasesFromModules.forEach(testCase => {
-            testCaseIdsSet.add(testCase._id.toString()); // Chuyển đổi ID sang chuỗi để tránh sự khác biệt trong so sánh
-        });
-
-        // Chuyển lại set thành mảng các ID test case
-        const uniqueTestCaseIds = Array.from(testCaseIdsSet);
-
-        // Tìm tất cả các test case dựa trên các ID duy nhất đã thu thập
-        const testCases = await testCaseModel.find({ _id: { $in: uniqueTestCaseIds } });
         const testCaseIds = testCases.map(testCase => testCase._id);
 
         // Tìm tất cả các test run thuộc các test case thuộc project đó
@@ -188,14 +240,6 @@ controller.showResult = async (req, res) => {
             return map;
         }, {});
 
-        // Tạo một map từ testCaseId đến các test runs tương ứng
-        const testRunMap = testRuns.reduce((map, testRun) => {
-            if (!map[testRun.TestCaseID]) {
-                map[testRun.TestCaseID] = [];
-            }
-            map[testRun.TestCaseID].push(testRun);
-            return map;
-        }, {});
 
         // Kết hợp dữ liệu test case với thông tin test run và người được giao
         const testCasesFull = testCases.map(testCase => {
@@ -218,11 +262,53 @@ controller.showResult = async (req, res) => {
             };
         });
 
+        
+        const allTestRuns = await testRunModel.find({ TestCaseID: { $in: allTestCaseIds } });
+        // Đếm số lượng test run theo status
+        const projectStatus = ['Passed', 'Untested', 'Blocked', 'Retest', 'Failed', 'Not Applicable', 'In Progress', 'Hold'];
+        const numProjectStatus = projectStatus.map(status => {
+            return allTestRuns.filter(allTestRun => allTestRun.Status === status).length;
+        });
+
+        const allTestRunIds = allTestRuns.map(allTestRun => allTestRun._id);
+
+
+        const allIssues = await issueModel.find({ TestRunID: { $in: allTestRunIds } });
+        // Đếm số lượng test run theo status
+        const issueStatus = ['New', 'Assigned', 'Open', 'Fixed', 'Retest', 'Verified', 'Reopen', 'Closed', 'Duplicate', 'Invalid', 'Deferred']
+        const numIssueStatus = issueStatus.map(status => {
+            return allIssues.filter(allIssue => allIssue.Status === status).length;
+        });
+        
+        // Pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        let skip = (page - 1) * limit;
+        let total = testCasesFull.length;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
             Users: usersFull,
-            TestCases: testCasesFull
+            TestCases: testCasesFull.slice(skip, skip + limit),
+            TotalTestCase: allTestCases.length,
+            ModuleID: moduleId,
+            moduleName: moduleName,
+            testCaseCount: testCasesFull.length,
+            Modules: JSON.stringify(modulesWithTestCaseCount),
+            numProjectStatus: numProjectStatus,
+            numIssueStatus: numIssueStatus,
+            sortField,
+            sortOrder
         };
 
         // Gọi các view cần thiết và truyền dữ liệu vào
@@ -239,5 +325,85 @@ controller.showResult = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
+
+controller.addTestRun = async (req, res) => {
+    try {
+        const { 'test-run-name': name, version, browser, description, 'assign-to': assignToName, testcase, projectID } = req.body;
+        
+        // Tìm kiếm user và testcase từ cơ sở dữ liệu
+        const assignTo = await userModel.findOne({ Name: assignToName });
+        const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
+
+
+        const newTestRun = new testRunModel({
+            Name: name,
+            Version: version || null,
+            Browser: browser || null,
+            Description: description || null,
+            Status: "Untested",
+            CreatedBy: "666011d01cc6e634de0ff70b", // Assuming you have user info in req.user
+            AssignTo: assignTo._id,
+            TestCaseID: testcase ? testCase._id : null
+        });
+
+        await newTestRun.save();
+
+        res.redirect(`/project/${projectID}/test-run`); // Redirect back to the admin page
+    } catch (error) {
+        console.error('Error adding test run:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
+controller.editTestRun = async (req, res) => {
+    try {
+        const { 'test-run-id': id, 'test-run-name': name, version, browser, description, status, 'createdBy': createdByName, 'assign-to': assignToName, testcase, projectID } = req.body;
+
+        // Tìm kiếm user và testcase từ cơ sở dữ liệu
+        const assignTo = await userModel.findOne({ Name: assignToName });
+        const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
+        const createdBy = await userModel.findOne({ Name: createdByName });
+
+        if (!assignTo || !testCase) {
+            return res.status(400).send('Invalid assign-to user or testcase');
+        }
+
+        await testRunModel.findByIdAndUpdate(id, {
+            Name: name,
+            Version: version || null,
+            Browser: browser || null,
+            Description: description || null,
+            Status: status,
+            CreatedBy: createdBy._id,
+            AssignTo: assignTo._id,
+            TestCaseID: testCase ? testCase._id : null,
+            UpdatedAt: Date.now()
+        });
+
+        res.redirect(`/project/${projectID}/test-run`); // Redirect back to the project test runs page
+    } catch (error) {
+        console.error('Error editing test run:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+controller.deleteTestRun = async (req, res) => {
+    try {
+        const testRunId = req.params.id;
+        const result = await testRunModel.findByIdAndDelete(testRunId);
+        if (result) {
+            res.status(200).json({ message: 'Test run deleted successfully.' });
+        } else {
+            res.status(404).json({ message: 'Test run not found.' });
+        }
+    } catch (error) {
+        console.error('Error deleting test run:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
 
 module.exports = controller;

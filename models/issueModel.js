@@ -13,13 +13,15 @@ const issueSchema = new mongoose.Schema({
   Description: { type: String },
   CreatedAt: { type: Date, default: Date.now },
   UpdatedAt: { type: Date, default: Date.now },
+  StepsToReproduce: { type: String },
+  CreatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   AssignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   TestRunID: { type: mongoose.Schema.Types.ObjectId, ref: 'TestRun' }
 });
 
 // Custom validation for EndDate > StartDate
 issueSchema.pre('save', function(next) {
-  if (this.EndDate <= this.StartDate) {
+  if (this.StartDate && this.EndDate && this.EndDate <= this.StartDate) {
     const err = new Error('EndDate must be greater than StartDate');
     next(err);
   } else {

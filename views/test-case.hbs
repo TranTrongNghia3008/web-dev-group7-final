@@ -6,7 +6,7 @@
         <div class="my-auto d-flex">
         <span class="my-auto fw-semibold">Test Cases</span>
         <div class="bg-danger-subtle px-2 mx-2 rounded">
-            <span class="text-danger">{{project.TestCases.length}}</span>
+            <span class="text-danger">{{project.TotalTestCase}}</span>
         </div>
         </div>
         <div class="d-flex header-menu">
@@ -1002,21 +1002,38 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="" class="search-module">
+                <form action="/project/{{project.ProjectID}}/test-case" class="search-module" method="get">
                 <input
                     class="form-control mb-2"
                     type="text"
-                    name="filterModule"
+                    name="moduleKeyword"
                     placeholder="Type To Filter Module"
                     aria-label="default input example"
                 />
                 </form>
-                <button type="button" class="btn btn-danger all-test-case">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-module');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="moduleKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('moduleKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
+                <a href="/project/{{project.ProjectID}}/test-case">
+                    <button type="button" class="btn btn-danger all-test-case">
                 <i class="bi bi-folder2 me-2"></i> All/Filtered Test Cases
-                (<span id="totalTestCases">34</span>)
-                </button>
-
-                <div class="list-group list-modules"></div>
+                (<span id="totalTestCases">{{project.TotalTestCase}}</span>)
+                </button> 
+                </a>               
+                <div class="list-group list-modules" id="list-modules" data-modules="{{project.Modules}}" data-moduleID="{{project.ModuleID}}"></div>
+                <form id="moduleForm" action="/project/{{project.ProjectID}}/test-case" method="get" style="display: none;">
+                    <input type="hidden" name="ModuleID" id="moduleIDInput">
+                    <input type="hidden" name="TestCaseCount" id="testCaseCountInput">
+                </form>
             </div>
             </div>
         </div>
@@ -1040,8 +1057,9 @@
             <div class="card bg-body-tertiary h-100">
             <div class="card-header">
                 <div class="row">
-                <div class="col-3 d-flex align-items-center">
-                    <div
+                <div class="col-4 d-flex align-items-center">
+                    <span>{{project.moduleName}}</span>
+                    {{!-- <div
                     class="btn-group mx-2 my-auto bg-danger"
                     role="group"
                     style="height: 2rem"
@@ -1067,23 +1085,35 @@
                         <a class="dropdown-item" href="#">Dropdown link</a>
                         </li>
                     </ul>
-                    </div>
+                    </div> --}}
                     <div class="bg-danger-subtle px-2 mx-2 rounded">
-                    <span class="text-danger">3</span>
+                    <span class="text-danger">{{project.TotalTestCase}}</span>
                     </div>
                     <a href="#" class="mx-2"><i class="bi bi-pencil"></i></a>
                 </div>
                 <div class="row col-8 ms-auto my-auto align-items-center">
                     <div class="col-7">
-                    <form action="" class="search-module">
+                    <form action="/project/{{project.ProjectID}}/test-case" class="search-testcase" method="get">
                         <input
                         class="form-control"
                         type="text"
-                        name="filterModule"
+                        name="testCaseKeyword"
                         placeholder="ModuleLevel Search By Title"
                         aria-label="default input example"
                         />
                     </form>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('.search-testcase');
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault(); 
+                            const keyword = document.querySelector('input[name="testCaseKeyword"]').value;
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('testCaseKeyword', keyword);
+                            window.location.href = currentUrl.toString();
+                        });
+                    });
+                </script>
                     </div>
                     <div class="col-5 d-flex justify-content-between fs-6">
                     <a href="#" title="Add" class="my-auto fs-4"
@@ -1125,50 +1155,58 @@
                     <option value="3">100</option>
                     </select>
                     <div class="mx-2 d-flex">
-                    <span class="my-auto">Sort</span>
-                    <form action="" class="mx-2 d-flex bg-white rounded">
-                        <select
-                        class="form-select border-0 rounded-0 rounded-start"
-                        aria-label="Default select example"
-                        style="width: 10rem"
-                        >
-                        <option value="created-date">Created date</option>
-                        <option value="title">Title</option>
-                        <option value="case-code">Case Code</option>
-                        </select>
-                        <select
-                        class="form-select border-0 rounded-0 ms-1 rounded-end"
-                        aria-label="Default select example"
-                        style="width: 7rem"
-                        >
-                        <option value="created-date">Desc</option>
-                        <option value="title">Asc</option>
-                        </select>
-                    </form>
-                    <div class="btn-group mx-2 my-auto" role="group">
-                        <button
-                        type="button"
-                        class="btn dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style="background-color: white !important"
-                        >
-                        Additional Column
-                        </button>
-                        <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="#"
-                            >Dropdown link</a
-                            >
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#"
-                            >Dropdown link</a
-                            >
-                        </li>
-                        </ul>
+                          <span class="my-auto">Sort</span>
+                          <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                              <select
+                                  name="sortField"
+                                  class="form-select border-0 rounded-0 rounded-start"
+                                  aria-label="Default select example"
+                                  style="width: 10rem"
+                              >
+                                  <option value="created-date" {{#if (eq project.sortField 'created-date')}}selected{{/if}}>Created date</option>
+                                  <option value="title" {{#if (eq project.sortField 'title')}}selected{{/if}}>Title</option>
+                                  <option value="case-code" {{#if (eq project.sortField 'case-code')}}selected{{/if}}>Case Code</option>
+                              </select>
+                              <select
+                                  name="sortOrder"
+                                  class="form-select border-0 rounded-0 ms-1 rounded-end"
+                                  aria-label="Default select example"
+                                  style="width: 7rem"
+                              >
+                                  <option value="desc" {{#if (eq project.sortOrder 'desc')}}selected{{/if}}>Desc</option>
+                                  <option value="asc" {{#if (eq project.sortOrder 'asc')}}selected{{/if}}>Asc</option>
+                              </select>
+                          </form>
                     </div>
-                    </div>
+
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const sortForm = document.getElementById('form-sort');
+                            const sortFields = sortForm.querySelectorAll('select');
+
+                            sortFields.forEach(select => {
+                                select.addEventListener('change', function() {
+                                    // Lấy URL hiện tại
+                                    const currentUrl = new URL(window.location.href);
+                                    
+                                    // Lấy các tham số hiện tại từ URL
+                                    const params = new URLSearchParams(currentUrl.search);
+
+                                    // Cập nhật các tham số sắp xếp
+                                    sortFields.forEach(field => {
+                                        params.set(field.name, field.value);
+                                    });
+
+                                    // Tạo URL mới với các tham số đã cập nhật
+                                    const newUrl = `${currentUrl.pathname}?${params.toString()}`;
+
+                                    // Chuyển hướng đến URL mới
+                                    window.location.href = newUrl;
+                                });
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="d-flex">
                         {{{createPagination pagination paginationClass="pagination" paginationStyle="justify-content-center my-0"
@@ -1187,7 +1225,7 @@
                             type="checkbox"
                             value=""
                             id="case-code"
-                            onchange="toggleCheckAll(this)"
+                            onchange="toggleCheckAllTestCase(this)"
                             />
                             <label class="form-check-label" for="case-code"
                             >Case Code</label
@@ -1207,14 +1245,14 @@
                         <td scope="col" class="bg-body-tertiary align-middle">
                         <div class="form-check">
                             <input
-                            class="form-check-input case-code-item"
+                            class="form-check-input code-test-case-item"
                             type="checkbox"
                             value=""
-                            id="case-code-item"
+                            id="code-test-case-item"
                             />
                             <label
                             class="form-check-label"
-                            for="case-code-item"
+                            for="code-test-case-item"
                             >{{truncateId this._id 12}}</label
                             >
                         </div>
@@ -1230,11 +1268,10 @@
                         </a>
                         </td>
                         <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="#"
+                        <a href="/project/{{../project.ProjectID}}/test-case/{{this._id}}" class="test-case-link-modal"
                             >{{this.Title}}</a
                         >
                         </td>
-
                         <td scope="col" class="bg-body-tertiary align-middle">
                         <div class="d-flex justify-content-end">
                             <a
@@ -1307,5 +1344,164 @@
         </div>
         </div>
     </div>
-</div>
 
+    <script>
+        $(document).ready(function() {
+            $('a.test-case-link-modal').click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr('href');
+                window.location.href = url;
+            });
+        });
+
+        window.onload = function() {
+            var newUrl = window.location.pathname;
+            var regex = /\/test-case\/([^/]+)$/;
+
+            if (regex.test(newUrl)) {
+                var $targetModal = $('#testCaseModal');
+                var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#testCaseModal"]');
+
+                $targetModal.modal('show');
+            }
+        };
+    </script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="testCaseModal" tabindex="-1" aria-labelledby="testCaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="testCaseModalLabel">Test Case Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row gx-2 section_formField">
+            <div class="col-12 form-field my-2 p-3 rounded bg-detail">
+                <div class="d-flex text-center">
+                <span class="text-white px-2" style="background-color: #f15752; border-radius: 30px;">{{truncateId project.TestCaseDetail._id 0}}</span>
+                <div class="ms-3 fw-4 fw-semibold">{{project.TestCaseDetail.Title}}</div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-2">
+                <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Module</label>
+                    <div>
+                    <p class="text-revamp">{{project.TestCaseDetail.Module.Name}} - <b class="fw-semibold">{{truncateId project.TestCaseDetail.ModuleID 0}} (Module Key)</b></p>
+                    </div>
+                </div>
+                <div class="col-6 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Template</label>
+                    <div class="d-inline-flex align-items-center justify-content-start w-100">
+                        <img src="/images/test-case-steps.png" alt="" style="width: 1rem; height: 1rem">
+                        <div class="text-revamp ms-1">Test Case Steps</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-2">
+                <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Created Date</label>
+                    <div>
+                    <p class="text-revamp">{{formatDate3 project.TestCaseDetail.CreatedAt}}</p>
+                    </div>
+                </div>
+                <div class="col-6 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Updated Date</label>
+                    <div>
+                    <p class="text-revamp">{{formatDate3 project.TestCaseDetail.UpdatedAt}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex ps-0 pe-2">
+                <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Created by</label>
+                    <div>
+                    <p class="text-revamp">-</p>
+                    </div>
+                </div>
+                <div class="col-6 form-field my-2 p-3 rounded bg-detail">
+                    <label class="label label-revamp fw-semibold">Updated by</label>
+                    <div>
+                    <p class="text-revamp">-</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 my-2 form-field description-view rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Description</label>
+                <div>
+                <div class="text-revamp text-left">{{project.TestCaseDetail.Description}}</div>
+                </div>
+            </div>
+            <div class="col-12 my-2 form-field pre-condition rounded bg-detail">
+                <label class="label-revamp fw-semibold">Precondition</label>
+                <div class="text-revamp">{{project.TestCaseDetail.Precondition}}</div>
+            </div>
+            </div>
+
+            <div class="row bg-detail gx-2 mt-2 p-2">
+            <div class="col-6 form-field d-flex">
+                <label class="col-4 fw-semibold">Test Suite</label>
+                <div>
+                <p class="text-revamp">-</p>
+                </div>
+            </div>
+            <div class="col-6 form-field d-flex">
+                <label class="col-4 fw-semibold">Mode</label>
+                <div>
+                <p class="text-revamp">-</p>
+                </div>
+            </div>
+            <div class="col-6 form-field d-flex">
+                <label class="col-4 fw-semibold">Type</label>
+                <div>
+                <p class="text-revamp">
+                    {{#each project.TestCaseDetail.TestRuns}}
+                    <span class="tag text-white">
+                        <span>{{this.Status}}</span>
+                    </span>
+                    {{/each}}
+                </p>
+                </div>
+            </div>
+            <div class="col-6 form-field d-flex">
+                <label class="col-4 fw-semibold">Priority</label>
+                <div>
+                <p class="text-revamp">{{project.TestCaseDetail.Priority}}</p>
+                </div>
+            </div>
+            <div class="col-6 form-field d-flex">
+                <label class="col-4 fw-semibold">Test Plan</label>
+                <div>
+                <p class="text-revamp">{{project.TestCaseDetail.TestPlan.Name}}</p>
+                </div>
+            </div>
+            <div class="col-6 form-field d-flex align-items-center">
+                <label class="col-4 fw-semibold">Tags</label>
+                <div id="tags_tagsinput" class="tagsinput">
+                    {{#each project.TestCaseDetail.Tags}}
+                    <span class="tag text-white">
+                        <span>{{this.Name}}</span>
+                        <span class="btn-delete-tag btn-close" onclick="removeTag(this)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                    </span>
+                    {{/each}}
+                    <div id="tags_addTag"></div>
+                    <div class="tags_clear p-0"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger">Edit</button>
+        </div>
+        </div>
+    </div>
+
+        <script>
+            function removeTag(element) {
+                element.parentElement.remove();
+            }
+        </script>
+    </div>
+</div>

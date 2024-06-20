@@ -5,6 +5,9 @@
     >
         <div class="my-auto d-flex">
         <span class="my-auto">Test Plans</span>
+        <div class="bg-danger-subtle px-2 mx-2 rounded">
+            <span class="text-danger">{{project.TestPlansCount}}</span>
+        </div>
         </div>
         <div class="right-side d-flex">
         <a href="#" class="guide mx-2 my-auto">
@@ -66,14 +69,31 @@
         </select>
         <span class="my-auto">entries</span> --}}
         </div>
-        <div class="input-group mb-3 w-50 px-5 my-2">
-        <input
-            type="text"
-            class="form-control w-100"
-            placeholder="Search by TestPlan"
-            aria-label="Recipient's username"
-            aria-describedby="button-addon2"
-        />
+        <div class="input-group mb-3 w-50 px-5 my-auto">
+
+        <form action="" class="search-testPlan w-100 mt-2">
+            <input
+                class="form-control"
+                type="text"
+                name="testPlanKeyword"
+                placeholder="Search by TestPlan"
+                aria-label="Recipient's username"
+                aria-describedby="button-addon2"
+            />
+        </form>
+
+        <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.querySelector('.search-requirementType');
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault(); 
+                        const keyword = document.querySelector('input[name="testPlanKeyword"]').value;
+                        const currentUrl = new URL(window.location.href);
+                        currentUrl.searchParams.set('testPlanKeyword', keyword);
+                        window.location.href = currentUrl.toString();
+                    });
+                });
+            </script>
         </div>
         <div class="d-flex my-auto justify-content-end">
             {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
@@ -127,7 +147,7 @@
                 <a
                     href="#"
                     data-bs-toggle="tooltip"
-                    title="Run"
+                    title="Mapped Test Run"
                     class="my-auto mx-2"
                     ><i class="bi bi-play-circle-fill text-success"></i
                 ></a>
@@ -156,7 +176,14 @@
                 </a>
                 <a
                     href="#"
-                    data-bs-toggle="tooltip"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editTestPlan"
+                    onclick="showEditTestPlanModal(this)" 
+                    data-id="{{this._id}}" 
+                    data-plan-name="{{this.Name}}" 
+                    data-description="{{this.Description}}" 
+                    data-start-date="{{formatDate this.StartDate}}"
+                    data-end-date="{{formatDate this.EndDate}}"
                     title="Edit"
                     class="my-auto mx-2"
                     ><i class="bi bi-pencil"></i
@@ -164,8 +191,10 @@
                 <a
                     href="#"
                     data-bs-toggle="tooltip"
+                    data-projectId="{{../project.ProjectID}}"
+                    data-id="{{this._id}}"
                     title="Delete"
-                    class="my-auto mx-2"
+                    class="my-auto mx-2 delete-btn"
                     ><i class="bi bi-trash"></i
                 ></a>
                 </div>
@@ -187,12 +216,13 @@
         </div>
     </div>
 
-    <form action="" class="needs-validation" novalidate>
+    {{!-- modal add --}}
+    <form action="/project/{{project.ProjectID}}/test-plan/" id="addTestPlanForm" method="post" class="needs-validation" novalidate>
         <div
         class="modal fade"
         id="addTestPlan"
         tabindex="-1"
-        aria-labelledby="addModuleLabel"
+        aria-labelledby="addTestPlanLabel"
         aria-hidden="true"
         >
         <div class="modal-dialog modal-lg">
@@ -217,7 +247,7 @@
             <div class="modal-body">
                 <div class="mb-4">
                 <label
-                    for="form-test-plan-name"
+                    for="name"
                     class="form-label d-flex justify-content-between"
                 >
                     <div>
@@ -228,7 +258,8 @@
                 <input
                     type="text"
                     class="form-control bg-light"
-                    id="form-test-plan-name"
+                    id="name"
+                    name="name"
                     placeholder="Enter Test Plan Name"
                     style="color: #757575"
                     required
@@ -247,20 +278,20 @@
                 <div>
                     <div class="row">
                     <div class="col">
-                        <label for="fStartDate">From: </label>
+                        <label for="startDate">From: </label>
                         <input
                         class="form-control bg-light"
-                        id="fStartDate"
-                        name="start-date"
+                        id="startDate"
+                        name="startDate"
                         type="date"
                         />
                     </div>
                     <div class="col">
-                        <label for="fEndDate">To: </label>
+                        <label for="endDate">To: </label>
                         <input
                         class="form-control bg-light"
-                        id="fEndDate"
-                        name="end-date"
+                        id="endDate"
+                        name="endDate"
                         type="date"
                         />
                     </div>
@@ -269,10 +300,10 @@
                 </div>
                 <div class="mb-2">
                 <label
-                    for="form-test-plan-name"
+                    for="description"
                     class="form-label d-flex justify-content-between"
                 >
-                    <div for="TestPlanDescription" class="form-label">
+                    <div for="description" class="form-label">
                     Description
                     </div>
                 </label>
@@ -305,9 +336,155 @@
                 </div>
                 <textarea
                     class="form-control rounded-top-0 bg-light"
-                    id="TestPlanDescription"
+                    id="description"
                     rows="5"
-                    name="testplan-description"
+                    name="description"
+                    placeholder="Enter Description"
+                ></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger mx-2">
+                Save
+                </button>
+                <button
+                type="button"
+                class="btn btn-outline-danger mx-2"
+                data-bs-dismiss="modal"
+                >
+                Cancel
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </form>
+
+    {{!-- modal edit --}}
+    <form action="" id="editTestPlanForm" onsubmit="editTestPlan(event)" class="needs-validation" novalidate>
+        <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
+        <input type="hidden" name="idEdit" id="idEdit"/>
+        <div
+        class="modal fade"
+        id="editTestPlan"
+        tabindex="-1"
+        aria-labelledby="editTestPlanLabel"
+        aria-hidden="true"
+        >
+        <div class="modal-dialog modal-lg">
+            <div
+            class="modal-content border border-1 rounded-2"
+            style="color: #919faf"
+            >
+            <div class="modal-header">
+                <div
+                class="modal-title fs-5 fw-semibold text-dark w-100 text-center"
+                id="editTestPlanLabel"
+                >
+                Edit Test Plan
+                </div>
+                <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                <label
+                    for="nameEdit"
+                    class="form-label d-flex justify-content-between"
+                >
+                    <div>
+                    Test Plan Name
+                    <span style="color: #f44336">*</span>
+                    </div>
+                </label>
+                <input
+                    type="text"
+                    class="form-control bg-light"
+                    id="nameEdit"
+                    name="nameEdit"
+                    placeholder="Enter Test Plan Name"
+                    style="color: #757575"
+                    required
+                />
+                <div class="invalid-feedback">
+                    Please Enter Test Plan Name.
+                </div>
+                </div>
+                <div class="mb-4">
+                <label
+                    for="form-test-plan-time"
+                    class="form-label d-flex justify-content-between"
+                >
+                    <div>Expiration & Assignment Time</div>
+                </label>
+                <div>
+                    <div class="row">
+                    <div class="col">
+                        <label for="startDateEdit">From: </label>
+                        <input
+                        class="form-control bg-light"
+                        id="startDateEdit"
+                        name="startDateEdit"
+                        type="date"
+                        />
+                    </div>
+                    <div class="col">
+                        <label for="endDateEdit">To: </label>
+                        <input
+                        class="form-control bg-light"
+                        id="endDateEdit"
+                        name="endDateEdit"
+                        type="date"
+                        />
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="mb-2">
+                <label
+                    for="descriptionEdit"
+                    class="form-label d-flex justify-content-between"
+                >
+                    <div for="descriptionEdit" class="form-label">
+                    Description
+                    </div>
+                </label>
+                <div class="rounded-top border d-flex p-2 bg-light">
+                    <button type="button" class="bg-light border-0 mx-1">
+                    <i class="bi bi-type-bold"></i>
+                    </button>
+                    <button type="button" class="bg-light border-0 mx-1">
+                    <i class="bi bi-type-italic"></i>
+                    </button>
+                    <button type="button" class="bg-light border-0 mx-1">
+                    <i class="bi bi-link"></i>
+                    </button>
+                    <select
+                    class="form-select border-0 bg-light"
+                    aria-label="Default select example"
+                    style="width: 8rem"
+                    >
+                    <option selected>Normal</option>
+                    <option value="1">Small</option>
+                    <option value="2">Normal</option>
+                    <option value="3">Large</option>
+                    </select>
+                    <button type="button" class="bg-light border-0 mx-1">
+                    <i class="bi bi-list-ol"></i>
+                    </button>
+                    <button type="button" class="bg-light border-0 mx-1">
+                    <i class="bi bi-list-ul"></i>
+                    </button>
+                </div>
+                <textarea
+                    class="form-control rounded-top-0 bg-light"
+                    id="descriptionEdit"
+                    rows="5"
+                    name="descriptionEdit"
                     placeholder="Enter Description"
                 ></textarea>
                 </div>
@@ -329,3 +506,5 @@
         </div>
     </form>
 </div>
+
+<script src="/js/test-plan-CRUD.js"></script>

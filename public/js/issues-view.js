@@ -189,11 +189,13 @@ toggleButtonFilter.addEventListener('click', function() {
   });
 
 
-  function toggleCheckAll(source) {
-    var checkboxes = document.querySelectorAll('.code-item');
+  function toggleCheckAllIssue(source) {
+    var checkboxes = document.querySelectorAll('.code-issue-item');
     checkboxes.forEach(function(checkbox) {
         if (checkbox !== source) {
             checkbox.checked = source.checked;
         }
     });
   }
+
+  console.log("issueview12345");

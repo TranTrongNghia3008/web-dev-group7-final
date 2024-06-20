@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 const expressHandlebars = require('express-handlebars');
 const { createPagination } = require('express-handlebars-paginate');
+const bodyParser = require('body-parser');
  
 app.use(express.static(__dirname + "/public"));
 
@@ -45,11 +46,16 @@ app.engine('hbs', expressHandlebars.engine({
             const nameParts = name.trim().split(' ');
             const initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
             return initials.substring(0, 2);
-        }   
+        },
+        eq: (a, b) => a === b,
     }
 }));
 
 app.set('view engine', 'hbs');
+
+// Cấu hình body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', require('./routes/dasdboardRouter'));
 app.use('/project', require('./routes/projectRouter'));
@@ -59,7 +65,7 @@ app.use('/project', require('./routes/projectRouter'));
 // app.use('/test-case', require('./routes/testCaseRouter'));
 // app.use('/test-run', require('./routes/testRunRouter'));
 // app.use('/test-plan', require('./routes/testPlanRouter'));
-app.use('/issue', require('./routes/issueRouter'));
+// app.use('/issue', require('./routes/issueRouter'));
 // app.use('/report', require('./routes/reportRouter'));
 app.use('/administration', require('./routes/administrationRouter'));
 

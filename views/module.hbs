@@ -5,7 +5,7 @@
         <div class="col my-auto d-flex">
             <span class="my-auto">All Modules List</span>
             <div class="bg-danger-subtle px-2 mx-2 rounded">
-            <span class="text-danger">6</span>
+            <span class="text-danger">{{numModules}}</span>
             </div>
         </div>
         <div class="col right-side d-flex justify-content-end">
@@ -46,111 +46,220 @@
 
     <div class="container bg-white rounded h-100 p-3 mb-2">
         <div class="row" id="modules-container">
-        <div class="col-3">
-            <div class="card" style="min-height: 100vh">
-            <div class="card-header d-flex justify-content-between">
-                <div class="form-check">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="modules"
-                    onchange="toggleCheckAll(this)"
-                />
-                <label class="form-check-label" for="modules"
-                    >Modules (<span class="num-modules">6</span>)</label
-                >
-                </div>
-
-                <div>
-                <a
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addModule"
-                    data-bs-toggle="tooltip"
-                    title="Add Module"
-                    class="mx-2"
-                    ><img
-                    src="/images/add.svg"
-                    alt=""
-                    style="width: 1rem; height: 1rem"
-                    class="mb-1"
-                /></a>
-                <a
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    title="Delete Parent Module"
-                    class="mx-2 my-auto"
-                    ><i class="bi bi-trash text-danger"></i
-                ></a>
-                </div>
-            </div>
-            <div class="card-body">
-                <!-- <div id="module-list" class="list-group">
-                                    <a href="#" id="contact" class="list-group-item list-group-item-action rounded border my-2 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-contact">
-                                            <label class="form-check-label" for="module-item-contact">Contact</label>
-                                        </div>
-                                    </a>
-                                    <a href="#" id="blog" class="list-group-item list-group-item-action rounded border my-2 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-blog">
-                                            <label class="form-check-label" for="module-item-blog">Blog</label>
-                                        </div>
-                                    </a>
-                                    <a href="#" id="pricing" class="list-group-item list-group-item-action rounded border my-2 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-pricing">
-                                            <label class="form-check-label" for="module-item-pricing">Pricing</label>
-                                        </div>
-                                    </a>
-                                    <a href="#" id="home-page" class="list-group-item list-group-item-action rounded border my-2 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-home-page">
-                                            <label class="form-check-label" for="module-item-home-page">Home page</label>
-                                        </div>
-                                    </a>
-                                    <a href="#" id="header-section" class="list-group-item list-group-item-action rounded border my-2 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-header-section">
-                                            <label class="form-check-label" for="module-item-header-section">Header section</label>
-                                        </div>
-                                    </a>
-                                    <a href="#" id="footer-section" class="list-group-item list-group-item-action rounded border my-2 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input module-item" type="checkbox" value="" id="module-item-footer-section">
-                                            <label class="form-check-label" for="module-item-footer-section">Footer section</label>
-                                        </div>
-                                    </a>
-                                </div> -->
-                <div id="module-list" class="list-group"></div>
-            </div>
-            </div>
-        </div>
-        <!-- <div class="col-3 module-contact">
-                        <div class="card" style="min-height: 100vh;">
-                            <div class="card-header d-flex justify-content-between">
-                                <div>
-                                    Contact (<span class="num-this-modules">0</span>)
-                                </div>
-                                
-                                <div>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2"><img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem;" class="mb-1"></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Delete Parent Module" class="mx-2 my-auto"><i class="bi bi-trash text-danger"></i></a>
-                                    <button type="button" class="btn-close" disabled aria-label="Close"></button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="container bg-white rounded border p-2">Drag and Drop any modules to make as Sub Modules</div>
-                                
-                            </div>
+            <div class="col-3">
+                <div class="card" style="min-height: 100vh">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="modules" onchange="toggleCheckAll(this)" />
+                            <label class="form-check-label" for="modules">
+                                Modules (<span class="num-modules">{{numModules}}</span>)
+                            </label>
                         </div>
-                        
-                    </div> -->
+                        <div>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2">
+                                <img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem" class="mb-1" />
+                            </a>
+                            <a href="#" data-bs-toggle="tooltip" title="Delete Parent Module" class="mx-2 my-auto">
+                                <i class="bi bi-trash text-danger"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="module-list" class="list-group">
+                            {{#each project.Modules}}
+                            <a href="#" class="list-group-item list-group-item-action rounded border my-2 py-3 module-link" data-id="{{_id}}" data-name="{{Name}}" data-projectID="{{../project.ProjectID}}">
+                                <div class="form-check">
+                                    <input class="form-check-input module-item module-checkbox" type="checkbox" value="" id="module-item-{{@index}}">
+                                    <label class="form-check-label" for="module-item-{{@index}}">{{Name}}</label>
+                                </div>
+                            </a>
+
+                            
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const modulesContainer = document.getElementById('modules-container');
+
+                modulesContainer.addEventListener('click', async function(event) {
+                    if (event.target.closest('.module-link')) {
+                        event.preventDefault();
+                        const moduleLink = event.target.closest('.module-link');
+                        const moduleId = moduleLink.getAttribute('data-id');
+                        const moduleName = moduleLink.getAttribute('data-name');
+                        const projectId = moduleLink.getAttribute('data-projectid'); // Sử dụng 'data-projectid' thay vì 'data-projectID'
+
+                        try {
+                            console.log(projectId)
+                            const response = await fetch(`/project/${projectId}/module/children/${moduleId}`);
+                            const childModules = await response.json();
+
+                            // Xây dựng HTML cho danh sách module con
+                            const childModulesHtml = childModules.map((module, index) => `
+                                <div class="sortable-module-list" data-id="${module._id}">
+                                    <a href="#" class="list-group-item list-group-item-action rounded border my-2 py-3 module-link" data-id="${module._id}" data-name="${module.Name}" data-projectID="${projectId}">
+                                        <div class="form-check">
+                                            <input class="form-check-input module-item module-checkbox" type="checkbox" value="" id="module-item-${index}">
+                                            <label class="form-check-label" for="module-item-${index}">${module.Name}</label>
+                                        </div>
+                                    </a>
+                                </div>
+                            `).join('');
+
+                            const newCol = document.createElement('div');
+                            newCol.classList.add('col-3');
+
+                            newCol.innerHTML = `
+                                <div class="card" style="min-height: 100vh">
+                                    <div class="card-header d-flex justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="modules" onchange="toggleCheckAll(this)" />
+                                            <label class="form-check-label" for="modules">
+                                                ${moduleName} (<span class="num-modules">${childModules.length}</span>)
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2">
+                                                <img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem" class="mb-1" />
+                                            </a>
+                                            <a href="#" data-bs-toggle="tooltip" title="Delete Parent Module" class="mx-2 my-auto delete-parent-module" data-id="${moduleId}" data-projectID="${projectId}">
+                                                <i class="bi bi-trash text-danger"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="sortable-child-modules" class="list-group">
+                                            ${childModulesHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+                            modulesContainer.appendChild(newCol);
+
+                            // Áp dụng Sortable cho danh sách module con
+                            const sortableChildModules = new Sortable(newCol.querySelector('#sortable-child-modules'), {
+                                animation: 150,
+                                onEnd: async function(event) {
+                                    const order = Array.from(newCol.querySelectorAll('.sortable-module-list')).map((item, index) => {
+                                        return {
+                                            id: item.getAttribute('data-id'),
+                                            order: index + 1 // Order bắt đầu từ 1
+                                        };
+                                    });
+
+                                    try {
+                                        const response = await fetch(`/project/${projectId}/module/children/${moduleId}/updateOrder`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({ order })
+                                        });
+
+                                        if (!response.ok) {
+                                            throw new Error('Failed to update child module order');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error updating child module order:', error);
+                                        alert('An error occurred while updating the child module order.');
+                                    }
+                                }
+                            });
+
+                        } catch (error) {
+                            console.error('Error fetching child modules:', error);
+                            alert('Failed to fetch child modules.');
+                        }
+                    }
+                });
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+                const modulesContainer = document.getElementById('modules-container');
+
+                modulesContainer.addEventListener('click', async function(event) {
+                    if (event.target.closest('.delete-parent-module')) {
+                        event.preventDefault();
+                        const deleteLink = event.target.closest('.delete-parent-module');
+                        const moduleId = deleteLink.getAttribute('data-id');
+                        const projectId = deleteLink.getAttribute('data-projectid');
+
+                        
+                        if (confirm('Are you sure you want to delete this module?')) {
+                            try {
+                                console.log('fetch1' + projectId);
+                                const response = await fetch(`/project/${projectId}/module/${moduleId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                }).then(response => {
+                                    if (response.ok) {
+                                        location.reload(); // Reload the page to reflect the changes
+                                    } else {
+                                        alert('Failed to delete the test run.');
+                                    }
+                                });
+                           
+
+                                // Xóa phần tử module khỏi giao diện
+                                deleteLink.closest('.col-3').remove();
+                            } catch (error) {
+                                console.error('Error deleting module:', error);
+                                alert('Failed to delete module.');
+                            }
+                        }
+                    }
+                });
+            });
+
+
+        </script>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const moduleList = document.getElementById('module-list');
+
+            const sortable = new Sortable(moduleList, {
+                animation: 150,
+                onEnd: async function(event) {
+                    const order = Array.from(moduleList.children).map((item, index) => {
+                        return {
+                            id: item.getAttribute('data-id'),
+                            order: index + 1 // Order bắt đầu từ 1
+                        };
+                    });
+
+                    try {
+                        const response = await fetch('/project/666011d01cc6e634de0ff711/module/updateOrder', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ order })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to update module order');
+                        }
+                    } catch (error) {
+                        console.error('Error updating module order:', error);
+                        alert('An error occurred while updating the module order.');
+                    }
+                }
+            });
+        });
+        </script>
+
     </div>
-    </div>
+
+    
+</div>
     <div
     class="modal fade"
     id="addModule"
@@ -158,54 +267,53 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
     >
-    <div class="modal-dialog">
-        <form action="" class="needs-validation" novalidate>
-        <div class="modal-content">
-            <div class="modal-header">
-            <h6 class="modal-title fs-5" id="exampleModalLabel">
-                Module/Sub Module
-            </h6>
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-            ></button>
+        <div class="modal-dialog">
+            <form action="/project/{{project.ProjectID}}/module" class="needs-validation" novalidate method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title fs-5" id="exampleModalLabel">
+                    Module/Sub Module
+                </h6>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+                </div>
+                <div class="modal-body">
+                <select
+                    class="form-select mb-3"
+                    name="parentModule"
+                    aria-label="Default select example"
+                >
+                    <option value="" selected>Select Module</option>
+                    {{#each project.AllModules}}
+                    <option value="{{_id}}">{{Name}}</option>
+                    {{/each}}
+                </select>
+                <input
+                    type="text"
+                    name="moduleName"
+                    class="form-control"
+                    placeholder="Please enter the module name *"
+                    required
+                />
+                <div class="invalid-feedback">
+                    Please enter the module name.
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Save</button>
+                <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+                </div>
             </div>
-            <div class="modal-body">
-            <select
-                class="form-select mb-3"
-                aria-label="Default select example"
-            >
-                <option selected>Select Module</option>
-                <option value="contact">Contact</option>
-                <option value="blog">Blog</option>
-                <option value="pricing">Pricing</option>
-                <option value="home page">Home page</option>
-                <option value="header section">Header section</option>
-                <option value="footer section">Footer section</option>
-            </select>
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Please enter the module name *"
-                required
-            />
-            <div class="invalid-feedback">
-                Please enter the module name.
-            </div>
-            </div>
-            <div class="modal-footer">
-            <button type="submit" class="btn btn-danger">Save</button>
-            <button
-                type="button"
-                class="btn btn-outline-danger"
-                data-bs-dismiss="modal"
-            >
-                Cancel
-            </button>
-            </div>
+            </form>
         </div>
-        </form>
     </div>
-</div>

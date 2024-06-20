@@ -9,6 +9,8 @@ const router = express.Router({ mergeParams: true });
 router.get('/', controller.show);
 router.get('/:page', controller.show);
 
-
+router.post('/', controller.addTestPlan);
+router.put('/', controller.editTestPlan);
+router.delete('/:testPlanId', controller.deleteTestPlan);
 
 module.exports = router;
