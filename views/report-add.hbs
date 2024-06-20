@@ -2,223 +2,166 @@
     {{>navigation}}
     <div class="container bg-white rounded my-3 p-1">
         <div class="d-flex bg-body-secondary p-2">
-        <a href="/project/{{project.ProjectID}}/report" class="text-primary">Reports</a>
-        <i class="bi bi-chevron-right mx-2"></i>
-        <span>Add Reports</span>
+            <a href="/project/{{project.ProjectID}}/report" class="text-primary">Reports</a>
+            <i class="bi bi-chevron-right mx-2"></i>
+            <span>Add Reports</span>
         </div>
 
         <form action="" class="needs-validation" novalidate>
-        <div class="row p-3">
-            <div class="col">
-            <div class="mb-3 d-flex">
-                <label for="fReports" class="form-label" style="width: 17rem"
-                >Reports</label
-                >
-                <div class="w-100">
-                <select
-                    class="form-select mb-3"
-                    id="fReports"
-                    name="reports"
-                    aria-label="Default select example"
-                >
-                    <option selected value="Activity Summary">
-                    Activity Summary
-                    </option>
-                    <option value="Releases Summary">Releases Summary</option>
-                    <option value="Test Runs Summary">
-                    Test Runs Summary
-                    </option>
-                    <option value="Issue Summary">Issue Summary</option>
-                    <option value="Requirement Summary">
-                    Requirement Summary
-                    </option>
-                    <option value="Recent Test Runs Status">
-                    Recent Test Runs Status
-                    </option>
-                    <option value="Result Summary">Result Summary</option>
-                    <option value="Case Traceability Summary">
-                    Case Traceability Summary
-                    </option>
-                    <option value="Test Plan Summary">
-                    Test Plan Summary
-                    </option>
-                    <option value="Module Summary">Module Summary</option>
-                    <option value="Case Detail Summary">
-                    Case Detail Summary
-                    </option>
-                    <option value="Test Run Assignee Summary">
-                    Test Run Assignee Summary
-                    </option>
-                    <option value="Test Cases Steps Summary">
-                    Test Cases Steps Summary
-                    </option>
-                    <option value="Requirements Traceability Summary">
-                    Requirements Traceability Summary
-                    </option>
-                    <option value="Data Summary Report">
-                    Data Summary Report
-                    </option>
-                    <option value="Test Case Approval Summary">
-                    Test Case Approval Summary
-                    </option>
-                    <option value="Release Requirement Summary">
-                    Release Requirement Summary
-                    </option>
-                    <option value="Module Wise Test Case Result">
-                    Module Wise Test Case Result
-                    </option>
-                </select>
-                <p class="text-secondary mb-0">
-                    <strong>Note: </strong>Summary of Activities performed in
-                    the project in a given time span including(Releases, Test
-                    cases, Test Runs, and Issues)
-                </p>
-                <a href="#" class="read-more">Read more</a>
-                </div>
-            </div>
+            <div class="row p-3">
+                <div class="col">
+                    <div class="mb-3 d-flex">
+                        <label for="fReports" class="form-label" style="width: 17rem">Report types</label>
+                        <div class="w-100">
+                            <select class="form-select mb-3" id="fReports" name="reports"
+                                aria-label="Default select example">
+                                <option selected value="Activity Summary">
+                                    Activity Summary
+                                </option>
+                                <option value="Releases Summary">Releases Summary</option>
+                                <option value="Test Runs Summary">
+                                    Test Runs Summary
+                                </option>
+                                <option value="Issue Summary">Issue Summary</option>
+                                <option value="Requirement Summary">
+                                    Requirement Summary
+                                </option>
+                                <option value="Recent Test Runs Status">
+                                    Recent Test Runs Status
+                                </option>
+                                <option value="Result Summary">Result Summary</option>
+                                <option value="Case Traceability Summary">
+                                    Case Traceability Summary
+                                </option>
+                                <option value="Test Plan Summary">
+                                    Test Plan Summary
+                                </option>
+                                <option value="Module Summary">Module Summary</option>
+                                <option value="Case Detail Summary">
+                                    Case Detail Summary
+                                </option>
+                                <option value="Test Run Assignee Summary">
+                                    Test Run Assignee Summary
+                                </option>
+                                <option value="Test Cases Steps Summary">
+                                    Test Cases Steps Summary
+                                </option>
+                                <option value="Requirements Traceability Summary">
+                                    Requirements Traceability Summary
+                                </option>
+                                <option value="Data Summary Report">
+                                    Data Summary Report
+                                </option>
+                                <option value="Test Case Approval Summary">
+                                    Test Case Approval Summary
+                                </option>
+                                <option value="Release Requirement Summary">
+                                    Release Requirement Summary
+                                </option>
+                                <option value="Module Wise Test Case Result">
+                                    Module Wise Test Case Result
+                                </option>
+                            </select>
+                            <p class="text-secondary mb-0">
+                                <strong>Note: </strong>Summary of Activities performed in
+                                the project in a given time span including (Releases, Test
+                                cases, Test Runs, and Issues)
+                            </p>
+                            <a href="#" class="read-more">Read more</a>
+                        </div>
+                    </div>
 
-            <div class="mb-3 d-flex">
-                <label
-                for="fReportType"
-                class="form-label"
-                style="width: 17rem"
-                >Type</label
-                >
-                <div class="w-100">
-                <select
-                    class="form-select mb-3"
-                    id="fReportType"
-                    name="report-type"
-                    aria-label="Default select example"
-                >
-                    <option selected value="Select All">Select All</option>
-                    <option value="Releases">Releases</option>
-                    <option value="Test Case">Test Case</option>
-                    <option value="Test Run">Test Run</option>
-                    <option value="Issue">Issue</option>
-                </select>
-                </div>
-            </div>
-            <div class="mb-3 d-flex">
-                <label for="fTitle" class="form-label" style="width: 17rem"
-                >Title <span class="text-danger">*</span></label
-                >
-                <div class="w-100">
-                <input
-                    class="form-control"
-                    id="fTitle"
-                    name="report-title"
-                    type="text"
-                    placeholder="Title..."
-                    aria-label="default input example"
-                    required
-                />
-                </div>
-                <div class="invalid-feedback">Please enter the Title.</div>
-            </div>
-            <div class="mb-3 d-flex">
-                <div style="width: 17rem">Duration</div>
-                <div class="w-100">
-                <div class="row">
-                    <div class="col">
-                    <label for="fStartDate">From: </label>
-                    <input
-                        class="form-control"
-                        id="fStartDate"
-                        name="start-date"
-                        type="date"
-                    />
+                    <div class="mb-3 d-flex">
+                        <label for="fReportType" class="form-label" style="width: 17rem">Resource type</label>
+                        <div class="w-100">
+                            <select class="form-select mb-3" id="fReportType" name="report-type"
+                                aria-label="Default select example">
+                                <option selected value="Select All">Select All</option>
+                                <option value="Releases">Releases</option>
+                                <option value="Test Case">Test Case</option>
+                                <option value="Test Run">Test Run</option>
+                                <option value="Issue">Issue</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col">
-                    <label for="fStartTime">Time: </label>
-                    <input
-                        class="form-control"
-                        type="time"
-                        id="fStartTime"
-                        name="start-time"
-                    />
+
+                    <div class="mb-3 d-flex">
+                        <label for="fTitle" class="form-label" style="width: 17rem">Title <span
+                                class="text-danger">*</span></label>
+                        <div class="w-100">
+                            <input class="form-control" id="fTitle" name="report-title" type="text"
+                                placeholder="Title..." aria-label="default input example" required />
+                        </div>
+                        <div class="invalid-feedback">Please enter the Title.</div>
+                    </div>
+
+                    <div class="mb-3 d-flex">
+                        <div style="width: 17rem">Duration</div>
+                        <div class="w-100">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="fStartDate">From: </label>
+                                    <input class="form-control" id="fStartDate" name="start-date" type="date" />
+                                </div>
+                                <div class="col">
+                                    <label for="fStartTime">Time: </label>
+                                    <input class="form-control" type="time" id="fStartTime" name="start-time" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="fEndDate">To: </label>
+                                    <input class="form-control" id="fEndDate" name="end-date" type="date" />
+                                </div>
+                                <div class="col">
+                                    <label for="fEndTime">Time: </label>
+                                    <input class="form-control" type="time" id="fEndTime" name="end-time" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex form-check form-switch ps-0">
+                        <label class="form-check-label" for="fAccessingAndScheduling" style="width: 17rem">Accessing &
+                            Scheduling</label>
+                        <div class="w-100">
+                            <input class="form-check-input mx-0 mt-1" type="checkbox" id="fAccessingAndScheduling"
+                                name="accessing-and-scheduling" checked />
+                        </div>
+                    </div>
+                    <p class="text-secondary">
+                        Note: Switching this ON will allow you to enable scheduled
+                        Email Report and Accessing Controls
+                    </p>
+                </div>
+                <div class="col">
+                    <div class="shadow-lg p-4 bg-body rounded w-50 m-auto">
+                        <div class="text-center">
+                            <img src="/images/ActivitySummary.png" alt="" style="width: 5rem; height: 4rem" />
+                            <h6>Activity Summary</h6>
+                        </div>
+                        <p>
+                            In Activity summary, you are able to see the activities
+                            performed over a given period of time. The purpose of
+                            creating this activity report is to obtain a detailed view
+                            of the activities performed in a project. Sharing this
+                            report with the company/client creates transparency about
+                            the activities you did in a particular project.
+                        </p>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success">
+                                Read More
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                    <label for="fEndDate">To: </label>
-                    <input
-                        class="form-control"
-                        id="fEndDate"
-                        name="end-date"
-                        type="date"
-                    />
-                    </div>
-                    <div class="col">
-                    <label for="fEndTime">Time: </label>
-                    <input
-                        class="form-control"
-                        type="time"
-                        id="fEndTime"
-                        name="end-time"
-                    />
-                    </div>
-                </div>
-                </div>
             </div>
-            <div class="mb-3 d-flex form-check form-switch ps-0">
-                <label
-                class="form-check-label"
-                for="fAccessingAndScheduling"
-                style="width: 17rem"
-                >Accessing & Scheduling</label
-                >
-                <div class="w-100">
-                <input
-                    class="form-check-input mx-0 mt-1"
-                    type="checkbox"
-                    id="fAccessingAndScheduling"
-                    name="accessing-and-scheduling"
-                    checked
-                />
-                </div>
-            </div>
-            <p class="text-secondary">
-                Note: Switching this ON will allow you to enable scheduled
-                Email Report and Accessing Controls
-            </p>
-            </div>
-            <div class="col">
-            <div class="shadow-lg p-4 bg-body rounded w-50 m-auto">
-                <div class="text-center">
-                <img
-                    src="/images/ActivitySummary.png"
-                    alt=""
-                    style="width: 5rem; height: 4rem"
-                />
-                <h6>Activity Summary</h6>
-                </div>
-                <p>
-                In Activity summary, you are able to see the activities
-                performed over a given period of time. The purpose of
-                creating this activity report is to obtain a detailed view
-                of the activities performed in a project. Sharing this
-                report with the company/client creates transparency about
-                the activities you did in a particular project.
-                </p>
-                <div class="text-center">
-                <button type="button" class="btn btn-success">
-                    Read More
+            <div class="d-flex justify-content-center mb-2">
+                <button type="submit" class="btn btn-danger mx-2">Save</button>
+                <button type="button" class="btn btn-outline-danger mx-2"
+                    onclick="window.location.href = '/project/{{project.ProjectID}}/report';">
+                    Cancel
                 </button>
-                </div>
             </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center mb-2">
-            <button type="submit" class="btn btn-danger mx-2">Save</button>
-            <button
-            type="button"
-            class="btn btn-outline-danger mx-2"
-            onclick="window.location.href = '/project/{{project.ProjectID}}/report';"
-            >
-            Cancel
-            </button>
-        </div>
         </form>
     </div>
 </div>
