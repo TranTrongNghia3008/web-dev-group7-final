@@ -126,8 +126,34 @@
 
                                 <td scope="col" class="pt-3">
                                     <div class="d-flex" style="margin-top: 0.8rem">
-                                        <a href="#" data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"><i
-                                                class="bi bi-pencil"></i></a>
+                                        <a href="#" 
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editReport"
+                                        onclick="showEditReportModal(this)"
+                                        data-report-id="{{this._id}}"
+                                        data-project-id="{{../project.ProjectID}}"
+                                        data-report-type="{{this.Type}}"
+                                        data-title="{{this.Title}}"
+                                        data-start-date="{{formatDate this.StartDate}}"
+                                        data-start-time="{{formatTime this.StartDate}}"
+                                        data-end-date="{{formatDate this.EndDate}}"
+                                        data-end-time="{{formatTime this.EndDate}}"
+                                        data-is-scheduled="{{this.IsScheduled}}"
+                                        data-resource-type="{{this.ResourceType}}"
+                                        data-report-type="{{this.ReportType}}"
+                                        title="Edit" class="my-auto mx-2">
+                                        <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a 
+                                        href="#" 
+                                        data-bs-toggle="tooltip" 
+                                        data-projectId="{{../project.ProjectID}}"
+                                        data-report-id="{{this._id}}"
+                                        title="Delete" 
+                                        class="mx-2 my-auto text-danger delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -294,7 +320,7 @@
 
 
     {{! Modals}}
-    {{! Modal: Add report }}
+    {{! modal add}}
     <form action="/project/{{project.ProjectID}}/report" id="addReportForm" method="post" class="needs-validation" novalidate>
         <div class="modal fade" id="addReport" tabindex="-1" arialabelledby="addReportLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -375,8 +401,8 @@
                                     <div class="w-100">
                                         <select class="form-select mb-3" id="fReportType" name="resourceType"
                                             aria-label="Default select example">
-                                            <option selected value="Select All">Select All</option>
-                                            <option value="Releases">Releases</option>
+                                            <option selected value="All resources">All/several resources</option>
+                                            <option value="Release">Releases</option>
                                             <option value="Test Case">Test Case</option>
                                             <option value="Test Run">Test Run</option>
                                             <option value="Issue">Issue</option>
@@ -457,10 +483,178 @@
 
             </div>
         </div>
+    </form> 
+
+    {{! modal edit }}
+    <form action="" id="editReportForm" onsubmit="editReport(event)" method="put" class="needs-validation" novalidate>
+        <input type="hidden" name="reportIdEdit" id="reportIdEdit" />
+        <input type="hidden" name="projectIdEdit" id="projectIdEdit" />
+        <div class="modal fade" id="editReport" tabindex="-1" arialabelledby="editReportLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <div class="modal-content border border-1 border-2" style="color: #919faf">
+                    <div class="modal-header">
+                        <div class="modal-title fs-5 fw-semibold text-dark w-100 text-center" id="editReportLabel">
+                            Edit Report
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row p-3">
+                            <div class="col">
+                                <div class="mb-3 d-flex">
+                                    <label fors="fReports" class="form-label fw-bold" style="width: 17rem">
+                                        Report type
+                                    </label>
+                                    <div class="w-100">
+                                        <select class="form-select mb-3" id="reportTypeEdit" name="reportTypeEdit"
+                                            aria-label="Default select example">
+                                            <option selected value="Activity Summary">
+                                                Activity Summary
+                                            </option>
+                                            <option value="Releases Summary">Releases Summary</option>
+                                            <option value="Test Runs Summary">
+                                                Test Runs Summary
+                                            </option>
+                                            <option value="Issue Summary">Issue Summary</option>
+                                            <option value="Requirement Summary">
+                                                Requirement Summary
+                                            </option>
+                                            <option value="Recent Test Runs Status">
+                                                Recent Test Runs Status
+                                            </option>
+                                            <option value="Result Summary">Result Summary</option>
+                                            <option value="Case Traceability Summary">
+                                                Case Traceability Summary
+                                            </option>
+                                            <option value="Test Plan Summary">
+                                                Test Plan Summary
+                                            </option>
+                                            <option value="Module Summary">Module Summary</option>
+                                            <option value="Case Detail Summary">
+                                                Case Detail Summary
+                                            </option>
+                                            <option value="Test Run Assignee Summary">
+                                                Test Run Assignee Summary
+                                            </option>
+                                            <option value="Test Cases Steps Summary">
+                                                Test Cases Steps Summary
+                                            </option>
+                                            <option value="Requirements Traceability Summary">
+                                                Requirements Traceability Summary
+                                            </option>
+                                            <option value="Data Summary Report">
+                                                Data Summary Report
+                                            </option>
+                                            <option value="Test Case Approval Summary">
+                                                Test Case Approval Summary
+                                            </option>
+                                            <option value="Release Requirement Summary">
+                                                Release Requirement Summary
+                                            </option>
+                                            <option value="Module Wise Test Case Result">
+                                                Module Wise Test Case Result
+                                            </option>
+                                        </select>
+                                        
+                                        <p class="text-secondary mb-0">
+                                            <strong>Note: </strong>Summary of Activities performed in
+                                            the project in a given time span including(Releases, Test
+                                            cases, Test Runs, and Issues)
+                                        </p>
+                                        <a href="#" class="read-more">Read more</a>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 d-flex">
+                                    <label for="fReportType" class="form-label fw-bold" style="width: 17rem">Resource type</label>
+                                    <div class="w-100">
+                                        <select class="form-select mb-3" id="resourceTypeEdit" name="resourceTypeEdit"
+                                            aria-label="Default select example">
+                                            <option selected value="All resources">All/several resources</option>
+                                            <option value="Release">Releases</option>
+                                            <option value="Test Case">Test Case</option>
+                                            <option value="Test Run">Test Run</option>
+                                            <option value="Issue">Issue</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 d-flex">
+                                    <label for="titleEdit" class="form-label fw-bold" style="width: 17rem">Title <span
+                                            class="text-danger">*</span></label>
+                                    <div class="w-100">
+                                        <input class="form-control" id="titleEdit" name="titleEdit" type="text"
+                                            placeholder="Title..." aria-label="default input example" required />
+                                    </div>
+                                    <div class="invalid-feedback">Please enter the Title.</div>
+                                </div>
+                                
+                                <div class="mb-3 d-flex flex-column">
+                                    <div class="fw-bold">Duration</div>
+
+                                    <div class="w-100">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="startDateEdit">From: </label>
+                                                <input class="form-control" id="startDateEdit" name="startDateEdit"
+                                                    type="date" />
+                                            </div>
+                                            <div class="col">
+                                                <label for="startTimeEdit">Time: </label>
+                                                <input class="form-control" type="time" id="startTimeEdit" name="startTimeEdit" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="endDateEdit">To: </label>
+                                                <input class="form-control" id="endDateEdit" name="endDateEdit" type="date" />
+                                            </div>
+                                            <div class="col">
+                                                <label for="endTimeEdit">Time: </label>
+                                                <input class="form-control" type="time" id="endTimeEdit" name="endTimeEdit" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="mb-3 d-flex form-check form-switch ps-0">
+                                    <label class="form-check-label fw-bold" for="isScheduledEdit"
+                                        style="width: 17rem">Accessing
+                                        & Scheduling</label>
+                                    <div class="w-100">
+                                        <input class="form-check-input mx-0 mt-1" type="checkbox"
+                                            id="isScheduledEdit" name="isScheduledEdit" checked />
+                                    </div>
+                                </div>
+                                <p class="text-secondary">
+                                    Note: Switching this ON will allow you to enable scheduled
+                                    Email Report and Accessing Controls
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger mx-2">
+                            Save and edit
+                        </button>
+                        <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </form> 
+
 </div>
-</form>
-
-
 <script>
     document.querySelectorAll(".pagination li").forEach((li, index) => {
         li.classList.add("page-item");
@@ -470,4 +664,5 @@
         a.classList.add("page-link");
     });
 </script>
-</div>
+
+<script src="/js/report-CRUD.js"></script>

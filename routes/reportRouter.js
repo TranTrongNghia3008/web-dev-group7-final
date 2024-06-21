@@ -11,6 +11,8 @@ router.get('/', controller.show);
 router.get('/:page', controller.show);
 
 router.post('/', controller.addReport);
+router.put('/', controller.editReport);
+router.delete('/:reportId', controller.deleteReport);
 
 
 

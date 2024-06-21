@@ -31,6 +31,11 @@ app.engine('hbs', expressHandlebars.engine({
             const options = { year: 'numeric', month: 'long', day: 'numeric'};
             return new Date(date).toLocaleDateString('en-US', options);
         },
+
+        formatTime: function (date) {
+            return new Date(date).toISOString().split('T')[1].split('.')[0];
+        },
+
         truncateId: function (id, limit) {
             const strId = String(id);
             if (limit === 0 || limit >= strId.length) {

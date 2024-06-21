@@ -41,6 +41,7 @@ controller.show = async (req, res) => {
             Reports: reports
         };
 
+
         // Gọi view và truyền dữ liệu vào
         res.render('report', { 
             title: "ShareBug - Reports", 
@@ -88,7 +89,7 @@ controller.addReport = async (req, res) => {
 
         const isScheduled = req.body.isScheduled == 'on' ? true : false;
 
-        const type = (reportType ? reportType : '') + ': ' + (resourceType ? resourceType : '');
+        const type = (reportType ? reportType : '');
         console.log(startDate);
 
         const start = startDate ? new Date(startDate + 'T' + (startTime ? startTime : "00:00")) : null;
@@ -111,6 +112,59 @@ controller.addReport = async (req, res) => {
         res.status(500).json({ message: 'Error creating Report', error });
     }
 };
+
+controller.editReport = async (req, res) => {
+    try{
+        const projectIdEdit = req.body.projectIdEdit;
+        const reportIdEdit = req.body.reportIdEdit;
+
+        const reportTypeEdit = req.body.reportTypeEdit;
+        const resourceTypeEdit = req.body.resourceTypeEdit;
+        const titleEdit = req.body.titleEdit;
+        const startDateEdit = req.body.startDateEdit ? req.body.startDateEdit : null;
+        const endDateEdit = req.body.endDateEdit ? req.body.endDateEdit : null;
+        const startTimeEdit = req.body.startTimeEdit ? req.body.startTimeEdit : null;
+        const endTimeEdit = req.body.endTimeEdit ? req.body.endTimeEdit : null;
+        const isScheduledEdit = req.body.isScheduledEdit == 'on' ? true : false;
+
+        const currentReport = await reportModel.findById(reportIdEdit);
+        
+        const updatedReport = await reportModel.findByIdAndUpdate(reportIdEdit, {
+            Type: reportTypeEdit,
+            Title: titleEdit,
+            StartDate: startDateEdit ? new Date(startDateEdit + 'T' + (startTimeEdit ? startTimeEdit : "00:00")) : null,
+            EndDate: endDateEdit ? new Date(endDateEdit + 'T' + (endTimeEdit ? endTimeEdit : "00:00")) : null,
+            IsScheduled: isScheduledEdit,
+            ProjectID: projectIdEdit,
+        });
+
+        if (!updatedReport) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+        else
+            console.log(updatedReport);
+            res.status(200).json({ message: 'Report Updated successfully!' });
+    } catch (error){
+        res.status(500).json({ message: 'Error updating Report', error });
+    }
+};
+
+controller.deleteReport = async (req, res) => {
+    try {
+        const reportId = req.params.reportId;
+        const deletedReport = await reportModel.findByIdAndDelete(reportId);
+
+        if (!deletedReport) {
+            return res.status(404).json({ message: "Report not found" });
+        }
+
+        res.json({ message: "Report deleted successfully", deletedReport });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete report", error });
+    }
+};
+
 
 
 module.exports = controller;
