@@ -7,6 +7,8 @@ const requirementModel = require('../models/requirementModel');
 const participationModel = require('../models/participationModel'); 
 const userModel = require('../models/userModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         //pagination
@@ -20,9 +22,9 @@ controller.show = async (req, res) => {
         // Lấy RequirementTypes từ query params và tách thành danh sách
         const requirementTypesQuery = req.query.RequirementTypes;
         const selectedRequirementTypes = requirementTypesQuery ? requirementTypesQuery.split(',') : [];
-        let requirementKeyword = req.query.requirementKeyword || '';
-        let requirementTypeKeyword = req.query.requirementTypeKeyword || '';
-        let assignToKeyword = req.query.assignedTo || '';
+        let requirementKeyword = sanitizeInput(req.query.requirementKeyword) || '';
+        let requirementTypeKeyword = sanitizeInput(req.query.requirementTypeKeyword) || '';
+        let assignToKeyword = sanitizeInput(req.query.assignedTo) || '';
 
          // Lấy các tham số sắp xếp từ query params
          const sortField = req.query.sortField || 'created-date';

@@ -7,6 +7,8 @@ const testPlanModel = require('../models/testPlanModel');
 const testCaseModel = require('../models/testCaseModel');
 const testRunModel = require('../models/testRunModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;

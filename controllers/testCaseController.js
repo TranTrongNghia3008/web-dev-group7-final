@@ -8,13 +8,15 @@ const testPlanModel = require('../models/testPlanModel');
 const testRunModel = require('../models/testRunModel');
 const tagModel = require('../models/tagModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
         const moduleId = req.query.ModuleID ? req.query.ModuleID : 0;
         let testCaseCount = req.query.TestCaseCount ? req.query.TestCaseCount : 0;
-        let testCaseKeyword = req.query.testCaseKeyword || '';
-        let moduleKeyword = req.query.moduleKeyword || '';
+        let testCaseKeyword = sanitizeInput(req.query.testCaseKeyword) || '';
+        let moduleKeyword = sanitizeInput(req.query.moduleKeyword) || '';
 
         // Lấy các tham số sắp xếp từ query params
         const sortField = req.query.sortField || 'created-date';
@@ -132,8 +134,8 @@ controller.showDetail = async (req, res) => {
         const projectId = req.params.projectId;
         const moduleId = req.query.ModuleID ? req.query.ModuleID : 0;
         let testCaseCount = req.query.TestCaseCount ? req.query.TestCaseCount : 0;
-        let testCaseKeyword = req.query.testCaseKeyword || '';
-        let moduleKeyword = req.query.moduleKeyword || '';
+        let testCaseKeyword = sanitizeInput(req.query.testCaseKeyword) || '';
+        let moduleKeyword = sanitizeInput(req.query.moduleKeyword) || '';
 
         // Lấy các tham số sắp xếp từ query params
         const sortField = req.query.sortField || 'created-date';

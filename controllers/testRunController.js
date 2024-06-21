@@ -11,12 +11,15 @@ const userModel = require('../models/userModel');
 const issueModel = require('../models/issueModel');
 const participationModel = require('../models/participationModel'); 
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
-        let testRunKeyword = req.query.testRunKeyword || '';
-        let selectedReleaseId = req.query.selectedReleaseId || '';
+        let testRunKeyword = sanitizeInput(req.query.testRunKeyword) || '';
+        let selectedReleaseId = sanitizeInput(req.query.selectedReleaseId) || '';
+        console.log(testRunKeyword)
 
         const allReleases = await releaseModel.find({ ProjectID: projectId });
 
@@ -168,8 +171,8 @@ controller.showResult = async (req, res) => {
         const projectId = req.params.projectId;
         const moduleId = req.query.ModuleID ? req.query.ModuleID : 0;
         let testCaseCount = req.query.TestCaseCount ? req.query.TestCaseCount : 0;
-        let testCaseKeyword = req.query.testCaseKeyword || '';
-        let moduleKeyword = req.query.moduleKeyword || '';
+        let testCaseKeyword = sanitizeInput(req.query.testCaseKeyword) || '';
+        let moduleKeyword = sanitizeInput(req.query.moduleKeyword) || '';
 
         // Lấy các tham số sắp xếp từ query params
         const sortField = req.query.sortField || 'created-date';
@@ -329,7 +332,7 @@ controller.showResult = async (req, res) => {
 
 controller.addTestRun = async (req, res) => {
     try {
-        const { 'test-run-name': name, version, browser, description, 'assign-to': assignToName, testcase, projectID } = req.body;
+        const { name, version, browser, assignToName, testcase, description } = req.body;
         
         // Tìm kiếm user và testcase từ cơ sở dữ liệu
         const assignTo = await userModel.findOne({ Name: assignToName });
@@ -348,8 +351,10 @@ controller.addTestRun = async (req, res) => {
         });
 
         await newTestRun.save();
+        res.status(201).json({ message: 'Test run added successfully', testRun: newTestRun });
 
-        res.redirect(`/project/${projectID}/test-run`); // Redirect back to the admin page
+
+        // res.redirect(`/project/${projectID}/test-run`); // Redirect back to the admin page
     } catch (error) {
         console.error('Error adding test run:', error);
         res.status(500).send('Internal Server Error');
@@ -359,8 +364,8 @@ controller.addTestRun = async (req, res) => {
 
 controller.editTestRun = async (req, res) => {
     try {
-        const { 'test-run-id': id, 'test-run-name': name, version, browser, description, status, 'createdBy': createdByName, 'assign-to': assignToName, testcase, projectID } = req.body;
-
+        const { id } = req.params;
+        const { name, version, browser, assignToName, testcase, description, status, createdByName } = req.body;
         // Tìm kiếm user và testcase từ cơ sở dữ liệu
         const assignTo = await userModel.findOne({ Name: assignToName });
         const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
@@ -370,7 +375,7 @@ controller.editTestRun = async (req, res) => {
             return res.status(400).send('Invalid assign-to user or testcase');
         }
 
-        await testRunModel.findByIdAndUpdate(id, {
+        const updatedTestRun = await testRunModel.findByIdAndUpdate(id, {
             Name: name,
             Version: version || null,
             Browser: browser || null,
@@ -382,7 +387,11 @@ controller.editTestRun = async (req, res) => {
             UpdatedAt: Date.now()
         });
 
-        res.redirect(`/project/${projectID}/test-run`); // Redirect back to the project test runs page
+        if (!updatedTestRun) {
+            return res.status(404).json({ message: 'Test run not found' });
+        }
+        res.status(200).json({ message: 'Test run updated successfully', testRun: updatedTestRun });
+
     } catch (error) {
         console.error('Error editing test run:', error);
         res.status(500).send('Internal Server Error');

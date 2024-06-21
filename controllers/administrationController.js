@@ -7,10 +7,12 @@ const controller = {};
 // const Op = sequelize.Op;
 const userModel = require('../models/userModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
-    let userTypeKeyword = req.query.userTypeKeyword || '';
-    let userStatusKeyword = req.query.userStatusKeyword || '';
-    let userKeyword = req.query.userKeyword || '';
+    let userTypeKeyword = sanitizeInput(req.query.userTypeKeyword) || '';
+    let userStatusKeyword = sanitizeInput(req.query.userStatusKeyword) || '';
+    let userKeyword = sanitizeInput(req.query.userKeyword) || '';
     let options = {};
     // Sort
     // let sortby = req.query.sortby || 'Name';
@@ -37,6 +39,9 @@ controller.show = async (req, res) => {
             query.IsAdmin = true;
         } else if (userTypeKeyword === 'User') {
             query.IsAdmin = false;
+        }
+        else {
+            query.IsAdmin = null;
         }
     }
     if (userStatusKeyword && userStatusKeyword !== 'All') {

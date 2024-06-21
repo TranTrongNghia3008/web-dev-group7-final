@@ -3,6 +3,8 @@
 const controller = {};
 const reportModel = require('../models/reportModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         let options = {};
@@ -17,7 +19,7 @@ controller.show = async (req, res) => {
         
         
         const projectId = req.params.projectId;
-        let reportKeyword = req.query.reportKeyword || '';
+        let reportKeyword = sanitizeInput(req.query.reportKeyword) || '';
 
         // Tìm tất cả các báo cáo thuộc project đó
         const reports = await reportModel.find({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }}, null, options);

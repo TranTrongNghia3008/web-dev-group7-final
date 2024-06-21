@@ -5,10 +5,12 @@ const testPlanModel = require('../models/testPlanModel');
 const requirementModel = require('../models/requirementModel');
 const releaseModel = require('../models/releaseModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        let testPlanKeyword = req.query.testPlanKeyword || '';
+        let testPlanKeyword = sanitizeInput(req.query.testPlanKeyword) || '';
 
         // Tìm release thuộc project đó
         const releases = await releaseModel.find({ ProjectID: projectId });
