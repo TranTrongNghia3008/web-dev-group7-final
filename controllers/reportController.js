@@ -78,7 +78,34 @@ controller.showAdd = (req, res) => {
 controller.addReport = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        conole.log(req.body);
+        const reportType = req.body.reportType;
+        const resourceType = req.body.resourceType;
+        const title = req.body.title;
+        const startDate = req.body.startDate ? req.body.startDate : null;
+        const endDate = req.body.endDate ? req.body.endDate : null;
+        const startTime = req.body.startTime ? req.body.startTime : null;
+        const endTime = req.body.endTime ? req.body.endTime : null;
+
+        const isScheduled = req.body.isScheduled == 'on' ? true : false;
+
+        const type = (reportType ? reportType : '') + ': ' + (resourceType ? resourceType : '');
+        console.log(startDate);
+
+        const start = startDate ? new Date(startDate + 'T' + (startTime ? startTime : "00:00")) : null;
+        const end = endDate ?  new Date(endDate + 'T' + (endTime ? endTime : "00:00")) : null;
+
+
+
+        const newReport = await reportModel.create({
+            Type: type,
+            Title: title,
+            StartDate: start,
+            EndDate: end,
+            IsScheduled: isScheduled,
+            ProjectID: projectId
+        });
+
+        res.redirect(`/project/${projectId}/report`);
 
     } catch (error) {
         res.status(500).json({ message: 'Error creating Report', error });
