@@ -10,4 +10,5 @@ router.get(":page", controller.show);
 
 router.get('/:releaseId/name', controller.getReleaseNameById);
 
+
 module.exports = router;

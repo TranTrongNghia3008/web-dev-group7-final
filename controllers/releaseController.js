@@ -41,7 +41,11 @@ controller.show = async (req, res) => {
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let limit = 2;
+        const pageOpen = Math.min(Math.ceil(openReleases.length / limit), page)
+        const pageUpcoming = Math.min(Math.ceil(upcomingReleases.length / limit), page)
+        const pageCompleted = Math.min(Math.ceil(completedReleases.length / limit), page)
         let skip = (page - 1) * limit;
+
         res.locals.pagination = {
             openReleases:
             {
@@ -77,6 +81,12 @@ controller.show = async (req, res) => {
             UpcomingReleasesCount: upcomingReleases.length,
             CompletedReleases: completedReleases.slice(skip, skip + limit),
             CompletedReleasesCount: completedReleases.length,
+            openReleasesCheck: page > pageOpen,
+            pageOpen,
+            upcomingReleasesCheck: page > pageUpcoming,
+            pageUpcoming,
+            completedReleasesCheck: page > pageCompleted,
+            pageCompleted,
             ProjectID: projectId
         };
 
@@ -129,7 +139,11 @@ controller.showDetail = async (req, res) => {
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let limit = 2;
+        const pageOpen = Math.min(Math.ceil(openReleases.length / limit), page)
+        const pageUpcoming = Math.min(Math.ceil(upcomingReleases.length / limit), page)
+        const pageCompleted = Math.min(Math.ceil(completedReleases.length / limit), page)
         let skip = (page - 1) * limit;
+
         res.locals.pagination = {
             openReleases:
             {
@@ -206,6 +220,13 @@ controller.showDetail = async (req, res) => {
             CompletedReleases: completedReleases.slice(skip, skip + limit),
             CompletedReleasesCount: completedReleases.length,
             ReleaseDetail: releaseDetail,
+            openReleasesCheck: page > pageOpen,
+            pageOpen,
+            upcomingReleasesCheck: page > pageUpcoming,
+            pageUpcoming,
+            completedReleasesCheck: page > pageCompleted,
+            pageCompleted,
+
             ProjectID: projectId
         };
 

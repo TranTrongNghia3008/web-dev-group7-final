@@ -1368,140 +1368,192 @@
         };
     </script>
 
-    <!-- Modal -->
+    <!-- modal details -->
     <div class="modal fade" id="testCaseModal" tabindex="-1" aria-labelledby="testCaseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="testCaseModalLabel">Test Case Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="row gx-2 section_formField">
-            <div class="col-12 form-field my-2 p-3 rounded bg-detail">
-                <div class="d-flex text-center">
-                <span class="text-white px-2" style="background-color: #f15752; border-radius: 30px;">{{truncateId project.TestCaseDetail._id 0}}</span>
-                <div class="ms-3 fw-4 fw-semibold">{{project.TestCaseDetail.Title}}</div>
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="testCaseModalLabel">Test Case Details</h5>
+                    <button type="button" class="btn-close btnCloseDetail" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="d-flex ps-0 pe-2">
-                <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
-                    <label class="label label-revamp fw-semibold">Module</label>
-                    <div>
-                    <p class="text-revamp">{{project.TestCaseDetail.Module.Name}} - <b class="fw-semibold">{{truncateId project.TestCaseDetail.ModuleID 0}} (Module Key)</b></p>
+            <div class="modal-body">
+                <div class="row gx-2 section_formField">
+                    <div class="col-12 form-field my-2 p-3 rounded bg-detail">
+                        <div class="d-flex text-center">
+                        <span class="text-white px-2" style="background-color: #f15752; border-radius: 30px;">{{truncateId project.TestCaseDetail._id 0}}</span>
+                        <div class="ms-3 fw-4 fw-semibold">{{project.TestCaseDetail.Title}}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex ps-0 pe-2">
+                        <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
+                            <label class="label label-revamp fw-semibold">Module</label>
+                            <div>
+                            <p class="text-revamp">{{project.TestCaseDetail.Module.Name}} - <b class="fw-semibold">{{truncateId project.TestCaseDetail.ModuleID 0}} (Module Key)</b></p>
+                            </div>
+                        </div>
+                        <div class="col-6 form-field my-2 p-3 rounded bg-detail">
+                            <label class="label label-revamp fw-semibold">Template</label>
+                            <div class="d-inline-flex align-items-center justify-content-start w-100">
+                                <img src="/images/test-case-steps.png" alt="" style="width: 1rem; height: 1rem">
+                                <div class="text-revamp ms-1">Test Case Steps</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex ps-0 pe-2">
+                        <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
+                            <label class="label label-revamp fw-semibold">Created Date</label>
+                            <div>
+                            <p class="text-revamp">{{formatDate3 project.TestCaseDetail.CreatedAt}}</p>
+                            </div>
+                        </div>
+                        <div class="col-6 form-field my-2 p-3 rounded bg-detail">
+                            <label class="label label-revamp fw-semibold">Updated Date</label>
+                            <div>
+                            <p class="text-revamp">{{formatDate3 project.TestCaseDetail.UpdatedAt}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex ps-0 pe-2">
+                        <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
+                            <label class="label label-revamp fw-semibold">Created by</label>
+                            <div>
+                            <p class="text-revamp">-</p>
+                            </div>
+                        </div>
+                        <div class="col-6 form-field my-2 p-3 rounded bg-detail">
+                            <label class="label label-revamp fw-semibold">Updated by</label>
+                            <div>
+                            <p class="text-revamp">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 my-2 form-field description-view rounded bg-detail">
+                        <label class="label label-revamp fw-semibold">Description</label>
+                        <div>
+                        <div class="text-revamp text-left">{{project.TestCaseDetail.Description}}</div>
+                        </div>
+                    </div>
+                    <div class="col-12 my-2 form-field pre-condition rounded bg-detail">
+                        <label class="label-revamp fw-semibold">Precondition</label>
+                        <div class="text-revamp">{{project.TestCaseDetail.Precondition}}</div>
                     </div>
                 </div>
-                <div class="col-6 form-field my-2 p-3 rounded bg-detail">
-                    <label class="label label-revamp fw-semibold">Template</label>
-                    <div class="d-inline-flex align-items-center justify-content-start w-100">
-                        <img src="/images/test-case-steps.png" alt="" style="width: 1rem; height: 1rem">
-                        <div class="text-revamp ms-1">Test Case Steps</div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex ps-0 pe-2">
-                <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
-                    <label class="label label-revamp fw-semibold">Created Date</label>
-                    <div>
-                    <p class="text-revamp">{{formatDate3 project.TestCaseDetail.CreatedAt}}</p>
-                    </div>
-                </div>
-                <div class="col-6 form-field my-2 p-3 rounded bg-detail">
-                    <label class="label label-revamp fw-semibold">Updated Date</label>
-                    <div>
-                    <p class="text-revamp">{{formatDate3 project.TestCaseDetail.UpdatedAt}}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex ps-0 pe-2">
-                <div class="col-6 form-field my-2 p-3 me-2 rounded bg-detail">
-                    <label class="label label-revamp fw-semibold">Created by</label>
-                    <div>
-                    <p class="text-revamp">-</p>
-                    </div>
-                </div>
-                <div class="col-6 form-field my-2 p-3 rounded bg-detail">
-                    <label class="label label-revamp fw-semibold">Updated by</label>
-                    <div>
-                    <p class="text-revamp">-</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 my-2 form-field description-view rounded bg-detail">
-                <label class="label label-revamp fw-semibold">Description</label>
-                <div>
-                <div class="text-revamp text-left">{{project.TestCaseDetail.Description}}</div>
-                </div>
-            </div>
-            <div class="col-12 my-2 form-field pre-condition rounded bg-detail">
-                <label class="label-revamp fw-semibold">Precondition</label>
-                <div class="text-revamp">{{project.TestCaseDetail.Precondition}}</div>
-            </div>
-            </div>
 
-            <div class="row bg-detail gx-2 mt-2 p-2">
-            <div class="col-6 form-field d-flex">
-                <label class="col-4 fw-semibold">Test Suite</label>
-                <div>
-                <p class="text-revamp">-</p>
+                <div class="row bg-detail gx-2 mt-2 p-2">
+                    <div class="col-6 form-field d-flex">
+                        <label class="col-4 fw-semibold">Test Suite</label>
+                        <div>
+                        <p class="text-revamp">-</p>
+                        </div>
+                    </div>
+                    <div class="col-6 form-field d-flex">
+                        <label class="col-4 fw-semibold">Mode</label>
+                        <div>
+                            <p class="text-revamp">-</p>
+                        </div>
+                    </div>
+                    <div class="col-6 form-field d-flex">
+                        <label class="col-4 fw-semibold">Type</label>
+                        <div>
+                            <p class="text-revamp">
+                                {{#each project.TestCaseDetail.TestRuns}}
+                                <span class="tag text-white">
+                                    <span>{{this.Status}}</span>
+                                </span>
+                                {{/each}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-6 form-field d-flex">
+                        <label class="col-4 fw-semibold">Priority</label>
+                        <div>
+                            <p class="text-revamp">{{project.TestCaseDetail.Priority}}</p>
+                        </div>
+                    </div>
+                    <div class="col-6 form-field d-flex">
+                        <label class="col-4 fw-semibold">Test Plan</label>
+                        <div>
+                            <p class="text-revamp">{{project.TestCaseDetail.TestPlan.Name}}</p>
+                        </div>
+                    </div>
+                    <div class="col-6 form-field d-flex align-items-center">
+                        <label class="col-4 fw-semibold">Tags</label>
+                        <div id="tags_tagsinput" class="tagsinput">
+                            {{#each project.TestCaseDetail.Tags}}
+                            <span class="tag text-white">
+                                <span>{{this.Name}}</span>
+                                <span class="btn-delete-tag btn-close" onclick="removeTag(this)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            </span>
+                            {{/each}}
+                            <div id="tags_addTag"></div>
+                            <div class="tags_clear p-0"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-6 form-field d-flex">
-                <label class="col-4 fw-semibold">Mode</label>
-                <div>
-                <p class="text-revamp">-</p>
-                </div>
-            </div>
-            <div class="col-6 form-field d-flex">
-                <label class="col-4 fw-semibold">Type</label>
-                <div>
-                <p class="text-revamp">
-                    {{#each project.TestCaseDetail.TestRuns}}
-                    <span class="tag text-white">
-                        <span>{{this.Status}}</span>
-                    </span>
-                    {{/each}}
-                </p>
-                </div>
-            </div>
-            <div class="col-6 form-field d-flex">
-                <label class="col-4 fw-semibold">Priority</label>
-                <div>
-                <p class="text-revamp">{{project.TestCaseDetail.Priority}}</p>
-                </div>
-            </div>
-            <div class="col-6 form-field d-flex">
-                <label class="col-4 fw-semibold">Test Plan</label>
-                <div>
-                <p class="text-revamp">{{project.TestCaseDetail.TestPlan.Name}}</p>
-                </div>
-            </div>
-            <div class="col-6 form-field d-flex align-items-center">
-                <label class="col-4 fw-semibold">Tags</label>
-                <div id="tags_tagsinput" class="tagsinput">
-                    {{#each project.TestCaseDetail.Tags}}
-                    <span class="tag text-white">
-                        <span>{{this.Name}}</span>
-                        <span class="btn-delete-tag btn-close" onclick="removeTag(this)"><i class="fa fa-times" aria-hidden="true"></i></span>
-                    </span>
-                    {{/each}}
-                    <div id="tags_addTag"></div>
-                    <div class="tags_clear p-0"></div>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btnCloseDetail" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Edit</button>
             </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger">Edit</button>
+
+            <script>
+                function removeTag(element) {
+                    element.parentElement.remove();
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const btnsClose = document.querySelectorAll('.btnCloseDetail');
+                    const url = window.location.href;
+
+                    btnsClose.forEach(btnClose => {
+                        btnClose.addEventListener('click', function() {
+                            const urlParts = url.split('/');
+                            let idToDelete = null;
+
+                            const indexTestCase = urlParts.indexOf('test-case');
+
+                            if (indexTestCase !== -1 && indexTestCase < urlParts.length - 1) {
+                                const newUrl = urlParts.slice(0, indexTestCase + 1).join('/');
+                                {{!-- console.log('Redirecting to:', newUrl); --}}
+                                window.location.href = newUrl; 
+                            }
+                        });
+                    });
+                });
+            </script>
         </div>
+
+    {{#if messages.error}}
+    <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="alert" style="font-size: medium;">{{messages.error}}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
         </div>
     </div>
-
-        <script>
-            function removeTag(element) {
-                element.parentElement.remove();
-            }
-        </script>
-    </div>
+    {{/if}}
 </div>
+
+<script>
+    // Chờ đợi khi trang đã tải hoàn toàn
+    $(document).ready(function() {
+        // Kiểm tra nếu có thông báo trong flash messages
+        if ($('#flashMessageModal').length > 0) {
+            $('#flashMessageModal').modal('show'); // Hiển thị modal dialog
+        }
+    });
+</script>
+
+<script src="/js/test-case-CRUD.js"></script>

@@ -83,7 +83,18 @@ controller.show = async (req, res) => {
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let limit = 5;
+        const pageMax = Math.ceil(testCases.length / limit)
         let skip = (page - 1) * limit;
+
+        if (page > pageMax) {
+            // Thêm thông báo rằng số trang không tồn tại
+            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
+            
+            const newQuery = {...req.query, page: pageMax};
+            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
+            return res.redirect(`?${newQueryString}`);
+        }
+
         let total = testCases.length;
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
@@ -120,6 +131,8 @@ controller.show = async (req, res) => {
             n5: "active border-danger",
             project: projectData,
             // modules: JSON.stringify(modulesWithTestCaseCount)
+
+            messages: req.flash()
         });
     } catch (error) {
         console.error('Error fetching test cases:', error);
@@ -202,7 +215,18 @@ controller.showDetail = async (req, res) => {
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let limit = 5;
+        const pageMax = Math.ceil(testCases.length / limit)
         let skip = (page - 1) * limit;
+
+        if (page > pageMax) {
+            // Thêm thông báo rằng số trang không tồn tại
+            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
+            
+            const newQuery = {...req.query, page: pageMax};
+            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
+            return res.redirect(`?${newQueryString}`);
+        }
+
         let total = testCases.length;
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
@@ -253,6 +277,8 @@ controller.showDetail = async (req, res) => {
             n5: "active border-danger",
             project: projectData,
             // modules: JSON.stringify(modulesWithTestCaseCount)
+            
+            messages: req.flash()
         });
     } catch (error) {
         console.error('Error fetching test cases:', error);
@@ -334,5 +360,72 @@ controller.showImportCategory = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
+// controller.addTestCaseStep = async (req, res) => {
+//     try {
+//         const projectId = req.params.projectId;
+//         const { releaseName, type, description } = req.body;
+
+//         const release = await releaseModel.findOne({ Name: releaseName });
+
+//         const newRequirement = await requirementModel.create({
+//             Type: type,
+//             Description: description || null,
+//             ReleaseID: release._id || "66601b671ef4a55f282208d3",
+//             AssignTo: "666011d01cc6e634de0ff70d",
+//         });
+
+
+//         res.redirect(`/project/${projectId}/requirement`);
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error creating Requirement', error });
+//     }
+// };
+
+// controller.editRequirement = async (req, res) => {
+//     try {
+//         const { releaseNameEdit, typeEdit, descriptionEdit, idEdit } = req.body;
+
+//         const release = await releaseModel.findOne({ Name: releaseNameEdit });
+
+//         const currentRequirement = await requirementModel.findById(idEdit);
+//         const typeChanged = currentRequirement.Type !== typeEdit;
+
+//         const updatedRequirement = await requirementModel.findByIdAndUpdate(
+//             idEdit,
+//             {
+//                 Type: typeEdit,
+//                 Description: descriptionEdit || null,
+//                 ReleaseID: release._id || "66601b671ef4a55f282208d3",
+//                 UpdatedAt: Date.now()
+//                 // AssignTo: if it is to be updated, include here
+//             },
+//         );
+
+//         if (!updatedRequirement) {
+//             return res.status(404).json({ message: 'Requirement not found' });
+//         }
+//         else
+//             res.status(200).json({ message: 'Requirement Updated successfully!', typeChanged: typeChanged });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error updating Requirement', error });
+//     }
+// };
+
+// controller.deleteRequirement = async (req, res) => {
+//     try {
+//         const requirementId = req.params.requirementId;
+//         const deletedRequirement = await requirementModel.findByIdAndDelete(requirementId);
+
+//         if (!deletedRequirement) {
+//             return res.status(404).json({ message: "Requirement not found" });
+//         }
+
+//         res.json({ message: "Requirement deleted successfully", deletedRequirement });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "Failed to delete requirement", error });
+//     }
+// };
 
 module.exports = controller;

@@ -58,11 +58,22 @@ controller.showList = async (req, res) => {
 
         const projectsWithDetails = await Promise.all(projectPromises);
 
-        // Pagination 
+        // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        let skip = (page - 1) * limit;
         let total = projectsWithDetails.length;
+        let limit = 5;
+        const pageMax = Math.ceil(total / limit)
+        let skip = (page - 1) * limit;
+
+        if (page > pageMax) {
+            // Thêm thông báo rằng số trang không tồn tại
+            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
+            
+            const newQuery = {...req.query, page: pageMax};
+            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
+            return res.redirect(`?${newQueryString}`);
+        }
+        
         let showing = Math.min(limit, total - skip);
         res.locals.pagination =
         {
@@ -81,7 +92,9 @@ controller.showList = async (req, res) => {
             d2: "selected-menu-item",
             projects: projectsWithDetails.slice(skip, skip + limit), // Truyền danh sách các project với thông tin chi tiết tới view
             sortField,
-            sortOrder
+            sortOrder,
+
+            messages: req.flash()
         });
     } catch (error) {
         console.error('Error fetching project list:', error);

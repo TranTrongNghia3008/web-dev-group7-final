@@ -423,6 +423,20 @@
               </div>
             </div>
           </div>
+          <script>
+            $(document).ready(function() {
+              $('.sub-tab').click(function() {
+                var tabId = $(this).attr('id');
+                localStorage.setItem('activeTab', tabId);
+              });
+
+              // Khôi phục trạng thái tab khi tải lại trang
+              var activeTab = localStorage.getItem('activeTab');
+              if (activeTab) {
+                $('#' + activeTab).tab('show');
+              }
+            });
+          </script>
         </div>
 
   {{!-- <!-- Trigger button -->
@@ -434,7 +448,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Release Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btnCloseDetail" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="tab-pane fade show active" id="ms-status">
@@ -527,52 +541,127 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btnCloseDetail" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-danger">Edit</button>
                 </div>
             </div>
         </div>
+      
     </div>
-    <script>
-        $('#releaseModal').on('shown.bs.modal', function () {
-            renderChart();
-        });
-
-        function renderChart() {
-            var ctx = document.getElementById('release_piechart').getContext('2d');
-            var myPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Passed', 'Failed', 'Untested', 'Other'],
-                    datasets: [{
-                        data: [{{project.ReleaseDetail.StatusCounts.Passed}}, {{project.ReleaseDetail.StatusCounts.Failed}}, {{project.ReleaseDetail.StatusCounts.Untested}}, {{project.ReleaseDetail.StatusCounts.Other}}],
-                        backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD', '#fdb45c']
-                    }]
-                }
-            });
-        }
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('a.release-link-modal').click(function(event) {
-                event.preventDefault();
-
-                var url = $(this).attr('href');
-                window.location.href = url;
-            });
-        });
-
-        window.onload = function() {
-            var newUrl = window.location.pathname;
-            var regex = /\/release\/([^/]+)$/;
-
-            if (regex.test(newUrl)) {
-                var $targetModal = $('#releaseModal');
-                var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#releaseModal"]');
-
-                $targetModal.modal('show');
-            }
-        };
-    </script>
+    <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Thông báo</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="alert" style="font-size: medium;">Số trang không tồn tại, đã chuyển về trang hợp lệ.</div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                  </div>
+              </div>
+          </div>
+      </div>
 </div>
+<script>
+  $(document).ready(function() {
+    // Lấy tab đang mở từ localStorage
+    const activeTab = localStorage.getItem('activeTab');
+    const openReleasesCheck = {{project.openReleasesCheck}};
+    const upcomingReleasesCheck = {{project.upcomingReleasesCheck}};
+    const completedReleasesCheck = {{project.completedReleasesCheck}};
+    
+    // Kiểm tra vượt số trang và hiển thị modal
+    if (activeTab === 'open-tab' && openReleasesCheck) {
+        $('#flashMessageModal').modal('show');
+        console.log($('#flashMessageModal'))
+    } else if (activeTab === 'upcoming-tab' && upcomingReleasesCheck) {
+        $('#flashMessageModal').modal('show');
+    } else if (activeTab === 'completed-tab' && completedReleasesCheck) {
+        $('#flashMessageModal').modal('show');
+    }
+  });
+
+  // Xử lý sự kiện khi modal được đóng
+  $('#flashMessageModal').on('hidden.bs.modal', function () {
+      const redirectUrl = '/project/666011d01cc6e634de0ff711/release';
+      window.location.href = redirectUrl;
+  });
+</script>
+<script>
+    $('#releaseModal').on('shown.bs.modal', function () {
+        renderChart();
+    });
+
+    function renderChart() {
+        var ctx = document.getElementById('release_piechart').getContext('2d');
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Passed', 'Failed', 'Untested', 'Other'],
+                datasets: [{
+                    data: [{{project.ReleaseDetail.StatusCounts.Passed}}, {{project.ReleaseDetail.StatusCounts.Failed}}, {{project.ReleaseDetail.StatusCounts.Untested}}, {{project.ReleaseDetail.StatusCounts.Other}}],
+                    backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD', '#fdb45c']
+                }]
+            }
+        });
+    }
+</script>
+<script>
+  function removeTag(element) {
+      element.parentElement.remove();
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      const btnsClose = document.querySelectorAll('.btnCloseDetail');
+      const url = window.location.href;
+
+      btnsClose.forEach(btnClose => {
+          btnClose.addEventListener('click', function() {
+              const urlParts = url.split('/');
+              let idToDelete = null;
+
+              const indexTestCase = urlParts.indexOf('release');
+
+              if (indexTestCase !== -1 && indexTestCase < urlParts.length - 1) {
+                  var newUrl = localStorage.getItem('currentUrl');
+                  window.location.href = newUrl; 
+              }
+          });
+      });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('.release-card').click(function() {
+      var currentUrl = window.location.href;
+      localStorage.setItem('currentUrl', currentUrl);
+    });
+  });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('a.release-link-modal').click(function(event) {
+            event.preventDefault();
+
+            var url = $(this).attr('href');
+            window.location.href = url;
+        });
+    });
+
+    window.onload = function() {
+        var newUrl = window.location.pathname;
+        var regex = /\/release\/([^/]+)$/;
+
+        if (regex.test(newUrl)) {
+            var $targetModal = $('#releaseModal');
+            var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#releaseModal"]');
+
+            $targetModal.modal('show');
+        }
+    };
+</script>

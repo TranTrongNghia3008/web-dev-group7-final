@@ -9,12 +9,6 @@ const userModel = require('../models/userModel');
 
 controller.show = async (req, res) => {
     try {
-        //pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        let skip = (page - 1) * limit;
-
-
         const projectId = req.params.projectId;
 
         // Lấy RequirementTypes từ query params và tách thành danh sách
@@ -86,6 +80,21 @@ controller.show = async (req, res) => {
             requirementTypes = requirementTypes.filter(type => type.toLowerCase().includes(requirementTypeKeyword.toLowerCase()));
         }
 
+        //pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        const pageMax = Math.ceil(requirements.length / limit);
+        let skip = (page - 1) * limit;
+
+        if (page > pageMax) {
+            // Thêm thông báo rằng số trang không tồn tại
+            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
+            
+            const newQuery = {...req.query, page: pageMax};
+            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
+            return res.redirect(`?${newQueryString}`);
+        }
+
         // Prepare the data to be sent to the view
         const projectData = {
             ProjectID: project._id,
@@ -102,11 +111,9 @@ controller.show = async (req, res) => {
         //console.log(page, " ", skip, " ", skip + limit);
 
         // Only get the requirements for the current page
-
-
         res.locals.pagination =
         {
-            page: page,
+            page: Math.min(page, pageMax),
             limit: limit,
             showing: projectData.Requirements.length,
             totalRows: requirements.length,
@@ -121,6 +128,8 @@ controller.show = async (req, res) => {
             d2: "selected-menu-item",
             n2: "active border-danger",
             project: projectData,
+
+            messages: req.flash()
         });
     } catch (error) {
         console.error('Error fetching requirements:', error);

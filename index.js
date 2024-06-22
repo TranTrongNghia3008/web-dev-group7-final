@@ -4,6 +4,8 @@ const port = process.env.PORT || 4000;
 const expressHandlebars = require('express-handlebars');
 const { createPagination } = require('express-handlebars-paginate');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const session = require('express-session');
  
 app.use(express.static(__dirname + "/public"));
 
@@ -52,6 +54,16 @@ app.engine('hbs', expressHandlebars.engine({
 }));
 
 app.set('view engine', 'hbs');
+
+// Cấu hình session
+app.use(session({
+    secret: 'your secret key',
+    resave: false,
+    saveUninitialized: true
+}));
+
+// Cấu hình flash
+app.use(flash());
 
 // Cấu hình body-parser
 app.use(bodyParser.json());
