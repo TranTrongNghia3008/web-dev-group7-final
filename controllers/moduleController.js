@@ -3,6 +3,8 @@
 const controller = {};
 const moduleModel = require('../models/moduleModel');
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;

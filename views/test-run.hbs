@@ -79,7 +79,7 @@
                 <i class="bi bi-plus"></i> Add Test Runs
             </button>
 
-            <form action="/project/{{project.ProjectID}}/test-run/add" class="needs-validation" novalidate method="post">
+            <form class="needs-validation" novalidate id="addTestRunForm">
                 <input type="hidden" name="projectID" value="{{project.ProjectID}}">
                 <div class="modal fade" id="addTestRun" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
                     style="display: none" aria-hidden="true">
@@ -494,7 +494,7 @@
                     <i class="bi bi-pencil"></i>
                 </a>
                 
-                <form action="/project/{{../project.ProjectID}}/test-run/edit" class="needs-validation" novalidate method="post">
+                <form class="needs-validation" novalidate id="editTestRunForm">
                     <input type="hidden" name="projectID" value="{{../project.ProjectID}}">
                     <input type="hidden" name="test-run-id" value="{{this._id}}">
                     <input type="hidden" name="status" value="{{this.Status}}">
@@ -587,33 +587,7 @@
                         </div>
                     </div>
                 </form>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        var editTestRunModal = document.getElementById('editTestRun');
-                        editTestRunModal.addEventListener('show.bs.modal', function (event) {
-                            // Button that triggered the modal
-                            var button = event.relatedTarget;
-                            // Extract info from data-* attributes
-                          
-                            var name = button.getAttribute('data-name');
-                            var version = button.getAttribute('data-version');
-                            var browser = button.getAttribute('data-browser');
-                            var assignTo = button.getAttribute('data-assign-to');
-                            var testcase = button.getAttribute('data-testcase');
-                            var description = button.getAttribute('data-description');
-
-                            // Update the modal's form fields
-                            var modal = this;
-                         
-                            modal.querySelector('input[name="test-run-name"]').value = name;
-                            modal.querySelector('input[name="version"]').value = version;
-                            modal.querySelector('input[name="browser"]').value = browser;
-                            modal.querySelector('input[name="assign-to"]').value = assignTo;
-                            modal.querySelector('input[name="testcase"]').value = testcase;
-                            modal.querySelector('textarea[name="description"]').value = description;
-                        });
-                    });
-                </script>
+              
 
                 <a
                     href="#"
@@ -625,69 +599,19 @@
                     ><i class="bi bi-trash"></i
                 ></a>
 
-                
-
-
-
                 </div>
             </td>
             </tr>
             {{/each}}
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const deleteButtons = document.querySelectorAll('.delete-test-run');
-
-                    deleteButtons.forEach(button => {
-                        button.addEventListener('click', function(event) {
-                            event.preventDefault();
-
-                            const testRunId = this.getAttribute('data-id');
-                            const projectId = this.getAttribute('data-projectID');
-
-                            if (confirm('Are you sure you want to delete this test run?')) {
-                                    const originalContent = this.innerHTML;
-                                this.innerHTML = '<i class="bi bi-hourglass-split"></i>';
-                                this.disabled = true;
-
-
-                                fetch(`/project/${projectId}/test-run/${testRunId}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                })
-                                .then(response => {
-                                    if (response.ok) {
-                                        location.reload(); // Reload the page to reflect the changes
-                                    } else {
-                                        alert('Failed to delete the test run.');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    alert('An error occurred while deleting the test run.');
-                                    // Khôi phục nội dung ban đầu và trạng thái của nút
-                                    this.innerHTML = originalContent;
-                                    this.disabled = false;
-                                });
-                            }
-                        });
-                    });
-                });
+                
             </script>
         </tbody>
         </table>
     </div>
     <div class="container bg-white rounded-bottom d-flex justify-content-between py-4">
-        <div>
-            {{!-- <span>Showing </span><span>1</span><span> to </span><span>2</span
-            ><span> of entries</span> --}}
-        </div>
-
-        {{!-- <div class="d-flex my-auto justify-content-end">
-            {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
-        </div> --}}
+        
     </div>
 </div>
 
+<script src="/js/test-run-CRUD.js"></script>

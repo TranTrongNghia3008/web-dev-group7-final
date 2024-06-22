@@ -12,6 +12,8 @@ const moduleModel = require('../models/moduleModel');
 const activityModel = require('../models/activityModel'); 
 const mongoose = require('mongoose');
 
+const { sanitizeInput } = require('./shared');
+
 async function getCollectionSize(collectionName) {
     const stats = await mongoose.connection.db.command({ collStats: collectionName });
     return stats.size;

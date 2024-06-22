@@ -76,17 +76,38 @@
                   </div>
                 </div>
                 <div class="card-body" style="background-color: #f8f9fa">
-                  <form action="" class="search-requirementType">
+                  <form action="" class="search-requirementType" id="requirementTypeForm">
                     <input
                       class="form-control mb-2"
                       type="text"
                       name="requirementTypeKeyword"
                       placeholder="Type To Filter Requirement Type"
                       aria-label="default input example"
+                      id="requirementTypeKeyword"
                     />
                   </form>
 
                   <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                      const form = document.querySelector('.search-requirementType');
+                      form.addEventListener('submit', function(event) {
+                          const keyword = document.querySelector('input[name="requirementTypeKeyword"]').value.trim();
+
+                          if (keyword === '') {
+                              event.preventDefault(); // Ngăn chặn việc gửi form nếu không có keyword
+                              alert('Please enter a keyword to filter requirement type.'); // Thông báo cho người dùng nhập keyword
+                          } else {
+                              const currentUrl = new URL(window.location.href);
+                              currentUrl.searchParams.set('requirementTypeKeyword', keyword);
+                              window.location.href = currentUrl.toString();
+                          }
+                      });
+                  });
+
+                  </script>
+
+
+                  {{!-- <script>
                           document.addEventListener('DOMContentLoaded', function() {
                               const form = document.querySelector('.search-requirementType');
                               form.addEventListener('submit', function(event) {
@@ -97,8 +118,14 @@
                                   window.location.href = currentUrl.toString();
                               });
                           });
-                      </script>
+                      </script> --}}
                   
+                  <a href="/project/{{project.ProjectID}}/requirement">
+                    <button type="button" class="btn btn-danger all-test-case w-100">
+                      <i class="bi bi-folder2 me-2"></i> All Requirement Type
+                    </button> 
+                  </a> 
+
                   {{#each project.RequirementTypes}}
                     <div class="d-flex py-2">
                         <input

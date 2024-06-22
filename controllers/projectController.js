@@ -10,10 +10,12 @@ const issueModel = require('../models/issueModel');
 const releaseModel = require('../models/releaseModel');
 const activityModel = require('../models/activityModel'); 
 
+const { sanitizeInput } = require('./shared');
+
 controller.showList = async (req, res) => {
     try {
 
-        let projectKeyword = req.query.projectKeyword || '';
+        let projectKeyword = sanitizeInput(req.query.projectKeyword) || '';
 
         // Lấy các tham số sắp xếp từ query params
         const sortField = req.query.sortField || 'created-date';

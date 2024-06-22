@@ -4,12 +4,20 @@ body {
 }
 
 header {
+    flex: 1 1 auto; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000; 
 }
+
+.navbar-text {
+    white-space: nowrap; /* Giữ văn bản trên một dòng */
+    overflow: hidden;    /* Ẩn phần văn bản tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu văn bản quá dài */
+    max-width: 100%;    /* Đảm bảo nó không vượt quá kích thước của container */
+  }
 
 .logo {
     width: 30px;
@@ -34,11 +42,13 @@ main {
     flex-direction: column;
 }
 .menu {
+    flex: 1 1 auto; 
     position: fixed;
     top: 72px;
     left: 0;
     height: 100%;
-    /* overflow-y: auto; */
+    max-height: 100vh;
+    overflow-y: auto;
     background: white;
 }
 a {
@@ -59,11 +69,11 @@ a {
     height: 90px;
 }
 
-.menu-item:last-child  {
+/* .menu-item:last-child  {
     position: fixed;
     bottom: 0;
     left: 0;
-}
+} */
 
 .menu-icon {
     width: 30px;

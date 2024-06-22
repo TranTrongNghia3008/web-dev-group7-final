@@ -11,12 +11,14 @@ const testCaseModel = require('../models/testCaseModel');
 const userModel = require('../models/userModel');
 const participationModel = require('../models/participationModel'); 
 
+const { sanitizeInput } = require('./shared');
+
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
-        let issueTitleKeyword = req.query.issueTitleKeyword || '';
-        let issueCodeKeyword = req.query.issueCodeKeyword || '';
+        let issueTitleKeyword = sanitizeInput(req.query.issueTitleKeyword) || '';
+        let issueCodeKeyword = sanitizeInput(req.query.issueCodeKeyword) || '';
 
 
         const categoryFilter = req.query.category ? req.query.category.split(',') : [];
@@ -199,8 +201,8 @@ controller.showDetail = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
-        let issueTitleKeyword = req.query.issueTitleKeyword || '';
-        let issueCodeKeyword = req.query.issueCodeKeyword || '';
+        let issueTitleKeyword = sanitizeInput(req.query.issueTitleKeyword) || '';
+        let issueCodeKeyword = sanitizeInput(req.query.issueCodeKeyword) || '';
 
 
         const categoryFilter = req.query.category ? req.query.category.split(',') : [];
