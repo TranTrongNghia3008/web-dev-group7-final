@@ -58,6 +58,7 @@
                     // Thêm giá trị đã chọn vào đường dẫn hiện tại
                     currentUrl.searchParams.set('userTypeKeyword', selectedValue);
 
+
                     // Chuyển hướng đến đường dẫn mới
                     window.location.href = currentUrl.toString();
                 }
@@ -87,6 +88,7 @@
                     // Thêm giá trị đã chọn vào đường dẫn hiện tại
                     currentUrl.searchParams.set('userStatusKeyword', selectedValue);
 
+                    currentUrl.searchParams.delete('page');
 
                     // Chuyển hướng đến đường dẫn mới
                     window.location.href = currentUrl.toString();

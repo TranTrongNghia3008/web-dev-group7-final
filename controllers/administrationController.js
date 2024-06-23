@@ -24,14 +24,14 @@ controller.show = async (req, res) => {
 	// let order = req.query.order || 'asc';
 	// options.order = [[sortby, order]];
 
-	// Pagination
-	let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-	let limit = 3;
-	let skip = (page - 1) * limit;
+    // Pagination
+    let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    let limit = 3;
+    let skip = (page - 1) * limit;
 
-	options.limit = limit;
-	options.skip = skip;
-	console.log(options);
+    options.limit = limit;
+    options.skip = skip;  
+    console.log(options);
 
 	let query = {};
 
@@ -51,15 +51,28 @@ controller.show = async (req, res) => {
 		query.Status = userStatusKeyword;
 	}
 
-	const users = await userModel.find(query, null, options); //console.log(users);
-	const usersCount = await userModel.countDocuments();
-	res.locals.pagination = {
-		page: page,
-		limit: limit,
-		showing: users.length,
-		totalRows: usersCount,
-		queryParams: req.query
-	};
+    // Querying (filter)
+    let users = await userModel.find(query, null);
+    const usersCount = await users.length;
+    // Slice the users array to limit the number of users displayed
+    // Validate if the skip is greater than the number of users
+    if (skip > usersCount) {
+        skip = 0;
+        page = 1;
+    }
+
+
+    users = users.slice(skip, skip + limit);
+
+    // Pagination numerical data
+    res.locals.pagination = 
+    {
+        page: page,
+        limit: limit,
+        showing: users.length,
+        totalRows: usersCount,
+        queryParams: req.query
+    };
 
 	// Calculate total, active, and inactive users
 	const totalUser = await userModel.countDocuments();
