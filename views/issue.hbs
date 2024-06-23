@@ -29,10 +29,10 @@
                             </a>
 
                             <button type="button" class="btn btn-danger mx-2 my-auto" style="width: 8rem"
-                                data-bs-toggle="modal" data-bs-target="#addIssue">
+                                data-bs-toggle="modal" data-bs-target="#addIssue" data-projectid="{{project.ProjectID}}">
                                 <i class="bi bi-plus"></i> Add Issue
                             </button>
-                            <form action="/project/{{project.ProjectID}}/issue/add" class="needs-validation" method="post" novalidate>
+                            <form action="" class="needs-validation" novalidate id="addIssueForm">
                                 <div class="modal fade" id="addIssue" tabindex="-1"
                                     aria-labelledby="exampleModalFullscreenLabel" style="display: none"
                                     aria-hidden="true">
@@ -311,9 +311,6 @@
                                                     </button>
                                                     <button type="submit" class="btn btn-danger mx-2">
                                                         Save
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger mx-2">
-                                                        Save & Continue
                                                     </button>
                                                 </div>
                                             </div>
@@ -596,7 +593,7 @@
                         </a>
 
 
-                        <form action="/project/{{../project.ProjectID}}/issue/edit" class="needs-validation" method="post" novalidate>
+                        <form action="" id="editIssueForm" class="needs-validation" novalidate>
                             <input type="hidden" name="projectID" value="{{../project.ProjectID}}">
                             <input type="hidden" name="issue-id" value="{{this._id}}">
                             <div class="modal fade" id="editIssue" tabindex="-1"
@@ -860,51 +857,6 @@
                             </div>
                         </form>
 
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                            var editIssueModal = document.getElementById('editIssue');
-                            editIssueModal.addEventListener('show.bs.modal', function (event) {
-                                // Button that triggered the modal
-                                var button = event.relatedTarget;
-                                // Extract info from data-* attributes
-                                var title = button.getAttribute('data-title');
-                                var description = button.getAttribute('data-description');
-                                var category = button.getAttribute('data-category');
-                                var status = button.getAttribute('data-status');
-                                var priority = button.getAttribute('data-priority');
-                                var issueType = button.getAttribute('data-issue-type');
-                                var severity = button.getAttribute('data-severity');
-                                var environment = button.getAttribute('data-environment');
-                                var assignedTo = button.getAttribute('data-assign-to');
-                                var testRun = button.getAttribute('data-test-run');
-                                var stepsToReproduce = button.getAttribute('data-steps-to-reproduce');
-                                var startDay = button.getAttribute('data-start-day');
-                                var endDay = button.getAttribute('data-end-day')
-
-                                // Chuyển đổi định dạng ngày tháng
-                                var startDayFormat = startDay ? new Date(startDay).toISOString().split('T')[0] : null;
-                                var endDayFormat = endDay ? new Date(endDay).toISOString().split('T')[0] : null;
-
-                                // Update the modal's form fields
-                                var modal = this;
-                                modal.querySelector('textarea[name="issue-title"]').value = title;
-                                modal.querySelector('textarea[name="issue-description"]').value = description;
-                                modal.querySelector('input[name="category"]').value = category;
-                                modal.querySelector('input[name="status"]').value = status;
-                                modal.querySelector('input[name="priority"]').value = priority;
-                                modal.querySelector('input[name="issue-type"]').value = issueType;
-                                modal.querySelector('input[name="severity"]').value = severity;
-                                modal.querySelector('input[name="environment"]').value = environment;
-                                modal.querySelector('input[name="start-day"]').value = startDayFormat;
-                                modal.querySelector('input[name="end-day"]').value = endDayFormat;
-                                modal.querySelector('input[name="assigned-to"]').value = assignedTo;
-                                modal.querySelector('input[name="testRun"]').value = testRun;
-                                modal.querySelector('textarea[name="steps-to-reproduce"]').value = stepsToReproduce;
-                            });
-                        });
-                        
-
-                    </script>
 
                         <a
                             href="#"
@@ -937,48 +889,6 @@
                     </tr>
                     {{/each}}
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const deleteButtons = document.querySelectorAll('.delete-issue');
-
-                            deleteButtons.forEach(button => {
-                                button.addEventListener('click', function(event) {
-                                    event.preventDefault();
-
-                                    const issueId = this.getAttribute('data-id');
-                                    const projectId = this.getAttribute('data-projectID');
-
-                                    if (confirm('Are you sure you want to delete this issue?')) {
-                                        const originalContent = this.innerHTML;
-                                        this.innerHTML = '<i class="bi bi-hourglass-split"></i>';
-                                        this.disabled = true;
-
-
-                                        fetch(`/project/${projectId}/issue/${issueId}`, {
-                                            method: 'DELETE',
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            }
-                                        })
-                                        .then(response => {
-                                            if (response.ok) {
-                                                location.reload(); // Reload the page to reflect the changes
-                                            } else {
-                                                alert('Failed to delete the issue.');
-                                            }
-                                        })
-                                        .catch(error => {
-                                            console.error('Error:', error);
-                                            alert('An error occurred while deleting the issue.');
-                                            // Khôi phục nội dung ban đầu và trạng thái của nút
-                                            this.innerHTML = originalContent;
-                                            this.disabled = false;
-                                        });
-                                    }
-                                });
-                            });
-                        });
-                    </script>
                 </tbody>
                 </table>
             </div>
@@ -1537,3 +1447,5 @@
     });
 </script>
 </div>
+
+<script src="/js/issue-CRUD.js"></script>

@@ -118,8 +118,9 @@ controller.addModule = async (req, res) => {
 
         // Lưu module vào cơ sở dữ liệu
         await newModule.save();
+        res.status(201).json({ message: 'Module added successfully' });
 
-        res.redirect(`/project/${projectId}/module`); // Chuyển hướng về trang danh sách module
+        // res.redirect(`/project/${projectId}/module`); // Chuyển hướng về trang danh sách module
     } catch (error) {
         console.error('Error adding module:', error);
         res.status(500).json({ message: 'Internal Server Error' });

@@ -432,8 +432,9 @@ controller.addIssue = async (req, res) => {
 
         // Lưu issue vào cơ sở dữ liệu
         await newIssue.save();
+        res.status(201).json({ message: 'Issue added successfully'});
 
-        res.redirect(`/project/${projectId}/issue`);
+        // res.redirect(`/project/${projectId}/issue`);
 
     } catch (error) {
         console.error('Error adding issue:', error);
@@ -482,8 +483,10 @@ controller.editIssue = async (req, res) => {
         });
 
         await issueModel.findByIdAndUpdate(id, filteredUpdateFields);
+        res.status(200).json({ message: 'Issue updated successfully'});
 
-        res.redirect(`/project/${projectID}/issue`); // Redirect về trang danh sách issues của dự án
+
+        // res.redirect(`/project/${projectID}/issue`); // Redirect về trang danh sách issues của dự án
     } catch (error) {
         console.error('Error editing issue:', error);
         res.status(500).send('Internal Server Error');
