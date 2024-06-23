@@ -10,5 +10,8 @@ router.get(":page", controller.show);
 
 router.get('/:releaseId/name', controller.getReleaseNameById);
 
+router.post('/', controller.addRelease);
+router.put('/', controller.editRelease);
+router.delete('/:releaseId', controller.deleteRelease);
 
 module.exports = router;

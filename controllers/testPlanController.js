@@ -64,7 +64,6 @@ controller.show = async (req, res) => {
 
 controller.addTestPlan = async (req, res) => {
     try {
-        const projectId = req.params.projectId;
         const { name, startDate, endDate, description } = req.body;
 
         const startDay = startDate ? new Date(startDate) : null;
@@ -80,9 +79,13 @@ controller.addTestPlan = async (req, res) => {
             RequirementID: "66601c17e78adfc3981db376",
         });
 
-        res.redirect(`/project/${projectId}/test-plan`);
+        if (!newTestPlan) {
+            return res.status(404).json({ message: 'Test Plan not found' });
+        }
+        else
+            res.status(200).json({ message: 'Test Plan Added successfully!' });
     } catch (error) {
-        res.status(500).json({ message: 'Error creating Test Plan', error });
+        res.status(500).json({ message: 'Error adding Test Plan', error });
     }
 };
 

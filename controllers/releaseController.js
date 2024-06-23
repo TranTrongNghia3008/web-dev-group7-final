@@ -260,4 +260,79 @@ controller.getReleaseNameById = async (req, res) => {
     }
 };
 
+controller.addRelease = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const { name, startDate, endDate, description } = req.body;
+
+        const startDay = startDate ? new Date(startDate) : null;
+        const endDay = endDate ? new Date(endDate) : null;
+        const formattedStartDate = startDay ? startDay.toISOString() : null;
+        const formattedEndDate = endDay ? endDay.toISOString() : null;
+
+        const newRelease = await releaseModel.create({
+            Name: name,
+            StartDate: formattedStartDate,
+            EndDate: formattedEndDate,
+            Description: description || null,
+            ProjectID: projectId,
+        });
+
+        if (!newRelease) {
+            return res.status(404).json({ message: 'Release not found' });
+        }
+        else
+            res.status(200).json({ message: 'Release Added successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding Release', error });
+    }
+};
+
+controller.editRelease = async (req, res) => {
+    try {
+        const { nameEdit, startDateEdit, endDateEdit, descriptionEdit, idEdit } = req.body;
+
+        const startDay = startDateEdit ? new Date(startDateEdit) : null;
+        const endDay = endDateEdit ? new Date(endDateEdit) : null;
+        const formattedStartDate = startDay ? startDay.toISOString() : null;
+        const formattedEndDate = endDay ? endDay.toISOString() : null;
+
+        const updatedRelease = await releaseModel.findByIdAndUpdate(
+            idEdit,
+            {
+                Name: nameEdit,
+                StartDate: formattedStartDate,
+                EndDate: formattedEndDate,
+                Description: descriptionEdit || null,
+                UpdatedAt: Date.now()
+                // RequirementID: if it is to be updated, include here
+            },
+        );
+
+        if (!updatedRelease) {
+            return res.status(404).json({ message: 'Release not found' });
+        }
+        else
+            res.status(200).json({ message: 'Release Updated successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating Release', error });
+    }
+};
+
+controller.deleteRelease = async (req, res) => {
+    try {
+        const releaseId = req.params.releaseId;
+        const deletedRelease = await releaseModel.findByIdAndDelete(releaseId);
+
+        if (!deletedRelease) {
+            return res.status(404).json({ message: "Release not found" });
+        }
+
+        res.json({ message: "Release deleted successfully", deletedRelease });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete Release", error });
+    }
+};
+
 module.exports = controller;

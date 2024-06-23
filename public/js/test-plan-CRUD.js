@@ -5,6 +5,37 @@ function showEditTestPlanModal(btn) {
     document.querySelector("#endDateEdit").value = btn.dataset.endDate;
     document.querySelector("#descriptionEdit").value = btn.dataset.description;
   }
+
+  async function addTestPlan(e) {
+    e.preventDefault();
+  
+    const formData = new FormData(document.getElementById("addTestPlanForm"));
+    let data = Object.fromEntries(formData.entries());
+
+    try {
+      let res = await fetch(`/project/${data.projectId}/test-plan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+  
+      if (res.status == 200) {
+        location.reload();
+      } else {
+        let resText = await res.text();
+        throw new Error(resText);
+      }
+    } catch (error) {
+      e.target.querySelector("#errorMessageEdit").innerText = "Can not add test plan!";
+      console.log(error);
+    }
+  }
+
+  document.querySelector("#addTestPlan").addEventListener("shown.bs.modal", () => {
+    document.querySelector("#name").focus();
+  });
   
   async function editTestPlan(e) {
     e.preventDefault();

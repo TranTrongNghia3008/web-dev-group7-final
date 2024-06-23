@@ -217,7 +217,8 @@
     </div>
 
     {{!-- modal add --}}
-    <form action="/project/{{project.ProjectID}}/test-plan/" id="addTestPlanForm" method="post" class="needs-validation" novalidate>
+    <form action="" id="addTestPlanForm" onsubmit="addTestPlan(event)" class="needs-validation" novalidate>
+        <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
         <div
         class="modal fade"
         id="addTestPlan"

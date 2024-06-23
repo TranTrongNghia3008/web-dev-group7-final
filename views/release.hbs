@@ -16,23 +16,26 @@
                 <button
                   class="btn btn-danger"
                   data-bs-toggle="modal"
-                  data-bs-target="#releaseDialog"
+                  data-bs-target="#addRelease"
                 >
                   <i class="bi bi-plus"></i> Add release
                 </button>
               </div>
-              <form action="" class="needs-validation" novalidate>
-                <div class="modal fade" id="releaseDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+              {{!-- modal add --}}
+              <form action="" id="addReleaseForm" onsubmit="addRelease(event)" class="needs-validation" novalidate>
+                <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
+                <div class="modal fade" id="addRelease" tabindex="-1" aria-labelledby="addReleaseLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h6 class="modal-title" id="exampleModalLabel">Add Release</h6>
+                          <h6 class="modal-title" id="addReleaseLabel">Add Release</h6>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3 d-flex">
                                 <label
-                                  for="form-test-plan-name"
+                                  for="name"
                                   class="form-label d-flex justify-content-between me-5"
                                 >
                                     Name <span style="color: #f44336">*</span>
@@ -41,7 +44,8 @@
                                     <input
                                     type="text"
                                     class="form-control bg-light"
-                                    id="form-test-plan-name"
+                                    id="name"
+                                    name="name"
                                     placeholder="Release Name *"
                                     style="color: #757575"
                                     required
@@ -54,27 +58,71 @@
                             <div class="mb-3">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="fStartDate">From: </label>
+                                        <label for="startDate">From: </label>
                                         <input
                                         class="form-control bg-light"
-                                        id="fStartDate"
-                                        name="start-date"
+                                        id="startDate"
+                                        name="startDate"
                                         type="date"
                                         />
                                     </div>
                                     <div class="col">
-                                        <label for="fEndDate">To: </label>
+                                        <label for="endDate">To: </label>
                                         <input
                                         class="form-control bg-light"
-                                        id="fEndDate"
-                                        name="end-date"
+                                        id="endDate"
+                                        name="endDate"
                                         type="date"
                                         />
                                     </div>
                                 </div>
                                 
                             </div>
-                            <div class="my-2">
+                            <div class="mb-2">
+                              <label
+                                  for="description"
+                                  class="form-label d-flex justify-content-between"
+                              >
+                                  <div for="description" class="form-label">
+                                  Description
+                                  </div>
+                              </label>
+                              <div class="rounded-top border d-flex p-2 bg-light">
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-type-bold"></i>
+                                  </button>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-type-italic"></i>
+                                  </button>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-link"></i>
+                                  </button>
+                                  <select
+                                  class="form-select border-0 bg-light"
+                                  aria-label="Default select example"
+                                  style="width: 8rem"
+                                  >
+                                  <option selected>Normal</option>
+                                  <option value="1">Small</option>
+                                  <option value="2">Normal</option>
+                                  <option value="3">Large</option>
+                                  </select>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-list-ol"></i>
+                                  </button>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-list-ul"></i>
+                                  </button>
+                              </div>
+                              <textarea
+                                  class="form-control rounded-top-0 bg-light"
+                                  id="description"
+                                  rows="5"
+                                  name="description"
+                                  placeholder="Enter Description"
+                              ></textarea>
+                              </div>
+                            {{!-- <div class="my-2">
                                 <label for="">Attachments</label>
                                 <div
                                   class="upload-file my-2 d-flex justify-content-center"
@@ -115,7 +163,168 @@
                                     .png, .jpg, .ppt, .pptx, .mov</strong
                                   >
                                 </p>
+                              </div> --}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger mx-2">
+                                Save
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-outline-danger mx-2"
+                                data-bs-dismiss="modal"
+                              >
+                                Cancel
+                              </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </form>
+
+              {{!-- modal edit --}}
+              <form action="" id="editReleaseForm" onsubmit="editRelease(event)" class="needs-validation" novalidate>
+                <input type="hidden" name="projectIdEdit" value="{{project.ProjectID}}"/>
+                <input type="hidden" name="idEdit" id="idEdit"/>
+                <div class="modal fade" id="editRelease" tabindex="-1" aria-labelledby="editReleaseLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h6 class="modal-title" id="editReleaseLabel">Edit Release</h6>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3 d-flex">
+                                <label
+                                  for="nameEdit"
+                                  class="form-label d-flex justify-content-between me-5"
+                                >
+                                    Name <span style="color: #f44336">*</span>
+                                </label>
+                                <div class="w-100">
+                                    <input
+                                    type="text"
+                                    class="form-control bg-light"
+                                    id="nameEdit"
+                                    name="nameEdit"
+                                    placeholder="Release Name *"
+                                    style="color: #757575"
+                                    required
+                                    />
+                                    <div class="invalid-feedback">
+                                    Please Enter Release Name.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="startDateEdit">From: </label>
+                                        <input
+                                        class="form-control bg-light"
+                                        id="startDateEdit"
+                                        name="startDateEdit"
+                                        type="date"
+                                        />
+                                    </div>
+                                    <div class="col">
+                                        <label for="endDateEdit">To: </label>
+                                        <input
+                                        class="form-control bg-light"
+                                        id="endDateEdit"
+                                        name="endDateEdit"
+                                        type="date"
+                                        />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="mb-2">
+                              <label
+                                  for="descriptionEdit"
+                                  class="form-label d-flex justify-content-between"
+                              >
+                                  <div for="descriptionEdit" class="form-label">
+                                  Description
+                                  </div>
+                              </label>
+                              <div class="rounded-top border d-flex p-2 bg-light">
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-type-bold"></i>
+                                  </button>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-type-italic"></i>
+                                  </button>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-link"></i>
+                                  </button>
+                                  <select
+                                  class="form-select border-0 bg-light"
+                                  aria-label="Default select example"
+                                  style="width: 8rem"
+                                  >
+                                  <option selected>Normal</option>
+                                  <option value="1">Small</option>
+                                  <option value="2">Normal</option>
+                                  <option value="3">Large</option>
+                                  </select>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-list-ol"></i>
+                                  </button>
+                                  <button type="button" class="bg-light border-0 mx-1">
+                                  <i class="bi bi-list-ul"></i>
+                                  </button>
                               </div>
+                              <textarea
+                                  class="form-control rounded-top-0 bg-light"
+                                  id="descriptionEdit"
+                                  rows="5"
+                                  name="descriptionEdit"
+                                  placeholder="Enter Description"
+                              ></textarea>
+                              </div>
+                            {{!-- <div class="my-2">
+                                <label for="">Attachments</label>
+                                <div
+                                  class="upload-file my-2 d-flex justify-content-center"
+                                  style="border: dashed 1px #dc3545 !important"
+                                >
+                                  <div
+                                    class="mt-0 col-4 d-flex justify-content-center me-2"
+                                  >
+                                    <img
+                                      src="/images/import_file.svg"
+                                      alt="Import Files"
+                                      style="width: 80px"
+                                    />
+                                  </div>
+                                  <div class="col-4 py-3">
+                                    <div
+                                      class="d-block text-center align-items-center"
+                                      style="width: 80%"
+                                    >
+                                      <button
+                                        type="button"
+                                        class="btn btn-outline-danger mb-2 w-100"
+                                      >
+                                        Drop Files
+                                      </button>
+                                      <p class="mt-2 fs-6" style="color: #999">
+                                        Drop files here
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <p class=" small">
+                                  File size should be less than 2MB and allowed
+                                  formats are
+                                  <strong
+                                    >.xls, .xlsx, .doc, .docx, .txt, .pdf, .csv,
+                                    .log, .zip, .mp4, .webm, .ipynb, .odf, .gif,
+                                    .png, .jpg, .ppt, .pptx, .mov</strong
+                                  >
+                                </p>
+                              </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger mx-2">
@@ -268,15 +477,32 @@
                         <div
                           class="container release-card-toolbar d-flex justify-content-end"
                         >
-                          <button class="btn btn-outline-light me-1">
+                          <a 
+                            href="#"
+                            class="btn btn-outline-light me-1" 
+                            data-bs-toggle="modal"
+                            data-bs-target="#editRelease"
+                            onclick="showEditReleaseModal(this)" 
+                            data-id="{{this._id}}" 
+                            data-name="{{this.Name}}" 
+                            data-description="{{this.Description}}" 
+                            data-start-date="{{formatDate this.StartDate}}"
+                            data-end-date="{{formatDate this.EndDate}}"
+                            title="Edit">
                             <i class="bi bi-pencil"></i>
-                          </button>
+                          </a>
                           <button class="btn btn-outline-light me-1">
                             <i class="bi bi-archive"></i>
                           </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
+                          <a
+                              href="#"
+                              data-bs-toggle="tooltip"
+                              data-projectId="{{../project.ProjectID}}"
+                              data-id="{{this._id}}"
+                              title="Delete"
+                              class="btn btn-outline-light me-1 delete-btn"
+                              ><i class="bi bi-trash"></i
+                          ></a>
                         </div>
                       </div>
                     </div>
@@ -333,15 +559,33 @@
                         <div
                           class="container release-card-toolbar d-flex justify-content-end"
                         >
-                          <button class="btn btn-outline-light me-1">
+                          <a 
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editRelease"
+                            onclick="showEditReleaseModal(this)" 
+                            data-id="{{this._id}}" 
+                            data-name="{{this.Name}}" 
+                            data-description="{{this.Description}}" 
+                            data-start-date="{{formatDate this.StartDate}}"
+                            data-end-date="{{formatDate this.EndDate}}"
+                            title="Edit"
+                            class="btn btn-outline-light me-1" 
+                            >
                             <i class="bi bi-pencil"></i>
-                          </button>
+                          </a>
                           <button class="btn btn-outline-light me-1">
                             <i class="bi bi-archive"></i>
                           </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
+                          <a
+                              href="#"
+                              data-bs-toggle="tooltip"
+                              data-projectId="{{../project.ProjectID}}"
+                              data-id="{{this._id}}"
+                              title="Delete"
+                              class="btn btn-outline-light me-1 delete-btn"
+                              ><i class="bi bi-trash"></i
+                          ></a>
                         </div>
                       </div>
                     </div>
@@ -400,15 +644,32 @@
                         <div
                           class="container release-card-toolbar d-flex justify-content-end"
                         >
-                          <button class="btn btn-outline-light me-1">
+                          <a 
+                            href="#"
+                            class="btn btn-outline-light me-1" 
+                            data-bs-toggle="modal"
+                            data-bs-target="#editRelease"
+                            onclick="showEditReleaseModal(this)" 
+                            data-id="{{this._id}}" 
+                            data-name="{{this.Name}}" 
+                            data-description="{{this.Description}}" 
+                            data-start-date="{{formatDate this.StartDate}}"
+                            data-end-date="{{formatDate this.EndDate}}"
+                            title="Edit">
                             <i class="bi bi-pencil"></i>
-                          </button>
+                          </a>
                           <button class="btn btn-outline-light me-1">
                             <i class="bi bi-archive"></i>
                           </button>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-trash"></i>
-                          </button>
+                          <a
+                              href="#"
+                              data-bs-toggle="tooltip"
+                              data-projectId="{{../project.ProjectID}}"
+                              data-id="{{this._id}}"
+                              title="Delete"
+                              class="btn btn-outline-light me-1 delete-btn"
+                              ><i class="bi bi-trash"></i
+                          ></a>
                         </div>
                       </div>
                     </div>
@@ -665,3 +926,6 @@
         }
     };
 </script>
+
+
+<script src="/js/release-CRUD.js"></script>
