@@ -37,6 +37,7 @@
             data-bs-toggle="modal"
             data-bs-target="#addModule"
             style="width: 10rem"
+            data-projectid="{{project.ProjectID}}"
             >
             <i class="bi bi-plus"></i> Add Modules
             </button>
@@ -124,7 +125,7 @@
                                             </label>
                                         </div>
                                         <div>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2" data-projectid="${projectId}">
                                                 <img src="/images/add.svg" alt="" style="width: 1rem; height: 1rem" class="mb-1" />
                                             </a>
                                             <a href="#" data-bs-toggle="tooltip" title="Delete Parent Module" class="mx-2 my-auto delete-parent-module" data-id="${moduleId}" data-projectID="${projectId}">
@@ -179,46 +180,7 @@
                     }
                 });
             });
-            document.addEventListener('DOMContentLoaded', function() {
-                const modulesContainer = document.getElementById('modules-container');
-
-                modulesContainer.addEventListener('click', async function(event) {
-                    if (event.target.closest('.delete-parent-module')) {
-                        event.preventDefault();
-                        const deleteLink = event.target.closest('.delete-parent-module');
-                        const moduleId = deleteLink.getAttribute('data-id');
-                        const projectId = deleteLink.getAttribute('data-projectid');
-
-                        
-                        if (confirm('Are you sure you want to delete this module?')) {
-                            try {
-                                console.log('fetch1' + projectId);
-                                const response = await fetch(`/project/${projectId}/module/${moduleId}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                }).then(response => {
-                                    if (response.ok) {
-                                        location.reload(); // Reload the page to reflect the changes
-                                    } else {
-                                        alert('Failed to delete the test run.');
-                                    }
-                                });
-                           
-
-                                // Xóa phần tử module khỏi giao diện
-                                deleteLink.closest('.col-3').remove();
-                            } catch (error) {
-                                console.error('Error deleting module:', error);
-                                alert('Failed to delete module.');
-                            }
-                        }
-                    }
-                });
-            });
-
-
+           
         </script>
 
         <script>
@@ -266,9 +228,10 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
+    data-projectid="{{project.ProjectID}}"
     >
         <div class="modal-dialog">
-            <form action="/project/{{project.ProjectID}}/module" class="needs-validation" novalidate method="post">
+            <form action="" id="moduleForm" class="needs-validation" novalidate >
             <div class="modal-content">
                 <div class="modal-header">
                 <h6 class="modal-title fs-5" id="exampleModalLabel">
@@ -317,3 +280,5 @@
             </form>
         </div>
     </div>
+
+    <script src="/js/module-CRUD.js"></script>

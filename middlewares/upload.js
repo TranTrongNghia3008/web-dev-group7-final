@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     cb(null, username + '-' + uniqueSuffix + extension);
   }
 });
-console.log("middleware")
+// console.log("middleware")
 
 const upload = multer({ storage: storage });
 
