@@ -17,7 +17,6 @@ controller.show = async (req, res) => {
     // let order = req.query.order || 'asc';
     // options.order = [[sortby, order]];
 
-
     // Pagination
     let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
     let limit = 3;
@@ -45,6 +44,13 @@ controller.show = async (req, res) => {
     let users = await userModel.find(query, null);
     const usersCount = await users.length;
     // Slice the users array to limit the number of users displayed
+    // Validate if the skip is greater than the number of users
+    if (skip > usersCount) {
+        skip = 0;
+        page = 1;
+    }
+
+
     users = users.slice(skip, skip + limit);
 
     // Pagination numerical data
