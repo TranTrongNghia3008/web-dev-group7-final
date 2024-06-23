@@ -57,6 +57,10 @@
 
                     // Thêm giá trị đã chọn vào đường dẫn hiện tại
                     currentUrl.searchParams.set('userTypeKeyword', selectedValue);
+                    // Set the page parameter to 1
+                    currentUrl.searchParams.set('page', '1');
+
+                    console.log(currentUrl.searchParams.get('page'));
 
                     // Chuyển hướng đến đường dẫn mới
                     window.location.href = currentUrl.toString();

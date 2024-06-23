@@ -22,13 +22,11 @@ controller.show = async (req, res) => {
     let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
     let limit = 3;
     let skip = (page - 1) * limit;
-
     options.limit = limit;
     options.skip = skip;  
-    console.log(options);
+    // end Pagination
 
     let query = {};
-
     query.Name = { $regex: userKeyword, $options: 'i' };
     query.AccountEmail = { $regex: userKeyword, $options: 'i' }
     // Filter by userTypeKeyword
@@ -43,9 +41,13 @@ controller.show = async (req, res) => {
         query.Status = userStatusKeyword;
     }
 
+    // Querying (filter)
+    let users = await userModel.find(query, null);
+    const usersCount = await users.length;
+    // Slice the users array to limit the number of users displayed
+    users = users.slice(skip, skip + limit);
 
-    const users = await userModel.find(query, null, options);     //console.log(users);
-    const usersCount = await userModel.countDocuments(); 
+    // Pagination numerical data
     res.locals.pagination = 
     {
         page: page,
