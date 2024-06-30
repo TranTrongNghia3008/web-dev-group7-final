@@ -49,8 +49,23 @@
 
   <body>
     <header>
+      {{#if display}}
+      <nav class="navbar navbar-expand-sm navbar-light bg-light d-flex px-3 justify-content-between">
+        <div class="navbar-brand" >
+          <img src="./images/logo.png" alt="" class="logo" />
+          <a class="navbar-brand mb-0 h1">ShareBug</a>
+        </div>
+        <div class="{{{btnLogin}}}">
+          <span>Have an account?</span>
+          <a href="/login" class="">
+              <button type="button" class="btn btn-danger ms-3" style="width: 8rem">Sign in</button>
+          </a>
+          
+      </div>
+      </nav>
+      {{else}}
       <nav class="navbar navbar-expand-sm navbar-light bg-light d-flex px-3 bg-grey">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand my-auto" href="#">
           <img src="/images/logo.png" alt="" class="logo" />
           <a class="navbar-brand mb-0 h1">ShareBug</a>
         </a>
@@ -121,22 +136,29 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i class="bi bi-person-circle fs-3 align-middle"></i>
+                <img src="/images/{{user.UserImg}}" alt="User Image" class="rounded-circle mx-2" style="width: 2rem; height: 2rem">
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownId">
-                <a class="dropdown-item" href="#">Action 1</a>
-                <a class="dropdown-item" href="#">Action 2</a>
+                <div class="text-center">
+                  <div>
+                    <img src="/images/{{user.UserImg}}" alt="User Image" class="rounded-circle mx-auto" style="width: 2rem; height: 2rem">
+                  </div>
+                  <span>{{user.Name}}</span>
+                </div>
+                <a class="dropdown-item" href="#"><i class="bi bi-person-fill"></i> Edit Profile</a>
+                <a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right"></i> Log out</a>
               </div>
             </li>
           </ul>
-        </div>
+        </div> 
       </nav>
+      {{/if}}
     </header>
     <main>
       {{>menu}}
       {{{body}}}
     </main>
-    <footer>
+    <footer class="{{{display}}}">
       <!-- place footer here -->
       <div
         class="container-fluid bg-white d-flex justify-content-between align-items-center"

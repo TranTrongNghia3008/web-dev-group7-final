@@ -120,9 +120,9 @@ controller.show = async (req, res) => {
         
         const labels = Object.keys(activityCountByDate); // Danh sách các ngày
         const data = Object.values(activityCountByDate); // Số lượng activities tương ứng với mỗi ngày
-        
-        console.log (labels);
-        console.log(data);
+
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
 
         // Gửi dữ liệu tới view
         res.render('dashboard', {
@@ -130,6 +130,7 @@ controller.show = async (req, res) => {
             header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                      <link rel="stylesheet" href="/css/dashboard-styles.css" />`,
             d1: "selected-menu-item",
+            user: user,
             countTestCase: countTestCase,
             countProject: countProject,
             countTestRun: countTestRun,

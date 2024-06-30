@@ -86,12 +86,16 @@ controller.showList = async (req, res) => {
             queryParams: req.query
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
         // Render view project-list với dữ liệu các project
         res.render('project-list', { 
             title: "ShareBug - Project list", 
             header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                     <link rel="stylesheet" href="/css/project-list.css" />`, 
             d2: "selected-menu-item",
+            user,
             projects: projectsWithDetails.slice(skip, skip + limit), // Truyền danh sách các project với thông tin chi tiết tới view
             sortField,
             sortOrder,
@@ -155,6 +159,9 @@ controller.showHome = async (req, res) => {
             activities: activities,
             numOpenReleaseStatus: numOpenReleaseStatus
         };
+
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
         
         // Render the project home view with the project data
         res.render('project-home', { 
@@ -163,6 +170,7 @@ controller.showHome = async (req, res) => {
                     <link rel="stylesheet" href="/css/project-home.css" />`, 
             d2: "selected-menu-item", 
             n1: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {

@@ -127,6 +127,9 @@ controller.show = async (req, res) => {
             TestCases: testCases
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
         // Gọi các view cần thiết và truyền dữ liệu vào
         res.render('test-run', { 
             title: "ShareBug - Test Runs", 
@@ -134,6 +137,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/test-runs-view-styles.css" />`,
             d2: "selected-menu-item", 
             n6: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {
@@ -314,6 +318,10 @@ controller.showResult = async (req, res) => {
             sortOrder
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
+
         // Gọi các view cần thiết và truyền dữ liệu vào
         res.render('test-run-result', { 
             title: "ShareBug - Test Runs & Results", 
@@ -321,6 +329,7 @@ controller.showResult = async (req, res) => {
                     <link rel="stylesheet" href="/css/test-runs-results-styles.css" />`,
             d2: "selected-menu-item", 
             n6: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {

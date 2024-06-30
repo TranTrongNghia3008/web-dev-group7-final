@@ -4,6 +4,7 @@ const controller = {};
 const testPlanModel = require('../models/testPlanModel');
 const requirementModel = require('../models/requirementModel');
 const releaseModel = require('../models/releaseModel');
+const userModel = require('../models/userModel');
 
 const { sanitizeInput } = require('./shared');
 
@@ -46,6 +47,9 @@ controller.show = async (req, res) => {
             TestPlansCount: testPlans.length
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
 
         // Gọi view và truyền dữ liệu vào
         res.render('test-plan', { 
@@ -54,6 +58,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/test-runs-view-styles.css" />`,
             d2: "selected-menu-item", 
             n7: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {

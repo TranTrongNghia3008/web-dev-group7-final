@@ -2,6 +2,7 @@
 
 const controller = {};
 const moduleModel = require('../models/moduleModel');
+const userModel = require('../models/userModel');
 
 const { sanitizeInput } = require('./shared');
 
@@ -24,7 +25,8 @@ controller.show = async (req, res) => {
             AllModules: allModules
         };
 
-        
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
     
 
         // Render view module với thông tin các module thuộc project
@@ -34,6 +36,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/modules-view.css" />`, 
             d2: "selected-menu-item", 
             n4: "active border-danger",
+            user,
             project: projectData,
             // modules: modules,
             modulesData: modulesData,

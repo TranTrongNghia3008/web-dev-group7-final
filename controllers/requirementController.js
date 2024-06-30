@@ -116,6 +116,9 @@ controller.show = async (req, res) => {
         };
         //console.log(page, " ", skip, " ", skip + limit);
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
         // Only get the requirements for the current page
         res.locals.pagination =
         {
@@ -133,6 +136,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/requirement-styles.css" />`,
             d2: "selected-menu-item",
             n2: "active border-danger",
+            user,
             project: projectData,
 
             messages: req.flash()
