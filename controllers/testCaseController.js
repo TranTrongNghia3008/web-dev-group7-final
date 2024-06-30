@@ -7,6 +7,7 @@ const testCaseModel = require('../models/testCaseModel');
 const testPlanModel = require('../models/testPlanModel');
 const testRunModel = require('../models/testRunModel');
 const tagModel = require('../models/tagModel');
+const userModel = require('../models/userModel');
 
 const { sanitizeInput } = require('./shared');
 
@@ -123,6 +124,9 @@ controller.show = async (req, res) => {
             sortOrder
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
 
         // Gọi view và truyền dữ liệu vào
         res.render('test-case', { 
@@ -131,6 +135,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/test-runs-results-styles.css" />`, 
             d2: "selected-menu-item", 
             n5: "active border-danger",
+            user,
             project: projectData,
             // modules: JSON.stringify(modulesWithTestCaseCount)
 
@@ -269,6 +274,10 @@ controller.showDetail = async (req, res) => {
             sortOrder
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
+
 
         // Gọi view và truyền dữ liệu vào
         res.render('test-case', { 
@@ -277,6 +286,7 @@ controller.showDetail = async (req, res) => {
                     <link rel="stylesheet" href="/css/test-runs-results-styles.css" />`, 
             d2: "selected-menu-item", 
             n5: "active border-danger",
+            user,
             project: projectData,
             // modules: JSON.stringify(modulesWithTestCaseCount)
             

@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
 	Status: { type: String, enum: [ 'Active', 'Inactive' ] },
 	CreatedAt: { type: Date, default: Date.now },
 	UpdatedAt: { type: Date, default: Date.now },
-	AccountEmail: { type: String, ref: 'Account', required: true }
+	AccountEmail: { type: String, ref: 'Account', required: true },
+	Domain: { type: String, required: true }
 });
 
 const userModel = mongoose.model('User', userSchema);

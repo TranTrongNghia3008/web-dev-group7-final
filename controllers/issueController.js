@@ -160,6 +160,9 @@ controller.show = async (req, res) => {
         // Lấy thông tin chi tiết của các User thông qua UserID
         const users = await userModel.find({ _id: { $in: userIds } });
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
@@ -189,6 +192,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/issues-view-styles.css" />`,
             d2: "selected-menu-item", 
             n8: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {
@@ -367,6 +371,10 @@ controller.showDetail = async (req, res) => {
             sortOrder     
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
+
         // Gọi view và truyền dữ liệu vào
         res.render('issue', { 
             title: "ShareBug - Issues", 
@@ -374,6 +382,7 @@ controller.showDetail = async (req, res) => {
                     <link rel="stylesheet" href="/css/issues-view-styles.css" />`,
             d2: "selected-menu-item", 
             n8: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {

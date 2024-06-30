@@ -6,6 +6,7 @@ const requirementModel = require('../models/requirementModel');
 const testPlanModel = require('../models/testPlanModel');
 const testCaseModel = require('../models/testCaseModel');
 const testRunModel = require('../models/testRunModel');
+const userModel = require('../models/userModel');
 
 const { sanitizeInput } = require('./shared');
 
@@ -92,6 +93,9 @@ controller.show = async (req, res) => {
             ProjectID: projectId
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
         // Render view release với thông tin các release thuộc project và các loại release
         res.render('release', { 
             title: "ShareBug - Release", 
@@ -99,6 +103,7 @@ controller.show = async (req, res) => {
                     <link rel="stylesheet" href="/css/release.css" />`,
             d2: "selected-menu-item", 
             n3: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {
@@ -232,6 +237,10 @@ controller.showDetail = async (req, res) => {
             ProjectID: projectId
         };
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+
+
         // Render view release với thông tin các release thuộc project và các loại release
         res.render('release', { 
             title: "ShareBug - Release", 
@@ -239,6 +248,7 @@ controller.showDetail = async (req, res) => {
                     <link rel="stylesheet" href="/css/release.css" />`,
             d2: "selected-menu-item", 
             n3: "active border-danger",
+            user,
             project: projectData
         });
     } catch (error) {

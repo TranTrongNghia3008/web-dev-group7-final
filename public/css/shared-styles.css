@@ -204,3 +204,7 @@ footer {
     margin-left: 0.5em;
     cursor: pointer;
 }
+
+.display-none {
+    display: none;
+}

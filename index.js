@@ -6,6 +6,8 @@ const { createPagination } = require('express-handlebars-paginate');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('./controllers/passport');
+const { ensureAuthenticated } = require('./middlewares/auth');
  
 app.use(express.static(__dirname + "/public"));
 
@@ -74,17 +76,35 @@ app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/', require('./routes/dasdboardRouter'));
-app.use('/project', require('./routes/projectRouter'));
-// app.use('/requirement', require('./routes/requirementRouter'));
-// app.use('/release', require('./routes/releaseRouter'));
-// app.use('/module', require('./routes/moduleRouter'));
-// app.use('/test-case', require('./routes/testCaseRouter'));
-// app.use('/test-run', require('./routes/testRunRouter'));
-// app.use('/test-plan', require('./routes/testPlanRouter'));
-// app.use('/issue', require('./routes/issueRouter'));
-// app.use('/report', require('./routes/reportRouter'));
-app.use('/administration', require('./routes/administrationRouter'));
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.isAuthenticated();
+    res.locals.currentUser = req.user;
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.success_msg = req.flash('success_msg');
+    next();
+});
+
+app.get("/", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.redirect("/dashboard");
+    } else {
+      res.redirect("/login");
+    }
+  });
+app.use('/login', require('./routes/loginRouter'));
+app.use('/register', require('./routes/registerRouter'));
+app.use('/logout', require('./routes/logoutRouter'));
+app.use('/dashboard', ensureAuthenticated, require('./routes/dasdboardRouter'));
+app.use('/project', ensureAuthenticated, require('./routes/projectRouter'));
+app.use('/administration', ensureAuthenticated, require('./routes/administrationRouter'));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);

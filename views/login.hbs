@@ -1,0 +1,93 @@
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light d-flex px-3 justify-content-between">
+    <div class="navbar-brand" >
+        <img src="./images/logo.png" alt="" class="logo" />
+        <a class="navbar-brand mb-0 h1">ShareBug</a>
+    </div>
+    </nav>
+</header>
+<main>
+    <div class="row content-login">
+        <div class="col">
+            <div class="slideshow-container">
+                <div class="slide fade">
+                    <img src="./images/login-image-1.png" alt="Image 1">
+                </div>
+                <div class="slide fade">
+                    <img src="./images/login-image-2.png" alt="Image 2">
+                </div>
+                <div class="slide fade">
+                    <img src="./images/login-image-3.png" alt="Image 3">
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            
+        </div>
+        
+       
+        <div class="col">
+            <div class="container register-cart shadow p-3 mb-5 bg-body rounded w-75 p-5">
+                <form action="/login" class="needs-validation" novalidate  method="post">
+                    <div class="header mb-3 text-center">
+                        <h3>Welcome back!</h3>
+                        <h6>Sign in with your email</h6>                    
+                    </div>
+                    <div class="body mb-3">
+                        {{#if errorMessages}}
+                        <div class="alert alert-danger">{{errorMessages}}</div>
+                        {{/if}}
+                        {{#if error_msg}}
+                        <div class="alert alert-danger">{{error_msg}}</div>
+                        {{/if}}
+                        {{#if success_msg}}
+                        <div class="alert alert-success">{{success_msg}}</div>
+                        {{/if}}
+                        
+                        <div class="mb-3">
+                            <label for="fEmail" class="form-label"
+                            >Email Address <span class="text-danger">*</span></label
+                            >
+                            <input
+                            type="email"
+                            class="form-control"
+                            id="fEmail"
+                            name="email"
+                            placeholder="Email Address"
+                            required
+                            />
+                            <div class="invalid-feedback">Please enter Email Address.</div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="fPassword" class="form-label"
+                            >Password <span class="text-danger">*</span></label
+                            >
+                            <input
+                            type="password"
+                            class="form-control"
+                            id="fPassword"
+                            name="password"
+                            placeholder="Password"
+                            required
+                            />
+                            <div class="invalid-feedback">Please enter Password.</div>
+                        </div>
+    
+                        
+                    </div>
+                    <div class="footer text-center">
+                        <p class=" text-end"><a href="#" class="text-decoration-underline text-primary">Forgot my password</a></p>
+                        <button type="submit" class="btn btn-danger w-100 mb-2">Login</button>
+                        <p class="mb-0">Don't have an account? <a href="/register" class="text-decoration-underline text-primary">Sign up</a></p>
+                    </div>
+                </form>
+                <div class="login-footer">© 2024 <strong>ShareBug</strong>. All Rights Reserved.
+                    <a href="#" class="text-decoration-underline text-primary">Terms of Use</a> and <a href="#" class="text-decoration-underline text-primary">Privacy Policy</a>
+                </div>
+                </div>
+            </div>
+            
+    </div>
+</main>
+<script src="/js/login.js"></script>
+

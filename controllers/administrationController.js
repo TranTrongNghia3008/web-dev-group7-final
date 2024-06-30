@@ -81,11 +81,15 @@ controller.show = async (req, res) => {
 
 	const projects = await projectModel.find();
 
+	const account = req.user;
+    const user = await userModel.findOne({ AccountEmail: account.Email });
+
 	res.render('administration', {
 		title: 'ShareBug - Administration',
 		header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                 <link rel="stylesheet" href="/css/administration-view.css" />`,
 		d3: 'selected-menu-item',
+		user,
 		data: users,
 		totalUser,
 		activeUser,
@@ -98,12 +102,15 @@ controller.show = async (req, res) => {
 
 controller.showAddUser = async (req, res) => {
 	const projects = await projectModel.find();
+	const account = req.user;
+    const user = await userModel.findOne({ AccountEmail: account.Email });
 
 	res.render('administration-add-user', {
 		title: 'ShareBug - Administration Add User',
 		header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                 <link rel="stylesheet" href="/css/administration-view.css" />`,
 		d3: 'selected-menu-item',
+		user,
 		projects
 	});
 };
