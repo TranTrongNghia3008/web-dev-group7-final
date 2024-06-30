@@ -1,6 +1,10 @@
 'use strict';
 
 const controller = {};
+const csv = require('csv-parser');
+const path = require('path');
+const fs = require('fs');
+const ObjectsToCsv = require('objects-to-csv');
 const projectModel = require('../models/projectModel');
 const releaseModel = require('../models/releaseModel');
 const requirementModel = require('../models/requirementModel');
@@ -228,6 +232,108 @@ controller.deleteRequirement = async (req, res) => {
     }
 };
 
+controller.importRequirement = async (req, res) => {
+    const projectId = req.params.projectId;
 
+    try {
+        // Kiểm tra xem file đã được tải lên chưa
+        if (!req.file) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        // Kiểm tra xem file có phải là CSV không
+        if (req.file.mimetype !== "text/csv") {
+            return res.status(400).send('Select CSV files only.');
+        }
+
+        // Đường dẫn đến file CSV đã tải lên
+        const filePath = req.file.path;
+
+        // Đọc dữ liệu từ file CSV
+        let requirements = [];
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', (row) => {
+                // Tạo đối tượng Requirement từ dữ liệu trong file CSV
+                const newRequirement = new requirementModel({
+                    Type: row.Type,
+                    Description: row.Description,
+                    ReleaseID: row.ReleaseID, // Giả sử ReleaseID là một ObjectId hợp lệ
+                    AssignTo: row.AssignTo // Giả sử đang có thông tin user từ req.user
+                });
+                requirements.push(newRequirement);
+            })
+            .on('end', async () => {
+                // Lưu các đối tượng Requirement vào MongoDB
+                try {
+                    const createdRequirements = await requirementModel.insertMany(requirements);
+                    res.redirect(`/project/${projectId}/requirement`);
+                } catch (error) {
+                    console.error('Error importing requirements:', error);
+                    res.status(500).send('Internal server error');
+                }
+            });
+
+    } catch (error) {
+        console.error('Error in importRequirement:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.exportRequirement = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+
+        // Fetch the project details
+        const project = await projectModel.findById(projectId);
+        if (!project) {
+            return res.status(404).render('error', { message: 'Project not found' });
+        }
+
+        // Lấy tất cả các bản ghi từ bảng Participation có ProjectID tương ứng
+        const participations = await participationModel.find({ ProjectID: projectId });
+
+        // Lấy danh sách các UserID từ participations
+        const userIds = participations.map(participation => participation.UserID);
+
+        const releases = await releaseModel.find({ ProjectID: project._id });
+        const releaseIds = releases.map(release => release._id);
+
+        const requirements = await requirementModel.find({ ReleaseID: { $in: releaseIds }, AssignTo: { $in: userIds }, });
+
+        // Chuyển đổi dữ liệu thành mảng các đối tượng chỉ chứa các thuộc tính cần xuất
+        const csvData = requirements.map(req => ({
+            Type: req.Type,
+            Description: req.Description,
+            ReleaseID: req.ReleaseID.toString(), // Chuyển ObjectId sang chuỗi
+            AssignTo: req.AssignTo.toString() // Chuyển ObjectId sang chuỗi
+        }));
+
+        // Tạo đối tượng ObjectsToCsv với mảng dữ liệu đã được chuyển đổi
+        const csv = new ObjectsToCsv(csvData);
+
+        // Đường dẫn và tên file CSV để lưu trữ
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileName = `requirementFileExport-${uniqueSuffix}`;
+        const filePath = path.join(__dirname, `../public/files/${fileName}.csv`);
+
+        // Ghi dữ liệu xuống file CSV
+        await csv.toDisk(filePath);
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'requirements_export.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            } else {
+                // Xóa file sau khi tải xuống thành công (tùy chọn)
+                fs.unlinkSync(filePath);
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting requirements:', error);
+        res.status(500).send('Internal server error');
+    }
+};
 
 module.exports = controller;

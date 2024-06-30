@@ -147,3 +147,7 @@
     text-align: center;
     width: 100%;
 }
+
+.upload-file.dragover {
+    border-color: #28a745 !important;
+}
