@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 	CreatedAt: { type: Date, default: Date.now },
 	UpdatedAt: { type: Date, default: Date.now },
 	AccountEmail: { type: String, ref: 'Account', required: true },
-	Domain: { type: String, required: true }
+	Domain: { type: String }
 });
 
 const userModel = mongoose.model('User', userSchema);

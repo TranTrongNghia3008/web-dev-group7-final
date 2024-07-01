@@ -25,7 +25,7 @@
         you create a user as a tester/developer in the system, you have to
         assign them to the project to give access.
         </div>
-        <form class="needs-validation addUserForm" action="" enctype="multipart/form-data" novalidate> 
+        <form class="needs-validation addUserForm" id="addUserForm" action="" enctype="multipart/form-data" novalidate> 
         <div class="row">
             <div class="col">
                 <div class="mb-3">
@@ -143,40 +143,36 @@
                     </p>
                 </div>
                 <div class="mb-3">
-                    <label for="fProject" class="form-label">Project <span class="text-danger">*</span></label>
+                    <label for="fProject" class="form-label">Project</label>
                     <select
                     class="form-select"
                     id="fProject"
                     name="projectId"
                     aria-label="Default select example"
-                    required
                     >
                     <option selected value="">Select a Project</option>
                     {{#each projects}}
                     <option value="{{_id}}">{{Name}}</option>
                     {{/each}}
                     </select>
-                    <div class="invalid-feedback">Please select Project.</div>
                 </div>
 
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="fAccessType" class="form-label"
-                    >Access Type <span class="text-danger">*</span></label
-                    >
+                    >Access Type
                     <select
                     class="form-select"
                     id="fAccessType"
                     name="access-type"
                     aria-label="Default select example"
-                    required
                     >
                     <option value="" selected>Select an Access Type</option>
                     <option value="Tester">Tester</option>
                     <option value="Developer">Developer</option>
                     </select>
-                    <div class="invalid-feedback">Please select Access Type.</div>
+                
                 </div>
                 <p class="mb-0">
                     <strong>Tester</strong> - Users with access type Tester will

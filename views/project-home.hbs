@@ -29,9 +29,11 @@
             >
             </li>
             <li>
-            <a class="dropdown-item quick-menu" href="#"
+            <a class="dropdown-item quick-menu" data-bs-toggle="modal"
+                data-bs-target="#viewAssigneesModal" href="#"
                 ><i class="bi bi-person"></i> View assignees</a
             >
+
             </li>
             <li>
             <a
@@ -56,6 +58,91 @@
         </ul>
         </div>
     </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewAssigneesModal" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" style="margin-left: 60vw; padding-right: 60vw">
+            <div class="modal-header">
+                <h6 class="">View Assignees</h6>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-5">
+                <div class="container bg-white px-0">
+                    <table class="table px-0 mb-0">
+                        <thead class="table-danger text-light">
+                            <tr>
+                            <td scope="col" class="border border-light-subtle">Users</td>
+                            <td scope="col" class="border border-light-subtle">Role Type</td>
+                           
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            {{#each project.Participations}}
+                            <tr>
+                            <td scope="col" class="">
+                                <div class="d-flex">
+                                    <div
+                                        class="rounded-circle bg-primary bg-gradient d-flex mx-1 border border-5 border-primary-subtle text-white"
+                                        style="width: 3rem; height: 3rem"
+                                    >
+                                        <span class="m-auto">{{getInitials this.Name}}</span>
+                                    </div>
+                                    <span class="my-auto">{{this.Name}}</span>
+                                </div>
+                            </td>
+                            <td scope="col" class=" align-content-center">
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="my-auto">{{this.Role}}</span>
+                                    <a
+                                        href="#"
+                                        data-bs-toggle="tooltip"
+                                        title="Remove"
+                                        class="my-auto mx-2 remove-assign-user"
+                                        data-id="{{this._id}}"
+                                        data-projectID="{{../project.ProjectID}}"
+                                        ><i class="bi bi-trash"></i
+                                    ></a>
+                                </div>
+
+                            </td>
+                            
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                {{!-- <div class="border-start border-dark border-4 rounded bg-light px-3 py-2">
+                    <h6>Note:</h6>
+                    <h6>Add Test Run - Queue</h6>
+                    <p>
+                        ShareBug has the option to Queue the process of adding
+                        Test cases to Testrun. Enabling Queue for creating a
+                        test run with more than 500 Test cases will run in the
+                        background without affecting your regular work and
+                        takes lesser time and bandwidth.
+                    </p>
+                    <p class="m-0">
+                        Follow the steps to Enable Queue for Test Run
+                    </p>
+                    <p class="m-0">
+                        1. Go to Administration->Site Settings
+                    </p>
+                    <p class="m-0">
+                        2. Enable the option
+                        <strong>"Queue Enable/Disable For Test Run"</strong>
+                    </p>
+                    <a href="#" class="m-0">Read More...</a>
+                </div> --}}
+            </div>
+        </div>
     </div>
 </div>
 
