@@ -147,12 +147,15 @@ controller.show = async (req, res) => {
     }
 };
 
-controller.showImport = (req, res) => {
+controller.showImport = async (req, res) => {
     const projectId = req.params.projectId;
 
     if (!projectId) {
         return res.status(404).render('error', { message: 'Project not found' });
     }
+
+    const account = req.user;
+    const user = await userModel.findOne({ AccountEmail: account.Email });
 
     const projectData = {
         ProjectID: projectId,
@@ -166,6 +169,7 @@ controller.showImport = (req, res) => {
         d2: "selected-menu-item", 
         n2: "active border-danger",
         project: projectData,
+        user
     });
 }
 

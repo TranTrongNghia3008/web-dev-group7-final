@@ -93,6 +93,18 @@ controller.updateOrderChildModules = async (req, res) => {
     }
 };
 
+controller.getModuleNameById = async (req, res) => {
+    try {
+        const moduleId = req.params.moduleId;
+        const module = await moduleModel.findById(moduleId);
+        if (!module) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
+        res.json({ ModuleName: module.Name });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching module name', error });
+    }
+};
 
 controller.addModule = async (req, res) => {
     try {

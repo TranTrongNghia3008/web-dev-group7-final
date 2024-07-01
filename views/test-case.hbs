@@ -131,7 +131,7 @@
                         <div>
                             <div
                             class="modal-title d-flex justify-content-between align-items-center p-3"
-                            id="addTestPlanLabel"
+                            id="addTestCaseLabel"
                             >
                             <h6 class="ms-3 fs-5">
                                 <i class="bi bi-bar-chart-steps text-primary"></i>
@@ -542,14 +542,14 @@
             </form>
 
             {{!-- modal edit --}}
-            {{!-- <form action="" id="editTestPlanForm" onsubmit="editTestPlan(event)" class="needs-validation" novalidate>
-            <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
+            <form action="" id="editTestCaseForm" onsubmit="editTestCase(event)" class="needs-validation" novalidate>
+            <input type="hidden" name="projectIdEdit" value="{{project.ProjectID}}"/>
             <input type="hidden" name="idEdit" id="idEdit"/>
             <div
                 class="modal fade"
-                id="EditTestCase"
+                id="editTestCase"
                 tabindex="-1"
-                aria-labelledby="EditTestCaseLabel"
+                aria-labelledby="editTestCaseLabel"
                 style="display: none"
                 aria-hidden="true"
             >
@@ -559,10 +559,10 @@
                     style="margin-left: 300px; padding-right: 300px"
                 >
                     <div class="modal-header">
-                        <div>
+                        <div class="col-12">
                             <div
                             class="modal-title d-flex justify-content-between align-items-center p-3"
-                            id="editTestPlanLabel"
+                            id="editTestCaseLabel"
                             >
                             <h6 class="ms-3 fs-5">
                                 <i class="bi bi-bar-chart-steps text-primary"></i>
@@ -593,12 +593,12 @@
                             </ul>
                         </div>
 
-                        <button
+                        {{!-- <button
                             type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
                             aria-label="Close"
-                        ></button>
+                        ></button> --}}
                     </div>
                     <div class="modal-body px-5">
                         <div class="container d-flex justify-content-between">
@@ -857,21 +857,35 @@
                                 </datalist>
                             </div>
                             <div class="mb-4" style="color: #919faf">
-                                <label
-                                for="brow-tag"
-                                class="form-label d-flex justify-content-between"
-                                >
-                                <div>Tags</div>
-                                </label>
-                                <input
-                                list="brow-tag"
-                                placeholder="Select Tags"
-                                class="form-select border-0 bg-light"
-                                />
-                                <datalist id="brow-tag">
-                                <option value="sanity"></option>
-                                <option value="regression"></option>
-                                </datalist>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="nameTagsEdit" class="form-label d-flex justify-content-between">
+                                        <div>Tags</div>
+                                    </label>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn-add-tag-edit">
+                                        <i class="bi bi-plus"></i> Tag
+                                    </button>
+                                </div>
+                                <div class="tagsinput">
+                                    <input
+                                        list="brow-tag-edit"
+                                        placeholder="Enter a Tag"
+                                        class="form-select border-0 bg-light"
+                                        type="text"
+                                        name="nameTagsEdit"
+                                        id="nameTagsEdit"
+                                        style="display: none;"
+                                    />
+                                    <datalist id="brow-tag-edit">
+                                        <option value="sanity"></option>
+                                        <option value="regression"></option>
+                                    </datalist>
+                                    <div class="tag justify-content-center" id="tag-template-edit" style="display: none;">
+                                        <span class="tag-text text-white"></span>
+                                        <span class="btn-delete-tag text-white">
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-4" style="color: #919faf">
                                 <label
@@ -938,7 +952,7 @@
                 </div>
                 </div>
             </div>
-            </form> --}}
+            </form>
 
             {{!-- modal add module --}}
             {{!-- <form action="" class="needs-validation" novalidate>
@@ -1368,6 +1382,24 @@
                             </a>
                             <a
                             href="#"
+                            title="Edit"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editTestCase"
+                            onclick="showEditTestCaseModal(this)" 
+                            data-id="{{_id}}" 
+                            data-project-id="{{../project.ProjectID}}" 
+                            data-title="{{Title}}" 
+                            data-priority="{{Priority}}" 
+                            data-precondition="{{Precondition}}" 
+                            data-description="{{Description}}" 
+                            data-type="Acceptance" 
+                            data-module-id="{{ModuleID}}" 
+                            data-testplan-id="{{TestPlanID}}" 
+                            class="mx-2 my-auto"
+                            >
+                            <i class="bi bi-pencil"></i></a>
+                            <a
+                            href="#"
                             data-bs-toggle="tooltip"
                             title="Timesheet"
                             class="mx-2 my-auto"
@@ -1381,14 +1413,14 @@
                             >
                             <i class="bi bi-link-45deg"></i>
                             </a>
-                            <a
+                            {{!-- <a
                             href="#"
                             data-bs-toggle="tooltip"
                             title="Approval Pending"
                             class="mx-2 my-auto"
                             >
                             <i class="bi bi-check-circle"></i>
-                            </a>
+                            </a> --}}
                             <a
                             href="#"
                             data-bs-toggle="tooltip"
@@ -1400,8 +1432,10 @@
                             <a
                             href="#"
                             data-bs-toggle="tooltip"
+                            data-projectId="{{../project.ProjectID}}"
+                            data-id="{{this._id}}"
                             title="Delete"
-                            class="mx-2 my-auto"
+                            class="mx-2 my-auto delete-btn"
                             ><i class="bi bi-trash"></i
                             ></a>
                             <a
@@ -1640,6 +1674,12 @@
         tagInput.focus();
     });
 
+    document.getElementById('btn-add-tag-edit').addEventListener('click', function () {
+        const tagInput = document.getElementById('nameTagsEdit');
+        tagInput.style.display = 'inline';
+        tagInput.focus();
+    });
+
     document.getElementById('nameTags').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             e.preventDefault(); // Chặn sự kiện Enter để không submit form
@@ -1652,8 +1692,32 @@
         }
     });
 
+    document.getElementById('nameTagsEdit').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Chặn sự kiện Enter để không submit form
+            const tagText = e.target.value.trim();
+            if (tagText !== '') {
+                addTagEdit(tagText);
+                e.target.value = '';
+                e.target.style.display = 'none';
+            }
+        }
+    });
+
     function addTag(text) {
         const tagTemplate = document.getElementById('tag-template');
+        const newTag = tagTemplate.cloneNode(true);
+        newTag.style.display = 'inline-flex';
+        newTag.id = '';
+        newTag.querySelector('.tag-text').textContent = text;
+        newTag.querySelector('.btn-delete-tag').addEventListener('click', function () {
+            newTag.remove();
+        });
+        tagTemplate.parentNode.insertBefore(newTag, tagTemplate);
+    }
+
+    function addTagEdit(text) {
+        const tagTemplate = document.getElementById('tag-template-edit');
         const newTag = tagTemplate.cloneNode(true);
         newTag.style.display = 'inline-flex';
         newTag.id = '';

@@ -67,6 +67,19 @@ controller.show = async (req, res) => {
     }
 }
 
+controller.getTestPlanNameById = async (req, res) => {
+    try {
+        const testPlanId = req.params.testPlanId;
+        const testPlan = await testPlanModel.findById(testPlanId);
+        if (!testPlan) {
+            return res.status(404).json({ message: 'TestPlan not found' });
+        }
+        res.json({ TestPlanName: testPlan.Name });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching testPlan name', error });
+    }
+};
+
 controller.addTestPlan = async (req, res) => {
     try {
         const { name, startDate, endDate, description } = req.body;
