@@ -19,7 +19,22 @@ function showEditRequirementModal(btn) {
             console.error('Error fetching release name:', error);
             document.querySelector("#releaseNameEdit").value = "Error fetching release name";
         });
-  }
+    }
+
+function loadRequirementDetails(btn){
+    console.log("Called");
+    console.log(btn.dataset);
+
+    document.querySelector("#requirementIdDetail").value = btn.dataset._id;
+    document.querySelector("#requirementReleaseIdDetail").innerText = btn.dataset.releaseId;
+    document.querySelector("#requirementProjectIdDetail").innerText = btn.dataset.projectId;
+    document.querySelector("#requirementTypeDetail").innerText = btn.dataset.type;
+    document.querySelector("#requirementDescriptionDetail").innerText = btn.dataset.description;
+    document.querySelector("#requirementCreatedAtDetail").innerText = formatDate2(btn.dataset.createdAt);
+    document.querySelector("#requirementUpdatedAtDetail").innerText = formatDate2(btn.dataset.updatedAt);
+    document.querySelector("#requirementAssigneeNameDetail").innerText = btn.dataset.assigneeName;
+    document.querySelector("#requirementAssigneeEmailDetail").innerText = btn.dataset.assigneeEmail;
+}
   
 async function editRequirement(e) {
     e.preventDefault();
@@ -110,4 +125,6 @@ document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
         );
     });
 });
+
+
   

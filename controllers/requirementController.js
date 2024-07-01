@@ -86,6 +86,21 @@ controller.show = async (req, res) => {
             requirementTypes = requirementTypes.filter(type => type.toLowerCase().includes(requirementTypeKeyword.toLowerCase()));
         }
 
+        // Join requirement with users
+        requirements = requirements.map(requirement => {
+            const user = users.find(user => user._id.equals(requirement.AssignTo));
+            return {
+                ...requirement.toObject(),
+                AssigneeName: user ? user.Name : 'Unknown User',
+                AssigneeEamil: user ? user.AccountEmail : 'Unknown Email'
+            };
+        }
+        );
+
+
+
+
+
         //pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let limit = 5;
@@ -128,6 +143,7 @@ controller.show = async (req, res) => {
             totalRows: requirements.length,
             queryParams: req.query
         };
+
 
         res.render('requirement', { 
             title: "ShareBug - Requirement",
@@ -357,5 +373,6 @@ controller.downloadSampleRequirement = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };
+
 
 module.exports = controller;
