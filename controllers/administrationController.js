@@ -147,13 +147,17 @@ controller.addUser = async (req, res) => {
 
 		const savedUser = await user.save();
 
-		const participation = new participationModel({
-			Role: accessType,
-			UserID: savedUser._id,
-			ProjectID: projectId
-		});
+		if (projectId && accessType) {
+			const participation = new participationModel({
+				Role: accessType,
+				UserID: savedUser._id,
+				ProjectID: projectId
+			});
+	
+			await participation.save();
+		}
 
-		await participation.save();
+		
 
 		res.status(201).json({ message: 'User created successfully', user: savedUser });
 	} catch (error) {
