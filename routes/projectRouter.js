@@ -16,5 +16,6 @@ router.use('/:projectId/test-run', require('./testRunRouter'));
 router.use('/:projectId/test-plan', require('./testPlanRouter'));
 router.use('/:projectId/issue', require('./issueRouter'));
 router.use('/:projectId/report', require('./reportRouter'));
+router.use('/:projectId/tag', require('./tagRouter'));
 
 module.exports = router;

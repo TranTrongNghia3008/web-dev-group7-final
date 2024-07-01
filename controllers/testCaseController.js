@@ -4,6 +4,8 @@ const controller = {};
 
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
+const requirementModel = require('../models/requirementModel');
+const releaseModel = require('../models/releaseModel');
 const testPlanModel = require('../models/testPlanModel');
 const testRunModel = require('../models/testRunModel');
 const tagModel = require('../models/tagModel');
@@ -109,6 +111,13 @@ controller.show = async (req, res) => {
             queryParams: req.query
         };
 
+        const allModules = await moduleModel.find({ ProjectID: projectId})
+
+        const allReleases = await releaseModel.find({ ProjectID: projectId})
+        const releaseIds = allReleases.map(release => release._id);
+        const allRequirements = await requirementModel.find({ ReleaseID: { $in: releaseIds } });
+        const requirementIds = allRequirements.map(requirement => requirement._id);
+        const allTestPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
 
         // Gói dữ liệu trong projectData
         const projectData = {
@@ -120,6 +129,8 @@ controller.show = async (req, res) => {
             testCaseTotal: allTestCases.length,
             TestCases: testCases.slice(skip, skip + limit),
             Modules: JSON.stringify(modulesWithTestCaseCount),
+            AllModules: allModules,
+            AllTestPlan: allTestPlans,
             sortField,
             sortOrder
         };
@@ -373,71 +384,91 @@ controller.showImportCategory = async (req, res) => {
     }
 }
 
-// controller.addTestCaseStep = async (req, res) => {
-//     try {
-//         const projectId = req.params.projectId;
-//         const { releaseName, type, description } = req.body;
+controller.addTestCaseStep = async (req, res) => {
+    try {
+        const { nameModule, nameTestCase, nameTestPlan, descriptionTestCase, typeTestCase, priorityTestCase, preconditionTestCase } = req.body;
 
-//         const release = await releaseModel.findOne({ Name: releaseName });
+        const testPlan = await testPlanModel.findOne({ Name: nameTestPlan });
+        if (!testPlan) {
+            return res.status(404).json({ message: 'Test Plan not found' });
+        }
 
-//         const newRequirement = await requirementModel.create({
-//             Type: type,
-//             Description: description || null,
-//             ReleaseID: release._id || "66601b671ef4a55f282208d3",
-//             AssignTo: "666011d01cc6e634de0ff70d",
-//         });
+        // Tìm Module dựa trên tên
+        const module = await moduleModel.findOne({ Name: nameModule });
+        if (!module) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
 
+        const newTestCase = await testCaseModel.create({
+            Title: nameTestCase,
+            Priority: priorityTestCase || null,
+            Precondition: preconditionTestCase || null,
+            Description: descriptionTestCase || null,
+            ModuleID: module._id, 
+            TestPlanID: testPlan._id,
+        });
 
-//         res.redirect(`/project/${projectId}/requirement`);
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error creating Requirement', error });
-//     }
-// };
+        if (!newTestCase) {
+            return res.status(404).json({ message: 'Test Case not found' });
+        }
+        else
+            res.status(200).json({ message: 'Test Case Added successfully!', TestCaseID: newTestCase._id });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding Test Case', error });
+    }
+};
 
-// controller.editRequirement = async (req, res) => {
-//     try {
-//         const { releaseNameEdit, typeEdit, descriptionEdit, idEdit } = req.body;
+controller.editTestCase = async (req, res) => {
+    try {
+        const { idEdit, nameModuleEdit, nameTestCaseEdit, nameTestPlanEdit, descriptionTestCaseEdit, typeTestCaseEdit, priorityTestCaseEdit, preconditionTestCaseEdit } = req.body;
 
-//         const release = await releaseModel.findOne({ Name: releaseNameEdit });
+        const testPlan = await testPlanModel.findOne({ Name: nameTestPlanEdit });
+        if (!testPlan) {
+            return res.status(404).json({ message: 'Test Plan not found' });
+        }
 
-//         const currentRequirement = await requirementModel.findById(idEdit);
-//         const typeChanged = currentRequirement.Type !== typeEdit;
+        const module = await moduleModel.findOne({ Name: nameModuleEdit });
+        if (!module) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
 
-//         const updatedRequirement = await requirementModel.findByIdAndUpdate(
-//             idEdit,
-//             {
-//                 Type: typeEdit,
-//                 Description: descriptionEdit || null,
-//                 ReleaseID: release._id || "66601b671ef4a55f282208d3",
-//                 UpdatedAt: Date.now()
-//                 // AssignTo: if it is to be updated, include here
-//             },
-//         );
+        const updatedTestCase = await testCaseModel.findByIdAndUpdate(
+            idEdit,
+            {
+                Title: nameTestCaseEdit,
+                Priority: priorityTestCaseEdit || null,
+                Precondition: preconditionTestCaseEdit || null,
+                Description: descriptionTestCaseEdit || null,
+                ModuleID: module._id, 
+                TestPlanID: testPlan._id,
+                UpdatedAt: Date.now()
+            },
+        );
 
-//         if (!updatedRequirement) {
-//             return res.status(404).json({ message: 'Requirement not found' });
-//         }
-//         else
-//             res.status(200).json({ message: 'Requirement Updated successfully!', typeChanged: typeChanged });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error updating Requirement', error });
-//     }
-// };
+        if (!updatedTestCase) {
+            return res.status(404).json({ message: 'Test Case not found' });
+        }
+        else
+            res.status(200).json({ message: 'Test Case Updated successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating Test Case', error });
+    }
+};
 
-// controller.deleteRequirement = async (req, res) => {
-//     try {
-//         const requirementId = req.params.requirementId;
-//         const deletedRequirement = await requirementModel.findByIdAndDelete(requirementId);
+controller.deleteTestCase = async (req, res) => {
+    try {
+        const testCaseId = req.params.testCaseId;
+        const deletedTestCase = await testCaseModel.findByIdAndDelete(testCaseId);
 
-//         if (!deletedRequirement) {
-//             return res.status(404).json({ message: "Requirement not found" });
-//         }
+        if (!deletedTestCase) {
+            return res.status(404).json({ message: "Test case not found" });
+        }
 
-//         res.json({ message: "Requirement deleted successfully", deletedRequirement });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Failed to delete requirement", error });
-//     }
-// };
+        res.json({ message: "Test case deleted successfully", deletedTestCase });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete test case", error });
+    }
+};
 
 module.exports = controller;

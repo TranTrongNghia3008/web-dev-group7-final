@@ -11,9 +11,9 @@ router.get('/import-category', controller.showImportCategory);
 router.get('/:testCaseId', controller.showDetail);
 router.get(':page', controller.show);
 
-// router.post('/', controller.addTestCaseStep);
-// router.put('/', controller.editTestCase);
-// router.delete('/:testCaseId', controller.deleteTestCase);
+router.post('/', controller.addTestCaseStep);
+router.put('/', controller.editTestCase);
+router.delete('/:testCaseId', controller.deleteTestCase);
 
 
 module.exports = router;
