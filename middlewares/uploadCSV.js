@@ -25,6 +25,6 @@ const csvFilter = function(req, file, cb) {
     cb(null, true);
 };
 
-const upload = multer({ storage: storage, fileFilter: csvFilter }).single('requirementFile');
+const upload = multer({ storage: storage, fileFilter: csvFilter }).single('csvFile');
 
 module.exports = upload;

@@ -340,4 +340,22 @@ controller.exportRequirement = async (req, res) => {
     }
 };
 
+controller.downloadSampleRequirement = async (req, res) => {
+    try {
+        // Đường dẫn và tên file CSV để lưu trữ
+        const filePath = path.join(__dirname, '../public/files/testImportRequirement.csv');
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'sample_requirements.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting requirements:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
 module.exports = controller;

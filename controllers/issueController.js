@@ -1,6 +1,10 @@
 'use strict';
 
 const controller = {};
+const csv = require('csv-parser');
+const path = require('path');
+const fs = require('fs');
+const ObjectsToCsv = require('objects-to-csv');
 const issueModel = require('../models/issueModel');
 const testRunModel = require('../models/testRunModel');
 const releaseModel = require('../models/releaseModel');
@@ -518,6 +522,212 @@ controller.deleteIssue = async (req, res) => {
     }
 };
 
+controller.showImport = (req, res) => {
+    const projectId = req.params.projectId;
 
+    if (!projectId) {
+        return res.status(404).render('error', { message: 'Project not found' });
+    }
+
+    const projectData = {
+        ProjectID: projectId,
+    };
+
+    res.render('issue-import', { 
+        title: "ShareBug - Issue Import", 
+        header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                <link rel="stylesheet" href="/css/dashboard-styles.css" />,
+                <link rel="stylesheet" href="/css/issues-view-styles.css" />,
+                <link rel="stylesheet" href="/css/requirement-styles.css" />`,
+        d2: "selected-menu-item", 
+        n8: "active border-danger",
+        project: projectData
+    });
+}
+
+controller.importIssue = async (req, res) => {
+    const projectId = req.params.projectId;
+
+    try {
+        // Kiểm tra xem file đã được tải lên chưa
+        if (!req.file) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        // Kiểm tra xem file có phải là CSV không
+        if (req.file.mimetype !== "text/csv") {
+            return res.status(400).send('Select CSV files only.');
+        }
+
+        // Đường dẫn đến file CSV đã tải lên
+        const filePath = req.file.path;
+
+        // Đọc dữ liệu từ file CSV
+        let issues = [];
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', (row) => {
+                // Chuyển đổi startDay và endDay thành đối tượng Date nếu có giá trị
+                const startDate = row.StartDate ? new Date(row.StartDate) : null;
+                const endDate = row.EndDate ? new Date(row.EndDate) : null;
+                
+                const formattedStartDate = startDate ? startDate.toISOString() : null;
+                const formattedEndDate = endDate ? endDate.toISOString() : null;
+
+                // Tạo đối tượng Issue từ dữ liệu trong file CSV
+                const newIssue = new issueModel({
+                    Title: row.Title,
+                    Category: row.Category,
+                    Status: row.Status,
+                    Priority: row.Priority,
+                    StartDate: startDate,
+                    EndDate: endDate,
+                    IssueType: row.IssueType || null,
+                    Severity: row.Severity || null,
+                    Environment: row.Environment || null,
+                    Description: row.Description || null,
+                    StepsToReproduce: row.StepsToReproduce || null,
+                    CreatedBy: "666011d01cc6e634de0ff70b",
+                    AssignedTo: row.AssignedTo || null,
+                    TestRunID: row.TestRunID || null
+                });
+                issues.push(newIssue);
+            })
+            .on('end', async () => {
+                // Lưu các đối tượng Issue vào MongoDB
+                try {
+                    const createdIssues = await issueModel.insertMany(issues);
+                    res.redirect(`/project/${projectId}/issue`);
+                } catch (error) {
+                    console.error('Error importing issues:', error);
+                    res.status(500).send('Internal server error');
+                }
+            });
+
+    } catch (error) {
+        console.error('Error in importIssue:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.exportIssue = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+
+        // Tìm tất cả các module thuộc project đó
+        const allModules = await moduleModel.find({ ProjectID: projectId });
+        const moduleIds = allModules.map(module => module._id);
+
+        let testCases = await testCaseModel.find({ 
+                ModuleID: { $in: moduleIds }, 
+            });
+
+        const testCaseIds = testCases.map(testCase => testCase._id);
+
+        const testRuns = await testRunModel.find({ TestCaseID: { $in: testCaseIds } });
+        const testRunIds = testRuns.map(testRun => testRun._id);
+
+        let query = { 
+            TestRunID: { $in: testRunIds },
+        };
+
+        const issuesTemp = await issueModel.find(query)
+        
+        // Tạo một danh sách các userId để tìm kiếm thông tin người được giao
+        const assignToIds = issuesTemp.map(issue => issue.AssignedTo);
+
+        const createdByIds = issuesTemp.map(issue => issue.CreatedBy);
+
+        // Tìm thông tin người được giao từ bảng user
+        const userAssigns = await userModel.find({ _id: { $in: assignToIds } });
+        const userAssignMap = userAssigns.reduce((map, userAssign) => {
+            map[userAssign._id] = userAssign;
+            return map;
+        }, {});
+
+        const userCreates = await userModel.find({ _id: { $in: createdByIds } });
+        const userCreatedMap = userCreates.reduce((map, userCreated) => {
+            map[userCreated._id] = userCreated;
+            return map;
+        }, {});
+
+        const testRunMap = testRuns.reduce((map, testRun) => {
+            map[testRun._id] = testRun.Name;
+            return map;
+        }, {});
+
+        // Kết hợp dữ liệu test run với thông tin người được giao
+        const issuesWithUser = issuesTemp.map(issue => {
+            return {
+                ...issue._doc, // spread the document properties
+                AssignTo: userAssignMap[issue.AssignedTo] ? userAssignMap[issue.AssignedTo].Name : 'Unknown', // Assuming 'name' is the field in user model
+                CreatedBy: userCreatedMap[issue.CreatedBy] ? userCreatedMap[issue.CreatedBy].Name : 'Unknown',
+                TestRunName: testRunMap[issue.TestRunID] ? testRunMap[issue.TestRunID] : 'Unknown'
+            };
+        });
+
+        // Chuyển đổi dữ liệu thành mảng các đối tượng chỉ chứa các thuộc tính cần xuất
+        const csvData = issuesWithUser.map(
+            req => ({
+            Title: req.Title,
+            Category: req.Category,
+            Status: req.Status,
+            Priority: req.Priority,
+            StartDate: req.StartDate.toISOString().split('T')[0],
+            EndDate: req.EndDate.toISOString().split('T')[0],
+            IssueType: req.IssueType,
+            Severity: req.Severity,
+            Environment: req.Environment,
+            Description: req.Description,
+            StepsToReproduce: req.StepsToReproduce,
+            CreatedBy: req.CreatedBy,
+            AssignTo: req.AssignTo,
+            TestRunName: req.TestRunName
+        }));
+
+        // Tạo đối tượng ObjectsToCsv với mảng dữ liệu đã được chuyển đổi
+        const csv = new ObjectsToCsv(csvData);
+
+        // Đường dẫn và tên file CSV để lưu trữ
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileName = `issueFileExport-${uniqueSuffix}`;
+        const filePath = path.join(__dirname, `../public/files/${fileName}.csv`);
+
+        // Ghi dữ liệu xuống file CSV
+        await csv.toDisk(filePath);
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'issues_export.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            } else {
+                // Xóa file sau khi tải xuống thành công (tùy chọn)
+                fs.unlinkSync(filePath);
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting issues:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.downloadSampleIssue = async (req, res) => {
+    try {
+        // Đường dẫn và tên file CSV để lưu trữ
+        const filePath = path.join(__dirname, '../public/files/testImportIssue.csv');
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'sample_issues.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting issues:', error);
+        res.status(500).send('Internal server error');
+    }
+};
 
 module.exports = controller;

@@ -8,6 +8,7 @@ const uploadCSV = require('../middlewares/uploadCSV');
 router.get('/', controller.show);
 router.get('/import', controller.showImport);
 router.get('/export', controller.exportRequirement);
+router.get('/downloadSample', controller.downloadSampleRequirement);
 router.get('/:page', controller.show);
 
 router.post('/', controller.addRequirement);
