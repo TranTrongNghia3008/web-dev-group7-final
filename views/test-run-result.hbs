@@ -412,6 +412,7 @@
                                 type="checkbox"
                                 value=""
                                 id="code-test-case-item-2"
+                                data-testCaseId="{{this._id}}"
                                 />
                                 <label
                                 class="form-check-label"
@@ -447,9 +448,10 @@
                                 type="button"
                                 id="dropdownMenuButton"
                                 data-bs-toggle="dropdown"
+                                data-id="{{this._id}}"
                                 >
                                 <div class="d-flex justify-content-between">
-                                    <span id="dropdownMenuButtonText"
+                                    <span id="dropdownMenuButtonText" data-id="{{this._id}}"
                                     >{{this.Status}}</span
                                     >
                                     <i class="bi bi-caret-down-fill"></i>
@@ -461,13 +463,15 @@
                                 >
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Passed', 'rgb(92, 184, 92)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(92, 184, 92)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-passed my-auto me-2"
+                                        class="status-color rounded status-passed my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Passed
@@ -477,13 +481,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Untested', 'rgb(70, 191, 189)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(70, 191, 189)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-untested my-auto me-2"
+                                        class="status-color rounded status-untested my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Untested
@@ -493,13 +499,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Blocked', 'rgb(77, 83, 96)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(77, 83, 96)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-blocked my-auto me-2"
+                                        class="status-color rounded status-blocked my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Blocked
@@ -509,13 +517,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Retest', 'rgb(253, 180, 92)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(253, 180, 92)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-retest my-auto me-2"
+                                        class="status-color rounded status-retest my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Retest
@@ -525,13 +535,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Failed', 'rgb(247, 70, 74)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(247, 70, 74)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-failed my-auto me-2"
+                                        class="status-color rounded status-failed my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Failed
@@ -541,13 +553,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Not Applicable', 'rgb(147, 119, 85)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(147, 119, 85)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-not-applicable my-auto me-2"
+                                        class="status-color rounded status-not-applicable my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Not Applicable
@@ -557,13 +571,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('In Progress', 'rgb(87, 147, 243)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(87, 147, 243)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-in-progress my-auto me-2"
+                                        class="status-color rounded status-in-progress my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         In Progress
@@ -573,13 +589,15 @@
 
                                 <li>
                                     <a
-                                    class="dropdown-item"
+                                    class="dropdown-item status-item"
                                     href="#"
-                                    onclick="setStatus('Hold', 'rgb(23, 162, 184)')"
+                                    data-id="{{this._id}}"
+                                    data-projectId="{{../project/ProjectID}}"
+                                    data-color="rgb(23, 162, 184)"
                                     >
                                     <div class="d-flex">
                                         <div
-                                        class="rounded status-hold my-auto me-2"
+                                        class="status-color rounded status-hold my-auto me-2"
                                         style="width: 0.8rem; height: 0.2rem"
                                         ></div>
                                         Hold
@@ -591,10 +609,10 @@
                             </td>
                             <td scope="col" class="bg-body-tertiary align-middle">
                             <div class="d-flex">
-                                <select class="form-select form-select-sm" aria-label="Small select Assign Issue">
+                                <select class="form-select form-select-sm assign-select" aria-label="Small select Assign Issue" data-id="{{this._id}}">
                                     <option selected>{{this.AssignTo}}</option>
                                     {{#each ../project.Users}}
-                                        <option value="{{this.Name}}">{{this.Name}}</option>
+                                        <option value="{{this._id}}">{{this.Name}}</option>
                                     {{/each}}
                                 </select>
                                 <a
@@ -1042,3 +1060,55 @@
         </div>
     </div>
 </div>
+
+
+<div class="container bulk-action-cart shadow p-3 mb-5 bg-body rounded" style="display: none;">
+    <form class="needs-validation" novalidate id="bulkActionsForm">
+        <input type="hidden" name="projectId" value="{{project.ProjectID}}">
+        <div class="bulk-header d-flex justify-content-between border-bottom pb-2">
+            <h5 class="">Bulk Actions</h5>
+            <button
+            type="button"
+            class="btn-close btn-close-bulk-action"
+            aria-label="Close"
+            ></button>
+        </div>
+        <div class="bulk-body bg-body-secondary p-3 border-start">
+            <div class="mb-3">
+                <input class="form-control" list="datalistStatus1" id="fstatus"
+                    name="status" placeholder="Select Status" required />
+                <datalist id="datalistStatus1">
+                    {{#each project.projectStatus}}
+                    <option value="{{this}}"></option>
+                    {{/each}}
+                </datalist>
+                <div class="invalid-feedback">
+                    Please Select Status.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" list="datalistAssignTo" id="fAssignTo"
+                    name="assignTo" placeholder="Select an Assgined To" required />
+                <datalist id="datalistAssignTo">
+                    {{#each project.Users}}
+                    <option value="{{this.Name}}"></option>
+                    {{/each}}
+                </datalist>
+                <div class="invalid-feedback">
+                    Please Select  an Assgined To.
+                </div>
+            </div>
+        </div>
+        <div class="bulk-footer d-flex justify-content-center border-top p-3">
+            <button type="button" class="btn btn-outline-danger mx-2 btn-close-bulk-action">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-danger mx-2">
+                Save
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="/js/test-run-results-CRUD.js"></script>

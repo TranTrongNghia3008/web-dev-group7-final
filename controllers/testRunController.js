@@ -10,6 +10,7 @@ const testCaseModel = require('../models/testCaseModel');
 const userModel = require('../models/userModel');
 const issueModel = require('../models/issueModel');
 const participationModel = require('../models/participationModel'); 
+const mongoose = require('mongoose');
 
 const { sanitizeInput } = require('./shared');
 
@@ -212,6 +213,18 @@ controller.showResult = async (req, res) => {
             testCaseCount = allTestCases.length;
         }
 
+        const testCaseIds = testCases.map(testCase => testCase._id);
+
+        // Tìm tất cả các test run thuộc các test case thuộc project đó
+        const testRuns = await testRunModel.find({ TestCaseID: { $in: testCaseIds } });
+
+        // Lấy danh sách các TestCaseID từ testRuns
+        const testRunCaseIds = new Set(testRuns.map(testRun => testRun.TestCaseID.toString()));
+
+        // Lọc lại testCases để chỉ lấy các testCase có testRun tương ứng
+        const filteredTestCases = testCases.filter(testCase => testRunCaseIds.has(testCase._id.toString()));
+        testCases = filteredTestCases;
+
         // Lấy số lượng test case cho mỗi module
         const testCaseCounts = await testCaseModel.aggregate([
             { $match: { ModuleID: { $in: moduleIds } } },
@@ -231,10 +244,7 @@ controller.showResult = async (req, res) => {
             };
         });
 
-        const testCaseIds = testCases.map(testCase => testCase._id);
-
-        // Tìm tất cả các test run thuộc các test case thuộc project đó
-        const testRuns = await testRunModel.find({ TestCaseID: { $in: testCaseIds } });
+        
 
         // Tạo một danh sách các userId để tìm kiếm thông tin người được giao
         const assignToIds = testRuns.map(testRun => testRun.AssignTo);
@@ -315,7 +325,8 @@ controller.showResult = async (req, res) => {
             numProjectStatus: numProjectStatus,
             numIssueStatus: numIssueStatus,
             sortField,
-            sortOrder
+            sortOrder,
+            projectStatus
         };
 
         const account = req.user;
@@ -422,6 +433,91 @@ controller.deleteTestRun = async (req, res) => {
     }
 };
 
+controller.changeStatus = async (req, res) => {
+    try {
+        const { testCaseId } = req.params;
+        const { status } = req.body;
+        console.log(testCaseId, status)
+
+        const testRun = await testRunModel.findOne({ TestCaseID: testCaseId });
+        // console.log(testRun)
+
+        if (!testRun) {
+            return res.status(404).json({ message: 'Test run not found' });
+        }
+
+
+        const updatedTestRun = await testRunModel.findByIdAndUpdate(testRun._id, {
+            Status: status,
+            UpdatedAt: Date.now()
+        });
+
+        if (!updatedTestRun) {
+            return res.status(404).json({ message: 'Test run not found' });
+        }
+        res.status(200).json({ message: 'Test run updated successfully', testRun: updatedTestRun });
+
+    } catch (error) {
+        console.error('Error editing test run:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+controller.updateAssignTo = async (req, res) => {
+    try {
+        const { testCaseId } = req.params;
+        const { assignTo } = req.body;
+
+        const testRun = await testRunModel.findOne({ TestCaseID: testCaseId });
+        // console.log(testRun)
+
+        if (!testRun) {
+            return res.status(404).json({ message: 'Test run not found' });
+        }
+
+
+        const updatedTestRun = await testRunModel.findByIdAndUpdate(testRun._id, {
+            AssignTo: assignTo,
+            UpdatedAt: Date.now()
+        });
+
+        if (!updatedTestRun) {
+            return res.status(404).json({ message: 'Test run not found' });
+        }
+        res.status(200).json({ message: 'Test run updated successfully', testRun: updatedTestRun });
+
+    } catch (error) {
+        console.error('Error editing test run:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
+controller.bulkActions = async (req, res) => {
+    try {
+        const { caseCodes, status, assignTo } = req.body;
+
+        // Find the user by name to get the user ID
+        const user = await userModel.findOne({ Name: assignTo });
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const userId = user._id;
+
+        // Find and update the testRun entries
+        await testRunModel.updateMany(
+            { TestCaseID: { $in: caseCodes } },
+            { $set: { Status: status, AssignTo: userId } }
+        );
+
+        res.status(200).send('Cases updated successfully');
+    } catch (error) {
+        console.error('Error updating bulk actions:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
 module.exports = controller;
