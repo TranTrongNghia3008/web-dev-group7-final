@@ -370,8 +370,8 @@
                       <div class="d-flex justify-content-end text-dark">
                         <a href="#" class="mx-2 my-auto text-dark" data-bs-toggle="modal"
                           data-bs-target="#viewRequirement" onclick="loadRequirementDetails(this)"
-                          data-project-id="{{../project.ProjectID}}" data-id="{{this._id}}"
-                          data-release-id="{{this.ReleaseID}}" data-type="{{this.Type}}"
+                          data-project-id="{{../project.ProjectID}}" data-id="{{truncateId this._id 0}}"
+                          data-release-id="{{truncateId this.ReleaseID 0}}" data-type="{{this.Type}}"
                           data-description="{{this.Description}}" data-created-at="{{this.CreatedAt}}"
                           data-updated-at="{{this.UpdatedAt}}" data-assignee-name="{{this.AssigneeName}}"
                           data-assignee-email="{{this.AssigneeEmail}}" title="View">
@@ -584,15 +584,20 @@
     </div>
   </form>
 
+
+  <!-- modal detail -->
   <form action="" id="viewRequirementForm" class="needs-validation" novalidate>
-    <div class="modal fade" id="viewRequirement" tabindex="-1" aria-labelledby="viewRequirementLabel"
+    <div class="modal modal-lg fade" id="viewRequirement" tabindex="-1" aria-labelledby="viewRequirementLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border border-1 rounded-2">
           <div class="modal-header">
-            <div class="modal-title fs-5 fw-semibold text-dark w-100 text-center" id="viewRequirementLabel">
-              <div class="container" id="requirementIdDetail">
-
+            <div class="modal-title fs-5 fw-bold text-dark w-100 text-center d-flex" id="viewRequirementLabel">
+              <div class="col-6">
+                Details for requirement: 
+              </div>
+            
+              <div class="col-6" id="requirementIdDetail">
               </div>
 
             </div>
@@ -601,42 +606,66 @@
 
           <div class="modal-body">
             <div class="row d-flex">
-              <div class="col-6">
-                <div class="font-weight-bold">
+              <div class="col-6 fw-bold">
                   Project ID:
-                </div>
+              </div>
+              <div class="col-6" id="requirementProjectIdDetail">
+              </div>
+            </div>
 
 
-                <div class="col-6" id="requirementProjectIdDetail">
-                </div>
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Release ID:
+              </div>
+              <div class="col-6" id="requirementReleaseIdDetail">
+              </div>
+            </div>
 
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Requirement Type:
+              </div>
+              <div class="col-6" id="requirementTypeDetail"></div>
+            </div>
+
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Description:
+              </div>
+              <div class="col-6" id="requirementDescriptionDetail">
+              </div>
+            </div>
+
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Created At:
+              </div>
+              <div class="col-6" id="requirementCreatedAtDetail">
+              </div>
+            </div>
+
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Updated At:
+              </div>
+              <div class="col-6" id="requirementUpdatedAtDetail">
               </div>
 
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Assignee Name:
+              </div>
+              <div class="col-6" id="requirementAssigneeNameDetail">
+              </div>
+
+            <div class="row d-flex">
+              <div class="col-6 fw-bold">
+                  Assignee Email:
+              </div>
+              <div class="col-6" id="requirementAssigneeEmailDetail">
+              </div>
             </div>
-
-
-
-            <div id="requirementReleaseIdDetail">
-
-            </div>
-
-            <div id="requirementTypeDetail"></div>
-
-            <div id="requirementDescriptionDetail">
-            </div>
-
-            <div id="requirementCreatedAtDetail">
-
-            </div>
-
-            <div id="requirementUpdatedAtDetail">
-
-            </div>
-
-            <div id="requirementAssigneeNameDetail"></div>
-
-            <div id="requirementAssigneeEmailDetail"></div>
-
           </div>
 
 

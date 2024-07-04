@@ -92,7 +92,7 @@ controller.show = async (req, res) => {
             return {
                 ...requirement.toObject(),
                 AssigneeName: user ? user.Name : 'Unknown User',
-                AssigneeEamil: user ? user.AccountEmail : 'Unknown Email'
+                AssigneeEmail: user ? user.AccountEmail : 'Unknown Email'
             };
         }
         );
