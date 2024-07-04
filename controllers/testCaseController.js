@@ -1,7 +1,10 @@
 'use strict';
 
 const controller = {};
-
+const csv = require('csv-parser');
+const path = require('path');
+const fs = require('fs');
+const ObjectsToCsv = require('objects-to-csv');
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
 const requirementModel = require('../models/requirementModel');
@@ -468,6 +471,122 @@ controller.deleteTestCase = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to delete test case", error });
+    }
+};
+
+controller.exportTestCase = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+
+        let modules = await moduleModel.find({ ProjectID: projectId });
+        const moduleIds = modules.map(module => module._id);
+
+        const testCases = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+
+        // Chuyển đổi dữ liệu thành mảng các đối tượng chỉ chứa các thuộc tính cần xuất
+        const csvData = testCases.map(testCase => ({
+            Title: testCase.Title,
+            Priority: testCase.Priority,
+            Precondition: testCase.Precondition,
+            Description: testCase.Description,
+            CreatedAt: new Date(testCase.CreatedAt).toISOString().split('T')[0],
+            UpdatedAt: new Date(testCase.UpdatedAt).toISOString().split('T')[0],
+            ModuleID: testCase.ModuleID.toString(), // Convert ObjectId to string
+            TestPlanID: testCase.TestPlanID.toString() // Convert ObjectId to string
+        }));
+
+        // Tạo đối tượng ObjectsToCsv với mảng dữ liệu đã được chuyển đổi
+        const csv = new ObjectsToCsv(csvData);
+
+        // Đường dẫn và tên file CSV để lưu trữ
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileName = `testCaseExport-${uniqueSuffix}`;
+        const filePath = path.join(__dirname, `../public/files/${fileName}.csv`);
+
+        // Ghi dữ liệu xuống file CSV
+        await csv.toDisk(filePath);
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'test_cases_export.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            } else {
+                // Optionally delete the file after download
+                fs.unlinkSync(filePath);
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting requirements:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.importTestCase = async (req, res) => {
+    const projectId = req.params.projectId;
+
+    try {
+        // Check if a file has been uploaded
+        if (!req.file) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        // Check if the file is a CSV
+        if (req.file.mimetype !== 'text/csv') {
+            return res.status(400).send('Select CSV files only.');
+        }
+
+        // Path to the uploaded CSV file
+        const filePath = req.file.path;
+
+        // Read data from the CSV file
+        let testCases = [];
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', (row) => {
+                // Create a TestCase object from the CSV data
+                const newTestCase = new testCaseModel({
+                    Title: row.Title,
+                    Priority: row.Priority,
+                    Precondition: row.Precondition || null,
+                    Description: row.Description || null,
+                    ModuleID: row.ModuleID || "666017adf902bdf00016abc0",
+                    TestPlanID: row.TestPlanID || "66601d7f32c5408430429d19"
+                });
+                testCases.push(newTestCase);
+            })
+            .on('end', async () => {
+                // Save the TestCase objects to MongoDB
+                try {
+                    await testCaseModel.insertMany(testCases);
+                    res.redirect(`/project/${projectId}/test-case`);
+                } catch (error) {
+                    console.error('Error importing test cases:', error);
+                    res.status(500).send('Internal server error');
+                }
+            });
+
+    } catch (error) {
+        console.error('Error in importTestCase:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.downloadSampleTestCase = async (req, res) => {
+    try {
+        // Đường dẫn và tên file CSV để lưu trữ
+        const filePath = path.join(__dirname, '../public/files/testImportTestCase.csv');
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'sample_test_cases.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting issues:', error);
+        res.status(500).send('Internal server error');
     }
 };
 
