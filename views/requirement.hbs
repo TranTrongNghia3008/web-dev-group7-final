@@ -372,8 +372,8 @@
                           data-bs-target="#viewRequirement" onclick="loadRequirementDetails(this)"
                           data-project-id="{{../project.ProjectID}}" data-id="{{truncateId this._id 0}}"
                           data-release-id="{{truncateId this.ReleaseID 0}}" data-type="{{this.Type}}"
-                          data-description="{{this.Description}}" data-created-at="{{this.CreatedAt}}"
-                          data-updated-at="{{this.UpdatedAt}}" data-assignee-name="{{this.AssigneeName}}"
+                          data-description="{{this.Description}}" data-created-at="{{formatDate2 this.CreatedAt}}"
+                          data-updated-at="{{formatDate2 this.UpdatedAt}}" data-assignee-name="{{this.AssigneeName}}"
                           data-assignee-email="{{this.AssigneeEmail}}" title="View">
                           <i class="bi bi-eye"></i>
                         </a>
@@ -586,7 +586,6 @@
 
 
   <!-- modal detail -->
-  <form action="" id="viewRequirementForm" class="needs-validation" novalidate>
     <div class="modal modal-lg fade" id="viewRequirement" tabindex="-1" aria-labelledby="viewRequirementLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -594,80 +593,68 @@
           <div class="modal-header">
             <div class="modal-title fs-5 fw-bold text-dark w-100 text-center d-flex" id="viewRequirementLabel">
               <div class="col-6">
-                Details for requirement: 
+                Requirement details
               </div>
-            
-              <div class="col-6" id="requirementIdDetail">
-              </div>
-
+  
             </div>
           </div>
-
-
+  
           <div class="modal-body">
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Project ID:
-              </div>
-              <div class="col-6" id="requirementProjectIdDetail">
-              </div>
-            </div>
-
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Release ID:
-              </div>
-              <div class="col-6" id="requirementReleaseIdDetail">
+            <div class="d-flex p-1">
+              <div class="col-12 form-field me-2 my-1 p-3  rounded bg-detail">
+                <label class="label label-revamp fw-semibold">ID</label>
+                <div class="" id="requirementIdDetail"></div>
               </div>
             </div>
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Requirement Type:
+  
+            <div class="d-flex p-1">
+              <div class="col-4 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Type</label>
+                <div class="" id="requirementTypeDetail"></div>
               </div>
-              <div class="col-6" id="requirementTypeDetail"></div>
-            </div>
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Description:
-              </div>
-              <div class="col-6" id="requirementDescriptionDetail">
+  
+              <div class="col-8 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Description</label>
+                <div class="" id="requirementDescriptionDetail"></div>
               </div>
             </div>
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Created At:
+  
+            <div class="d-flex p-1">
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Project ID</label>
+                <div class="" id="requirementProjectIdDetail"></div>
               </div>
-              <div class="col-6" id="requirementCreatedAtDetail">
+  
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Release ID</label>
+                <div class="" id="requirementReleaseIdDetail"></div>
               </div>
             </div>
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Updated At:
+  
+            <div class="d-flex p-1">
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Start date</label>
+                <div class="" id="requirementCreatedAtDetail"></div>
               </div>
-              <div class="col-6" id="requirementUpdatedAtDetail">
+  
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">End date</label>
+                <div class="" id="requirementUpdatedAtDetail"></div>
               </div>
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Assignee Name:
+            </div>
+  
+            <div class="d-flex p-1">
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Assignee's name</label>
+                <div class="" id="requirementAssigneeNameDetail"></div>
               </div>
-              <div class="col-6" id="requirementAssigneeNameDetail">
-              </div>
-
-            <div class="row d-flex">
-              <div class="col-6 fw-bold">
-                  Assignee Email:
-              </div>
-              <div class="col-6" id="requirementAssigneeEmailDetail">
+  
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Assignee's email</label>
+                <div class="" id="requirementAssigneeEmailDetail"></div>
               </div>
             </div>
           </div>
-
 
           <div class="model-footer">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -675,8 +662,6 @@
         </div>
       </div>
     </div>
-  </form>
-
 
 
   {{#if messages.error}}
