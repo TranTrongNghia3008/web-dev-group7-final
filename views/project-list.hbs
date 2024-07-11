@@ -1,357 +1,297 @@
 <div class="content px-3">
-        <div class="container my-3">
-          <!-- View/search/filter-->
-          <div class="view-bar">
-            <div class="container-fluid">
-              <div class="row align-items-center">
-                <div class="col-md-6" id="view-modes">
-                  <div
-                    class="btn-group mb-2"
-                    role="group"
-                    aria-label="View Modes"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-secondary active"
-                      id="btn-grid-view"
-                    >
-                      <i class="bi bi-grid-3x3-gap-fill"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      id="btn-list-view"
-                    >
-                      <i class="bi bi-list-ul"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="col-md-6 d-flex justify-content-end">
-                  <button
-                    type="button"
-                    class="btn btn-danger me-4"
-                    style="width: 8rem"
-                    onclick="window.location.href = '/administration/add-user';"
-                  >
-                    <i class="bi bi-plus"></i> Add Users
-                  </button>
-                  <button
-                    class="btn btn-outline-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addProject"
-                  >
-                    <i class="bi bi-plus"></i> Add Project
-                  </button>
-                  <form action="" class="needs-validation" novalidate>
-                    <div class="modal fade" id="addProject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h6 class="modal-title" id="exampleModalLabel">Add Project</h6>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="col mb-3">
-                                <input
-                                  class="form-control"
-                                  list="datalistWorkspace"
-                                  name="workspace"
-                                  placeholder="Default Workspace"
-                                />
-                                <datalist id="datalistWorkspace">
-                                  <option value="Default Workspace"></option>
-
-                                </datalist>
-                              </div>
-                              <div class="mb-3">
-                                  
-                                  <input
-                                  type="text"
-                                  class="form-control bg-light"
-                                  name="project-name"
-                                  placeholder="Project Name *"
-                                  style="color: #757575"
-                                  required
-                                  />
-                                  <div class="invalid-feedback">
-                                  Please Enter Project Name.
-                                  </div>
-
-                              </div>
-                              <div class="mb-3">
-                                <input class="form-check-input" type="checkbox" value="" id="fSampleData">
-                                <label class="form-check-label" for="fSampleData">
-                                  Create project with sample data
-                                </label>
-                              </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger mx-2">
-                                  Save
-                                </button>
-                                <button
-                                  type="button"
-                                  class="btn btn-outline-danger mx-2"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Cancel
-                                </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  </form>
-                </div>
-              </div>
-
-              <div class="row align-items-center">
-                <div class="col-md-8" id="search-bar">
-                  <form action="" class="search-Project  w-100">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search By Project Name"
-                          aria-label="Search"
-                          id="search-input"
-                          name="projectKeyword"
-                        />
-                        <button
-                          class="btn btn-outline-secondary"
-                          type="submit"
-                        >
-                          <i class="bi bi-search"></i>
-                        </button>
-          
-
-                    
-                    </div>
-                  </form>
-                   <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const form = document.querySelector('.search-project');
-                                form.addEventListener('submit', function(event) {
-                                    event.preventDefault(); 
-                                    const keyword = document.querySelector('input[name="projectKeyword"]').value;
-                                    const currentUrl = new URL(window.location.href);
-                                    currentUrl.searchParams.set('projectKeyword', keyword);
-                                    window.location.href = currentUrl.toString();
-                                });
-                            });
-                        </script>
-                </div>
-
-                <div class="col-md-4 mt-3" id="filter-bar">
-                  <div class="row">
-                    {{!-- <div class="col-auto" id="filter-dropdown">
-                      <div class="dropdown">
-                        <button
-                          class="btn btn-secondary dropdown-toggle"
-                          type="button"
-                          id="filterDropdown"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Filter
-                        </button>
-
-                        <!-- Update this later -->
-                        <ul
-                          class="dropdown-menu"
-                          aria-labelledby="filterDropdown"
-                        >
-                          <!-- Loop through the project dataset and generate options dynamically -->
-                          <!-- Replace 'projectData' with the actual variable name holding the project dataset -->
-                          <!-- Replace 'attributeName' with the actual attribute name to be used as the option value -->
-                          <!-- Replace 'attributeValue' with the actual attribute value to be displayed as the option text -->
-                          <!-- Example: -->
-                          <!-- <li><a class="dropdown-item" href="#" data-attribute="attributeValue">attributeValue</a></li> -->
-                          <!-- Replace 'attributeName' and 'attributeValue' with the actual attribute names and values -->
-                          <!-- Example: -->
-                          <!-- <li><a class="dropdown-item" href="#" data-attribute="name">Project Name</a></li> -->
-                        </ul>
-                      </div>
-                    </div> --}}
-
-                    {{!-- <div class="col-auto" id="sort">
-                      <button
-                        id="sort-button"
-                        class="btn btn-secondary"
-                        onclick="toggleSortDirection()"
-                      >
-                        <span id="sort-text">Ascending</span>
-                        <i id="sort-icon" class="bi bi-arrow-up"></i>
-                      </button>
-                    </div> --}}
-                      <div class="mx-2 d-flex">
-                          <span class="my-auto">Sort</span>
-                          <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
-                              <select
-                                  name="sortField"
-                                  class="form-select border-0 rounded-0 rounded-start"
-                                  aria-label="Default select example"
-                                  style="width: 10rem"
-                              >
-                                  <option value="created-date" {{#if (eq sortField 'created-date')}}selected{{/if}}>Created Date</option>
-                                  <option value="title" {{#if (eq sortField 'title')}}selected{{/if}}>Project Name</option>
-                                  <option value="case-code" {{#if (eq sortField 'case-code')}}selected{{/if}}>Code</option>
-                              </select>
-                              <select
-                                  name="sortOrder"
-                                  class="form-select border-0 rounded-0 ms-1 rounded-end"
-                                  aria-label="Default select example"
-                                  style="width: 7rem"
-                              >
-                                  <option value="desc" {{#if (eq sortOrder 'desc')}}selected{{/if}}>Desc</option>
-                                  <option value="asc" {{#if (eq sortOrder 'asc')}}selected{{/if}}>Asc</option>
-                              </select>
-                          </form>
-                      </div>
-
-
-                      <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const sortForm = document.getElementById('form-sort');
-                            const sortFields = sortForm.querySelectorAll('select');
-
-                            sortFields.forEach(select => {
-                                select.addEventListener('change', function() {
-                                    // Lấy URL hiện tại
-                                    const currentUrl = new URL(window.location.href);
-                                    
-                                    // Lấy các tham số hiện tại từ URL
-                                    const params = new URLSearchParams(currentUrl.search);
-
-                                    // Cập nhật các tham số sắp xếp
-                                    sortFields.forEach(field => {
-                                        params.set(field.name, field.value);
-                                    });
-
-                                    // Tạo URL mới với các tham số đã cập nhật
-                                    const newUrl = `${currentUrl.pathname}?${params.toString()}`;
-
-                                    // Chuyển hướng đến URL mới
-                                    window.location.href = newUrl;
-                                });
-                            });
-                        });
-                      </script>
-                  </div>
-                </div>
-              </div>
+  <div class="container my-3">
+    <!-- View/search/filter-->
+    <div class="view-bar">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-md-6" id="view-modes">
+            <div class="btn-group mb-2" role="group" aria-label="View Modes">
+              <button type="button" class="btn btn-secondary active" id="btn-grid-view">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-list-view">
+                <i class="bi bi-list-ul"></i>
+              </button>
             </div>
           </div>
-
-          <!-- Project grid view -->
-          <div class="cards-wrapper mt-3">
-            <div class="container-fluid grid-view" id="cards-wrapper-cf">
-              {{#each projects}}
-                  <div class="card grid-view">
-                      <a href="/project/{{ProjectID}}">
-                          <div class="card-header bg-danger text-bg-danger">
-                              <div class="card-project-name">
-                                  <h4>{{Name}}</h4>
-                              </div>
-                          </div>
-                      </a>
-                      <div class="card-body">
-                          <div class="card-project-description">
-                              <div class="card-project-creation">
-                                  <div class="card-project-creation-date">
-                                      <div class="field-label">Created on</div>
-                                      <div class="field-value">{{formatDate CreatedAt}}</div>
-                                  </div>
-                                  <div class="card-project-creation-author">
-                                      <div class="field-label">Created by</div>
-                                      <div class="field-value">{{Creater}}</div>
-                                  </div>
-                              </div>
-
-                              <div class="card-project-key">
-                                  <div class="field-label">Project key</div>
-                                  <div class="field-value">{{ProjectID}}</div>
-                              </div>
-                          </div>
-
-                          <div class="card-project-stats">
-                              <div class="card-project-test-cases">
-                                  <div class="field-label">Test cases</div>
-                                  <div class="field-value">{{testCaseCount}}</div>
-                              </div>
-
-                              <div class="card-project-test-runs">
-                                  <div class="field-label">Test runs</div>
-                                  <div class="field-value">{{testRunCount}}</div>
-                              </div>
-
-                              <div class="card-project-issues">
-                                  <div class="field-label">Issues</div>
-                                  <div class="field-value">{{issueCount}}</div>
-                              </div>
-                          </div>
-
-                          <div class="card-project-actions">
-                              <button class="btn btn-outline-dark bg-danger text-bg-danger me-1">
-                                  <i class="bi bi-pencil"></i>
-                              </button>
-                              <button class="btn btn-outline-dark me-1">
-                                  <i class="bi bi-trash"></i>
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-              {{/each}}
-            </div>
-          </div>
-
-          <div class="row align-items-between mt-3">
-            <div>
-            </div>
-
-            <div class="container d-flex justify-content-end col-sm-4">
-              {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
-              leftText="Prev" rightText="Next" }}}
-            </div>
+          <div class="col-md-6 d-flex justify-content-end">
+            <button type="button" class="btn btn-danger me-4" style="width: 8rem"
+              onclick="window.location.href = '/administration/add-user';">
+              <i class="bi bi-plus"></i> Add Users
+            </button>
+            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addProject">
+              <i class="bi bi-plus"></i> Add Project
+            </button>
 
           </div>
         </div>
-        <script>
-            document.querySelectorAll(".pagination li").forEach((li, index) => {
-                li.classList.add("page-item");
-            });
 
-            document.querySelectorAll(".pagination a").forEach(a => {
-                a.classList.add("page-link");
-            });
-        </script>
-    {{#if messages.error}}
-      <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title">Thông báo</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                          <div class="alert" style="font-size: medium;">{{messages.error}}</div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                  </div>
+        <div class="row align-items-center">
+          <div class="col-md-8" id="search-bar">
+            <form action="" class="search-Project  w-100">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search By Project Name" aria-label="Search"
+                  id="search-input" name="projectKeyword" />
+                <button class="btn btn-outline-secondary" type="submit">
+                  <i class="bi bi-search"></i>
+                </button>
+
+
+
               </div>
+            </form>
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('.search-project');
+                form.addEventListener('submit', function (event) {
+                  event.preventDefault();
+                  const keyword = document.querySelector('input[name="projectKeyword"]').value;
+                  const currentUrl = new URL(window.location.href);
+                  currentUrl.searchParams.set('projectKeyword', keyword);
+                  window.location.href = currentUrl.toString();
+                });
+              });
+            </script>
           </div>
+
+          <div class="col-md-4 mt-3" id="filter-bar">
+            <div class="row">
+              {{!-- <div class="col-auto" id="filter-dropdown">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
+                  </button>
+
+                  <!-- Update this later -->
+                  <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                    <!-- Loop through the project dataset and generate options dynamically -->
+                    <!-- Replace 'projectData' with the actual variable name holding the project dataset -->
+                    <!-- Replace 'attributeName' with the actual attribute name to be used as the option value -->
+                    <!-- Replace 'attributeValue' with the actual attribute value to be displayed as the option text -->
+                    <!-- Example: -->
+                    <!-- <li><a class="dropdown-item" href="#" data-attribute="attributeValue">attributeValue</a></li> -->
+                    <!-- Replace 'attributeName' and 'attributeValue' with the actual attribute names and values -->
+                    <!-- Example: -->
+                    <!-- <li><a class="dropdown-item" href="#" data-attribute="name">Project Name</a></li> -->
+                  </ul>
+                </div>
+              </div> --}}
+
+              {{!-- <div class="col-auto" id="sort">
+                <button id="sort-button" class="btn btn-secondary" onclick="toggleSortDirection()">
+                  <span id="sort-text">Ascending</span>
+                  <i id="sort-icon" class="bi bi-arrow-up"></i>
+                </button>
+              </div> --}}
+              <div class="mx-2 d-flex">
+                <span class="my-auto">Sort</span>
+                <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                  <select name="sortField" class="form-select border-0 rounded-0 rounded-start"
+                    aria-label="Default select example" style="width: 10rem">
+                    <option value="created-date" {{#if (eq sortField 'created-date' )}}selected{{/if}}>Created Date
+                    </option>
+                    <option value="title" {{#if (eq sortField 'title' )}}selected{{/if}}>Project Name</option>
+                    <option value="case-code" {{#if (eq sortField 'case-code' )}}selected{{/if}}>Code</option>
+                  </select>
+                  <select name="sortOrder" class="form-select border-0 rounded-0 ms-1 rounded-end"
+                    aria-label="Default select example" style="width: 7rem">
+                    <option value="desc" {{#if (eq sortOrder 'desc' )}}selected{{/if}}>Desc</option>
+                    <option value="asc" {{#if (eq sortOrder 'asc' )}}selected{{/if}}>Asc</option>
+                  </select>
+                </form>
+              </div>
+
+
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  const sortForm = document.getElementById('form-sort');
+                  const sortFields = sortForm.querySelectorAll('select');
+
+                  sortFields.forEach(select => {
+                    select.addEventListener('change', function () {
+                      // Lấy URL hiện tại
+                      const currentUrl = new URL(window.location.href);
+
+                      // Lấy các tham số hiện tại từ URL
+                      const params = new URLSearchParams(currentUrl.search);
+
+                      // Cập nhật các tham số sắp xếp
+                      sortFields.forEach(field => {
+                        params.set(field.name, field.value);
+                      });
+
+                      // Tạo URL mới với các tham số đã cập nhật
+                      const newUrl = `${currentUrl.pathname}?${params.toString()}`;
+
+                      // Chuyển hướng đến URL mới
+                      window.location.href = newUrl;
+                    });
+                  });
+                });
+              </script>
+            </div>
+          </div>
+        </div>
       </div>
-    {{/if}}
+    </div>
+
+    <!-- Project grid view -->
+    <div class="cards-wrapper mt-3">
+      <div class="container-fluid grid-view" id="cards-wrapper-cf">
+        {{#each projects}}
+        <div class="card grid-view">
+          <a href="/project/{{ProjectID}}">
+            <div class="card-header bg-danger text-bg-danger">
+              <div class="card-project-name">
+                <h4>{{Name}}</h4>
+              </div>
+            </div>
+          </a>
+          <div class="card-body">
+            <div class="card-project-description">
+              <div class="card-project-creation">
+                <div class="card-project-creation-date">
+                  <div class="field-label">Created on</div>
+                  <div class="field-value">{{formatDate CreatedAt}}</div>
+                </div>
+                <div class="card-project-creation-author">
+                  <div class="field-label">Created by</div>
+                  <div class="field-value">{{Creater}}</div>
+                </div>
+              </div>
+
+              <div class="card-project-key">
+                <div class="field-label">Project key</div>
+                <div class="field-value">{{ProjectID}}</div>
+              </div>
+            </div>
+
+            <div class="card-project-stats">
+              <div class="card-project-test-cases">
+                <div class="field-label">Test cases</div>
+                <div class="field-value">{{testCaseCount}}</div>
+              </div>
+
+              <div class="card-project-test-runs">
+                <div class="field-label">Test runs</div>
+                <div class="field-value">{{testRunCount}}</div>
+              </div>
+
+              <div class="card-project-issues">
+                <div class="field-label">Issues</div>
+                <div class="field-value">{{issueCount}}</div>
+              </div>
+            </div>
+
+            <div class="card-project-actions">
+              <button class="btn btn-outline-dark bg-danger text-bg-danger me-1">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-outline-dark me-1">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="row align-items-between mt-3">
+      <div>
+      </div>
+
+      <div class="container d-flex justify-content-end col-sm-4">
+        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+        leftText="Prev" rightText="Next" }}}
+      </div>
+
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll(".pagination li").forEach((li, index) => {
+      li.classList.add("page-item");
+    });
+
+    document.querySelectorAll(".pagination a").forEach(a => {
+      a.classList.add("page-link");
+    });
+  </script>
+  {{#if messages.error}}
+  <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thông báo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert" style="font-size: medium;">{{messages.error}}</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </div>
 
+<!-- modal add -->
+<form action="/project" method="post" class="needs-validation" novalidate>
+  <div class="modal fade" id="addProject" tabindex="-1" aria-labelledby="addProjectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">Add Project</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="col mb-3">
+            <input class="form-control" list="datalistWorkspace" name="workspace" placeholder="Default Workspace" />
+            <datalist id="datalistWorkspace">
+              <option value="Default Workspace"></option>
+
+            </datalist>
+          </div>
+          <div class="mb-3">
+
+            <input type="text" class="form-control bg-light" name="projectName" placeholder="Project Name *"
+              style="color: #757575" required />
+            <div class="invalid-feedback">
+              Please Enter Project Name.
+            </div>
+
+          </div>
+          <div class="mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="fSampleData">
+            <label class="form-check-label" for="fSampleData">
+              Create project with sample data
+            </label>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger mx-2">
+          Add
+          </button>
+          <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
 <script>
-    // Chờ đợi khi trang đã tải hoàn toàn
-    $(document).ready(function() {
-        // Kiểm tra nếu có thông báo trong flash messages
-        if ($('#flashMessageModal').length > 0) {
-            $('#flashMessageModal').modal('show'); // Hiển thị modal dialog
-        }
-    });
+  // Chờ đợi khi trang đã tải hoàn toàn
+  $(document).ready(function () {
+    // Kiểm tra nếu có thông báo trong flash messages
+    if ($('#flashMessageModal').length > 0) {
+      $('#flashMessageModal').modal('show'); // Hiển thị modal dialog
+    }
+  });
 </script>

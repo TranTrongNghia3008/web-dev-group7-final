@@ -179,5 +179,24 @@ controller.showHome = async (req, res) => {
     }
 };
 
+controller.addProject = async (req, res) => {
+    try {
+        const projectName = req.body.projectName;
+        const creator = req.user;
+    
+        const newProject = await projectModel.create({
+            Name: projectName,
+            Creater: creator._id
+        });
+        const projectId = newProject._id;
+
+        
+        res.redirect(`/project/${projectId}/`);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating Project', error });
+    }
+};
+
 
 module.exports = controller;
