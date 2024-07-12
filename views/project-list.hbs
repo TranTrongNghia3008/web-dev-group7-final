@@ -137,7 +137,7 @@
     </div>
 
     <!-- Project grid view -->
-    <div class="cards-wrapper mt-3">
+    <div class="cards-wrapper mt-3 h-75">
       <div class="container-fluid grid-view" id="cards-wrapper-cf">
         {{#each projects}}
         <div class="card grid-view">
@@ -185,12 +185,26 @@
             </div>
 
             <div class="card-project-actions">
-              <button class="btn btn-outline-dark bg-danger text-bg-danger me-1">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-outline-dark me-1">
-                <i class="bi bi-trash"></i>
-              </button>
+              <a href="#" 
+                data-bs-toggle="modal"
+                data-bs-target="#editProject"
+                onclick="showEditProjectModal(this)"
+                data-project-id="{{ProjectID}}"
+                data-project-name="{{Name}}"
+                title="Rename project"
+              >
+                <button class="btn btn-outline-dark me-1">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </a>
+
+              <a href="#" data-bs-toggle="tooltip" data-bs-target="" data-project-id="{{ProjectID}}"
+              class="delete-btn">
+                <button class="btn btn-outline-dark me-1">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </a>
+
             </div>
           </div>
         </div>
@@ -240,7 +254,7 @@
 </div>
 
 <!-- modal add -->
-<form action="/project" method="post" class="needs-validation" novalidate>
+<form action="/project" id="addProjectForm" method="post" class="needs-validation" novalidate>
   <div class="modal fade" id="addProject" tabindex="-1" aria-labelledby="addProjectLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -286,6 +300,45 @@
   </div>
 </form>
 
+<!-- modal edit -->
+<form action="/" method="put" id="editProjectForm" onsubmit="editProject(event)" method="put" class="needs-validation" novalidate>
+  <input type="hidden" name="projectIdEdit" id="projectIdEdit" />
+  <div class="modal fade" id="editProject" tabindex="-1" aria-labelledby="editProjectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">Edit Project</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <div class="container p-1 m-2">
+              <div class="text-bold">
+                New project name
+              </div>
+            </div>
+
+            <input type="text" class="form-control" name="projectNameEdit" id="projectNameEdit"  placeholder="Project Name *"
+              style="color: #757575" required />
+            <div class="invalid-feedback">
+              Please Enter Project Name.
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger mx-2">
+          Save and edit
+          </button>
+          <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
 <script>
   // Chờ đợi khi trang đã tải hoàn toàn
   $(document).ready(function () {
@@ -295,3 +348,6 @@
     }
   });
 </script>
+
+
+<script src="/js/project-list-CRUD.js"></script>

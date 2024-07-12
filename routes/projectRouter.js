@@ -8,6 +8,8 @@ router.get('/list', controller.showList);
 router.get('/list/:page', controller.showList);
 router.get('/:projectId', controller.showHome);
 router.post('/', controller.addProject);
+router.put('/:projectId', controller.editProject);
+router.delete('/:projectId', controller.deleteProject);
 
 router.use('/:projectId/requirement', require('./requirementRouter'));
 router.use('/:projectId/release', require('./releaseRouter'));

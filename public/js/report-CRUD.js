@@ -1,5 +1,5 @@
 function showEditReportModal(btn) {
-    console.log(btn.dataset);
+    //console.log(btn.dataset);
 
     document.querySelector("#reportIdEdit").value = btn.dataset.reportId;
     document.querySelector("#projectIdEdit").value = btn.dataset.projectId;

@@ -198,5 +198,39 @@ controller.addProject = async (req, res) => {
     }
 };
 
+controller.editProject = async (req, res) => {
+    try {
+        const newProjectName = req.body.projectNameEdit;
+        const projectId = req.body.projectIdEdit;
+        const currentProject = await projectModel.findById(projectId);
+        const updatedProject = await projectModel.findByIdAndUpdate(projectId, { Name: newProjectName }); 
+
+        if (!updatedProject) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+        else
+        {
+            res.status(200).json({"message": "Project updated successfully"});
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating Project', error });
+    }
+};
+
+controller.deleteProject = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const deletedProject = await projectModel.findByIdAndDelete(projectId);
+
+        if (!deletedProject) {
+            return res.status(404).json({ message: "Project not found" });
+        }
+
+        res.json({ message: "Project deleted successfully", deletedProject });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete project", error });
+    }
+};
 
 module.exports = controller;
