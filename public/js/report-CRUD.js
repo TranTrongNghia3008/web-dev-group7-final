@@ -20,10 +20,43 @@ function showEditReportModal(btn) {
 
 async function editReport(e) {
   e.preventDefault();
+  // 2.1. Validate if title is not null and valid (not full of spaces)
+  let title_div = document.querySelector("#titleEdit");
+  let title_val = title_div.value;
+  if (!title_val.trim()) {
+      e.preventDefault();
+      title_div.classList.add("is-invalid");
+      return False;
+  }
+  else
+  {
+      title_div.classList.remove("is-invalid");
+      title_div.classList.add("is-valid");
+  }
+
+  // 2.2. Validate if startDate < endDate
+  let startDate_div = document.querySelector("#startDateEdit");
+  let endDate_div = document.querySelector("#endDateEdit");
+  let startDate_val = startDate_div.value;
+  let endDate_val = endDate_div.value;
+  
+  let startDate = new Date(startDate_val);
+  let endDate = new Date(endDate_val);
+  if ((startDate && endDate) && (startDate > endDate)) {
+      startDate_div.classList.add("is-invalid");
+      endDate_div.classList.add("is-invalid");
+      return False;
+  }
+  else
+  {
+      startDate_div.classList.remove("is-invalid");
+      endDate_div.classList.remove("is-invalid");
+      startDate_div.classList.add("is-valid");
+      endDate_div.classList.add("is-valid");
+  }
 
   const formData = new FormData(document.getElementById("editReportForm"));
   let data = Object.fromEntries(formData.entries());
-  console.log(data)
 
   try {
       let res = await fetch(`/project/${data.projectId}/report`, {
@@ -97,4 +130,45 @@ document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
           options
       );
   });
+});
+
+// Validate report form validation
+// Catch the form before submitting
+document.querySelector("#addReportForm").addEventListener("submit", function(e) {
+    // Part 1: For adding report
+    // 1.1. Validate if title is not null and valid (not full of spaces)
+    let title_div = document.querySelector("#title");
+    let title_val = title_div.value;
+    if (!title_val.trim()) {
+        e.preventDefault();
+        title_div.classList.remove("is-valid");
+        title_div.classList.add("is-invalid");
+    }
+    else {
+        title_div.classList.remove("is-invalid");
+        title_div.classList.add("is-valid");
+    }
+
+    console.log("Reached");
+    // 1.2. Validate if startDate < endDate
+    let startDate_div = document.querySelector("#startDate");
+    let endDate_div = document.querySelector("#endDate");
+    let startDate_val = startDate_div.value;
+    let endDate_val = endDate_div.value;
+    
+    let startDate = new Date(startDate_val);
+    let endDate = new Date(endDate_val);
+    if ((startDate && endDate) && (startDate > endDate)) {
+        e.preventDefault();
+        startDate_div.classList.remove("is-valid");
+        endDate_div.classList.remove("is-valid");
+        startDate_div.classList.add("is-invalid");
+        endDate_div.classList.add("is-invalid");
+    }
+    else {
+        startDate_div.classList.remove("is-invalid");
+        endDate_div.classList.remove("is-invalid");
+        startDate_div.classList.add("is-valid");
+        endDate_div.classList.add("is-valid");
+    }
 });
