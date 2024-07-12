@@ -126,13 +126,13 @@
 
                                 <td scope="col" class="pt-3">
                                     <div class="d-flex" style="margin-top: 0.8rem">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#editReport"
+                                        <a href="#" data-bs-toggle="modal"  data-bs-target="#editReport"
                                             onclick="showEditReportModal(this)" data-report-id="{{this._id}}"
-                                            data-project-id="{{../project.ProjectID}}" data-report-type="{{this.Type}}"
-                                            data-title="{{this.Title}}" data-start-date="{{formatDate this.StartDate}}"
-                                            data-start-time="{{formatTime this.StartDate}}"
-                                            data-end-date="{{formatDate this.EndDate}}"
-                                            data-end-time="{{formatTime this.EndDate}}"
+                                            data-project-id="{{../project.ProjectID}}" 
+                                            data-report-type="{{this.Type}}"
+                                            data-title="{{this.Title}}" 
+                                            data-start-date="{{this.StartDate}}"
+                                            data-end-date="{{this.EndDate}}"
                                             data-is-scheduled="{{this.IsScheduled}}"
                                             data-resource-type="{{this.ResourceType}}"
                                             data-report-type="{{this.ReportType}}" title="Edit" class="my-auto mx-2">
@@ -476,18 +476,16 @@
                         </div>
 
                     </div>
-
-
-
                 </div>
             </div>
+        </div>
     </form>
 
     {{! modal edit }}
-    <form action="" id="editReportForm" onsubmit="editReport(event)" method="put" class="needs-validation" novalidate>
-        <input type="hidden" name="reportIdEdit" id="reportIdEdit" />
-        <input type="hidden" name="projectIdEdit" id="projectIdEdit" />
-        <div class="modal fade" id="editReport" tabindex="-1" arialabelledby="editReportLabel" aria-hidden="true">
+    <form action="" id="editReportForm">
+        <input type="hidden" name="reportIdEdit" id="reportIdEdit"/>
+        <input type="hidden" name="projectIdEdit" id="projectIdEdit"/>
+        <div class="modal fade" id="editReport" tabindex="-1"  arialabelledby="editReportLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content border border-1 border-2" style="color: #919faf">
                     <div class="modal-header">
@@ -580,8 +578,10 @@
                                 </div>
 
                                 <div class="mb-3 d-flex">
-                                        <label id="titleEditLabel" for="titleEdit" class="form-label fw-bold" style="width: 17rem">Title 
-                                        <span class="text-danger">*</span></label>
+                                        <label id="titleEditLabel" for="titleEdit" class="form-label fw-bold" style="width: 17rem">
+                                            Title 
+                                            <span class="text-danger">*</span>
+                                        </label>
                                     <div class="w-100">
                                         <input class="form-control" id="titleEdit" name="titleEdit" type="text"
                                             placeholder="Title..." aria-describedby="titleEditValidationFeedback titleEditLabel" required />
@@ -601,7 +601,7 @@
                                                 <input class="form-control has-validation" id="startDateEdit"
                                                     name="startDateEdit" 
                                                     type="datetime-local"
-                                                    aria-describedby="startDateEditLabel startDateEditValidationFeedback" />
+                                                    aria-describedby="startDateEditLabel startDateEditValidationFeedback"/>
                                                 <div id="startDateEditValidationFeedback" class="invalid-feedback">
                                                     Please make sure the start date is before the end date.
                                                 </div>

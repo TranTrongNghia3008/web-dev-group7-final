@@ -117,6 +117,8 @@ controller.addReport = async (req, res) => {
 
 controller.editReport = async (req, res) => {
     try{
+        console.log("Data");
+        console.log(req.body);
         const projectIdEdit = req.body.projectIdEdit;
         const reportIdEdit = req.body.reportIdEdit;
 
