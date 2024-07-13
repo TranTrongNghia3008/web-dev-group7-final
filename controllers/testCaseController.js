@@ -4,6 +4,7 @@ const controller = {};
 const csv = require('csv-parser');
 const path = require('path');
 const fs = require('fs');
+const detect = require('detect-csv');
 const ObjectsToCsv = require('objects-to-csv');
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
@@ -539,10 +540,13 @@ controller.importTestCase = async (req, res) => {
         // Path to the uploaded CSV file
         const filePath = req.file.path;
 
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const delimiter = detect(fileContent).delimiter;
+
         // Read data from the CSV file
         let testCases = [];
         fs.createReadStream(filePath)
-            .pipe(csv())
+            .pipe(csv({ separator: delimiter }))
             .on('data', (row) => {
                 // Create a TestCase object from the CSV data
                 const newTestCase = new testCaseModel({

@@ -1,0 +1,112 @@
+<div class="content px-3">
+    <ul class="nav nav-underline menu-2 d-flex">
+        <li class="nav-item">
+            <a class="nav-link active border-danger mx-2" href="#" aria-current="page">User Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">WorkSpace</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Role Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Site Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Subscription</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Billing Address</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Custom Options</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Integration Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Custom Fields</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mx-2" href="#">Activity Log</a>
+        </li>
+    </ul>
+    
+    <div class="container mx-3 bg-white rounded">
+        <div class="path py-3 ps-3 mx-auto">
+            <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="/administration" class="text-danger fw-semibold">Administration</a>
+                </li>
+                <li
+                    class="breadcrumb-item active fw-semibold"
+                    aria-current="page"
+                >
+                    Administration Import
+                </li>
+                </ol>
+            </nav>
+        </div>
+        <div
+        class="upload py-3 mb-3 d-flex justify-content-center"
+        >
+        <form id="uploadForm" class="col-9 my-2" action="/administration/import" method="POST" enctype="multipart/form-data">
+            <div id="dropZone" class="upload-file py-3 mb-3 d-flex justify-content-center" style="border: dashed 1px #dc3545 !important">
+            <div class="mt-0 col-4 d-block me-2">
+                <img src="/images/import_file.svg" alt="Import Files" style="width: 160px">
+                <p class="mt-2 fs-6" style="color: #999">Drop files here to upload</p>
+            </div>
+            <div class="col-4 py-3">
+                <div class="d-block text-center align-items-center" style="width: 80%">
+                <input id="fileInput" type="file" name="csvFile" class="form-control mt-4 mb-2 w-100" accept=".csv" required>
+                <button type="submit" class="btn btn-outline-danger mt-4 mb-2 w-100">Upload</button>
+                </div>
+            </div>
+            </div>
+            <div>
+            <div class="col-6 m-3 row align-items-center">
+                <div class="col col-2">
+                <i class="bi bi-filetype-csv fs-1"></i>
+                </div>
+                <div class="col col-10 ps-0" style="font-size: small">
+                <a href="/administration/downloadSample/" title="Download Sample" class="text-danger m-0 pe-0 pt-4">Download Sample User in .CSV format</a>
+                <p class="me-0 pe-0">(File size must be less than 1MB.)</p>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+ <script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadForm = document.getElementById('uploadForm');
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+      }
+    });
+
+    uploadForm.addEventListener('submit', (e) => {
+      if (!fileInput.files.length) {
+        e.preventDefault();
+        alert('Please select a file or drop it here.');
+      }
+    });
+  </script>

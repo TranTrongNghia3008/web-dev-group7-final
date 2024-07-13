@@ -1,10 +1,9 @@
 'use strict';
 
 const controller = {};
-// const { where } = require('sequelize');
-// const models = require('../models');
-// const sequelize = require('sequelize');
-// const Op = sequelize.Op;
+const csv = require('csv-parser');
+const ObjectsToCsv = require('objects-to-csv');
+const detect = require('detect-csv');
 const userModel = require('../models/userModel');
 const projectModel = require('../models/projectModel');
 const participationModel = require('../models/participationModel');
@@ -261,6 +260,146 @@ controller.deleteUser = async (req, res) => {
 		console.error('Error deleting user and participations:', error);
 		res.status(500).json({ message: 'Internal Server Error' });
 	}
+};
+
+
+controller.showImport = async (req, res) => {
+    const account = req.user;
+    const user = await userModel.findOne({ AccountEmail: account.Email });
+
+    res.render('administration-import', { 
+        title: 'ShareBug - Administration Import',
+		header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                <link rel="stylesheet" href="/css/administration-view.css" />`,
+		d3: 'selected-menu-item',
+        user
+    });
+}
+
+controller.importUser = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        if (req.file.mimetype !== "text/csv") {
+            return res.status(400).send('Select CSV files only.');
+        }
+
+        const filePath = req.file.path;
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const delimiter = detect(fileContent).delimiter;
+
+		const rows = fileContent.split('\n');
+        const existingEmails = await userModel.find({ AccountEmail: { $in: rows.map(row => row.split(delimiter)[3]) } });
+		console.log(existingEmails)
+		if (existingEmails.length > 0) {
+			return res.status(400).json({ message: 'Email already exists.' });
+		}
+
+		let users = [];
+        let participations = [];
+        fs.createReadStream(filePath)
+            .pipe(csv({ separator: delimiter }))
+            .on('data', (row) => {
+                const newUser = new userModel({
+                    Name: row.Name,
+                    UserImg: row.UserImg || "default-user-image.png",
+                    IsAdmin: row.IsAdmin === 'true',
+                    AccountEmail: row.AccountEmail,
+                    Designation: row.Designation || '',
+                    Language: row.Language || 'English',
+                    Locale: row.Locale || '',
+                    Status: row.Status || 'Active',
+                    Timezone: row.Timezone || '',
+                });
+
+				const newParticipation = new participationModel({
+					Role: row.AccessType,
+					UserID: newUser._id,
+					ProjectID: row.ProjectId || '666011d01cc6e634de0ff711',
+				});
+
+				console.log(newUser)
+				console.log(newParticipation)
+                users.push(newUser);
+                participations.push(newParticipation);
+            })
+            .on('end', async () => {
+                try {
+                    const createdUsers = await userModel.insertMany(users);
+                    const createdParticipations = await participationModel.insertMany(participations);
+					console.log(createdUsers)
+					console.log(createdParticipations)
+                    res.redirect('/administration');
+                } catch (error) {
+                    console.error('Error importing users:', error);
+                    res.status(500).send('Internal server error');
+                }
+            });
+
+    } catch (error) {
+        console.error('Error in importUser:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.exportUser = async (req, res) => {
+    try {
+        const users = await userModel.find({});
+
+        const csvData = users.map(user => ({
+            Name: user.Name,
+            UserImg: user.UserImg,
+            IsAdmin: user.IsAdmin.toString(),
+            AccountEmail: user.AccountEmail,
+            Domain: user.Domain,
+            CreatedAt: user.CreatedAt.getTime().toString(),
+            UpdatedAt: user.UpdatedAt.getTime().toString(),
+            Designation: user.Designation,
+            Language: user.Language,
+            Locale: user.Locale,
+            Status: user.Status,
+            Timezone: user.Timezone
+        }));
+
+        const csv = new ObjectsToCsv(csvData);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileName = `userFileExport-${uniqueSuffix}`;
+        const filePath = path.join(__dirname, `../public/files/${fileName}.csv`);
+
+        await csv.toDisk(filePath);
+
+        res.download(filePath, 'users_export.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            } else {
+                fs.unlinkSync(filePath);
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting users:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.downloadSampleRequirement = async (req, res) => {
+    try {
+        // Đường dẫn và tên file CSV để lưu trữ
+        const filePath = path.join(__dirname, '../public/files/testImportUser.csv');
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'sample_users.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting requirements:', error);
+        res.status(500).send('Internal server error');
+    }
 };
 
 module.exports = controller;

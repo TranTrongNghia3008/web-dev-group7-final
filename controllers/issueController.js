@@ -4,6 +4,7 @@ const controller = {};
 const csv = require('csv-parser');
 const path = require('path');
 const fs = require('fs');
+const detect = require('detect-csv');
 const ObjectsToCsv = require('objects-to-csv');
 const issueModel = require('../models/issueModel');
 const testRunModel = require('../models/testRunModel');
@@ -566,10 +567,13 @@ controller.importIssue = async (req, res) => {
         // Đường dẫn đến file CSV đã tải lên
         const filePath = req.file.path;
 
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const delimiter = detect(fileContent).delimiter;
+
         // Đọc dữ liệu từ file CSV
         let issues = [];
         fs.createReadStream(filePath)
-            .pipe(csv())
+            .pipe(csv({ separator: delimiter }))
             .on('data', (row) => {
                 // Chuyển đổi startDay và endDay thành đối tượng Date nếu có giá trị
                 const startDate = row.StartDate ? new Date(row.StartDate) : null;

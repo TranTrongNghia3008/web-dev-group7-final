@@ -277,7 +277,6 @@ controller.importRequirement = async (req, res) => {
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const delimiter = detect(fileContent).delimiter;
-        console.log(delimiter)
 
         // Đọc dữ liệu từ file CSV
         let requirements = [];

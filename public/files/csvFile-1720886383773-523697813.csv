@@ -1,0 +1,2 @@
+Title;Category;Status;Priority;StartDate;EndDate;IssueType;Severity;Environment;Description;TestRunID;AssignedTo
+"Test Import Issue";"Bug";"Open";"High";"2024-07-05";"2024-07-18";"Functionality";"Critical";"QA";"Import Issue 1";"6660219ed70bea06e9ff6ad8";"666011d01cc6e634de0ff70b"
