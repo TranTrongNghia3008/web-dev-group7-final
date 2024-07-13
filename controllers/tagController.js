@@ -7,7 +7,10 @@ const { sanitizeInput } = require('./shared');
 
 controller.addTag = async (req, res) => {
     try {
-        const { Name, TestCaseID } = req.body;
+        const { Name: nameBody, TestCaseID } = req.body;
+
+        // Sanitize each input
+        const Name = sanitizeInput(nameBody);
 
         if (!Name || !TestCaseID) {
             return res.status(400).json({ message: 'Name and TestCaseID are required' });
@@ -29,9 +32,10 @@ controller.addTag = async (req, res) => {
 
 controller.editTag = async (req, res) => {
     try {
-        const { Name, TestCaseID } = req.body;
-        console.log(Name)
-        console.log(TestCaseID)
+        const { Name: nameBody, TestCaseID } = req.body;
+
+        // Sanitize each input
+        const Name = sanitizeInput(nameBody);
 
         if (!Name || !TestCaseID) {
             return res.status(400).json({ message: 'Name and TestCaseID are required' });

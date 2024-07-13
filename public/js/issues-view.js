@@ -198,4 +198,73 @@ toggleButtonFilter.addEventListener('click', function() {
     });
   }
 
-  console.log("issueview12345");
+  document.addEventListener('DOMContentLoaded', function() {
+    const bulkActionCart = document.querySelector('.issue-bulk-action-cart');
+    const checkboxes = document.querySelectorAll('.form-check-input');
+    const closeButtons = document.querySelectorAll('.btn-close-bulk-action');
+  
+    function updateBulkActionCart() {
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        if (anyChecked) {
+            bulkActionCart.style.display = 'block';
+        } else {
+            bulkActionCart.style.display = 'none';
+        }
+    }
+  
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkActionCart);
+    });
+  
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            bulkActionCart.style.display = 'none';
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+        });
+    });
+  
+    const bulkActionsForm = document.getElementById('issueBulkActionsForm');
+  
+    bulkActionsForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+  
+      const selectedCases = Array.from(document.querySelectorAll('.code-issue-item:checked'))
+          .map(checkbox => checkbox.getAttribute('data-issueId'));
+  
+      const status = this.elements['status'].value;
+      const priority = this.elements['priority'].value;
+      const issueType = this.elements['issueType'].value;
+      const assignTo = this.elements['assignTo'].value;
+      const projectId = this.elements['projectId'].value;
+      const severity = this.elements['severity'].value;
+  
+      const data = {
+            caseCodes: selectedCases,
+            status,
+            priority,
+            issueType,
+            assignTo,
+            severity
+      };
+  
+      try {
+          const response = await fetch(`/project/${projectId}/issue/bulkActions`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          });
+  
+          if (!response.ok) {
+              throw new Error('Failed to update bukl actions');
+          }
+  
+          location.reload()
+      } catch (error) {
+          console.error('Error updating bukl actions:', error);
+          alert('Failed to update bukl actions.');
+      }
+    });
+  });
+  

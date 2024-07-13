@@ -400,21 +400,36 @@ controller.addIssue = async (req, res) => {
     try {
         const projectId = req.params.projectId;
         const {
-            'issue-title': issueTitle,
-            category,
-            status,
-            priority,
-            'start-day': startDay,
-            'end-day': endDay,
-            'issue-type': issueType,
-            severity,
-            environment,
-            'issue-description': issueDescription,
-            'steps-to-reproduce': stepsToReproduce,
-            'assigned-to': assignToName,
-            'testRun': testrun
+            'issue-title': issueTitleBody,
+            category: categoryBody,
+            status: statusBody,
+            priority: priorityBody,
+            'start-day': startDayBody,
+            'end-day': endDayBody,
+            'issue-type': issueTypeBody,
+            severity: severityBody,
+            environment: environmentBody,
+            'issue-description': issueDescriptionBody,
+            'steps-to-reproduce': stepsToReproduceBody,
+            'assigned-to': assignToNameBody,
+            'testRun': testrunBody,
+            userId
         } = req.body;
 
+        // Sanitize inputs
+        const issueTitle = sanitizeInput(issueTitleBody);
+        const category = sanitizeInput(categoryBody);
+        const status = sanitizeInput(statusBody);
+        const priority = sanitizeInput(priorityBody);
+        const startDay = startDayBody;
+        const endDay = endDayBody;
+        const issueType = sanitizeInput(issueTypeBody);
+        const severity = sanitizeInput(severityBody);
+        const environment = sanitizeInput(environmentBody);
+        const issueDescription = sanitizeInput(issueDescriptionBody);
+        const stepsToReproduce = sanitizeInput(stepsToReproduceBody);
+        const assignToName = sanitizeInput(assignToNameBody);
+        const testrun = sanitizeInput(testrunBody);
         // Tìm kiếm thông tin của người được phân công và test run từ cơ sở dữ liệu
         const assignTo = assignToName ? await userModel.findOne({ Name: assignToName }) : null;
         const testRun = testrun ? await testRunModel.findOne({ Name: testrun }) : null;
@@ -439,7 +454,7 @@ controller.addIssue = async (req, res) => {
             Environment: environment || null,
             Description: issueDescription || null, // Gán giá trị null nếu không có dữ liệu
             StepsToReproduce: stepsToReproduce || null, // Gán giá trị null nếu không có dữ liệu
-            CreatedBy: "666011d01cc6e634de0ff70b",
+            CreatedBy: userId,
             AssignedTo: assignTo ? assignTo._id : null, // Gán giá trị null nếu không tìm thấy người được phân công
             TestRunID: testRun ? testRun._id : null // Gán giá trị null nếu không tìm thấy test run
         });
@@ -459,8 +474,38 @@ controller.addIssue = async (req, res) => {
 
 controller.editIssue = async (req, res) => {
     try {
-        const { 'issue-id': id, 'issue-title': title, 'issue-description': description, category, status, priority, 'issue-type': issueType, severity, environment, 'start-day': startDay, 'end-day': endDay, 'assigned-to': assignedToName, 'testRun': testRunName, 'steps-to-reproduce': stepsToReproduce, projectID } = req.body;
+        const {
+            'issue-id': id,
+            'issue-title': titleBody,
+            'issue-description': descriptionBody,
+            category: categoryBody,
+            status: statusBody,
+            priority: priorityBody,
+            'issue-type': issueTypeBody,
+            severity: severityBody,
+            environment: environmentBody,
+            'start-day': startDayBody,
+            'end-day': endDayBody,
+            'assigned-to': assignedToNameBody,
+            'testRun': testRunNameBody,
+            'steps-to-reproduce': stepsToReproduceBody,
+            projectID
+        } = req.body;
 
+        // Sanitize inputs
+        const title = sanitizeInput(titleBody);
+        const description = sanitizeInput(descriptionBody);
+        const category = sanitizeInput(categoryBody);
+        const status = sanitizeInput(statusBody);
+        const priority = sanitizeInput(priorityBody);
+        const issueType = sanitizeInput(issueTypeBody);
+        const severity = sanitizeInput(severityBody);
+        const environment = sanitizeInput(environmentBody);
+        const startDay = startDayBody;
+        const endDay = endDayBody;
+        const assignedToName = sanitizeInput(assignedToNameBody);
+        const testRunName = sanitizeInput(testRunNameBody);
+        const stepsToReproduce = sanitizeInput(stepsToReproduceBody);
         // Tìm kiếm user và test run từ cơ sở dữ liệu (nếu có)
         const assignTo = assignedToName ? await userModel.findOne({ Name: assignedToName }) : null;
         const testRun = testRunName ? await testRunModel.findOne({ Name: testRunName }) : null;
@@ -737,5 +782,53 @@ controller.downloadSampleIssue = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };
+
+controller.bulkActions = async (req, res) => {
+    try {
+        const {
+            caseCodes,
+            status: statusBody,
+            priority: priorityBody,
+            issueType: issueTypeBody,
+            assignTo: assignToBody,
+            severity: severityBody
+        } = req.body;
+
+        // Sanitize inputs
+        const status = sanitizeInput(statusBody);
+        const priority = sanitizeInput(priorityBody);
+        const issueType = sanitizeInput(issueTypeBody);
+        const assignTo = sanitizeInput(assignToBody);
+        const severity = sanitizeInput(severityBody);
+
+        // Find the user by name to get the user ID
+        const user = assignTo ? await userModel.findOne({ Name: assignTo }) : null;
+
+
+        const userId = user ? user._id : undefined;
+        console.log(userId);
+
+        // Create an object for updates
+        const updateData = {};
+
+        if (status) updateData.Status = status;
+        if (priority) updateData.Priority = priority;
+        if (issueType) updateData.IssueType = issueType;
+        if (userId) updateData.AssignedTo = userId;
+        if (severity) updateData.Severity = severity;
+
+        // Find and update the testRun entries
+        await issueModel.updateMany(
+            { _id: { $in: caseCodes } },
+            { $set: updateData }
+        );
+
+        res.status(200).send('Cases updated successfully');
+    } catch (error) {
+        console.error('Error updating bulk actions:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 
 module.exports = controller;

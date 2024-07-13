@@ -13,6 +13,24 @@ async function addRelease(e) {
     const formData = new FormData(document.getElementById("addReleaseForm"));
     let data = Object.fromEntries(formData.entries());
 
+    const startDate = data.startDate;
+    const endDate = data.endDate;
+    const errorMessageElement = document.getElementById("errorMessageEdit");
+
+    // Clear previous error messages
+    errorMessageElement.innerText = "";
+
+    // Check start date and end date
+    if ((startDate && !endDate) || (!startDate && endDate)) {
+        errorMessageElement.innerText = "Please enter both start and end dates.";
+        return;
+    }
+
+    if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
+        errorMessageElement.innerText = "Start date must be earlier than end date.";
+        return;
+    }
+
     try {
         let res = await fetch(`/project/${data.projectId}/release`, {
             method: "POST",

@@ -131,9 +131,9 @@ controller.editReport = async (req, res) => {
         const projectIdEdit = req.body.projectIdEdit;
         const reportIdEdit = req.body.reportIdEdit;
 
-        const reportTypeEdit = req.body.reportTypeEdit;
-        const resourceTypeEdit = req.body.resourceTypeEdit;
-        const titleEdit = req.body.titleEdit;
+        const reportTypeEdit = sanitizeInput(req.body.reportTypeEdit);
+        const resourceTypeEdit = sanitizeInput(req.body.resourceTypeEdit);
+        const titleEdit = sanitizeInput(req.body.titleEdit);
         const startDateEdit = req.body.startDateEdit ? req.body.startDateEdit : null;
         const endDateEdit = req.body.endDateEdit ? req.body.endDateEdit : null;
         const isScheduledEdit = req.body.isScheduledEdit == 'on' ? true : false;

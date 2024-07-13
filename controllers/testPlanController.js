@@ -82,7 +82,18 @@ controller.getTestPlanNameById = async (req, res) => {
 
 controller.addTestPlan = async (req, res) => {
     try {
-        const { name, startDate, endDate, description } = req.body;
+        const {
+            name: nameBody,
+            startDate: startDateBody,
+            endDate: endDateBody,
+            description: descriptionBody
+        } = req.body;
+
+        // Sanitize inputs
+        const name = sanitizeInput(nameBody);
+        const startDate = startDateBody;
+        const endDate = endDateBody;
+        const description = sanitizeInput(descriptionBody);
 
         const startDay = startDate ? new Date(startDate) : null;
         const endDay = endDate ? new Date(startDate) : null;
@@ -109,7 +120,19 @@ controller.addTestPlan = async (req, res) => {
 
 controller.editTestPlan = async (req, res) => {
     try {
-        const { nameEdit, startDateEdit, endDateEdit, descriptionEdit, idEdit } = req.body;
+        const {
+            nameEdit: nameBody,
+            startDateEdit: startDateBody,
+            endDateEdit: endDateBody,
+            descriptionEdit: descriptionBody,
+            idEdit
+        } = req.body;
+
+        // Sanitize inputs
+        const nameEdit = sanitizeInput(nameBody);
+        const startDateEdit = startDateBody;
+        const endDateEdit = endDateBody;
+        const descriptionEdit = sanitizeInput(descriptionBody);
 
         const startDay = startDateEdit ? new Date(startDateEdit) : null;
         const endDay = endDateEdit ? new Date(endDateEdit) : null;

@@ -39,6 +39,7 @@
                                 <i class="bi bi-plus"></i> Add Issue
                             </button>
                             <form action="" class="needs-validation" novalidate id="addIssueForm">
+                                <input type="hidden" name="userId" value="{{user._id}}">
                                 <div class="modal fade" id="addIssue" tabindex="-1"
                                     aria-labelledby="exampleModalFullscreenLabel" style="display: none"
                                     aria-hidden="true">
@@ -513,6 +514,7 @@
                             type="checkbox"
                             value=""
                             id="code-issue-item"
+                            data-issueId="{{this._id}}"
                         />
                         <label class="form-check-label" for="code-issue-item"
                             ><i
@@ -1313,10 +1315,85 @@
                     li.classList.add("page-item");
                 });
 
-                document.querySelectorAll(".pagination a").forEach(a => {
-                    a.classList.add("page-link");
-                });
-            </script>
-        </div>
+    document.querySelectorAll(".pagination a").forEach(a => {
+        a.classList.add("page-link");
+    });
+</script>
+</div>
 
-        <script src="/js/issue-CRUD.js"></script>
+<div class="container issue-bulk-action-cart shadow p-3 mb-5 bg-body rounded" style="display: none;">
+    <form class="needs-validation" novalidate id="issueBulkActionsForm">
+        <input type="hidden" name="projectId" value="{{project.ProjectID}}">
+        <div class="bulk-header d-flex justify-content-between border-bottom pb-2">
+            <h5 class="">Bulk Actions</h5>
+            <button
+            type="button"
+            class="btn-close btn-close-bulk-action"
+            aria-label="Close"
+            ></button>
+        </div>
+        <div class="bulk-body bg-body-secondary p-3 border-start">
+            <div class="mb-3">
+                <input class="form-control" list="datalistStatus1" id="fstatus"
+                    name="status" placeholder="Select Status"/>
+                <datalist id="datalistStatus1">
+                    {{#each project.projectStatus}}
+                    <option value="{{this}}"></option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" list="datalistPriority" id="fPriority"
+                    name="priority" placeholder="Select Priority" />
+                <datalist id="datalistPriority">
+                    {{#each project.Priorities}}
+                    <option value="{{this}}"></option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" list="datalistIssueType" id="fIssueType"
+                    name="issueType" placeholder="Select Issue Type"/>
+                <datalist id="datalistIssueType">
+                    {{#each project.BugTypes}}
+                    <option value="{{this}}"></option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+
+            <div class="mb-3">
+                <input class="form-control" list="datalistAssignTo" id="fAssignTo"
+                    name="assignTo" placeholder="Select an Assgined To"/>
+                <datalist id="datalistAssignTo">
+                    {{#each project.Users}}
+                    <option value="{{this.Name}}"></option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" list="datalistSeverity"
+                    id="fSeverity" name="severity"
+                    placeholder="Select a Severity" />
+                <datalist id="datalistSeverity">
+                    {{#each project.Severities}}
+                    <option value="{{this}}"></option>
+                    {{/each}}
+                </datalist>
+            </div>
+        </div>
+        <div class="bulk-footer d-flex justify-content-center border-top p-3">
+            <button type="button" class="btn btn-outline-danger mx-2 btn-close-bulk-action">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-danger mx-2">
+                Save
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="/js/issue-CRUD.js"></script>

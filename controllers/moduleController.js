@@ -108,8 +108,12 @@ controller.getModuleNameById = async (req, res) => {
 
 controller.addModule = async (req, res) => {
     try {
-        const { moduleName, parentModule } = req.body;
+        const { moduleName: moduleNameBody, parentModule: parentModuleBody } = req.body;
         const projectId = req.params.projectId;
+
+        // Sanitize inputs
+        const moduleName = sanitizeInput(moduleNameBody);
+        const parentModule = sanitizeInput(parentModuleBody);
 
         // Tìm module con có giá trị Order lớn nhất của parent
         const maxOrderModule = await moduleModel.findOne({ ProjectID: projectId, ParentID: parentModule ? parentModule : null })
@@ -168,7 +172,10 @@ controller.deleteModule = async (req, res) => {
 controller.editModule = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
+        const { name: nameBody } = req.body;
+
+        // Sanitize input
+        const name = sanitizeInput(nameBody);
 
         const updatedModule = await moduleModel.findByIdAndUpdate(id, {
             Name: name,

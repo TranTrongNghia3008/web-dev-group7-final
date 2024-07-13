@@ -18,4 +18,6 @@ router.delete('/:id', controller.deleteIssue);
 
 router.post('/import', uploadCSV, controller.importIssue);
 
+router.put('/bulkActions', controller.bulkActions);
+
 module.exports = router;

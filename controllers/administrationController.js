@@ -118,18 +118,35 @@ controller.showAddUser = async (req, res) => {
 controller.addUser = async (req, res) => {
 	try {
 		const {
-			'first-name': firstName,
-			'last-name': lastName,
-			email,
-			language,
-			status,
-			'user-designation': userDesignation,
-			isAdmin,
-			projectId,
-			'access-type': accessType,
-			locale,
-			timezone
-		} = req.body;
+            'first-name': firstNameBody,
+            'last-name': lastNameBody,
+            email: emailBody,
+            language: languageBody,
+            status: statusBody,
+            'user-designation': userDesignationBody,
+            isAdmin: isAdminBody,
+            projectId: projectIdBody,
+            'access-type': accessTypeBody,
+            locale: localeBody,
+            timezone: timezoneBody
+        } = req.body;
+
+        // Sanitize each input
+        const firstName = sanitizeInput(firstNameBody);
+        const lastName = sanitizeInput(lastNameBody);
+        const email = sanitizeInput(emailBody);
+        const language = sanitizeInput(languageBody);
+        const status = sanitizeInput(statusBody);
+        const userDesignation = sanitizeInput(userDesignationBody);
+        const isAdmin = isAdminBody;
+        const projectId = sanitizeInput(projectIdBody);
+        const accessType = sanitizeInput(accessTypeBody);
+        const locale = sanitizeInput(localeBody);
+        const timezone = sanitizeInput(timezoneBody);
+		// Kiểm tra độ dài tên
+		if (`${firstName} ${lastName}`.length > 50) {
+			return res.status(400).json({ message: 'User name must not exceed 50 characters.' });
+		}
 		// Kiểm tra xem email đã tồn tại chưa
 		const existingUser = await userModel.findOne({ AccountEmail: email });
 		if (existingUser) {
@@ -176,17 +193,28 @@ controller.editUser = async (req, res) => {
 	try {
 		const userId = req.body['user-id'];
 		const {
-			'first-name': firstName,
-			'last-name': lastName,
-			email,
-			language,
-			status,
-			'user-designation': userDesignation,
-			isAdmin,
-			locale,
-			timezone,
-			'user-img': oldImage
-		} = req.body;
+            'first-name': firstNameBody,
+            'last-name': lastNameBody,
+            email: emailBody,
+            language: languageBody,
+            status: statusBody,
+            'user-designation': userDesignationBody,
+            isAdmin: isAdminBody,
+            locale: localeBody,
+            timezone: timezoneBody,
+            'user-img': oldImage
+        } = req.body;
+
+        // Sanitize each input
+        const firstName = sanitizeInput(firstNameBody);
+        const lastName = sanitizeInput(lastNameBody);
+        const email = sanitizeInput(emailBody);
+        const language = sanitizeInput(languageBody);
+        const status = sanitizeInput(statusBody);
+        const userDesignation = sanitizeInput(userDesignationBody);
+        const isAdmin = isAdminBody;
+        const locale = sanitizeInput(localeBody);
+        const timezone = sanitizeInput(timezoneBody);
 
 		const image = req.file ? req.file.filename : 'default-user-image.png';
 

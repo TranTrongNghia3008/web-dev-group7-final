@@ -390,7 +390,24 @@ controller.showImportCategory = async (req, res) => {
 
 controller.addTestCaseStep = async (req, res) => {
     try {
-        const { nameModule, nameTestCase, nameTestPlan, descriptionTestCase, typeTestCase, priorityTestCase, preconditionTestCase } = req.body;
+        const {
+            nameModule: nameModuleBody,
+            nameTestCase: nameTestCaseBody,
+            nameTestPlan: nameTestPlanBody,
+            descriptionTestCase: descriptionTestCaseBody,
+            typeTestCase: typeTestCaseBody,
+            priorityTestCase: priorityTestCaseBody,
+            preconditionTestCase: preconditionTestCaseBody
+        } = req.body;
+
+        // Sanitize inputs
+        const nameModule = sanitizeInput(nameModuleBody);
+        const nameTestCase = sanitizeInput(nameTestCaseBody);
+        const nameTestPlan = sanitizeInput(nameTestPlanBody);
+        const descriptionTestCase = sanitizeInput(descriptionTestCaseBody);
+        const typeTestCase = sanitizeInput(typeTestCaseBody);
+        const priorityTestCase = sanitizeInput(priorityTestCaseBody);
+        const preconditionTestCase = sanitizeInput(preconditionTestCaseBody);
 
         const testPlan = await testPlanModel.findOne({ Name: nameTestPlan });
         if (!testPlan) {
@@ -424,7 +441,25 @@ controller.addTestCaseStep = async (req, res) => {
 
 controller.editTestCase = async (req, res) => {
     try {
-        const { idEdit, nameModuleEdit, nameTestCaseEdit, nameTestPlanEdit, descriptionTestCaseEdit, typeTestCaseEdit, priorityTestCaseEdit, preconditionTestCaseEdit } = req.body;
+        const {
+            idEdit,
+            nameModuleEdit: nameModuleEditBody,
+            nameTestCaseEdit: nameTestCaseEditBody,
+            nameTestPlanEdit: nameTestPlanEditBody,
+            descriptionTestCaseEdit: descriptionTestCaseEditBody,
+            typeTestCaseEdit: typeTestCaseEditBody,
+            priorityTestCaseEdit: priorityTestCaseEditBody,
+            preconditionTestCaseEdit: preconditionTestCaseEditBody
+        } = req.body;
+
+        // Sanitize inputs
+        const nameModuleEdit = sanitizeInput(nameModuleEditBody);
+        const nameTestCaseEdit = sanitizeInput(nameTestCaseEditBody);
+        const nameTestPlanEdit = sanitizeInput(nameTestPlanEditBody);
+        const descriptionTestCaseEdit = sanitizeInput(descriptionTestCaseEditBody);
+        const typeTestCaseEdit = sanitizeInput(typeTestCaseEditBody);
+        const priorityTestCaseEdit = sanitizeInput(priorityTestCaseEditBody);
+        const preconditionTestCaseEdit = sanitizeInput(preconditionTestCaseEditBody);
 
         const testPlan = await testPlanModel.findOne({ Name: nameTestPlanEdit });
         if (!testPlan) {

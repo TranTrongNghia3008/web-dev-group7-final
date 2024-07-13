@@ -76,6 +76,7 @@
                                         />
                                     </div>
                                 </div>
+                                <div id="errorMessageEdit" class="text-danger"></div>
                                 
                             </div>
                             <div class="mb-2">
@@ -448,7 +449,7 @@
                         <div class="col-sm-9">
                           <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
                             <div class="container release-card-name">
-                              <h4>{{this.Name}}</h4>
+                              <h4>{{truncateId  this.Name 20}}</h4>
                             </div>
                           </a>
 
@@ -530,7 +531,7 @@
                         <div class="col-sm-9">
                           <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
                             <div class="container release-card-name">
-                              <h4>{{this.Name}}</h4>
+                              <h4>{{truncateId  this.Name 20}}</h4>
                             </div>
                           </a>
 
@@ -615,7 +616,7 @@
                         <div class="col-sm-9">
                           <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
                             <div class="container release-card-name">
-                              <h4>{{this.Name}}</h4>
+                              <h4>{{truncateId  this.Name 20}}</h4>
                             </div>
                           </a>
 
@@ -718,7 +719,7 @@
                                 <div class="panel">
                                     <div class="panel-body">
                                         <div class="header-container">
-                                            <strong class="milestone_title fw-5">{{project.ReleaseDetail.Name}}</strong>
+                                            <strong class="milestone_title fw-5">{{truncateId project.ReleaseDetail.Name 20}}</strong>
                                         </div>
                                         <div class="example-box-wrapper d-flex">
                                             <div class="col-6" id="status-chart-container">
@@ -788,7 +789,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{project.ReleaseDetail.Name}}</td>
+                                                        <td>{{truncateId project.ReleaseDetail.Name 20}}</td>
                                                         <td class="milestone_startdate">{{formatDate2 project.ReleaseDetail.StartDate}}</td>
                                                         <td class="milestone_enddate">{{formatDate2 project.ReleaseDetail.EndDate}}</td>
                                                     </tr>

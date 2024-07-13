@@ -10,3 +10,12 @@ a {
     color: black;
 }
 
+.issue-bulk-action-cart {
+    flex: 1 1 auto; 
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    width: 30vw;
+    height: 100vh;
+}

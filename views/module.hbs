@@ -47,11 +47,11 @@
 
     <div class="container bg-white rounded h-100 p-3 mb-2">
         <div class="row" id="modules-container">
-            <div class="col-3">
+            <div class="col-3 mb-3">
                 <div class="card" style="min-height: 100vh">
                     <div class="card-header d-flex justify-content-between">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="modules" onchange="toggleCheckAll(this)" />
+                            <input class="form-check-input" type="checkbox" value="" id="modules" data-id="" onchange="toggleCheckAll(this)" style="display: none;"/>
                             <label class="form-check-label" for="modules">
                                 Modules (<span class="num-modules">{{numModules}}</span>)
                             </label>
@@ -70,8 +70,8 @@
                             {{#each project.Modules}}
                             <a href="#" class="list-group-item list-group-item-action rounded border my-2 py-3 module-link" data-id="{{_id}}" data-name="{{Name}}" data-projectID="{{../project.ProjectID}}">
                                 <div class="form-check">
-                                    <input class="form-check-input module-item module-checkbox" type="checkbox" value="" id="module-item-{{@index}}">
-                                    <label class="form-check-label" for="module-item-{{@index}}">{{Name}}</label>
+                                    <input class="form-check-input module-item module-checkbox-" type="checkbox" value="" id="module-item-{{@index}}" style="display: none;">
+                                    <label class="form-check-label" for="module-item-{{@index}}" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">{{Name}}</label>
                                 </div>
                             </a>
 
@@ -95,7 +95,8 @@
                         const moduleName = moduleLink.getAttribute('data-name');
                         const projectId = moduleLink.getAttribute('data-projectid'); // Sử dụng 'data-projectid' thay vì 'data-projectID'
 
-                        try {
+                        if (modulesContainer.querySelector(`.exists-${moduleId}`) == null) {
+                            try {
                             console.log(projectId)
                             const response = await fetch(`/project/${projectId}/module/children/${moduleId}`);
                             const childModules = await response.json();
@@ -105,8 +106,8 @@
                                 <div class="sortable-module-list" data-id="${module._id}">
                                     <a href="#" class="list-group-item list-group-item-action rounded border my-2 py-3 module-link" data-id="${module._id}" data-name="${module.Name}" data-projectID="${projectId}">
                                         <div class="form-check">
-                                            <input class="form-check-input module-item module-checkbox" type="checkbox" value="" id="module-item-${index}">
-                                            <label class="form-check-label" for="module-item-${index}">${module.Name}</label>
+                                            <input class="form-check-input module-item module-checkbox-${moduleId}" type="checkbox" value="" id="module-item-${index}" style="display: none;">
+                                            <label class="form-check-label" for="module-item-${index}" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">${module.Name}</label>
                                         </div>
                                     </a>
                                 </div>
@@ -114,13 +115,16 @@
 
                             const newCol = document.createElement('div');
                             newCol.classList.add('col-3');
+                            newCol.classList.add('mb-3');
+                            newCol.classList.add(`exists-${moduleId}`);
+                            newCol.setAttribute('data-id', `${moduleId}`);
 
                             newCol.innerHTML = `
                                 <div class="card" style="min-height: 100vh">
                                     <div class="card-header d-flex justify-content-between">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="modules" onchange="toggleCheckAll(this)" />
-                                            <label class="form-check-label" for="modules">
+                                            <input class="form-check-input" type="checkbox" value="" id="modules" data-id="${moduleId}"" onchange="toggleCheckAll(this)" style="display: none;"/>
+                                            <label class="form-check-label" for="modules" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">
                                                 ${moduleName} (<span class="num-modules">${childModules.length}</span>)
                                             </label>
                                             <a
@@ -190,6 +194,9 @@
                             console.error('Error fetching child modules:', error);
                             alert('Failed to fetch child modules.');
                         }
+                        }
+
+                        
                     }
                 });
             });
