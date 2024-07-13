@@ -67,7 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (res.status == 200) {
-            location.reload();
+            // location.reload();
+          document.querySelectorAll(`a[data-id="${id}"]`).forEach(element => {
+            element.style.display = 'none';
+          });
+          document.querySelectorAll(`div[data-id="${id}"]`).forEach(element => {
+            element.style.display = 'none';
+          });
         } else {
             let resText = await res.text();
             throw new Error(resText);

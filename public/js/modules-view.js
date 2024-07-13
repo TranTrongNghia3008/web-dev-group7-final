@@ -40,7 +40,6 @@ function createModuleCard(moduleName) {
     document.getElementById('modules-container').appendChild(cardContainer);
 }
 
-console.log("dfdfgh");
 
 // Tạo danh sách module
 // document.addEventListener('DOMContentLoaded', function(even) {
@@ -101,7 +100,10 @@ console.log("dfdfgh");
 
 {
     function toggleCheckAll(source) {
-        var checkboxes = document.querySelectorAll('.module-checkbox');
+        var id = source.getAttribute('data-id');
+        console.log(id)
+  
+        var checkboxes = document.querySelectorAll(`.module-checkbox-${id}`);
         checkboxes.forEach(function(checkbox) {
             if (checkbox !== source) {
                 checkbox.checked = source.checked;

@@ -130,6 +130,10 @@ controller.addUser = async (req, res) => {
 			locale,
 			timezone
 		} = req.body;
+		// Kiểm tra độ dài tên
+		if (`${firstName} ${lastName}`.length > 50) {
+			return res.status(400).json({ message: 'User name must not exceed 50 characters.' });
+		}
 		// Kiểm tra xem email đã tồn tại chưa
 		const existingUser = await userModel.findOne({ AccountEmail: email });
 		if (existingUser) {
