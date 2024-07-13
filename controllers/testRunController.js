@@ -352,7 +352,23 @@ controller.showResult = async (req, res) => {
 
 controller.addTestRun = async (req, res) => {
     try {
-        const { name, version, browser, assignToName, testcase, description, createdBy } = req.body;
+        const {
+            name: nameBody,
+            version: versionBody,
+            browser: browserBody,
+            assignToName: assignToNameBody,
+            testcase: testcaseBody,
+            description: descriptionBody,
+            createdBy
+        } = req.body;
+
+        // Sanitize inputs
+        const name = sanitizeInput(nameBody);
+        const version = sanitizeInput(versionBody);
+        const browser = sanitizeInput(browserBody);
+        const assignToName = sanitizeInput(assignToNameBody);
+        const testcase = sanitizeInput(testcaseBody);
+        const description = sanitizeInput(descriptionBody);
         
         // Tìm kiếm user và testcase từ cơ sở dữ liệu
         const assignTo = await userModel.findOne({ Name: assignToName });
@@ -393,9 +409,25 @@ controller.addTestRun = async (req, res) => {
 controller.editTestRun = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, version, browser, assignToName, testcase, description, status, createdBy } = req.body;
+        const {
+            name: nameBody,
+            version: versionBody,
+            browser: browserBody,
+            assignToName: assignToNameBody,
+            testcase: testcaseBody,
+            description: descriptionBody,
+            status: statusBody,
+            createdBy
+        } = req.body;
 
-        console.log(id, name, version, browser, assignToName, testcase, description, status, createdBy)
+        // Sanitize inputs
+        const name = sanitizeInput(nameBody);
+        const version = sanitizeInput(versionBody);
+        const browser = sanitizeInput(browserBody);
+        const assignToName = sanitizeInput(assignToNameBody);
+        const testcase = sanitizeInput(testcaseBody);
+        const description = sanitizeInput(descriptionBody);
+        const status = sanitizeInput(statusBody);
         // Tìm kiếm user và testcase từ cơ sở dữ liệu
         const assignTo = await userModel.findOne({ Name: assignToName });
         const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
@@ -446,8 +478,9 @@ controller.deleteTestRun = async (req, res) => {
 controller.changeStatus = async (req, res) => {
     try {
         const { testCaseId } = req.params;
-        const { status } = req.body;
-        console.log(testCaseId, status)
+        const { status: statusBody } = req.body;
+
+        const status = sanitizeInput(statusBody);
 
         const testRun = await testRunModel.findOne({ TestCaseID: testCaseId });
         // console.log(testRun)
@@ -505,7 +538,9 @@ controller.updateAssignTo = async (req, res) => {
 
 controller.bulkActions = async (req, res) => {
     try {
-        const { caseCodes, status, assignTo } = req.body;
+        const { caseCodes, status: statusBody, assignTo } = req.body;
+
+        const status = sanitizeInput(statusBody);
 
         // Find the user by name to get the user ID
         const user = await userModel.findOne({ Name: assignTo });

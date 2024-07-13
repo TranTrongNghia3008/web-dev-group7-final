@@ -17,8 +17,10 @@ controller.show = async (req, res) => {
 };
 
 controller.register = async (req, res) => {
-	const { 'first-name': firstName, 'last-name': lastName, email, password, domain } = req.body;
+	const { 'first-name': firstNameBody, 'last-name': lastNameBody, email, password, domain } = req.body;
 	try {
+		const firstName = sanitizeInput(firstNameBody);
+        const lastName = sanitizeInput(lastNameBody);
 		let account = await accountModel.findOne({ Email: email });
 		if (account) {
 		req.flash('error_msg', 'Email already exists');

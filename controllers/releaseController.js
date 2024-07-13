@@ -273,7 +273,11 @@ controller.getReleaseNameById = async (req, res) => {
 controller.addRelease = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        const { name, startDate, endDate, description } = req.body;
+        const { name: nameBody, startDate, endDate, description: descriptionBody } = req.body;
+
+        // Sanitize input
+        const name = sanitizeInput(nameBody);
+        const description = sanitizeInput(descriptionBody);
 
         const startDay = startDate ? new Date(startDate) : null;
         const endDay = endDate ? new Date(endDate) : null;
@@ -300,7 +304,19 @@ controller.addRelease = async (req, res) => {
 
 controller.editRelease = async (req, res) => {
     try {
-        const { nameEdit, startDateEdit, endDateEdit, descriptionEdit, idEdit } = req.body;
+        const {
+            nameEdit: nameEditBody,
+            startDateEdit: startDateEditBody,
+            endDateEdit: endDateEditBody,
+            descriptionEdit: descriptionEditBody,
+            idEdit
+        } = req.body;
+
+        // Sanitize inputs
+        const nameEdit = sanitizeInput(nameEditBody);
+        const startDateEdit = startDateEditBody;
+        const endDateEdit = endDateEditBody;
+        const descriptionEdit = sanitizeInput(descriptionEditBody);
 
         const startDay = startDateEdit ? new Date(startDateEdit) : null;
         const endDay = endDateEdit ? new Date(endDateEdit) : null;

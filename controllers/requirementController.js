@@ -176,7 +176,12 @@ controller.showImport = async (req, res) => {
 controller.addRequirement = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        const { releaseName, type, description } = req.body;
+        const { releaseName: releaseNameBody, type: typeBody, description: descriptionBody } = req.body;
+
+        // Sanitize each input
+        const releaseName = sanitizeInput(releaseNameBody);
+        const type = sanitizeInput(typeBody);
+        const description = sanitizeInput(descriptionBody);
 
         const release = await releaseModel.findOne({ Name: releaseName });
 
@@ -196,7 +201,12 @@ controller.addRequirement = async (req, res) => {
 
 controller.editRequirement = async (req, res) => {
     try {
-        const { releaseNameEdit, typeEdit, descriptionEdit, idEdit } = req.body;
+        const { releaseNameEdit: releaseNameEditBody, typeEdit: typeEditBody, descriptionEdit: descriptionEditBody, idEdit } = req.body;
+
+        // Sanitize each input
+        const releaseNameEdit = sanitizeInput(releaseNameEditBody);
+        const typeEdit = sanitizeInput(typeEditBody);
+        const descriptionEdit = sanitizeInput(descriptionEditBody);
 
         const release = await releaseModel.findOne({ Name: releaseNameEdit });
 
