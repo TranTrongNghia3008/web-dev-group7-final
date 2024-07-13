@@ -54,9 +54,12 @@ controller.show = async (req, res) => {
 
         // Lọc danh sách Users theo assignToKeyword
         const filteredUsers = users.filter(user => user.Name.toLowerCase().includes(assignToKeyword.toLowerCase()));
-
+        
         // Lấy ra các _id của Users thỏa mãn điều kiện
-        const filteredUserIds = filteredUsers.map(user => user._id);
+        let filteredUserIds = filteredUsers.map(user => user._id);
+        if (assignToKeyword.toLowerCase() == "") {
+            filteredUserIds = userIds
+        }
 
         const releases = await releaseModel.find({ ProjectID: project._id });
         const releaseIds = releases.map(release => release._id);
@@ -85,7 +88,6 @@ controller.show = async (req, res) => {
         if (requirementTypeKeyword) {
             requirementTypes = requirementTypes.filter(type => type.toLowerCase().includes(requirementTypeKeyword.toLowerCase()));
         }
-
         // Join requirement with users
         requirements = requirements.map(requirement => {
             const user = users.find(user => user._id.equals(requirement.AssignTo));
@@ -107,7 +109,7 @@ controller.show = async (req, res) => {
         const pageMax = Math.ceil(requirements.length / limit);
         let skip = (page - 1) * limit;
 
-        if (page > pageMax) {
+        if (page > pageMax && pageMax > 0) {
             // Thêm thông báo rằng số trang không tồn tại
             req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
             
@@ -115,6 +117,7 @@ controller.show = async (req, res) => {
             const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
             return res.redirect(`?${newQueryString}`);
         }
+
 
         // Prepare the data to be sent to the view
         const projectData = {
@@ -129,7 +132,6 @@ controller.show = async (req, res) => {
             sortField,
             sortOrder
         };
-        //console.log(page, " ", skip, " ", skip + limit);
 
         const account = req.user;
         const user = await userModel.findOne({ AccountEmail: account.Email });
@@ -200,7 +202,7 @@ controller.addRequirement = async (req, res) => {
             Type: type,
             Description: description || null,
             ReleaseID: release._id || "66601b671ef4a55f282208d3",
-            AssignTo: "666011d01cc6e634de0ff70d",
+            AssignTo: "66812754b0c25034addd8cce",
         });
 
 

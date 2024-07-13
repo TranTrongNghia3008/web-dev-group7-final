@@ -41,6 +41,8 @@ document.getElementById('imageInput').addEventListener('change', function (event
     
         const result = await response.json();
         console.log('Success:', result);
+        alert('Success! Data has been added.');
+        
         // Optionally, redirect or show a success message
         window.location.href = '/administration';
       } catch (error) {

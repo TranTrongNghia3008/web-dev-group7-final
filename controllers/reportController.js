@@ -9,25 +9,34 @@ const { sanitizeInput } = require('./shared');
 controller.show = async (req, res) => {
     try {
         let options = {};
-        // Pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        let skip = (page - 1) * limit;
-    
-    
-        options.limit = limit;
-        options.skip = skip;  
-        
         
         const projectId = req.params.projectId;
         let reportKeyword = sanitizeInput(req.query.reportKeyword) || '';
-
-        // Tìm tất cả các báo cáo thuộc project đó
-        const reports = await reportModel.find({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }}, null, options);
         
         // Tìm tất cả các báo cáo thuộc project đó
         // const reports = await reportModel.find({ ProjectID: projectId }, null, options);
-        const reportsCount = await reportModel.countDocuments({ ProjectID: projectId });
+        const reportsCount = await reportModel.countDocuments({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }});
+
+        //pagination
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let limit = 5;
+        const pageMax = Math.ceil(reportsCount / limit);
+        let skip = (page - 1) * limit;
+
+        if (page > pageMax && pageMax > 0) {
+            // Thêm thông báo rằng số trang không tồn tại
+            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
+            
+            const newQuery = {...req.query, page: pageMax};
+            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
+            return res.redirect(`?${newQueryString}`);
+        }
+        options.limit = limit;
+        options.skip = skip;  
+
+        // Tìm tất cả các báo cáo thuộc project đó
+        const reports = await reportModel.find({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }}, null, options);
+    
         res.locals.pagination =
         {
             page: page,
