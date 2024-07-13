@@ -1,4 +1,2 @@
-Column1;Column2;Column3;Column4
 Type;Description;ReleaseID;AssignTo
 Test Requirement;Import Requirement 1;66601b671ef4a55f282208d3;666011d01cc6e634de0ff70d
-Test Requirement 2;Import Requirement 2;66601b671ef4a55f282208d3;666011d01cc6e634de0ff70d

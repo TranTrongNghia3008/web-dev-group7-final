@@ -5,6 +5,7 @@ const csv = require('csv-parser');
 const path = require('path');
 const fs = require('fs');
 const ObjectsToCsv = require('objects-to-csv');
+const detect = require('detect-csv');
 const projectModel = require('../models/projectModel');
 const releaseModel = require('../models/releaseModel');
 const requirementModel = require('../models/requirementModel');
@@ -54,7 +55,6 @@ controller.show = async (req, res) => {
 
         // Lọc danh sách Users theo assignToKeyword
         const filteredUsers = users.filter(user => user.Name.toLowerCase().includes(assignToKeyword.toLowerCase()));
-        
         // Lấy ra các _id của Users thỏa mãn điều kiện
         let filteredUserIds = filteredUsers.map(user => user._id);
         if (assignToKeyword.toLowerCase() == "") {
@@ -275,10 +275,14 @@ controller.importRequirement = async (req, res) => {
         // Đường dẫn đến file CSV đã tải lên
         const filePath = req.file.path;
 
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const delimiter = detect(fileContent).delimiter;
+        console.log(delimiter)
+
         // Đọc dữ liệu từ file CSV
         let requirements = [];
         fs.createReadStream(filePath)
-            .pipe(csv())
+            .pipe(csv({ separator: delimiter }))
             .on('data', (row) => {
                 // Tạo đối tượng Requirement từ dữ liệu trong file CSV
                 const newRequirement = new requirementModel({

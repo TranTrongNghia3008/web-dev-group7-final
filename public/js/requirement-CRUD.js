@@ -101,33 +101,26 @@ async function deleteRequirement(id, pid) {
     }
 }
 
-document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
-    deleteBtn.addEventListener("click",(e) => {
-        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+function deleteClick(btn){
+    let id = btn.dataset.id;
+    let pid = btn.dataset.projectId;
 
-        let id = e.currentTarget.dataset.id;
-        let pid = e.currentTarget.dataset.projectId;
+    const options = {
+        title: "Are you sure?",
+        type: "danger",
+        btnOkText: "Yes",
+        btnCancelText: "No",
+        onConfirm: () => {
+            console.log(id);
+            deleteRequirement(id, pid);
+        },
+        onCancel: () => {
+            console.log("Deletion canceled.");
+        },
+    };
 
-        const options = {
-            title: "Are you sure?",
-            type: "danger",
-            btnOkText: "Yes",
-            btnCancelText: "No",
-            onConfirm: () => {
-                console.log(id);
-                deleteRequirement(id, pid);
-            },
-            onCancel: () => {
-                console.log("Deletion canceled.");
-            },
-        };
-
-        const { el, content, options: confirmedOptions } = bs5dialog.confirm(
-            "Do you really want to delete this requirement?",
-            options
-        );
-    });
-});
-
-
-  
+    const { el, content, options: confirmedOptions } = bs5dialog.confirm(
+        "Do you really want to delete this requirement?",
+        options
+    );
+}
