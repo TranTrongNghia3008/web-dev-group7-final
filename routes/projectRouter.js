@@ -7,6 +7,9 @@ const router = express.Router();
 router.get('/list', controller.showList);
 router.get('/list/:page', controller.showList);
 router.get('/:projectId', controller.showHome);
+router.post('/', controller.addProject);
+router.put('/:projectId', controller.editProject);
+router.delete('/:projectId', controller.deleteProject);
 
 router.post('/list/assignUser', controller.assignUser);
 router.delete('/removeAssignUser/:id', controller.removeAssignUser);

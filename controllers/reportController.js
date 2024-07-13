@@ -91,18 +91,13 @@ controller.addReport = async (req, res) => {
         const title = req.body.title;
         const startDate = req.body.startDate ? req.body.startDate : null;
         const endDate = req.body.endDate ? req.body.endDate : null;
-        const startTime = req.body.startTime ? req.body.startTime : null;
-        const endTime = req.body.endTime ? req.body.endTime : null;
 
         const isScheduled = req.body.isScheduled == 'on' ? true : false;
 
         const type = (reportType ? reportType : '');
-        console.log(startDate);
 
-        const start = startDate ? new Date(startDate + 'T' + (startTime ? startTime : "00:00")) : null;
-        const end = endDate ?  new Date(endDate + 'T' + (endTime ? endTime : "00:00")) : null;
-
-
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
 
         const newReport = await reportModel.create({
             Type: type,
@@ -116,12 +111,14 @@ controller.addReport = async (req, res) => {
         res.redirect(`/project/${projectId}/report`);
 
     } catch (error) {
-        res.status(500).json({ message: 'Error creating Report', error });
+            res.status(500).json({ message: 'Error creating Report', error });
     }
 };
 
 controller.editReport = async (req, res) => {
     try{
+        console.log("Data");
+        console.log(req.body);
         const projectIdEdit = req.body.projectIdEdit;
         const reportIdEdit = req.body.reportIdEdit;
 
@@ -130,17 +127,20 @@ controller.editReport = async (req, res) => {
         const titleEdit = req.body.titleEdit;
         const startDateEdit = req.body.startDateEdit ? req.body.startDateEdit : null;
         const endDateEdit = req.body.endDateEdit ? req.body.endDateEdit : null;
-        const startTimeEdit = req.body.startTimeEdit ? req.body.startTimeEdit : null;
-        const endTimeEdit = req.body.endTimeEdit ? req.body.endTimeEdit : null;
         const isScheduledEdit = req.body.isScheduledEdit == 'on' ? true : false;
 
         const currentReport = await reportModel.findById(reportIdEdit);
+
+        // Validate dstartDateEdit < endDateEdit if both are not null
+        start = startDateEdit ? new Date(startDateEdit) : null;
+        end = endDateEdit ? new Date(endDateEdit) : null;
         
+
         const updatedReport = await reportModel.findByIdAndUpdate(reportIdEdit, {
             Type: reportTypeEdit,
             Title: titleEdit,
-            StartDate: startDateEdit ? new Date(startDateEdit + 'T' + (startTimeEdit ? startTimeEdit : "00:00")) : null,
-            EndDate: endDateEdit ? new Date(endDateEdit + 'T' + (endTimeEdit ? endTimeEdit : "00:00")) : null,
+            StartDate: start,
+            EndDate: end,
             IsScheduled: isScheduledEdit,
             ProjectID: projectIdEdit,
         });

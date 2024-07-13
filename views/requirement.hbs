@@ -1,837 +1,709 @@
 <div class="content px-3">
-    {{>navigation}}
+  {{>navigation}}
 
-        <div class="container mx-auto bg-white py-3 h-100 w-100 mb-2">
-          <nav
-            class="navbar navbar-expand-lg bg-body-tertiary"
-            style="border-radius: 0.25rem"
-          >
-            <div class="container-fluid d-flex justify-content-between">
-              <div class="left-side">
-                <h6 class="mb-0" id="requirement-h">
-                  Requirements
-                  <span class="ml-2 count-box">{{project.requirementTotal}}</span>
-                </h6>
-              </div>
-              <div class="right-side">
-                <a href="#" class="guide mx-2 text-dark">
-                  <div
-                    class="text-center d-flex flex-column align-items-center"
-                  >
-                    <img
-                      src="/images/guide.png"
-                      alt=""
-                      style="width: 2rem"
-                    />
-                    <span>Guide</span>
-                  </div>
-                </a>
-                <a
-                  href="/project/{{project.ProjectID}}/requirement/import/"
-                  title="Import"
-                  class="mr-3 d-flex align-items-center text-dark"
-                >
-                  <i class="bi bi-cloud-upload"></i>
-                  <div class="ps-1">Import</div>
-                </a>
-                <a
-                  href="#"
-                  title="Archived Requirement Type"
-                  class="mr-3 d-flex align-items-center text-dark"
-                >
-                  <i class="bi bi-archive"></i>
-                  <div class="ps-1">Archived</div>
-                </a>
-                <button
-                  type="button"
-                  class="btn btn-danger btn-graph px-3 my-auto"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addRequirement"
-                  style="width: 12rem"
-                >
-                  Add Requirement
-                </button>
+  <div class="container mx-auto bg-white py-3 h-100 w-100 mb-2">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="border-radius: 0.25rem">
+      <div class="container-fluid d-flex justify-content-between">
+        <div class="left-side">
+          <h6 class="mb-0" id="requirement-h">
+            Requirements
+            <span class="ml-2 count-box">{{project.requirementTotal}}</span>
+          </h6>
+        </div>
+        <div class="right-side">
+          <a href="#" class="guide mx-2 text-dark">
+            <div class="text-center d-flex flex-column align-items-center">
+              <img src="/images/guide.png" alt="" style="width: 2rem" />
+              <span>Guide</span>
+            </div>
+          </a>
+          <a href="/project/{{project.ProjectID}}/requirement/import/" title="Import"
+            class="mr-3 d-flex align-items-center text-dark">
+            <i class="bi bi-cloud-upload"></i>
+            <div class="ps-1">Import</div>
+          </a>
+          <a href="#" title="Archived Requirement Type" class="mr-3 d-flex align-items-center text-dark">
+            <i class="bi bi-archive"></i>
+            <div class="ps-1">Archived</div>
+          </a>
+          <button type="button" class="btn btn-danger btn-graph px-3 my-auto" data-bs-toggle="modal"
+            data-bs-target="#addRequirement" style="width: 12rem">
+            Add Requirement
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="d-flex mt-3 justify-content-between w-100">
+      <div class="col-3 h-100 modules-card border border-0">
+        <div class="card border-0" style="min-height: 400px">
+          <div class="card-header d-flex justify-content-between">
+            <h6 class="my-auto">Requirement Type</h6>
+            <div>
+              <button type="button" class="btn btn-outline-secondary border-0 py-0 px-1">
+                <i class="fs-5 bi bi-plus"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary border-0 py-0 px-1" id="toggleButtonModules">
+                <i class="bi bi-arrow-right" id="toggleIconModules"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body" style="background-color: #f8f9fa">
+            <form action="" class="search-requirementType" id="requirementTypeForm">
+              <input class="form-control mb-2" type="text" name="requirementTypeKeyword"
+                placeholder="Type To Filter Requirement Type" aria-label="default input example"
+                id="requirementTypeKeyword" />
+            </form>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('.search-requirementType');
+                form.addEventListener('submit', function (event) {
+                  const keyword = document.querySelector('input[name="requirementTypeKeyword"]').value.trim();
+
+                  if (keyword === '') {
+                    event.preventDefault(); // Ngăn chặn việc gửi form nếu không có keyword
+                    alert('Please enter a keyword to filter requirement type.'); // Thông báo cho người dùng nhập keyword
+                  } else {
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.set('requirementTypeKeyword', keyword);
+                    window.location.href = currentUrl.toString();
+                  }
+                });
+              });
+
+            </script>
+
+
+            {{!--
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('.search-requirementType');
+                form.addEventListener('submit', function (event) {
+                  event.preventDefault();
+                  const keyword = document.querySelector('input[name="requirementTypeKeyword"]').value;
+                  const currentUrl = new URL(window.location.href);
+                  currentUrl.searchParams.set('requirementTypeKeyword', keyword);
+                  window.location.href = currentUrl.toString();
+                });
+              });
+            </script> --}}
+
+            <a href="/project/{{project.ProjectID}}/requirement">
+              <button type="button" class="btn btn-danger all-test-case w-100">
+                <i class="bi bi-folder2 me-2"></i> All Requirement Type
+              </button>
+            </a>
+
+            {{#each project.RequirementTypes}}
+            <div class="d-flex py-2">
+              <input class="form-check-input ms-4 me-2 checkbox-RequirementTypes-item" type="checkbox"
+                value="{{ this }}" id="checkbox-RequirementTypes-item-{{@index}}" />
+              <div class="d-flex">
+                <i class="bi bi-folder text-primary me-2"></i>
+                <div>{{ this }}</div>
               </div>
             </div>
-          </nav>
-          <div class="d-flex mt-3 justify-content-between w-100">
-            <div class="col-3 h-100 modules-card border border-0">
-              <div class="card border-0" style="min-height: 400px">
-                <div class="card-header d-flex justify-content-between">
-                  <h6 class="my-auto">Requirement Type</h6>
-                  <div>
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary border-0 py-0 px-1"
-                    >
-                      <i class="fs-5 bi bi-plus"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary border-0 py-0 px-1"
-                      id="toggleButtonModules"
-                    >
-                      <i class="bi bi-arrow-right" id="toggleIconModules"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body" style="background-color: #f8f9fa">
-                  <form action="" class="search-requirementType" id="requirementTypeForm">
-                    <input
-                      class="form-control mb-2"
-                      type="text"
-                      name="requirementTypeKeyword"
-                      placeholder="Type To Filter Requirement Type"
-                      aria-label="default input example"
-                      id="requirementTypeKeyword"
-                    />
-                  </form>
+            {{/each}}
 
-                  <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                      const form = document.querySelector('.search-requirementType');
-                      form.addEventListener('submit', function(event) {
-                          const keyword = document.querySelector('input[name="requirementTypeKeyword"]').value.trim();
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const checkboxes = document.querySelectorAll('.checkbox-RequirementTypes-item');
 
-                          if (keyword === '') {
-                              event.preventDefault(); // Ngăn chặn việc gửi form nếu không có keyword
-                              alert('Please enter a keyword to filter requirement type.'); // Thông báo cho người dùng nhập keyword
-                          } else {
-                              const currentUrl = new URL(window.location.href);
-                              currentUrl.searchParams.set('requirementTypeKeyword', keyword);
-                              window.location.href = currentUrl.toString();
-                          }
-                      });
+                // Kiểm tra URL hiện tại để lấy RequirementTypes
+                const currentUrl = new URL(window.location.href);
+                const selectedTypes = currentUrl.searchParams.get('RequirementTypes');
+                const selectedTypesArray = selectedTypes ? selectedTypes.split(',') : [];
+
+                // Tick sẵn các checkbox tương ứng
+                checkboxes.forEach(checkbox => {
+                  if (selectedTypesArray.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                  }
+                });
+
+                // Thêm sự kiện thay đổi cho các checkbox
+                checkboxes.forEach(checkbox => {
+                  checkbox.addEventListener('change', function () {
+                    const selectedTypes = [];
+                    checkboxes.forEach(cb => {
+                      if (cb.checked) {
+                        selectedTypes.push(cb.value);
+                      }
+                    });
+
+                    if (selectedTypes.length > 0) {
+                      currentUrl.searchParams.set('RequirementTypes', selectedTypes.join(','));
+                    } else {
+                      currentUrl.searchParams.delete('RequirementTypes');
+                    }
+
+                    window.location.href = currentUrl.toString();
+                  });
+                });
+              });
+            </script>
+
+
+
+
+          </div>
+          {{!--
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const checkboxes = document.querySelectorAll('.form-check-input');
+              checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                  const selectedTypes = [];
+                  checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                      selectedTypes.push(cb.value);
+                    }
                   });
 
-                  </script>
+                  const currentUrl = new URL(window.location.href);
+                  if (selectedTypes.length > 0) {
+                    currentUrl.searchParams.set('RequirementTypes', selectedTypes.join(','));
+                  } else {
+                    currentUrl.searchParams.delete('RequirementTypes');
+                  }
 
-
-                  {{!-- <script>
-                          document.addEventListener('DOMContentLoaded', function() {
-                              const form = document.querySelector('.search-requirementType');
-                              form.addEventListener('submit', function(event) {
-                                  event.preventDefault(); 
-                                  const keyword = document.querySelector('input[name="requirementTypeKeyword"]').value;
-                                  const currentUrl = new URL(window.location.href);
-                                  currentUrl.searchParams.set('requirementTypeKeyword', keyword);
-                                  window.location.href = currentUrl.toString();
-                              });
-                          });
-                      </script> --}}
-                  
-                  <a href="/project/{{project.ProjectID}}/requirement">
-                    <button type="button" class="btn btn-danger all-test-case w-100">
-                      <i class="bi bi-folder2 me-2"></i> All Requirement Type
-                    </button> 
-                  </a> 
-
-                  {{#each project.RequirementTypes}}
-                    <div class="d-flex py-2">
-                        <input
-                            class="form-check-input ms-4 me-2 checkbox-RequirementTypes-item"
-                            type="checkbox"
-                            value="{{ this }}"
-                            id="checkbox-RequirementTypes-item-{{@index}}"
-                        />
-                        <div class="d-flex">
-                            <i class="bi bi-folder text-primary me-2"></i>
-                            <div>{{ this }}</div>
-                        </div>
-                    </div>
-                {{/each}}
-
-                <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const checkboxes = document.querySelectorAll('.checkbox-RequirementTypes-item');
-
-                    // Kiểm tra URL hiện tại để lấy RequirementTypes
-                    const currentUrl = new URL(window.location.href);
-                    const selectedTypes = currentUrl.searchParams.get('RequirementTypes');
-                    const selectedTypesArray = selectedTypes ? selectedTypes.split(',') : [];
-
-                    // Tick sẵn các checkbox tương ứng
-                    checkboxes.forEach(checkbox => {
-                        if (selectedTypesArray.includes(checkbox.value)) {
-                            checkbox.checked = true;
-                        }
-                    });
-
-                    // Thêm sự kiện thay đổi cho các checkbox
-                    checkboxes.forEach(checkbox => {
-                        checkbox.addEventListener('change', function() {
-                            const selectedTypes = [];
-                            checkboxes.forEach(cb => {
-                                if (cb.checked) {
-                                    selectedTypes.push(cb.value);
-                                }
-                            });
-
-                            if (selectedTypes.length > 0) {
-                                currentUrl.searchParams.set('RequirementTypes', selectedTypes.join(','));
-                            } else {
-                                currentUrl.searchParams.delete('RequirementTypes');
-                            }
-
-                            window.location.href = currentUrl.toString();
-                        });
-                    });
+                  window.location.href = currentUrl.toString();
                 });
-                </script>
-
-
-
-      
-                </div>
-                {{!-- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const checkboxes = document.querySelectorAll('.form-check-input');
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const selectedTypes = [];
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    selectedTypes.push(cb.value);
-                }
+              });
             });
+          </script> --}}
+        </div>
+      </div>
+      <div class="col-1 d-flex my-auto" style="margin-left: -1rem; z-index: 1000; width: 20px">
+        <a href="#" id="toggleButtonModulesRequirement">
+          <div class="rounded bg-success d-flex text-white" style="width: 30px; height: 40px">
+            <i class="bi bi-chevron-compact-left m-auto" id="toggleIconModulesRequirement"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-9 test-cases-card ps-3 border border-0">
+        <div class="card bg-body-tertiary h-100 border border-0">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-3 d-flex align-items-center">
+                <div>Total</div>
+                <div class="bg-danger-subtle px-2 mx-2 rounded">
+                  <span class="text-danger">{{project.requirementCount}}</span>
+                </div>
+                <a href="#" class="ms-3"><i class="bi bi-pencil"></i>
+                </a>
+              </div>
+              <div class="row col-9 ms-auto my-auto align-items-center">
+                <div class="col-4">
+                  <input list="brow-module" placeholder="Select an Assigned To" class="form-select border-0 bg-light"
+                    id="assignedToInput" onchange="handleChange(this.value)" />
+                  <datalist id="brow-module">
+                    {{#each project.Users}}
+                    <option value="{{Name}}"></option>
+                    {{/each}}
+                  </datalist>
+                  <script>
+                    function handleChange(selectedValue) {
+                      // Lấy đường dẫn hiện tại
+                      const currentUrl = new URL(window.location.href);
 
-            const currentUrl = new URL(window.location.href);
-            if (selectedTypes.length > 0) {
-                currentUrl.searchParams.set('RequirementTypes', selectedTypes.join(','));
-            } else {
-                currentUrl.searchParams.delete('RequirementTypes');
-            }
+                      // Thêm giá trị đã chọn vào đường dẫn hiện tại
+                      currentUrl.searchParams.set('assignedTo', selectedValue);
 
-            window.location.href = currentUrl.toString();
-        });
-    });
-});
-</script> --}}
+                      // Chuyển hướng đến đường dẫn mới
+                      window.location.href = currentUrl.toString();
+                    }
+                  </script>
+                </div>
+                <div class="col-3">
+                  <form action="" class="search-requirement">
+                    <input class="form-control" type="text" name="requirementKeyword"
+                      placeholder="Search By Description" aria-label="default input example" />
+                  </form>
+                  <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                      const form = document.querySelector('.search-requirement');
+                      form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        const keyword = document.querySelector('input[name="requirementKeyword"]').value;
+                        const currentUrl = new URL(window.location.href);
+                        currentUrl.searchParams.set('requirementKeyword', keyword);
+                        window.location.href = currentUrl.toString();
+                      });
+                    });
+                  </script>
+                </div>
+                <div class="col-5 d-flex justify-content-between fs-6">
+                  <a href="#" title="Add" class="my-auto fs-4 text-dark"><i class="bi bi-plus"></i></a>
+                  <a href="#" title="Archived Requirement Type"
+                    class="my-auto d-flex justify-content-between text-dark align-items-center">
+                    <i class="bi bi-archive"></i>
+                    <p class="mb-0 ps-2">Archived</p>
+                  </a>
+                  <a href="/project/{{project.ProjectID}}/requirement/export/" title="Export"
+                    class="my-auto d-flex justify-content-between text-dark align-items-center">
+                    <i class="bi bi-cloud-download"></i>
+                    <p class="mb-0 ps-2">Export</p>
+                  </a>
+                  <a href="#" title="Remove" class="my-auto text-dark pe-2"><i class="bi bi-trash"></i></a>
+                </div>
               </div>
             </div>
-            <div
-              class="col-1 d-flex my-auto"
-              style="margin-left: -1rem; z-index: 1000; width: 20px"
-            >
-              <a href="#" id="toggleButtonModulesRequirement">
-                <div
-                  class="rounded bg-success d-flex text-white"
-                  style="width: 30px; height: 40px"
-                >
-                  <i
-                    class="bi bi-chevron-compact-left m-auto"
-                    id="toggleIconModulesRequirement"
-                  ></i>
-                </div>
-              </a>
-            </div>
-            <div class="col-9 test-cases-card ps-3 border border-0">
-              <div class="card bg-body-tertiary h-100 border border-0">
-                <div class="card-header">
-                  <div class="row">
-                    <div class="col-3 d-flex align-items-center">
-                      <div>Total</div>
-                      <div class="bg-danger-subtle px-2 mx-2 rounded">
-                        <span class="text-danger">{{project.requirementCount}}</span>
-                      </div>
-                      <a 
-                        href="#" 
-                        class="ms-3"
-                        ><i class="bi bi-pencil"></i>
-                      </a>
-                    </div>
-                    <div class="row col-9 ms-auto my-auto align-items-center">
-                      <div class="col-4">
-                        <input
-                          list="brow-module"
-                          placeholder="Select an Assigned To"
-                          class="form-select border-0 bg-light"
-                          id="assignedToInput"
-                          onchange="handleChange(this.value)"
-                        />
-                        <datalist id="brow-module">
-                          {{#each project.Users}}
-                          <option value="{{Name}}"></option>
-                          {{/each}}
-                        </datalist>
-                        <script>
-                          function handleChange(selectedValue) {
-                          // Lấy đường dẫn hiện tại
-                          const currentUrl = new URL(window.location.href);
-
-                          // Thêm giá trị đã chọn vào đường dẫn hiện tại
-                          currentUrl.searchParams.set('assignedTo', selectedValue);
-
-                          // Chuyển hướng đến đường dẫn mới
-                          window.location.href = currentUrl.toString();
-                      }
-                      </script>
-                      </div>
-                      <div class="col-3">
-                        <form action="" class="search-requirement">
-                          <input
-                            class="form-control"
-                            type="text"
-                            name="requirementKeyword"
-                            placeholder="Search By Description"
-                            aria-label="default input example"
-                          />
-                        </form>
-                        <script>
-                          document.addEventListener('DOMContentLoaded', function() {
-                              const form = document.querySelector('.search-requirement');
-                              form.addEventListener('submit', function(event) {
-                                  event.preventDefault(); 
-                                  const keyword = document.querySelector('input[name="requirementKeyword"]').value;
-                                  const currentUrl = new URL(window.location.href);
-                                  currentUrl.searchParams.set('requirementKeyword', keyword);
-                                  window.location.href = currentUrl.toString();
-                              });
-                          });
-                      </script>
-                      </div>
-                      <div class="col-5 d-flex justify-content-between fs-6">
-                        <a href="#" title="Add" class="my-auto fs-4 text-dark"
-                          ><i class="bi bi-plus"></i
-                        ></a>
-                        <a
-                          href="#"
-                          title="Archived Requirement Type"
-                          class="my-auto d-flex justify-content-between text-dark align-items-center"
-                        >
-                          <i class="bi bi-archive"></i>
-                          <p class="mb-0 ps-2">Archived</p>
-                        </a>
-                        <a
-                          href="/project/{{project.ProjectID}}/requirement/export/"
-                          title="Export"
-                          class="my-auto d-flex justify-content-between text-dark align-items-center"
-                        >
-                          <i class="bi bi-cloud-download"></i>
-                          <p class="mb-0 ps-2">Export</p>
-                        </a>
-                        <a
-                          href="#"
-                          title="Remove"
-                          class="my-auto text-dark pe-2"
-                          ><i class="bi bi-trash"></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="above d-flex justify-content-between">
-                    {{!-- <div class="w-25 d-flex">
-                      <span class="my-auto">Show</span>
-                      <select
-                        class="form-select mx-2 my-auto"
-                        style="
+          </div>
+          <div class="card-body">
+            <div class="above d-flex justify-content-between">
+              {{!-- <div class="w-25 d-flex">
+                <span class="my-auto">Show</span>
+                <select class="form-select mx-2 my-auto" style="
                           background-color: #f5f5f5;
                           height: 2.5rem;
                           width: 6rem;
-                        "
-                        aria-label="Default select example"
-                      >
-                        <option selected>10</option>
-                        <option value="1">20</option>
-                        <option value="2">30</option>
-                        <option value="3">50</option>
-                        <option value="3">100</option>
-                      </select>
-                      <span class="my-auto" style="font-size: medium"
-                        >entries</span
-                      >
-                    </div> --}}
-                    <div class="d-flex col-md-12 justify-content-between">
-                      <div class="mx-2 d-flex">
-                          <span class="my-auto">Sort</span>
-                          <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
-                              <select
-                                  name="sortField"
-                                  class="form-select border-0 rounded-0 rounded-start"
-                                  aria-label="Default select example"
-                                  style="width: 10rem"
-                              >
-                                  <option value="created-date" {{#if (eq project.sortField 'created-date')}}selected{{/if}}>Created date</option>
-                                  <option value="title" {{#if (eq project.sortField 'title')}}selected{{/if}}>Description</option>
-                                  <option value="case-code" {{#if (eq project.sortField 'case-code')}}selected{{/if}}>Code</option>
-                              </select>
-                              <select
-                                  name="sortOrder"
-                                  class="form-select border-0 rounded-0 ms-1 rounded-end"
-                                  aria-label="Default select example"
-                                  style="width: 7rem"
-                              >
-                                  <option value="desc" {{#if (eq project.sortOrder 'desc')}}selected{{/if}}>Desc</option>
-                                  <option value="asc" {{#if (eq project.sortOrder 'asc')}}selected{{/if}}>Asc</option>
-                              </select>
-                          </form>
-                      </div>
+                        " aria-label="Default select example">
+                  <option selected>10</option>
+                  <option value="1">20</option>
+                  <option value="2">30</option>
+                  <option value="3">50</option>
+                  <option value="3">100</option>
+                </select>
+                <span class="my-auto" style="font-size: medium">entries</span>
+              </div> --}}
+              <div class="d-flex col-md-12 justify-content-between">
+                <div class="mx-2 d-flex">
+                  <span class="my-auto">Sort</span>
+                  <form action="" method="GET" class="mx-2 d-flex bg-white rounded" id="form-sort">
+                    <select name="sortField" class="form-select border-0 rounded-0 rounded-start"
+                      aria-label="Default select example" style="width: 10rem">
+                      <option value="created-date" {{#if (eq project.sortField 'created-date' )}}selected{{/if}}>Created
+                        date</option>
+                      <option value="title" {{#if (eq project.sortField 'title' )}}selected{{/if}}>Description</option>
+                      <option value="case-code" {{#if (eq project.sortField 'case-code' )}}selected{{/if}}>Code</option>
+                    </select>
+                    <select name="sortOrder" class="form-select border-0 rounded-0 ms-1 rounded-end"
+                      aria-label="Default select example" style="width: 7rem">
+                      <option value="desc" {{#if (eq project.sortOrder 'desc' )}}selected{{/if}}>Desc</option>
+                      <option value="asc" {{#if (eq project.sortOrder 'asc' )}}selected{{/if}}>Asc</option>
+                    </select>
+                  </form>
+                </div>
 
 
-                      <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const sortForm = document.getElementById('form-sort');
-                            const sortFields = sortForm.querySelectorAll('select');
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const sortForm = document.getElementById('form-sort');
+                    const sortFields = sortForm.querySelectorAll('select');
 
-                            sortFields.forEach(select => {
-                                select.addEventListener('change', function() {
-                                    // Lấy URL hiện tại
-                                    const currentUrl = new URL(window.location.href);
-                                    
-                                    // Lấy các tham số hiện tại từ URL
-                                    const params = new URLSearchParams(currentUrl.search);
+                    sortFields.forEach(select => {
+                      select.addEventListener('change', function () {
+                        // Lấy URL hiện tại
+                        const currentUrl = new URL(window.location.href);
 
-                                    // Cập nhật các tham số sắp xếp
-                                    sortFields.forEach(field => {
-                                        params.set(field.name, field.value);
-                                    });
+                        // Lấy các tham số hiện tại từ URL
+                        const params = new URLSearchParams(currentUrl.search);
 
-                                    // Tạo URL mới với các tham số đã cập nhật
-                                    const newUrl = `${currentUrl.pathname}?${params.toString()}`;
-
-                                    // Chuyển hướng đến URL mới
-                                    window.location.href = newUrl;
-                                });
-                            });
+                        // Cập nhật các tham số sắp xếp
+                        sortFields.forEach(field => {
+                          params.set(field.name, field.value);
                         });
-                      </script>
 
-                      {{!-- old --}}
-                      <div class="d-flex my-auto justify-content-end">
-                        {{!-- <button
-                          class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-                          style="width: 2rem; height: 2rem"
-                        >
-                          <i class="bi bi-chevron-compact-left m-auto"></i>
-                        </button>
-                        <button
-                          class="rounded-circle bg-danger d-flex mx-1 border-0"
-                          style="width: 2rem; height: 2rem"
-                        >
-                          <span class="m-auto">1</span>
-                        </button>
-                        <button
-                          class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
-                          style="width: 2rem; height: 2rem"
-                        >
-                          <i class="bi bi-chevron-compact-right m-auto"></i>
-                        </button> --}}
-                      </div>
+                        // Tạo URL mới với các tham số đã cập nhật
+                        const newUrl = `${currentUrl.pathname}?${params.toString()}`;
 
-                      <div class="d-flex align-middle">
-                        {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
-                      </div>
-                    </div>
-                  </div>
+                        // Chuyển hướng đến URL mới
+                        window.location.href = newUrl;
+                      });
+                    });
+                  });
+                </script>
 
-                  <div class="below">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <td scope="col" class="bg-body-tertiary">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value=""
-                                id="case-code"
-                                onchange="toggleCheckAllRequirement(this)"
-                              />
-                              <label class="form-check-label" for="case-code"
-                                >Requirement Code</label
-                              >
-                            </div>
-                          </td>
-                          <td scope="col" class="bg-body-tertiary">Description</td>
-                          <td scope="col" class="bg-body-tertiary text-center">
-                            Actions
-                          </td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {{#each project.Requirements}}
-                        <tr>
-                            <td scope="col" class="bg-body-tertiary align-middle">
-                                <div class="form-check">
-                                    <input
-                                        class="form-check-input code-requirement-item"
-                                        type="checkbox"
-                                        value=""
-                                        id="code-requirement-item"
-                                    />
-                                    <label class="form-check-label" for="code-requirement-item">{{truncateId this._id 0}}</label>
-                                </div>
-                            </td>
-                            <td scope="col" class="bg-body-tertiary align-middle">
-                                <a href="#">{{this.Description}}</a>
-                            </td>
-                            <td scope="col" class="bg-body-tertiary align-middle">
-                                <div class="d-flex justify-content-end text-dark">
-                                    <a href="#" class="mx-2 my-auto text-dark" title="View"><i class="bi bi-eye"></i></a>
-                                    <a 
-                                      href="#" 
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#editRequirement"
-                                      onclick="showEditRequirementModal(this)" 
-                                      data-project-id="{{../project.ProjectID}}" 
-                                      data-id="{{this._id}}" 
-                                      data-release-id="{{this.ReleaseID}}" 
-                                      data-type="{{this.Type}}" 
-                                      data-description="{{this.Description}}" 
-                                      class="mx-2 my-auto text-primary" 
-                                      title="Edit">
-                                      <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="#" class="mx-2 my-auto text-dark" title="Clone"><i class="bi bi-copy"></i></a>
-                                    <a href="#" class="mx-2 my-auto text-dark fs-5" title="Link Testcase"><i class="bi bi-link-45deg"></i></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Timesheet" class="mx-2 my-auto text-dark"><i class="bi bi-clock"></i></a>
-                                    <a 
-                                      href="#" 
-                                      data-bs-toggle="tooltip" 
-                                      data-projectId="{{../project.ProjectID}}"
-                                      data-id="{{this._id}}"
-                                      title="Delete" 
-                                      class="mx-2 my-auto text-danger delete-btn">
-                                        <i class="bi bi-trash"></i>
-                                      </a>
-                                </div>
-                            </td>
-                        </tr>
-                        {{/each}}
-                      </tbody>
-                    </table>
-                  </div>
+                {{!-- old --}}
+                <div class="d-flex my-auto justify-content-end">
+                  {{!-- <button class="rounded-circle bg-dark-subtle d-flex mx-1 border-0"
+                    style="width: 2rem; height: 2rem">
+                    <i class="bi bi-chevron-compact-left m-auto"></i>
+                  </button>
+                  <button class="rounded-circle bg-danger d-flex mx-1 border-0" style="width: 2rem; height: 2rem">
+                    <span class="m-auto">1</span>
+                  </button>
+                  <button class="rounded-circle bg-dark-subtle d-flex mx-1 border-0" style="width: 2rem; height: 2rem">
+                    <i class="bi bi-chevron-compact-right m-auto"></i>
+                  </button> --}}
+                </div>
+
+                <div class="d-flex align-middle">
+                  {{{createPagination pagination paginationClass="pagination my-0" paginationStyle="justify-content-end"
+                  leftText="Prev" rightText="Next" }}}
                 </div>
               </div>
+            </div>
+
+            <div class="below">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td scope="col" class="bg-body-tertiary">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="case-code"
+                          onchange="toggleCheckAllRequirement(this)" />
+                        <label class="form-check-label" for="case-code">Requirement Code</label>
+                      </div>
+                    </td>
+                    <td scope="col" class="bg-body-tertiary">Description</td>
+                    <td scope="col" class="bg-body-tertiary text-center">
+                      Actions
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each project.Requirements}}
+                  <tr>
+                    <td scope="col" class="bg-body-tertiary align-middle">
+                      <div class="form-check">
+                        <input class="form-check-input code-requirement-item" type="checkbox" value=""
+                          id="code-requirement-item" />
+                        <label class="form-check-label" for="code-requirement-item">{{truncateId this._id 0}}</label>
+                      </div>
+                    </td>
+                    <td scope="col" class="bg-body-tertiary align-middle">
+                      <a href="#">{{this.Description}}</a>
+                    </td>
+                    <td scope="col" class="bg-body-tertiary align-middle">
+                      <div class="d-flex justify-content-end text-dark">
+                        <a href="#" class="mx-2 my-auto text-dark" data-bs-toggle="modal"
+                          data-bs-target="#viewRequirement" onclick="loadRequirementDetails(this)"
+                          data-project-id="{{../project.ProjectID}}" data-id="{{truncateId this._id 0}}"
+                          data-release-id="{{truncateId this.ReleaseID 0}}" data-type="{{this.Type}}"
+                          data-description="{{this.Description}}" data-created-at="{{formatDate2 this.CreatedAt}}"
+                          data-updated-at="{{formatDate2 this.UpdatedAt}}" data-assignee-name="{{this.AssigneeName}}"
+                          data-assignee-email="{{this.AssigneeEmail}}" title="View">
+                          <i class="bi bi-eye"></i>
+                        </a>
+
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#editRequirement"
+                          onclick="showEditRequirementModal(this)" data-project-id="{{../project.ProjectID}}"
+                          data-id="{{this._id}}" data-release-id="{{this.ReleaseID}}" data-type="{{this.Type}}"
+                          data-description="{{this.Description}}" class="mx-2 my-auto text-primary" title="Edit">
+                          <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="#" class="mx-2 my-auto text-dark" title="Clone"><i class="bi bi-copy"></i></a>
+                        <a href="#" class="mx-2 my-auto text-dark fs-5" title="Link Testcase"><i
+                            class="bi bi-link-45deg"></i></a>
+                        <a href="#" data-bs-toggle="tooltip" title="Timesheet" class="mx-2 my-auto text-dark"><i
+                            class="bi bi-clock"></i></a>
+                        <a href="#" data-bs-toggle="tooltip" data-projectId="{{../project.ProjectID}}"
+                          data-id="{{this._id}}" title="Delete" class="mx-2 my-auto text-danger delete-btn">
+                          <i class="bi bi-trash"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        {{!-- modal add --}}
-        <form action="/project/{{project.ProjectID}}/requirement/" id="addRequirementForm" method="post" class="needs-validation" novalidate>
-          <div
-            class="modal fade"
-            id="addRequirement"
-            tabindex="-1"
-            aria-labelledby="addRequirementLabel"
-            aria-hidden="true"
-          >
-            <div
-              class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-            >
-              <div
-                class="modal-content border border-1 rounded-2"
-                style="color: #919faf"
-              >
-                <div class="modal-header">
-                  <div
-                    class="modal-title fs-5 fw-semibold text-dark w-100 text-center"
-                    id="addRequirementLabel"
-                  >
-                    Add Requirement
-                  </div>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+  {{!-- modal add --}}
+  <form action="/project/{{project.ProjectID}}/requirement/" id="addRequirementForm" method="post"
+    class="needs-validation" novalidate>
+    <div class="modal fade" id="addRequirement" tabindex="-1" aria-labelledby="addRequirementLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border border-1 rounded-2" style="color: #919faf">
+          <div class="modal-header">
+            <div class="modal-title fs-5 fw-semibold text-dark w-100 text-center" id="addRequirementLabel">
+              Add Requirement
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-4">
+              <label for="releaseName" class="form-label d-flex justify-content-between">
+                <div>Select Release</div>
+              </label>
+              <input id="releaseName" name="releaseName" list="releaseList" placeholder="Select a Release"
+                class="form-select border-0 bg-light" />
+              <datalist id="releaseList">
+                {{#each project.Releases}}
+                <option value="{{this.Name}}"></option>
+                {{/each}}
+              </datalist>
+            </div>
+            <div class="mb-4">
+              <label for="type" class="form-label d-flex justify-content-between">
+                <div>
+                  Select Requirement Type
+                  <span style="color: #f44336">*</span>
                 </div>
-                <div class="modal-body">
-                  <div class="mb-4">
-                    <label
-                      for="releaseName"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div>Select Release</div>
-                    </label>
-                    <input
-                      id="releaseName"
-                      name="releaseName"
-                      list="releaseList"
-                      placeholder="Select a Release"
-                      class="form-select border-0 bg-light"
-                    />
-                    <datalist id="releaseList">
-                      {{#each project.Releases}}
-                        <option value="{{this.Name}}"></option>
-                      {{/each}}
-                    </datalist>
-                  </div>
-                  <div class="mb-4">
-                    <label
-                      for="type"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div>
-                        Select Requirement Type
-                        <span style="color: #f44336">*</span>
-                      </div>
-                    </label>
-                    <input
-                      id="type"
-                      name="type"
-                      type="text"
-                      list="typeList"
-                      placeholder="Please Enter Requirement Type"
-                      class="form-select border-0 bg-light"
-                      style="color: #757575"
-                      required
-                    />
-                    <datalist id="typeList">
-                      {{#each project.RequirementTypes}}
-                        <option value="{{this}}"></option>
-                      {{/each}}
-                    </datalist>
-                  </div>
-                  <div class="mb-2">
-                    <label
-                      for="description"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div for="description" class="form-label">
-                        Requirement Description
-                      </div>
-                    </label>
-                    <div class="rounded-top border d-flex p-2 bg-light">
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-type-bold"></i>
-                      </button>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-type-italic"></i>
-                      </button>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-link"></i>
-                      </button>
-                      <select
-                        class="form-select border-0 bg-light"
-                        aria-label="Default select example"
-                        style="width: 8rem"
-                      >
-                        <option selected>Normal</option>
-                        <option value="1">Small</option>
-                        <option value="2">Normal</option>
-                        <option value="3">Large</option>
-                      </select>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-list-ol"></i>
-                      </button>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-list-ul"></i>
-                      </button>
-                    </div>
-                    <textarea
-                      class="form-control rounded-top-0 bg-light"
-                      id="description"
-                      rows="4"
-                      name="description"
-                      placeholder="Please Enter Requirement Description"
-                    ></textarea>
-                  </div>
+              </label>
+              <input id="type" name="type" type="text" list="typeList" placeholder="Please Enter Requirement Type"
+                class="form-select border-0 bg-light" style="color: #757575" required />
+              <datalist id="typeList">
+                {{#each project.RequirementTypes}}
+                <option value="{{this}}"></option>
+                {{/each}}
+              </datalist>
+            </div>
+            <div class="mb-2">
+              <label for="description" class="form-label d-flex justify-content-between">
+                <div for="description" class="form-label">
+                  Requirement Description
                 </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-danger mx-2">
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger mx-2"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
+              </label>
+              <div class="rounded-top border d-flex p-2 bg-light">
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-type-bold"></i>
+                </button>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-type-italic"></i>
+                </button>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-link"></i>
+                </button>
+                <select class="form-select border-0 bg-light" aria-label="Default select example" style="width: 8rem">
+                  <option selected>Normal</option>
+                  <option value="1">Small</option>
+                  <option value="2">Normal</option>
+                  <option value="3">Large</option>
+                </select>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-list-ol"></i>
+                </button>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-list-ul"></i>
+                </button>
+              </div>
+              <textarea class="form-control rounded-top-0 bg-light" id="description" rows="4" name="description"
+                placeholder="Please Enter Requirement Description"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger mx-2">
+              Save
+            </button>
+            <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  {{!-- modal edit --}}
+  <form action="" id="editRequirementForm" onsubmit="editRequirement(event)" class="needs-validation" novalidate>
+    <input type="hidden" name="projectId" value="{{project.ProjectID}}" />
+    <input type="hidden" name="idEdit" id="idEdit" />
+    <div class="modal fade" id="editRequirement" tabindex="-1" aria-labelledby="editRequirementLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border border-1 rounded-2" style="color: #919faf">
+          <div class="modal-header">
+            <div class="modal-title fs-5 fw-semibold text-dark w-100 text-center" id="editRequirementLabel">
+              Edit Requirement
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-4">
+              <label for="releaseNameEdit" class="form-label d-flex justify-content-between">
+                <div>Select Release</div>
+              </label>
+              <input id="releaseNameEdit" name="releaseNameEdit" list="releaseListEdit" placeholder="Select a Release"
+                class="form-select border-0 bg-light" />
+              <datalist id="releaseListEdit">
+                {{#each project.Releases}}
+                <option value="{{this.Name}}"></option>
+                {{/each}}
+              </datalist>
+            </div>
+            <div class="mb-4">
+              <label for="typeEdit" class="form-label d-flex justify-content-between">
+                <div>
+                  Select Requirement Type
+                  <span style="color: #f44336">*</span>
                 </div>
+              </label>
+              <input id="typeEdit" name="typeEdit" type="text" list="typeListEdit"
+                placeholder="Please Enter Requirement Type" class="form-select border-0 bg-light" style="color: #757575"
+                required />
+              <datalist id="typeListEdit">
+                {{#each project.RequirementTypes}}
+                <option value="{{this}}"></option>
+                {{/each}}
+              </datalist>
+              <div class="invalid-feedback">
+                Please Enter Requirement.
+              </div>
+            </div>
+            <div class="mb-2">
+              <label for="descriptionEdit" class="form-label d-flex justify-content-between">
+                <div for="descriptionEdit" class="form-label">
+                  Requirement Description
+                </div>
+              </label>
+              <div class="rounded-top border d-flex p-2 bg-light">
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-type-bold"></i>
+                </button>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-type-italic"></i>
+                </button>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-link"></i>
+                </button>
+                <select class="form-select border-0 bg-light" aria-label="Default select example" style="width: 8rem">
+                  <option selected>Normal</option>
+                  <option value="1">Small</option>
+                  <option value="2">Normal</option>
+                  <option value="3">Large</option>
+                </select>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-list-ol"></i>
+                </button>
+                <button type="button" class="bg-light border-0 mx-1">
+                  <i class="bi bi-list-ul"></i>
+                </button>
+              </div>
+              <textarea class="form-control rounded-top-0 bg-light" id="descriptionEdit" rows="4" name="descriptionEdit"
+                placeholder="Please Enter Requirement Description"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger mx-2">
+              Save
+            </button>
+            <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+  <!-- modal detail -->
+    <div class="modal modal-lg fade" id="viewRequirement" tabindex="-1" aria-labelledby="viewRequirementLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border border-1 rounded-2">
+          <div class="modal-header">
+            <div class="modal-title fs-5 fw-bold text-dark w-100 text-center d-flex" id="viewRequirementLabel">
+              <div class="col-6">
+                Requirement details
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="modal-body">
+            <div class="d-flex p-1">
+              <div class="col-12 form-field me-2 my-1 p-3  rounded bg-detail">
+                <label class="label label-revamp fw-semibold">ID</label>
+                <div class="" id="requirementIdDetail"></div>
+              </div>
+            </div>
+  
+            <div class="d-flex p-1">
+              <div class="col-4 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Type</label>
+                <div class="" id="requirementTypeDetail"></div>
+              </div>
+  
+              <div class="col-8 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Description</label>
+                <div class="" id="requirementDescriptionDetail"></div>
+              </div>
+            </div>
+  
+            <div class="d-flex p-1">
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Project ID</label>
+                <div class="" id="requirementProjectIdDetail"></div>
+              </div>
+  
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Release ID</label>
+                <div class="" id="requirementReleaseIdDetail"></div>
+              </div>
+            </div>
+  
+            <div class="d-flex p-1">
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Start date</label>
+                <div class="" id="requirementCreatedAtDetail"></div>
+              </div>
+  
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">End date</label>
+                <div class="" id="requirementUpdatedAtDetail"></div>
+              </div>
+            </div>
+  
+            <div class="d-flex p-1">
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Assignee's name</label>
+                <div class="" id="requirementAssigneeNameDetail"></div>
+              </div>
+  
+              <div class="col-6 form-field p-3 me-1 my-1 rounded bg-detail">
+                <label class="label label-revamp fw-semibold">Assignee's email</label>
+                <div class="" id="requirementAssigneeEmailDetail"></div>
               </div>
             </div>
           </div>
-        </form>
 
-        {{!-- modal edit --}}
-        <form action="" id="editRequirementForm" onsubmit="editRequirement(event)" class="needs-validation" novalidate>
-          <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
-          <input type="hidden" name="idEdit" id="idEdit"/>
-          <div
-            class="modal fade"
-            id="editRequirement"
-            tabindex="-1"
-            aria-labelledby="editRequirementLabel"
-            aria-hidden="true"
-          >
-            <div
-              class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-            >
-              <div
-                class="modal-content border border-1 rounded-2"
-                style="color: #919faf"
-              >
-                <div class="modal-header">
-                  <div
-                    class="modal-title fs-5 fw-semibold text-dark w-100 text-center"
-                    id="editRequirementLabel"
-                  >
-                    Edit Requirement
-                  </div>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="mb-4">
-                    <label
-                      for="releaseNameEdit"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div>Select Release</div>
-                    </label>
-                    <input
-                      id="releaseNameEdit"
-                      name="releaseNameEdit"
-                      list="releaseListEdit"
-                      placeholder="Select a Release"
-                      class="form-select border-0 bg-light"
-                    />
-                    <datalist id="releaseListEdit">
-                      {{#each project.Releases}}
-                        <option value="{{this.Name}}"></option>
-                      {{/each}}
-                    </datalist>
-                  </div>
-                  <div class="mb-4">
-                    <label
-                      for="typeEdit"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div>
-                        Select Requirement Type
-                        <span style="color: #f44336">*</span>
-                      </div>
-                    </label>
-                    <input
-                      id="typeEdit"
-                      name="typeEdit"
-                      type="text"
-                      list="typeListEdit"
-                      placeholder="Please Enter Requirement Type"
-                      class="form-select border-0 bg-light"
-                      style="color: #757575"
-                      required
-                    />
-                    <datalist id="typeListEdit">
-                      {{#each project.RequirementTypes}}
-                        <option value="{{this}}"></option>
-                      {{/each}}
-                    </datalist>
-                    <div class="invalid-feedback">
-                      Please Enter Requirement.
-                    </div>
-                  </div>
-                  <div class="mb-2">
-                    <label
-                      for="descriptionEdit"
-                      class="form-label d-flex justify-content-between"
-                    >
-                      <div for="descriptionEdit" class="form-label">
-                        Requirement Description
-                      </div>
-                    </label>
-                    <div class="rounded-top border d-flex p-2 bg-light">
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-type-bold"></i>
-                      </button>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-type-italic"></i>
-                      </button>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-link"></i>
-                      </button>
-                      <select
-                        class="form-select border-0 bg-light"
-                        aria-label="Default select example"
-                        style="width: 8rem"
-                      >
-                        <option selected>Normal</option>
-                        <option value="1">Small</option>
-                        <option value="2">Normal</option>
-                        <option value="3">Large</option>
-                      </select>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-list-ol"></i>
-                      </button>
-                      <button type="button" class="bg-light border-0 mx-1">
-                        <i class="bi bi-list-ul"></i>
-                      </button>
-                    </div>
-                    <textarea
-                      class="form-control rounded-top-0 bg-light"
-                      id="descriptionEdit"
-                      rows="4"
-                      name="descriptionEdit"
-                      placeholder="Please Enter Requirement Description"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-danger mx-2">
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger mx-2"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div class="model-footer">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        </form>
+        </div>
+      </div>
+    </div>
+
 
   {{#if messages.error}}
-    <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thông báo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                        <div class="alert" style="font-size: medium;">{{messages.error}}</div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-            </div>
+  <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thông báo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
         </div>
+        <div class="modal-body">
+          <div class="alert" style="font-size: medium;">{{messages.error}}</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
     </div>
+  </div>
   {{/if}}
 </div>
 
 <script>
-    // Chờ đợi khi trang đã tải hoàn toàn
-    $(document).ready(function() {
-        // Kiểm tra nếu có thông báo trong flash messages
-        if ($('#flashMessageModal').length > 0) {
-            $('#flashMessageModal').modal('show'); // Hiển thị modal dialog
-        }
-    });
+  // Chờ đợi khi trang đã tải hoàn toàn
+  $(document).ready(function () {
+    // Kiểm tra nếu có thông báo trong flash messages
+    if ($('#flashMessageModal').length > 0) {
+      $('#flashMessageModal').modal('show'); // Hiển thị modal dialog
+    }
+  });
 </script>
 
-<script>
-document.querySelectorAll(".pagination li").forEach((li, index) => {
-  li.classList.add("page-item");
-});
 
-document.querySelectorAll(".pagination a").forEach(a => {
-  a.classList.add("page-link");
-});
+<script>
+  document.querySelectorAll(".pagination li").forEach((li, index) => {
+    li.classList.add("page-item");
+  });
+
+  document.querySelectorAll(".pagination a").forEach(a => {
+    a.classList.add("page-link");
+  });
 </script>
 
 <script src="/js/requirement-CRUD.js"></script>

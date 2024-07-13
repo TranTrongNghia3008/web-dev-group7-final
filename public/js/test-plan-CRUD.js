@@ -93,6 +93,7 @@ async function deleteTestPlan(id, pid) {
     }
 }
 
+
 document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
     deleteBtn.addEventListener("click",(e) => {
         e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
@@ -121,3 +122,14 @@ document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
     });
 });
   
+function loadTestPlanDetails(btn) {
+  document.querySelector("#testPlanIdDetail").innerText = btn.dataset.id;
+  document.querySelector("#testPlanNameDetail").innerText = btn.dataset.name;
+  document.querySelector("#testPlanDescriptionDetail").innerText = btn.dataset.description;
+  document.querySelector("#testPlanStartDateDetail").innerText = btn.dataset.startDate;
+  document.querySelector("#testPlanEndDateDetail").innerText = btn.dataset.endDate;
+  document.querySelector("#testPlanRequirementIdDetail").innerText = btn.dataset.requirementId;
+  document.querySelector("#testPlanCreatedAtDetail").innerText = btn.dataset.createdAt;
+  document.querySelector("#testPlanUpdatedAtDetail").innerText = btn.dataset.updatedAt;
+  document.querySelector("#testPlanProjectIdDetail").innerText = btn.dataset.projectId;
+}

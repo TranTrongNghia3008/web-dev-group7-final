@@ -29,6 +29,24 @@ reportSchema.pre('save', function(next) {
   }
 });
 
+// Custom validation for EndDate < StartDate but when updating
+reportSchema.pre('update', function(next) {
+  if (!this.EndDate){
+    next();
+  } 
+
+  if (!this.StartDate){
+    next();
+  }
+
+  if (this.EndDate < this.StartDate) {
+    const err = new Error('EndDate must be greater than StartDate');
+    next(err);
+  } else {
+    next();
+  }
+});
+
 const Report = mongoose.model('Report', reportSchema);
 
 module.exports = Report;
