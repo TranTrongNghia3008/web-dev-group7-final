@@ -411,7 +411,8 @@ controller.addIssue = async (req, res) => {
             'issue-description': issueDescription,
             'steps-to-reproduce': stepsToReproduce,
             'assigned-to': assignToName,
-            'testRun': testrun
+            'testRun': testrun,
+            userId
         } = req.body;
 
         // Tìm kiếm thông tin của người được phân công và test run từ cơ sở dữ liệu
@@ -438,7 +439,7 @@ controller.addIssue = async (req, res) => {
             Environment: environment || null,
             Description: issueDescription || null, // Gán giá trị null nếu không có dữ liệu
             StepsToReproduce: stepsToReproduce || null, // Gán giá trị null nếu không có dữ liệu
-            CreatedBy: "666011d01cc6e634de0ff70b",
+            CreatedBy: userId,
             AssignedTo: assignTo ? assignTo._id : null, // Gán giá trị null nếu không tìm thấy người được phân công
             TestRunID: testRun ? testRun._id : null // Gán giá trị null nếu không tìm thấy test run
         });
@@ -733,5 +734,39 @@ controller.downloadSampleIssue = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };
+
+controller.bulkActions = async (req, res) => {
+    try {
+        const { caseCodes, status, priority, issueType, assignTo, severity } = req.body;
+
+        // Find the user by name to get the user ID
+        const user = assignTo ? await userModel.findOne({ Name: assignTo }) : null;
+
+
+        const userId = user ? user._id : undefined;
+        console.log(userId);
+
+        // Create an object for updates
+        const updateData = {};
+
+        if (status) updateData.Status = status;
+        if (priority) updateData.Priority = priority;
+        if (issueType) updateData.IssueType = issueType;
+        if (userId) updateData.AssignedTo = userId;
+        if (severity) updateData.Severity = severity;
+
+        // Find and update the testRun entries
+        await issueModel.updateMany(
+            { _id: { $in: caseCodes } },
+            { $set: updateData }
+        );
+
+        res.status(200).send('Cases updated successfully');
+    } catch (error) {
+        console.error('Error updating bulk actions:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 
 module.exports = controller;
