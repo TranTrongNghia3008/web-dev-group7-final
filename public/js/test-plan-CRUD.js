@@ -22,6 +22,7 @@ function showEditTestPlanModal(btn) {
       });
   
       if (res.status == 200) {
+        alert('Success! Data has been added.');
         location.reload();
       } else {
         let resText = await res.text();

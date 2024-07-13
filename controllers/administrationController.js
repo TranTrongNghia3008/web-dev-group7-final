@@ -131,6 +131,7 @@ controller.addUser = async (req, res) => {
 			timezone
 		} = req.body;
 
+
 		const image = req.file ? req.file.filename : 'default-user-image.png';
 
 		const user = new userModel({
@@ -184,6 +185,10 @@ controller.editUser = async (req, res) => {
 
 		const image = req.file ? req.file.filename : 'default-user-image.png';
 
+		if (firstName == "" || lastName == "" || email == "") {
+            return res.status(404).json({ message: 'User info not filled' });
+        }
+		
 		if (req.file && oldImage && oldImage !== 'default-user-image.png') {
 			const oldImagePath = path.join(__dirname, '../public/images', oldImage);
 			fs.unlink(oldImagePath, (err) => {

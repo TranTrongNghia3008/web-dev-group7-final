@@ -202,7 +202,7 @@ controller.addRequirement = async (req, res) => {
             Type: type,
             Description: description || null,
             ReleaseID: release._id || "66601b671ef4a55f282208d3",
-            AssignTo: "66812754b0c25034addd8cce",
+            AssignTo: "666011d01cc6e634de0ff70e",
         });
 
 

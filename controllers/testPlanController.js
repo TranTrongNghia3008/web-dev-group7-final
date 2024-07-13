@@ -116,6 +116,10 @@ controller.editTestPlan = async (req, res) => {
         const formattedStartDate = startDay ? startDay.toISOString() : null;
         const formattedEndDate = endDay ? endDay.toISOString() : null;
 
+        if (nameEdit == "") {
+            return res.status(404).json({ message: 'Test Plan name not filled' });
+        }
+
         const updatedTestPlan = await testPlanModel.findByIdAndUpdate(
             idEdit,
             {
