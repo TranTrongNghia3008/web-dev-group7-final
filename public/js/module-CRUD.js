@@ -1,16 +1,36 @@
 // const { BIGINT } = require("sequelize");
 
+document.addEventListener('DOMContentLoaded', function () {
+  var addModuleModal = document.getElementById('addModule');
+  addModuleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget;
+      // Extract info from data-* attributes
+      var parentModuleName = button.getAttribute('data-parentmodule');
+      
+      if (parentModuleName) {
+          // Update the modal's form fields
+          var modal = this;
+          var select = modal.querySelector('select[name="parentModule"]');
+          var options = select.options;
+
+          // Iterate through options and find the one with the matching name
+          for (var i = 0; i < options.length; i++) {
+              if (options[i].text === parentModuleName) {
+                  options[i].selected = true;
+                  break;
+              }
+          }
+      }
+  });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('moduleForm');
   
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-    //   if (!form.checkValidity()) {
-    //     e.stopPropagation();
-    //     form.classList.add('was-validated');
-    //     return;
-    //   }
   
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());

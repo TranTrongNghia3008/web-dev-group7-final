@@ -476,75 +476,107 @@
                         </div>
                     </div>
 
-                    <div class="below px-2 pb-2" style="">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <td scope="col" class="">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="code"
-                                                onchange="toggleCheckAllIssue(this)" />
-                                            <label class="form-check-label" for="code">Code</label>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="">Title</td>
-                                    <td scope="col" class="">Created By</td>
-                                    <td scope="col" class="">Assigned to</td>
-                                    <td scope="col" class="">Status</td>
-                                    <td scope="col" class="">Priority</td>
-                                    <td scope="col" class="">Created Date</td>
-                                    <td scope="col" class="">Actions</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each project.Issues}}
-                                <tr>
-                                    <td scope="col" class="align-middle">
-                                        <div class="form-check">
-                                            <input class="form-check-input code-issue-item" type="checkbox" value=""
-                                                id="code-issue-item" />
-                                            <label class="form-check-label" for="code-issue-item"><i
-                                                    class="bi bi-bug me-1" style="color: orange"></i>{{truncateId
-                                                this._id 8}}</label>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="align-middle" style="max-width: 200px;">
-                                        <a href="/project/{{../project.ProjectID}}/issue/{{this._id}}"
-                                            class="issue-link-modal">{{this.Title}}</a>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <div class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
-                                            style="width: 2rem; height: 2rem">
-                                            <span class="m-auto">{{getInitials this.CreatedBy}}</span>
-                                        </div>
-                                    </td>
-                                    <td scope="col" class="align-middle">{{this.AssignTo}}</td>
-                                    <td scope="col" class="align-middle">
-                                        <span>{{this.Status}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>{{this.Priority}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <span>{{formatDate3 this.CreatedAt}}</span>
-                                    </td>
-                                    <td scope="col" class="align-middle">
-                                        <div class="d-flex">
-                                            <a href="#" data-bs-toggle="tooltip" title="Timesheet"
-                                                class="mx-2 my-auto"><i class="bi bi-clock"></i></a>
-                                            <a data-bs-toggle="modal" data-bs-target="#editIssue" href="#"
-                                                data-bs-toggle="tooltip" title="Edit" class="my-auto mx-2"
-                                                data-id="{{this._id}}" data-title="{{this.Title}}"
-                                                data-description="{{this.Description}}"
-                                                data-category="{{this.Category}}" data-status="{{this.Status}}"
-                                                data-priority="{{this.Priority}}" data-issue-type="{{this.IssueType}}"
-                                                data-severity="{{this.Severity}}"
-                                                data-environment="{{this.Environment}}"
-                                                data-start-day="{{this.StartDate}}" data-end-day="{{this.EndDate}}"
-                                                data-assign-to="{{this.AssignTo}}" data-test-run="{{this.TestRunName}}"
-                                                data-steps-to-reproduce="{{this.StepsToReproduce}}">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
+            <div class="below px-2 pb-2" style="">
+                <table class="table">
+                <thead>
+                    <tr>
+                    <td scope="col" class="">
+                        <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="code"
+                            onchange="toggleCheckAllIssue(this)"
+                        />
+                        <label class="form-check-label" for="code"
+                            >Code</label
+                        >
+                        </div>
+                    </td>
+                    <td scope="col" class="">Title</td>
+                    <td scope="col" class="">Created By</td>
+                    <td scope="col" class="">Assigned to</td>
+                    <td scope="col" class="">Status</td>
+                    <td scope="col" class="">Priority</td>
+                    <td scope="col" class="">Created Date</td>
+                    <td scope="col" class="">Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each project.Issues}}
+                    <tr>
+                    <td scope="col" class="align-middle">
+                        <div class="form-check">
+                        <input
+                            class="form-check-input code-issue-item"
+                            type="checkbox"
+                            value=""
+                            id="code-issue-item"
+                        />
+                        <label class="form-check-label" for="code-issue-item"
+                            ><i
+                            class="bi bi-bug me-1"
+                            style="color: orange"
+                            ></i
+                            >{{truncateId this._id 8}}</label
+                        >
+                        </div>
+                    </td>
+                    <td scope="col" class="align-middle" style="max-width: 200px;">
+                        <a href="/project/{{../project.ProjectID}}/issue/{{this._id}}" class="issue-link-modal" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">{{this.Title}}</a>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <div
+                        class="rounded-circle bg-primary bg-gradient d-flex text-white mt-2"
+                        style="width: 2rem; height: 2rem"
+                        >
+                        <span class="m-auto">{{getInitials this.CreatedBy}}</span>
+                        </div>
+                    </td>
+                    <td scope="col" class="align-middle">{{this.AssignTo}}</td>
+                    <td scope="col" class="align-middle">
+                        <span>{{this.Status}}</span>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <span>{{this.Priority}}</span>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <span>{{formatDate3 this.CreatedAt}}</span>
+                    </td>
+                    <td scope="col" class="align-middle">
+                        <div class="d-flex">
+                        <a
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Timesheet"
+                            class="mx-2 my-auto"
+                            ><i class="bi bi-clock"></i
+                        ></a>
+                        <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#editIssue"
+                            href="#"
+                            data-bs-toggle="tooltip"
+                            title="Edit"
+                            class="my-auto mx-2"
+                            data-id="{{this._id}}"
+                            data-title="{{this.Title}}"
+                            data-description="{{this.Description}}"
+                            data-category="{{this.Category}}"
+                            data-status="{{this.Status}}"
+                            data-priority="{{this.Priority}}"
+                            data-issue-type="{{this.IssueType}}"
+                            data-severity="{{this.Severity}}"
+                            data-environment="{{this.Environment}}"
+                            data-start-day="{{this.StartDate}}"
+                            data-end-day="{{this.EndDate}}"
+                            data-assign-to="{{this.AssignTo}}"
+                            data-test-run="{{this.TestRunName}}"
+                            data-steps-to-reproduce="{{this.StepsToReproduce}}"
+                        >
+                            <i class="bi bi-pencil"></i>
+                        </a>
 
 
                                             <form action="" id="editIssueForm" class="needs-validation" novalidate>

@@ -130,6 +130,11 @@ controller.addUser = async (req, res) => {
 			locale,
 			timezone
 		} = req.body;
+		// Kiểm tra xem email đã tồn tại chưa
+		const existingUser = await userModel.findOne({ AccountEmail: email });
+		if (existingUser) {
+			return res.status(400).json({ message: 'Email already exists.' });
+		}
 
 
 		const image = req.file ? req.file.filename : 'default-user-image.png';
