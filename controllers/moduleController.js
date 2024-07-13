@@ -3,13 +3,33 @@
 const controller = {};
 const moduleModel = require('../models/moduleModel');
 const userModel = require('../models/userModel');
+const participationModel = require('../models/participationModel');
 
 const { sanitizeInput } = require('./shared');
 
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        // console.log(projectId);
+
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+        const participation = await participationModel.findOne({ UserID: user._id, ProjectID: projectId });
+
+        if ((!user.IsAdmin) && ((!participation) || (participation && participation.Role === 'Developer'))) {
+            const projectData = {
+                ProjectID: projectId, // Thêm ProjectID
+            };
+            res.render('not-have-access', { 
+                title: "ShareBug - Not Have Access", 
+                header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                        <link rel="stylesheet" href="/css/not-have-access.css" />`, 
+                d2: "selected-menu-item", 
+                n4: "active border-danger",
+                user,
+                project: projectData,
+            });
+
+        }
 
         // Tìm tất cả các module thuộc project đó
         const allModules = await moduleModel.find({ ProjectID: projectId });
@@ -25,8 +45,7 @@ controller.show = async (req, res) => {
             AllModules: allModules
         };
 
-        const account = req.user;
-        const user = await userModel.findOne({ AccountEmail: account.Email });
+        
     
 
         // Render view module với thông tin các module thuộc project

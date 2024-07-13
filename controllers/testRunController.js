@@ -18,6 +18,27 @@ controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+        const participation = await participationModel.findOne({ UserID: user._id, ProjectID: projectId });
+
+        if ((!user.IsAdmin) && ((!participation) || (participation && participation.Role === 'Developer'))) {
+            const projectData = {
+                ProjectID: projectId, // Thêm ProjectID
+            };
+            res.render('not-have-access', { 
+                title: "ShareBug - Not Have Access", 
+                header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                        <link rel="stylesheet" href="/css/not-have-access.css" />`, 
+                d2: "selected-menu-item", 
+                n6: "active border-danger",
+                user,
+                project: projectData,
+            });
+
+        }
+
+
         let testRunKeyword = sanitizeInput(req.query.testRunKeyword) || '';
         let selectedReleaseId = sanitizeInput(req.query.selectedReleaseId) || '';
         console.log(testRunKeyword)
@@ -128,8 +149,6 @@ controller.show = async (req, res) => {
             TestCases: testCases
         };
 
-        const account = req.user;
-        const user = await userModel.findOne({ AccountEmail: account.Email });
 
         // Gọi các view cần thiết và truyền dữ liệu vào
         res.render('test-run', { 
@@ -174,6 +193,27 @@ function getStatusColor(status) {
 controller.showResult = async (req, res) => {
     try {
         const projectId = req.params.projectId;
+
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+        const participation = await participationModel.findOne({ UserID: user._id, ProjectID: projectId });
+
+        if ((!user.IsAdmin) && ((!participation) || (participation && participation.Role === 'Developer'))) {
+            const projectData = {
+                ProjectID: projectId, // Thêm ProjectID
+            };
+            res.render('not-have-access', { 
+                title: "ShareBug - Not Have Access", 
+                header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                        <link rel="stylesheet" href="/css/not-have-access.css" />`, 
+                d2: "selected-menu-item", 
+                n6: "active border-danger",
+                user,
+                project: projectData,
+            });
+
+        }
+
         const moduleId = req.query.ModuleID ? req.query.ModuleID : 0;
         let testCaseCount = req.query.TestCaseCount ? req.query.TestCaseCount : 0;
         let testCaseKeyword = sanitizeInput(req.query.testCaseKeyword) || '';
@@ -329,8 +369,6 @@ controller.showResult = async (req, res) => {
             projectStatus
         };
 
-        const account = req.user;
-        const user = await userModel.findOne({ AccountEmail: account.Email });
 
 
         // Gọi các view cần thiết và truyền dữ liệu vào

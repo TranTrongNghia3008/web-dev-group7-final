@@ -115,6 +115,28 @@ controller.showHome = async (req, res) => {
     try {
         const projectId = req.params.projectId;
 
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+        const participation = await participationModel.findOne({ UserID: user._id, ProjectID: projectId });
+
+        if (!user.IsAdmin && !participation) {
+            const projectData = {
+                ProjectID: projectId, // Thêm ProjectID
+            };
+            res.render('not-have-access', { 
+                title: "ShareBug - Not Have Access", 
+                header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                        <link rel="stylesheet" href="/css/not-have-access.css" />`, 
+                d2: "selected-menu-item", 
+                n1: "active border-danger",
+                user,
+                project: projectData,
+            });
+
+        }
+
+        
+
         // Fetch the project details
         const project = await projectModel.findById(projectId);
         if (!project) {
@@ -179,8 +201,6 @@ controller.showHome = async (req, res) => {
             Participations: participationsWithUserName
         };
 
-        const account = req.user;
-        const user = await userModel.findOne({ AccountEmail: account.Email });
         
         // Render the project home view with the project data
         res.render('project-home', { 
@@ -234,6 +254,32 @@ controller.assignUser = async (req, res) => {
     } catch (error) {
         console.error('Error deleting test run:', error);
         res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+controller.checkUserRole = async (req, res) => {
+    try {
+        const { userId, projectId } = req.body;
+
+        const user = await userModel.findById(userId);
+        
+        if (user.IsAdmin) {
+            res.status(200).json({ role: 'Admin' });
+        } 
+        else {
+            const participation = await participationModel.findOne({ UserID: userId, ProjectID: projectId });
+
+            if ((!participation) || (participation.Role !== 'Manager')) {
+                return res.status(404).json({ message: 'You do not have permission to Assign User' });
+            }
+            
+            res.status(200).json({ role: participation.Role });
+
+        }
+
+    } catch (error) {
+        console.error('Error checking user role:', error);
+        res.status(500).json({ message: 'Error checking user role', error });
     }
 };
 

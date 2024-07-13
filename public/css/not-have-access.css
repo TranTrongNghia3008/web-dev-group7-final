@@ -1,0 +1,23 @@
+.menu-2 {
+    margin: 1rem 2rem;
+}
+
+.menu-2 li a{
+    color: black;
+}
+
+a {
+    color: inherit;
+}
+
+.access-denied-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.alert {
+    max-width: 600px;
+    text-align: center;
+}

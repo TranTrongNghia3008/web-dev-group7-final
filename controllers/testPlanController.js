@@ -5,12 +5,35 @@ const testPlanModel = require('../models/testPlanModel');
 const requirementModel = require('../models/requirementModel');
 const releaseModel = require('../models/releaseModel');
 const userModel = require('../models/userModel');
+const participationModel = require('../models/participationModel'); 
 
 const { sanitizeInput } = require('./shared');
 
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
+
+        const account = req.user;
+        const user = await userModel.findOne({ AccountEmail: account.Email });
+        const participation = await participationModel.findOne({ UserID: user._id, ProjectID: projectId });
+
+        if ((!user.IsAdmin) && ((!participation) || (participation && participation.Role === 'Developer'))) {
+            const projectData = {
+                ProjectID: projectId, // Thêm ProjectID
+            };
+            res.render('not-have-access', { 
+                title: "ShareBug - Not Have Access", 
+                header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+                        <link rel="stylesheet" href="/css/not-have-access.css" />`, 
+                d2: "selected-menu-item", 
+                n7: "active border-danger",
+                user,
+                project: projectData,
+            });
+
+        }
+
+
         let testPlanKeyword = sanitizeInput(req.query.testPlanKeyword) || '';
 
         // Tìm release thuộc project đó
@@ -46,9 +69,6 @@ controller.show = async (req, res) => {
             TestPlans: testPlans.slice(skip, skip + limit),
             TestPlansCount: testPlans.length
         };
-
-        const account = req.user;
-        const user = await userModel.findOne({ AccountEmail: account.Email });
 
 
         // Gọi view và truyền dữ liệu vào
