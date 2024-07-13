@@ -36,7 +36,8 @@ document.getElementById('imageInput').addEventListener('change', function (event
         });
     
         if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+          const errorData = await response.json();
+          throw new Error(errorData.message);
         }
     
         const result = await response.json();
@@ -44,8 +45,8 @@ document.getElementById('imageInput').addEventListener('change', function (event
         // Optionally, redirect or show a success message
         window.location.href = '/administration';
       } catch (error) {
-        console.error('Error:', error);
-        // Optionally, show an error message to the user
+        console.error('Error add user:', error);
+        alert(`Failed to add user: ${error.message}`);
       }
     } else {
         // Không hợp lệ, ngăn không cho submit form và hiển thị thông báo

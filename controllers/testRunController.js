@@ -100,7 +100,7 @@ controller.show = async (req, res) => {
          const userIds = participations.map(participation => participation.UserID);
  
          // Lấy thông tin chi tiết của các User thông qua UserID
-         const users = await userModel.find({ _id: { $in: userIds } });
+         const users = await userModel.find({ _id: { $in: userIds }, Status: 'Active' });
 
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
@@ -352,12 +352,20 @@ controller.showResult = async (req, res) => {
 
 controller.addTestRun = async (req, res) => {
     try {
-        const { name, version, browser, assignToName, testcase, description } = req.body;
+        const { name, version, browser, assignToName, testcase, description, createdBy } = req.body;
         
         // Tìm kiếm user và testcase từ cơ sở dữ liệu
         const assignTo = await userModel.findOne({ Name: assignToName });
-        const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
 
+        if (!assignTo) {
+            return res.status(404).json({ message: 'Assigned user not found' });
+        }
+
+        const testCase = await testCaseModel.findOne({ Title: testcase });
+
+        if (!testCase) {
+            return res.status(404).json({ message: 'Test Case not found' });
+        }
 
         const newTestRun = new testRunModel({
             Name: name,
@@ -365,7 +373,7 @@ controller.addTestRun = async (req, res) => {
             Browser: browser || null,
             Description: description || null,
             Status: "Untested",
-            CreatedBy: "666011d01cc6e634de0ff70b", // Assuming you have user info in req.user
+            CreatedBy: createdBy, // Assuming you have user info in req.user
             AssignTo: assignTo._id,
             TestCaseID: testcase ? testCase._id : null
         });
@@ -385,11 +393,13 @@ controller.addTestRun = async (req, res) => {
 controller.editTestRun = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, version, browser, assignToName, testcase, description, status, createdByName } = req.body;
+        const { name, version, browser, assignToName, testcase, description, status, createdBy } = req.body;
+
+        console.log(id, name, version, browser, assignToName, testcase, description, status, createdBy)
         // Tìm kiếm user và testcase từ cơ sở dữ liệu
         const assignTo = await userModel.findOne({ Name: assignToName });
         const testCase = testcase ? await testCaseModel.findOne({ Title: testcase }) : null;
-        const createdBy = await userModel.findOne({ Name: createdByName });
+
 
         if (!assignTo || !testCase) {
             return res.status(400).send('Invalid assign-to user or testcase');
@@ -401,7 +411,7 @@ controller.editTestRun = async (req, res) => {
             Browser: browser || null,
             Description: description || null,
             Status: status,
-            CreatedBy: createdBy._id,
+            CreatedBy: createdBy,
             AssignTo: assignTo._id,
             TestCaseID: testCase ? testCase._id : null,
             UpdatedAt: Date.now()

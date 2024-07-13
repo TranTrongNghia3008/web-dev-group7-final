@@ -81,6 +81,7 @@
 
             <form class="needs-validation" novalidate id="addTestRunForm">
                 <input type="hidden" name="projectID" value="{{project.ProjectID}}">
+                <input type="hidden" name="userId" value="{{user._id}}">
                 <div class="modal fade" id="addTestRun" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
                     style="display: none" aria-hidden="true">
                     <div class="modal-dialog modal-fullscreen">
@@ -363,9 +364,8 @@
                 </div>
             </td>
             <td scope="col" class="pt-3">
-                <div class="d-flex" style="margin-top: 0.8rem">
-                <a href="/project/{{../project.ProjectID}}/test-run/result" class="mx-1" style="max-width: 180px;"
-                    >{{this.Name}}</a
+                <div class="d-flex" style="margin-top: 0.8rem;" >
+                <a href="/project/{{../project.ProjectID}}/test-run/result" class="mx-1" style="max-width: 180px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; ">{{this.Name}}</a
                 >
                 {{!-- <a href="#"><i class="bi bi-pencil mx-1"></i></a> --}}
                 <a href="#"><i class="bi bi-paperclip mx-1"></i></a>
@@ -490,17 +490,20 @@
                     data-assign-to="{{this.AssignTo}}"
                     data-testcase="{{this.TestCaseName}}"
                     data-description="{{this.Description}}"
+                    data-status="{{this.Status}}"
+                    data-createdby="{{../user._id}}"
                 >
                     <i class="bi bi-pencil"></i>
                 </a>
                 
-                <form class="needs-validation" novalidate id="editTestRunForm">
-                    <input type="hidden" name="projectID" value="{{../project.ProjectID}}">
-                    <input type="hidden" name="test-run-id" value="{{this._id}}">
-                    <input type="hidden" name="status" value="{{this.Status}}">
-                    <input type="hidden" name="createdBy" value="{{this.CreatedBy}}">
+                <form class="needs-validation editTestRunForm" novalidate id="editTestRunForm">
+                    
                     <div class="modal fade" id="editTestRun" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
                         style="display: none" aria-hidden="true">
+                        <input type="hidden" name="projectID" value="{{../project.ProjectID}}">
+                        <input type="hidden" name="test-run-id">
+                        <input type="hidden" name="status">
+                        <input type="hidden" name="createdBy" value="{{../user._id}}">
                         <div class="modal-dialog modal-fullscreen">
                             <div class="modal-content" style="margin-left: 300px; padding-right: 300px">
                                 <div class="modal-header">
