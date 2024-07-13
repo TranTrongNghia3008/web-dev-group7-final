@@ -29,13 +29,15 @@ function showEditReportModal(btn) {
 
 
 async function editReport(e) {
+    e.preventDefault();
     const formData = new FormData(document.getElementById("editReportForm"));
     let data = Object.fromEntries(formData.entries());
+    console.log("sending request to: ", `/project/${data.projectIdEdit}/report`);
     console.log(data);
-
+    
     try {
         let res = await fetch(`/project/${data.projectIdEdit}/report`, {
-            method: "put",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },

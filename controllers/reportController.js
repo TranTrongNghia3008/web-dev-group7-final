@@ -132,8 +132,16 @@ controller.editReport = async (req, res) => {
         const currentReport = await reportModel.findById(reportIdEdit);
 
         // Validate dstartDateEdit < endDateEdit if both are not null
-        start = startDateEdit ? new Date(startDateEdit) : null;
-        end = endDateEdit ? new Date(endDateEdit) : null;
+        let start = startDateEdit ? new Date(startDateEdit) : null;
+        let end = endDateEdit ? new Date(endDateEdit) : null;
+
+        console.log("Start Date: " + start);
+        console.log("End Date: " + end);
+        console.log("Is Scheduled: " + isScheduledEdit);
+        console.log("Project ID: " + projectIdEdit);
+        console.log("Report ID: " + reportIdEdit);
+        console.log("Report Type: " + reportTypeEdit);
+        console.log("Title Edit: " + titleEdit);
         
 
         const updatedReport = await reportModel.findByIdAndUpdate(reportIdEdit, {
