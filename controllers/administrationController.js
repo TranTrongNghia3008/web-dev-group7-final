@@ -19,7 +19,6 @@ controller.show = async (req, res) => {
 	let userStatusKeyword = sanitizeInput(req.query.userStatusKeyword) || '';
 	let userKeyword = sanitizeInput(req.query.userKeyword) || '';
 	let options = {};
-	let temp = 3;
 
 	// Sort
 	// let sortby = req.query.sortby || 'Name';
