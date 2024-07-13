@@ -1328,7 +1328,7 @@
             <div class="col-12 form-field my-2 p-3 rounded bg-detail">
                 <div class="">
                     <div class="fw-4 fw-semibold">Issue title</div>
-                    <div class="">{{project.IssueDetail.Title}}</div>
+                    <div class="" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">{{project.IssueDetail.Title}}</div>
                 </div>
             </div>
             <div class="d-flex ps-0 pe-4">
@@ -1409,14 +1409,14 @@
             <div class="col-12 my-2 p-3 form-field description-view rounded bg-detail">
                 <label class="label label-revamp fw-semibold">Description</label>
                 <div>
-                <div class="text-revamp text-left">{{project.IssueDetail.Description}}</div>
+                <div class="text-revamp text-left" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">{{project.IssueDetail.Description}}</div>
                 </div>
             </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger">Edit</button>
+            {{!-- <button type="button" class="btn btn-danger">Edit</button> --}}
         </div>
         </div>
     </div>
