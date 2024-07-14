@@ -3,28 +3,31 @@ function showEditReportModal(btn) {
 
     document.querySelector("#reportIdEdit").value = btn.dataset.reportId;
     document.querySelector("#projectIdEdit").value = btn.dataset.projectId;
-
     document.querySelector("#titleEdit").value = btn.dataset.title;
+    document.querySelector("#isScheduledEdit").checked = (btn.dataset.isScheduled == 'true');
+    document.querySelector("#reportTypeEdit").value = btn.dataset.reportType;
     
-    // Convert to ISO format
-    let startDate = new Date(btn.dataset.startDate);
-    let endDate = new Date(btn.dataset.endDate);
-    const localOffset = startDate.getTimezoneOffset();
-    const localStartDate = new Date(startDate.getTime() - localOffset * 60000).toISOString().slice(0, 16);
-    const localEndDate = new Date(endDate.getTime() - localOffset * 60000).toISOString().slice(0, 16);
+    // Datetime parsing and timezone conversion
+    let localStartDate = null;
+    let localEndDate = null;
 
+    if (btn.dataset.startDate) {
+        let startDate = new Date(btn.dataset.startDate);
+        const localOffset = new Date().getTimezoneOffset();
+        localStartDate = new Date(startDate.getTime() - localOffset * 60000).toISOString().slice(0, 16);
+    }
 
-
-    // Assign values to the form, form is datetime-local
+    if (btn.dataset.endDate) {
+        let endDate = new Date(btn.dataset.endDate);
+        const localOffset = new Date().getTimezoneOffset();
+        localEndDate = new Date(endDate.getTime() - localOffset * 60000).toISOString().slice(0, 16);
+    }
+    // Assign datetime to the form, form is datetime-local
     document.querySelector("#startDateEdit").value = localStartDate;
     document.querySelector("#endDateEdit").value = localEndDate;
 
-    document.querySelector("#isScheduledEdit").checked = (btn.dataset.isScheduled == 'true');
-    // Filling data for select fields
-    const reportType = btn.dataset.reportType;
-    const resourceType = btn.dataset.resourceType;
-    document.querySelector("#reportTypeEdit").value = reportType;
-    document.querySelector("#resourceTypeEdit").value = resourceType;
+    
+    
 }
 
 
@@ -32,8 +35,6 @@ async function editReport(e) {
     e.preventDefault();
     const formData = new FormData(document.getElementById("editReportForm"));
     let data = Object.fromEntries(formData.entries());
-    console.log("sending request to: ", `/project/${data.projectIdEdit}/report`);
-    console.log(data);
     
     try {
         let res = await fetch(`/project/${data.projectIdEdit}/report`, {
@@ -59,11 +60,12 @@ async function editReport(e) {
 
 document.querySelector("#editReportForm").addEventListener("submit", function (e) {
     e.preventDefault();
+    let isValid = true;
     // 2.1. Validate if title is not null and valid (not full of spaces)
     let title_div = document.querySelector("#titleEdit");
     let title_val = title_div.value;
     if (!title_val.trim()) {
-        e.preventDefault();
+        isValid = false;
         title_div.classList.remove("is-valid");
         title_div.classList.add("is-invalid");
         return False;
@@ -82,7 +84,7 @@ document.querySelector("#editReportForm").addEventListener("submit", function (e
     let startDate = new Date(startDate_val);
     let endDate = new Date(endDate_val);
     if ((startDate && endDate) && (startDate > endDate)) {
-        e.preventDefault();
+        isValid = false;
         startDate_div.classList.remove("is-valid");
         endDate_div.classList.remove("is-valid");
         startDate_div.classList.add("is-invalid");
@@ -95,7 +97,9 @@ document.querySelector("#editReportForm").addEventListener("submit", function (e
         startDate_div.classList.add("is-valid");
         endDate_div.classList.add("is-valid");
     }
-    editReport(e);
+    if (isValid) {
+        editReport(e);
+    }
 });
 
 
@@ -136,7 +140,6 @@ document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
             btnOkText: "Yes",
             btnCancelText: "No",
             onConfirm: () => {
-                console.log(id);
                 deleteReport(id, pid);
             },
             onCancel: () => {
@@ -156,10 +159,11 @@ document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
 document.querySelector("#addReportForm").addEventListener("submit", function (e) {
     // Part 1: For adding report
     // 1.1. Validate if title is not null and valid (not full of spaces)
+    let isValid = true;
     let title_div = document.querySelector("#title");
     let title_val = title_div.value;
     if (!title_val.trim()) {
-        e.preventDefault();
+        isValid = false;
         title_div.classList.remove("is-valid");
         title_div.classList.add("is-invalid");
     }
@@ -168,7 +172,6 @@ document.querySelector("#addReportForm").addEventListener("submit", function (e)
         title_div.classList.add("is-valid");
     }
 
-    console.log("Reached");
     // 1.2. Validate if startDate < endDate
     let startDate_div = document.querySelector("#startDate");
     let endDate_div = document.querySelector("#endDate");
@@ -178,7 +181,7 @@ document.querySelector("#addReportForm").addEventListener("submit", function (e)
     let startDate = new Date(startDate_val);
     let endDate = new Date(endDate_val);
     if ((startDate && endDate) && (startDate > endDate)) {
-        e.preventDefault();
+        isValid = false;
         startDate_div.classList.remove("is-valid");
         endDate_div.classList.remove("is-valid");
         startDate_div.classList.add("is-invalid");
@@ -189,5 +192,8 @@ document.querySelector("#addReportForm").addEventListener("submit", function (e)
         endDate_div.classList.remove("is-invalid");
         startDate_div.classList.add("is-valid");
         endDate_div.classList.add("is-valid");
+    }
+    if (!isValid) {
+        e.preventDefault();
     }
 });
