@@ -25,10 +25,18 @@ controller.show = async (req, res) => {
         const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds }, Name: { $regex: testPlanKeyword, $options: 'i' } });
 
         // Pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        let skip = (page - 1) * limit;
         let total = testPlans.length;
+        let limit = 5;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) || req.query.page < 1 || req.query.page > Math.ceil(total / limit);
+        if (invalidPage) {
+            // Redirect to the first page
+            return res.redirect(`/project/${projectId}/test-plan?page=1`);
+        }
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let skip = (page - 1) * limit;
+
+
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
         {
