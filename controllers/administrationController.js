@@ -14,6 +14,22 @@ const fs = require('fs');
 const { sanitizeInput } = require('./shared');
 
 controller.show = async (req, res) => {
+	const account = req.user;
+	const user = await userModel.findOne({ AccountEmail: account.Email });
+
+	if (!user.IsAdmin) {
+		res.render('not-have-access', { 
+			title: "ShareBug - Not Have Access", 
+			header: `<link rel="stylesheet" href="/css/shared-styles.css" />
+					<link rel="stylesheet" href="/css/not-have-access.css" />`, 
+			d3: "selected-menu-item", 
+			user,
+		});
+
+	}
+
+
+	
 	let userTypeKeyword = sanitizeInput(req.query.userTypeKeyword) || '';
 	let userStatusKeyword = sanitizeInput(req.query.userStatusKeyword) || '';
 	let userKeyword = sanitizeInput(req.query.userKeyword) || '';
@@ -31,7 +47,6 @@ controller.show = async (req, res) => {
 
     options.limit = limit;
     options.skip = skip;  
-    console.log(options);
 
 	let query = {};
 
@@ -81,8 +96,6 @@ controller.show = async (req, res) => {
 
 	const projects = await projectModel.find();
 
-	const account = req.user;
-    const user = await userModel.findOne({ AccountEmail: account.Email });
 
 	res.render('administration', {
 		title: 'ShareBug - Administration',
@@ -212,7 +225,7 @@ controller.editUser = async (req, res) => {
         const language = sanitizeInput(languageBody);
         const status = sanitizeInput(statusBody);
         const userDesignation = sanitizeInput(userDesignationBody);
-        const isAdmin = isAdminBody;
+        const isAdmin = isAdminBody || false;
         const locale = sanitizeInput(localeBody);
         const timezone = sanitizeInput(timezoneBody);
 
@@ -245,7 +258,7 @@ controller.editUser = async (req, res) => {
 			UserImg: image // Cập nhật tên file ảnh trong database
 		};
 
-		await userModel.findByIdAndUpdate(userId, updatedData, { new: true });
+		await userModel.findByIdAndUpdate(userId, updatedData);
 
 		res.status(200).json({ message: 'User updated successfully' });
 	} catch (error) {

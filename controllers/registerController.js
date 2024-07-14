@@ -4,6 +4,7 @@ const controller = {};
 const bcrypt = require('bcrypt');
 const accountModel = require('../models/accountModel');
 const userModel = require('../models/userModel');
+const { sanitizeInput } = require('./shared');
 
 
 controller.show = async (req, res) => {

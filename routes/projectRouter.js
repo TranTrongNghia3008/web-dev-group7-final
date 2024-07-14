@@ -12,6 +12,7 @@ router.put('/:projectId', controller.editProject);
 router.delete('/:projectId', controller.deleteProject);
 
 router.post('/list/assignUser', controller.assignUser);
+router.post('/list/check-role', controller.checkUserRole);
 router.delete('/removeAssignUser/:id', controller.removeAssignUser);
 
 router.use('/:projectId/requirement', require('./requirementRouter'));
@@ -23,5 +24,6 @@ router.use('/:projectId/test-plan', require('./testPlanRouter'));
 router.use('/:projectId/issue', require('./issueRouter'));
 router.use('/:projectId/report', require('./reportRouter'));
 router.use('/:projectId/tag', require('./tagRouter'));
+router.use('/:projectId/not-have-access', require('./notHaveAccessRouter'));
 
 module.exports = router;
