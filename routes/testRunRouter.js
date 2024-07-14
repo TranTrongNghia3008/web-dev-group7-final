@@ -10,6 +10,9 @@ router.get('/', controller.show);
 router.get(':page', controller.show);
 router.get('/result', controller.showResult);
 router.get('/result:page', controller.showResult);
+router.put('/result/changeStatus/:testCaseId', controller.changeStatus);
+router.put('/result/updateAssignTo/:testCaseId', controller.updateAssignTo);
+router.put('/result/bulkActions', controller.bulkActions);
 
 router.post('/', controller.addTestRun);
 router.put('/:id', controller.editTestRun);

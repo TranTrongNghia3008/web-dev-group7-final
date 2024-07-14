@@ -1,9 +1,14 @@
 'use strict';
 
 const controller = {};
-
+const csv = require('csv-parser');
+const path = require('path');
+const fs = require('fs');
+const ObjectsToCsv = require('objects-to-csv');
 const moduleModel = require('../models/moduleModel');
 const testCaseModel = require('../models/testCaseModel');
+const requirementModel = require('../models/requirementModel');
+const releaseModel = require('../models/releaseModel');
 const testPlanModel = require('../models/testPlanModel');
 const testRunModel = require('../models/testRunModel');
 const tagModel = require('../models/tagModel');
@@ -109,6 +114,13 @@ controller.show = async (req, res) => {
             queryParams: req.query
         };
 
+        const allModules = await moduleModel.find({ ProjectID: projectId})
+
+        const allReleases = await releaseModel.find({ ProjectID: projectId})
+        const releaseIds = allReleases.map(release => release._id);
+        const allRequirements = await requirementModel.find({ ReleaseID: { $in: releaseIds } });
+        const requirementIds = allRequirements.map(requirement => requirement._id);
+        const allTestPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds } });
 
         // Gói dữ liệu trong projectData
         const projectData = {
@@ -120,6 +132,8 @@ controller.show = async (req, res) => {
             testCaseTotal: allTestCases.length,
             TestCases: testCases.slice(skip, skip + limit),
             Modules: JSON.stringify(modulesWithTestCaseCount),
+            AllModules: allModules,
+            AllTestPlan: allTestPlans,
             sortField,
             sortOrder
         };
@@ -373,71 +387,207 @@ controller.showImportCategory = async (req, res) => {
     }
 }
 
-// controller.addTestCaseStep = async (req, res) => {
-//     try {
-//         const projectId = req.params.projectId;
-//         const { releaseName, type, description } = req.body;
+controller.addTestCaseStep = async (req, res) => {
+    try {
+        const { nameModule, nameTestCase, nameTestPlan, descriptionTestCase, typeTestCase, priorityTestCase, preconditionTestCase } = req.body;
 
-//         const release = await releaseModel.findOne({ Name: releaseName });
+        const testPlan = await testPlanModel.findOne({ Name: nameTestPlan });
+        if (!testPlan) {
+            return res.status(404).json({ message: 'Test Plan not found' });
+        }
 
-//         const newRequirement = await requirementModel.create({
-//             Type: type,
-//             Description: description || null,
-//             ReleaseID: release._id || "66601b671ef4a55f282208d3",
-//             AssignTo: "666011d01cc6e634de0ff70d",
-//         });
+        // Tìm Module dựa trên tên
+        const module = await moduleModel.findOne({ Name: nameModule });
+        if (!module) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
 
+        const newTestCase = await testCaseModel.create({
+            Title: nameTestCase,
+            Priority: priorityTestCase || null,
+            Precondition: preconditionTestCase || null,
+            Description: descriptionTestCase || null,
+            ModuleID: module._id, 
+            TestPlanID: testPlan._id,
+        });
 
-//         res.redirect(`/project/${projectId}/requirement`);
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error creating Requirement', error });
-//     }
-// };
+        if (!newTestCase) {
+            return res.status(404).json({ message: 'Test Case not found' });
+        }
+        else
+            res.status(200).json({ message: 'Test Case Added successfully!', TestCaseID: newTestCase._id });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding Test Case', error });
+    }
+};
 
-// controller.editRequirement = async (req, res) => {
-//     try {
-//         const { releaseNameEdit, typeEdit, descriptionEdit, idEdit } = req.body;
+controller.editTestCase = async (req, res) => {
+    try {
+        const { idEdit, nameModuleEdit, nameTestCaseEdit, nameTestPlanEdit, descriptionTestCaseEdit, typeTestCaseEdit, priorityTestCaseEdit, preconditionTestCaseEdit } = req.body;
 
-//         const release = await releaseModel.findOne({ Name: releaseNameEdit });
+        const testPlan = await testPlanModel.findOne({ Name: nameTestPlanEdit });
+        if (!testPlan) {
+            return res.status(404).json({ message: 'Test Plan not found' });
+        }
 
-//         const currentRequirement = await requirementModel.findById(idEdit);
-//         const typeChanged = currentRequirement.Type !== typeEdit;
+        const module = await moduleModel.findOne({ Name: nameModuleEdit });
+        if (!module) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
 
-//         const updatedRequirement = await requirementModel.findByIdAndUpdate(
-//             idEdit,
-//             {
-//                 Type: typeEdit,
-//                 Description: descriptionEdit || null,
-//                 ReleaseID: release._id || "66601b671ef4a55f282208d3",
-//                 UpdatedAt: Date.now()
-//                 // AssignTo: if it is to be updated, include here
-//             },
-//         );
+        const updatedTestCase = await testCaseModel.findByIdAndUpdate(
+            idEdit,
+            {
+                Title: nameTestCaseEdit,
+                Priority: priorityTestCaseEdit || null,
+                Precondition: preconditionTestCaseEdit || null,
+                Description: descriptionTestCaseEdit || null,
+                ModuleID: module._id, 
+                TestPlanID: testPlan._id,
+                UpdatedAt: Date.now()
+            },
+        );
 
-//         if (!updatedRequirement) {
-//             return res.status(404).json({ message: 'Requirement not found' });
-//         }
-//         else
-//             res.status(200).json({ message: 'Requirement Updated successfully!', typeChanged: typeChanged });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error updating Requirement', error });
-//     }
-// };
+        if (!updatedTestCase) {
+            return res.status(404).json({ message: 'Test Case not found' });
+        }
+        else
+            res.status(200).json({ message: 'Test Case Updated successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating Test Case', error });
+    }
+};
 
-// controller.deleteRequirement = async (req, res) => {
-//     try {
-//         const requirementId = req.params.requirementId;
-//         const deletedRequirement = await requirementModel.findByIdAndDelete(requirementId);
+controller.deleteTestCase = async (req, res) => {
+    try {
+        const testCaseId = req.params.testCaseId;
+        const deletedTestCase = await testCaseModel.findByIdAndDelete(testCaseId);
 
-//         if (!deletedRequirement) {
-//             return res.status(404).json({ message: "Requirement not found" });
-//         }
+        if (!deletedTestCase) {
+            return res.status(404).json({ message: "Test case not found" });
+        }
 
-//         res.json({ message: "Requirement deleted successfully", deletedRequirement });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Failed to delete requirement", error });
-//     }
-// };
+        res.json({ message: "Test case deleted successfully", deletedTestCase });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete test case", error });
+    }
+};
+
+controller.exportTestCase = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+
+        let modules = await moduleModel.find({ ProjectID: projectId });
+        const moduleIds = modules.map(module => module._id);
+
+        const testCases = await testCaseModel.find({ ModuleID: { $in: moduleIds } });
+
+        // Chuyển đổi dữ liệu thành mảng các đối tượng chỉ chứa các thuộc tính cần xuất
+        const csvData = testCases.map(testCase => ({
+            Title: testCase.Title,
+            Priority: testCase.Priority,
+            Precondition: testCase.Precondition,
+            Description: testCase.Description,
+            CreatedAt: new Date(testCase.CreatedAt).toISOString().split('T')[0],
+            UpdatedAt: new Date(testCase.UpdatedAt).toISOString().split('T')[0],
+            ModuleID: testCase.ModuleID.toString(), // Convert ObjectId to string
+            TestPlanID: testCase.TestPlanID.toString() // Convert ObjectId to string
+        }));
+
+        // Tạo đối tượng ObjectsToCsv với mảng dữ liệu đã được chuyển đổi
+        const csv = new ObjectsToCsv(csvData);
+
+        // Đường dẫn và tên file CSV để lưu trữ
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileName = `testCaseExport-${uniqueSuffix}`;
+        const filePath = path.join(__dirname, `../public/files/${fileName}.csv`);
+
+        // Ghi dữ liệu xuống file CSV
+        await csv.toDisk(filePath);
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'test_cases_export.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            } else {
+                // Optionally delete the file after download
+                fs.unlinkSync(filePath);
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting requirements:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.importTestCase = async (req, res) => {
+    const projectId = req.params.projectId;
+
+    try {
+        // Check if a file has been uploaded
+        if (!req.file) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        // Check if the file is a CSV
+        if (req.file.mimetype !== 'text/csv') {
+            return res.status(400).send('Select CSV files only.');
+        }
+
+        // Path to the uploaded CSV file
+        const filePath = req.file.path;
+
+        // Read data from the CSV file
+        let testCases = [];
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', (row) => {
+                // Create a TestCase object from the CSV data
+                const newTestCase = new testCaseModel({
+                    Title: row.Title,
+                    Priority: row.Priority,
+                    Precondition: row.Precondition || null,
+                    Description: row.Description || null,
+                    ModuleID: row.ModuleID || "666017adf902bdf00016abc0",
+                    TestPlanID: row.TestPlanID || "66601d7f32c5408430429d19"
+                });
+                testCases.push(newTestCase);
+            })
+            .on('end', async () => {
+                // Save the TestCase objects to MongoDB
+                try {
+                    await testCaseModel.insertMany(testCases);
+                    res.redirect(`/project/${projectId}/test-case`);
+                } catch (error) {
+                    console.error('Error importing test cases:', error);
+                    res.status(500).send('Internal server error');
+                }
+            });
+
+    } catch (error) {
+        console.error('Error in importTestCase:', error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+controller.downloadSampleTestCase = async (req, res) => {
+    try {
+        // Đường dẫn và tên file CSV để lưu trữ
+        const filePath = path.join(__dirname, '../public/files/testImportTestCase.csv');
+
+        // Chuẩn bị phản hồi để tải xuống file CSV
+        res.download(filePath, 'sample_test_cases.csv', (err) => {
+            if (err) {
+                console.error('Error downloading file:', err);
+                res.status(500).send('Internal server error');
+            }
+        });
+    } catch (error) {
+        console.error('Error exporting issues:', error);
+        res.status(500).send('Internal server error');
+    }
+};
 
 module.exports = controller;

@@ -93,6 +93,18 @@ controller.updateOrderChildModules = async (req, res) => {
     }
 };
 
+controller.getModuleNameById = async (req, res) => {
+    try {
+        const moduleId = req.params.moduleId;
+        const module = await moduleModel.findById(moduleId);
+        if (!module) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
+        res.json({ ModuleName: module.Name });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching module name', error });
+    }
+};
 
 controller.addModule = async (req, res) => {
     try {
@@ -152,5 +164,26 @@ controller.deleteModule = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+controller.editModule = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+
+        const updatedModule = await moduleModel.findByIdAndUpdate(id, {
+            Name: name,
+            UpdatedAt: Date.now()
+        });
+
+        if (!updatedModule) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
+        res.status(200).json({ message: 'Module updated successfully', module: updatedModule });
+
+    } catch (error) {
+        console.error('Error editing Module:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 module.exports = controller;

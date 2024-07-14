@@ -1,3 +1,5 @@
+// const { BIGINT } = require("sequelize");
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('moduleForm');
   
@@ -97,32 +99,61 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  
+  var editModuleModal = document.getElementById('editModuleModal');
+  editModuleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget;
+      // Extract info from data-* attributes
+    
+      var name = button.getAttribute('data-name');
+      var id = button.getAttribute('data-id');
+      
+
+      // Update the modal's form fields
+      var modal = this;
+   
+      modal.querySelector('input[name="moduleName"]').value = name;
+      modal.querySelector('input[name="moduleId"]').value = id;
+
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const editModuleForm = document.getElementById('editModuleForm');
+
+  // Xử lý submit form
+  editModuleForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const formData = {
+          name: this.elements['moduleName'].value,
+      };
+
+      const projectId = this.elements['projectId'].value;
+      const moduleId = this.elements['moduleId'].value;
+      console.log(projectId)
+
+      try {
+          const response = await fetch(`/project/${projectId}/module/${moduleId}`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+          });
+
+          if (!response.ok) {
+              throw new Error('Failed to update Module');
+          }
+
+          location.reload();
+      } catch (error) {
+          console.error('Error updating Module:', error);
+          alert('Failed to update Module.');
+      }
+  });
+});
 
 
-// document.querySelectorAll(".delete-").forEach((deleteBtn) => {
-//     deleteBtn.addEventListener("click",(e) => {
-//         e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
-
-//         let id = e.currentTarget.dataset.id;
-//         let pid = e.currentTarget.dataset.projectId;
-
-//         const options = {
-//             title: "Are you sure?",
-//             type: "danger",
-//             btnOkText: "Yes",
-//             btnCancelText: "No",
-//             onConfirm: () => {
-//                 console.log(id);
-//                 deleteTestRun(id, pid);
-//             },
-//             onCancel: () => {
-//                 console.log("Deletion canceled.");
-//             },
-//         };
-
-//         const { el, content, options: confirmedOptions } = bs5dialog.confirm(
-//             "Do you really want to delete this test run?",
-//             options
-//         );
-//     });
-// });

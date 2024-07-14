@@ -9,6 +9,7 @@ const testRunModel = require('../models/testRunModel');
 const issueModel = require('../models/issueModel');
 const releaseModel = require('../models/releaseModel');
 const activityModel = require('../models/activityModel'); 
+const participationModel = require('../models/participationModel'); 
 
 const { sanitizeInput } = require('./shared');
 
@@ -88,6 +89,7 @@ controller.showList = async (req, res) => {
 
         const account = req.user;
         const user = await userModel.findOne({ AccountEmail: account.Email });
+        const users = await userModel.find();
 
         // Render view project-list với dữ liệu các project
         res.render('project-list', { 
@@ -96,6 +98,7 @@ controller.showList = async (req, res) => {
                     <link rel="stylesheet" href="/css/project-list.css" />`, 
             d2: "selected-menu-item",
             user,
+            users,
             projects: projectsWithDetails.slice(skip, skip + limit), // Truyền danh sách các project với thông tin chi tiết tới view
             sortField,
             sortOrder,
@@ -140,6 +143,21 @@ controller.showHome = async (req, res) => {
             return testRuns.filter(testRun => testRun.Status === status).length;
         });
 
+        const participations = await participationModel.find({ ProjectID: projectId });
+        const assigneesIds = participations.map(participation => participation.UserID);
+        const userAssigns = await userModel.find({ _id: { $in: assigneesIds } });
+        const userAssignMap = userAssigns.reduce((map, userAssign) => {
+            map[userAssign._id] = userAssign;
+            return map;
+        }, {});
+
+        const participationsWithUserName = participations.map(participation => {
+            return {
+                ...participation._doc, // spread the document properties
+                Name: userAssignMap[participation.UserID] ? userAssignMap[participation.UserID].Name : 'Unknown', // Assuming 'name' is the field in userAssign model
+            };
+        })
+
 
         // Prepare the data to be sent to the view
         const projectData = {
@@ -157,7 +175,8 @@ controller.showHome = async (req, res) => {
             issues: issues.map(issue => issue._id),
             releases: releases.map(release => release._id),
             activities: activities,
-            numOpenReleaseStatus: numOpenReleaseStatus
+            numOpenReleaseStatus: numOpenReleaseStatus,
+            Participations: participationsWithUserName
         };
 
         const account = req.user;
@@ -232,5 +251,45 @@ controller.deleteProject = async (req, res) => {
         res.status(500).json({ message: "Failed to delete project", error });
     }
 };
+
+controller.assignUser = async (req, res) => {
+    const { role, assignUser, projectId } = req.body;
+    console.log( role, assignUser, projectId)
+  
+    try {
+      // Tạo mới participation
+      const participation = new participationModel({
+        Role: role,
+        UserID: assignUser,
+        ProjectID: projectId,
+      });
+  
+      // Lưu vào database
+      await participation.save();
+  
+      res.status(200).json({ success: true, message: 'User assigned successfully.' });
+    } catch (error) {
+      console.error('Error assigning user:', error);
+      res.status(500).json({ success: false, message: 'Failed to assign user.' });
+    }
+  };
+  
+
+  controller.removeAssignUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await participationModel.findByIdAndDelete(id);
+        if (result) {
+            res.status(200).json({ message: 'Assign User removed successfully.' });
+        } else {
+            res.status(404).json({ message: 'Assign User not found.' });
+        }
+    } catch (error) {
+        console.error('Error deleting test run:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
 
 module.exports = controller;

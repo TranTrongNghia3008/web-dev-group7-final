@@ -123,6 +123,19 @@
                                             <label class="form-check-label" for="modules">
                                                 ${moduleName} (<span class="num-modules">${childModules.length}</span>)
                                             </label>
+                                            <a
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editModuleModal"
+                                                href="#"
+                                                data-bs-toggle="tooltip"
+                                                title="Edit"
+                                                class="my-auto mx-2"
+                                                data-id="${moduleId}"
+                                                data-name="${moduleName}"
+                                                data-projectId="${projectId}"
+                                            >
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
                                         </div>
                                         <div>
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#addModule" data-bs-toggle="tooltip" title="Add Module" class="mx-2" data-projectid="${projectId}">
@@ -280,5 +293,47 @@
             </form>
         </div>
     </div>
-
-    <script src="/js/module-CRUD.js"></script>
+<form action="" id="editModuleForm" class="needs-validation" novalidate >
+    <div class="modal fade" id="editModuleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">      
+            <input type="hidden" name="projectId" value="{{project.ProjectID}}">
+            <input type="hidden" name="moduleId">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title fs-5" id="exampleModalLabel">
+                    Edit Module
+                </h6>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+                </div>
+                <div class="modal-body">
+                <input
+                    type="text"
+                    name="moduleName"
+                    class="form-control"
+                    placeholder="Please enter the module name *"
+                    required
+                />
+                <div class="invalid-feedback">
+                    Please enter the module name.
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Update</button>
+                <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</form>

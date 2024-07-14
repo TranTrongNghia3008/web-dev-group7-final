@@ -36,7 +36,7 @@
             Search
         </a>
 
-        <a href="#" class="mx-2 my-auto">
+        <a href="/project/{{project.ProjectID}}/test-case/export/" class="mx-2 my-auto">
             <i class="bi bi-cloud-download"></i>
             Export
         </a>
@@ -68,7 +68,7 @@
                 <a
                 class="dropdown-item"
                 href="#"
-                data-bs-target="#addCaseStep"
+                data-bs-target="#addTestCase"
                 data-bs-toggle="modal"
                 >
                 <i class="bi bi-bar-chart-steps text-primary"></i>
@@ -110,12 +110,15 @@
                 >
             </li>
             </ul>
-            <form action="" class="needs-validation" novalidate>
+
+            {{!-- modal add --}}
+            <form action="" id="addTestCaseForm" onsubmit="addTestCase(event)" class="needs-validation" novalidate>
+            <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
             <div
                 class="modal fade"
-                id="addCaseStep"
+                id="addTestCase"
                 tabindex="-1"
-                aria-labelledby="exampleModalFullscreenLabel"
+                aria-labelledby="addTestCaseLabel"
                 style="display: none"
                 aria-hidden="true"
             >
@@ -125,744 +128,834 @@
                     style="margin-left: 300px; padding-right: 300px"
                 >
                     <div class="modal-header">
-                    <div>
-                        <div
-                        class="d-flex justify-content-between align-items-center p-3"
-                        >
-                        <h6 class="ms-3 fs-5">
-                            <i class="bi bi-bar-chart-steps text-primary"></i>
-                            Add Test Case Steps
-                        </h6>
-                        <div class="d-flex align-items-center">
-                            <button
-                            type="button"
-                            class="btn btn-outline-danger mx-2"
-                            data-bs-dismiss="modal"
+                        <div>
+                            <div
+                            class="modal-title d-flex justify-content-between align-items-center p-3"
+                            id="addTestCaseLabel"
                             >
-                            Cancel
-                            </button>
-                            <button type="submit" class="btn btn-danger mx-2">
-                            Save
-                            </button>
-                        </div>
-                        </div>
-                        <ul class="nav nav-underline menu-2">
-                        <li class="nav-item mx-2">
-                            <a
-                            class="nav-link active border-danger"
-                            aria-current="page"
-                            href="#"
-                            >Test Case Details</a
-                            >
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Steps</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Attachments</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Link Testcase</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Link Requirements</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Custom Fields</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Others</a>
-                        </li>
-                        </ul>
-                    </div>
-
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
-                    </div>
-                    <div class="modal-body px-5">
-                    <div class="container d-flex justify-content-between">
-                        <div class="col-6 me-5">
-                        <div class="mb-4 d-flex align-items-center">
-                            <div class="me-4 fs-60" style="color: #919faf">
-                            Template
+                            <h6 class="ms-3 fs-5">
+                                <i class="bi bi-bar-chart-steps text-primary"></i>
+                                Add Test Case Steps
+                            </h6>
+                            <div class="d-flex align-items-center">
+                                <button
+                                type="button"
+                                class="btn btn-outline-danger mx-2"
+                                data-bs-dismiss="modal"
+                                >
+                                Cancel
+                                </button>
+                                <button type="submit" class="btn btn-danger mx-2">
+                                Save
+                                </button>
                             </div>
-                            <button
-                            class="btn btn-white dropdown-toggle fw-semibold border-0"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            >
-                            <i
-                                class="bi bi-bar-chart-steps text-primary"
-                            ></i>
-                            Test Case (Steps)
-                            </button>
-                            <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                <i
-                                    class="bi bi-bar-chart-steps text-primary"
-                                ></i>
-                                Test Case (Steps)</a
-                                >
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                <i
-                                    class="bi bi-file-earmark-text"
-                                    style="color: #00897b"
-                                ></i>
-                                Test Case (Text)</a
-                                >
-                            </li>
-                            <li>
+                            </div>
+                            <ul class="nav nav-underline menu-2">
+                            <li class="nav-item mx-2">
                                 <a
-                                class="dropdown-item d-flex align-items-center"
+                                class="nav-link active border-danger"
+                                aria-current="page"
                                 href="#"
+                                >Test Case Details</a
                                 >
-                                <img
-                                    src="/images/bdd-icon.png"
-                                    alt="BDD Case"
-                                    style="width: 15px"
-                                    class="me-1"
-                                />
-                                Test Case (BDD)</a
-                                >
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="#">Steps</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="#">Attachments</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="#">Link Testcase</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="#">Link Requirements</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="#">Custom Fields</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="#">Others</a>
                             </li>
                             </ul>
                         </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="brow-module"
-                            class="form-label d-flex justify-content-between"
-                            >
-                            <div>
-                                Select Module
-                                <span style="color: #f44336">*</span>
-                            </div>
-                            </label>
-                            <input
-                            list="brow-module"
-                            class="form-select border-0 bg-light"
-                            required
-                            />
-                            <datalist id="brow-module">
-                            <option value="Home page"></option>
-                            <option value="Header section"></option>
-                            <option value="Footer section"></option>
-                            <option value="Pricing"></option>
-                            <option value="Blog"></option>
-                            <option value="Contact"></option>
-                            </datalist>
-                            <div class="invalid-feedback">
-                            Please Select Module.
-                            </div>
-                            <div
-                            style="
-                                font-size: smaller;
-                                border-style: dashed !important;
-                            "
-                            class="border border-1 rounded-2 mt-2 py-2 text-center d-flex justify-content-center align-items-center"
-                            >
-                            To add new module.
-                            <button
-                                type="button"
-                                id="btnAddModuleTestCase"
-                                class="btn btn-danger btn-sm ms-3"
-                            >
-                                Click here
-                            </button>
-                            </div>
-                        </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="brow-module"
-                            class="form-label d-flex justify-content-between"
-                            >
-                            <div>
-                                Test Case Title
-                                <span style="color: #f44336">*</span>
-                            </div>
-                            </label>
-                            <textarea
-                            class="form-control border-0 bg-light"
-                            id="form-test-case-description"
-                            rows="4"
-                            placeholder="Test Case Title"
-                            style="color: #757575"
-                            required
-                            ></textarea>
-                            <div class="invalid-feedback">
-                            Please Enter Test Case Title.
-                            </div>
-                        </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="TestcaseDescription"
-                            class="form-label"
-                            >Description</label
-                            >
-                            <div
-                            class="rounded-top border d-flex p-2 bg-light"
-                            >
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-type-bold"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-type-italic"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-link"></i>
-                            </button>
-                            <select
-                                class="form-select border-0 bg-light"
-                                aria-label="Default select example"
-                                style="width: 8rem"
-                            >
-                                <option selected>Normal</option>
-                                <option value="1">Small</option>
-                                <option value="2">Normal</option>
-                                <option value="3">Large</option>
-                            </select>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ol"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ul"></i>
-                            </button>
-                            </div>
-                            <textarea
-                            class="form-control rounded-top-0 bg-light"
-                            id="TestcaseDescription"
-                            rows="5"
-                            name="testcase-description"
-                            placeholder="Enter Description"
-                            ></textarea>
-                        </div>
-                        </div>
-                        <div class="col-6">
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="brow-test-plan"
-                            class="form-label d-flex justify-content-between"
-                            >
-                            <div>Test Plan</div>
-                            </label>
-                            <input
-                            list="brow-test-plan"
-                            placeholder="Select a Test Plan"
-                            class="form-select border-0 bg-light"
-                            />
-                            <datalist id="brow-test-plan">
-                            <option
-                                value="Add test case for shopping cart"
-                            ></option>
-                            </datalist>
-                        </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="brow-type"
-                            class="form-label d-flex justify-content-between"
-                            >
-                            <div>Type</div>
-                            </label>
-                            <input
-                            list="brow-type"
-                            placeholder="Acceptance"
-                            class="form-select border-0 bg-light"
-                            />
-                            <datalist id="brow-type">
-                            <option value="Acceptance"></option>
-                            <option value="Accessibility"></option>
-                            <option value="Automation"></option>
-                            <option value="Compatibility"></option>
-                            <option value="Functional"></option>
-                            <option value="Other"></option>
-                            <option value="Performance"></option>
-                            <option value="Regression"></option>
-                            <option value="Smoke &amp; Sanity"></option>
-                            <option value="Usability"></option>
-                            </datalist>
-                        </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="brow-priority"
-                            class="form-label d-flex justify-content-between"
-                            >
-                            <div>Priority</div>
-                            </label>
-                            <input
-                            list="brow-priority"
-                            placeholder="Critical"
-                            class="form-select border-0 bg-light"
-                            />
-                            <datalist id="brow-priority">
-                            <option value="Critical"></option>
-                            <option value="High"></option>
-                            <option value="Medium"></option>
-                            <option value="Low"></option>
-                            </datalist>
-                        </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="brow-tag"
-                            class="form-label d-flex justify-content-between"
-                            >
-                            <div>Tags</div>
-                            </label>
-                            <input
-                            list="brow-tag"
-                            placeholder="Select Tags"
-                            class="form-select border-0 bg-light"
-                            />
-                            <datalist id="brow-tag">
-                            <option value="sanity"></option>
-                            <option value="regression"></option>
-                            </datalist>
-                        </div>
-                        <div class="mb-4" style="color: #919faf">
-                            <label
-                            for="TestcasePrecondition"
-                            class="form-label"
-                            >Precondition</label
-                            >
-                            <div
-                            class="rounded-top border d-flex p-2 bg-light"
-                            >
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-type-bold"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-type-italic"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-link"></i>
-                            </button>
-                            <select
-                                class="form-select border-0 bg-light"
-                                aria-label="Default select example"
-                                style="width: 8rem"
-                            >
-                                <option selected>Normal</option>
-                                <option value="1">Small</option>
-                                <option value="2">Normal</option>
-                                <option value="3">Large</option>
-                            </select>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ol"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-light border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ul"></i>
-                            </button>
-                            </div>
-                            <textarea
-                            class="form-control rounded-top-0 bg-light"
-                            id="TestcasePrecondition"
-                            rows="5"
-                            name="testcase-precondition"
-                            placeholder="Enter Description"
-                            ></textarea>
-                        </div>
-                        </div>
-                        <!-- <form action="">
-                        <div class="row row-cols-md-2">
-                        <div class="col mb-3">
-                            <label for="fIssueTitle" class="form-label"
-                            >Issue Title
-                            <span class="text-danger">*</span></label
-                            >
-                            <textarea
-                            class="form-control"
-                            id="fIssueTitle"
-                            rows="3"
-                            name="issue-title"
-                            placeholder="Enter Issue Title"
-                            ></textarea>
-                        </div>
-                        <div class="col mb-3">
-                            <label for="fIssueDescription" class="form-label"
-                            >Description</label
-                            >
-                            <div class="rounded-top border d-flex p-2">
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-type-bold"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-type-italic"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-link"></i>
-                            </button>
-                            <select
-                                class="form-select border-0"
-                                aria-label="Default select example"
-                                style="width: 8rem"
-                            >
-                                <option selected>Normal</option>
-                                <option value="1">Small</option>
-                                <option value="2">Normal</option>
-                                <option value="3">Large</option>
-                            </select>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ol"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ul"></i>
-                            </button>
-                            </div>
-                            <textarea
-                            class="form-control rounded-top-0"
-                            id="fIssueDescription"
-                            rows="5"
-                            name="issue-description"
-                            placeholder="Insert text here..."
-                            ></textarea>
-                        </div>
-                        </div>
-                        <div class="row row-cols-md-3">
-                        <div class="col mb-3">
-                            <label for="fCategory" class="form-label"
-                            >Category
-                            <span class="text-danger">*</span></label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistCategory"
-                            id="fCategory"
-                            name="category"
-                            placeholder="Select a Category"
-                            />
-                            <datalist id="datalistCategory">
-                            <option value="Bug"></option>
-                            <option value="Task"></option>
-                            <option value="Subtask"></option>
-                            </datalist>
-                        </div>
-                        <div class="col mb-3">
-                            <label for="fStatus" class="form-label"
-                            >Status
-                            <span class="text-danger">*</span></label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistStatus"
-                            id="fStatus"
-                            name="status"
-                            placeholder="Select a Status"
-                            />
-                            <datalist id="datalistStatus">
-                            <option value="Assigned"></option>
-                            <option value="Closed"></option>
-                            <option value="Deferred"></option>
-                            <option value="Duplicate"></option>
-                            <option value="Fixed"></option>
-                            <option value="Invalid"></option>
-                            <option value="New"></option>
-                            <option value="Open"></option>
-                            <option value="Reopen"></option>
-                            <option value="Retest"></option>
-                            <option value="Verified"></option>
-                            </datalist>
-                        </div>
 
-                        <div class="col mb-3">
-                            <label for="fPriority" class="form-label"
-                            >Priority
-                            <span class="text-danger">*</span></label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistPriority"
-                            id="fPriority"
-                            name="priority"
-                            placeholder="Select a Priority"
-                            />
-                            <datalist id="datalistPriority">
-                            <option value="Show topper"></option>
-                            <option value="Hight"></option>
-                            <option value="Medium"></option>
-                            <option value="Low"></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fIssueType" class="form-label"
-                            >Issue Type</label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistIssueType"
-                            id="fIssueType"
-                            name="issue-type"
-                            placeholder="Select a Issue Type"
-                            />
-                            <datalist id="datalistIssueType">
-                            <option value="Not Applicable"></option>
-                            <option value="UI/Design"></option>
-                            <option value="Performance"></option>
-                            <option value="Validations"></option>
-                            <option value="Functionality"></option>
-                            <option value="SEO"></option>
-                            <option value="Console Error"></option>
-                            <option value="Server Error"></option>
-                            <option value="Tracking"></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fAssignedTo" class="form-label"
-                            >Assigned To</label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistAssignedTo"
-                            id="fAssignedTo"
-                            name="assigned-to"
-                            placeholder="Select an Assigned To"
-                            />
-                            <datalist id="datalistAssignedTo">
-                            <option value="Minh-Nhat Nguyen"></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fModule" class="form-label"
-                            >Module</label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistModule"
-                            id="fModule"
-                            name="module"
-                            placeholder="Select a Module"
-                            />
-                            <datalist id="datalistModule">
-                            <option value="Home page"></option>
-                            <option value="Header section"></option>
-                            <option value="Footer section"></option>
-                            <option value="Pricing"></option>
-                            <option value="Blog"></option>
-                            <option value="Contact"></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fSeverity" class="form-label"
-                            >Severity</label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistSeverity"
-                            id="fSeverity"
-                            name="severity"
-                            placeholder="Select a Severity"
-                            />
-                            <datalist id="datalistSeverity">
-                            <option value="Critical"></option>
-                            <option value="Blocker"></option>
-                            <option value="Major"></option>
-                            <option value="Minor"></option>
-                            <option value="Trivial"></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fEnvironment" class="form-label"
-                            >Environment
-                            </label>
-                            <input
-                            class="form-control"
-                            list="datalistEnvironment"
-                            id="fEnvironment"
-                            name="environment"
-                            placeholder="Select an Environment"
-                            />
-                            <datalist id="datalistEnvironment">
-                            <option
-                                value="Sorry, no matching options."
-                            ></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fRelease" class="form-label"
-                            >Release</label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistRelease"
-                            id="fRelease"
-                            name="release"
-                            placeholder="Select a Release"
-                            />
-                            <datalist id="datalistRelease">
-                            <option value="Web 7 ver 1.0"></option>
-                            </datalist>
-                        </div>
-
-                        <div class="col mb-3">
-                            <label for="fOperatingSystems" class="form-label"
-                            >Operating systems</label
-                            >
-                            <input
-                            class="form-control"
-                            list="datalistOperatingSystems"
-                            id="fOperatingSystems"
-                            name="operating-systems"
-                            placeholder="Select Operating systems"
-                            />
-                            <datalist id="datalistOperatingSystems">
-                            <option value="All"></option>
-                            <option value="Mac os"></option>
-                            <option value="Ipad"></option>
-                            <option value="Iphone"></option>
-                            <option value="Android"></option>
-                            <option value="Windows os"></option>
-                            </datalist>
-                        </div>
-                        <div class="col-2 mb-3">
-                            <p class="mb-2">Due date</p>
-                            <div class="row row-cols-md-2">
-                            <div class="col d-flex">
-                                <label for="startDay" class="my-auto me-2"
-                                >From</label
-                                >
-                                <input
-                                class="form-control"
-                                type="date"
-                                id="startDay"
-                                name="start-day"
-                                />
-                            </div>
-                            <div class="col d-flex">
-                                <label for="endDay" class="my-auto me-2"
-                                >To</label
-                                >
-                                <input
-                                class="form-control"
-                                type="date"
-                                id="endDay"
-                                name="end-day"
-                                />
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="row row-cols-md-2">
-                        <div class="col mb-3">
-                            <label for="fStepsToReproduce" class="form-label"
-                            >Steps to reproduce</label
-                            >
-                            <div class="rounded-top border d-flex p-2">
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-type-bold"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-type-italic"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-link"></i>
-                            </button>
-                            <select
-                                class="form-select border-0"
-                                aria-label="Default select example"
-                                style="width: 8rem"
-                            >
-                                <option selected>Normal</option>
-                                <option value="1">Small</option>
-                                <option value="2">Normal</option>
-                                <option value="3">Large</option>
-                            </select>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ol"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="bg-white border-0 mx-1"
-                            >
-                                <i class="bi bi-list-ul"></i>
-                            </button>
-                            </div>
-                            <textarea
-                            class="form-control rounded-top-0"
-                            id="fStepsToReproduce"
-                            rows="5"
-                            name="steps-to-reproduce"
-                            placeholder="Insert text here..."
-                            ></textarea>
-                        </div>
-                        </div>
-                    </form> -->
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
                     </div>
+                    <div class="modal-body px-5">
+                        <div class="container d-flex justify-content-between">
+                            <div class="col-6 me-5">
+                            <div class="mb-4 d-flex align-items-center">
+                                <div class="me-4 fs-60" style="color: #919faf">
+                                Template
+                                </div>
+                                <button
+                                class="btn btn-white dropdown-toggle fw-semibold border-0"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                >
+                                <i
+                                    class="bi bi-bar-chart-steps text-primary"
+                                ></i>
+                                Test Case (Steps)
+                                </button>
+                                <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                    <i
+                                        class="bi bi-bar-chart-steps text-primary"
+                                    ></i>
+                                    Test Case (Steps)</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                    <i
+                                        class="bi bi-file-earmark-text"
+                                        style="color: #00897b"
+                                    ></i>
+                                    Test Case (Text)</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                    class="dropdown-item d-flex align-items-center"
+                                    href="#"
+                                    >
+                                    <img
+                                        src="/images/bdd-icon.png"
+                                        alt="BDD Case"
+                                        style="width: 15px"
+                                        class="me-1"
+                                    />
+                                    Test Case (BDD)</a
+                                    >
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="nameModule"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>
+                                    Select Module
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                                </label>
+                                <input
+                                type="text"
+                                id="nameModule"
+                                name="nameModule"
+                                list="brow-module"
+                                class="form-select border-0 bg-light"
+                                required
+                                />
+                                <datalist id="brow-module">
+                                    {{#each project.AllModules}}
+                                    <option value="{{this.Name}}"></option>
+                                    {{/each}}
+                                </datalist>
+                                <div class="invalid-feedback">
+                                Please Select Module.
+                                </div>
+                                <div
+                                style="
+                                    font-size: smaller;
+                                    border-style: dashed !important;
+                                "
+                                class="border border-1 rounded-2 mt-2 py-2 text-center d-flex justify-content-center align-items-center"
+                                >
+                                To add new module.
+                                <button
+                                    type="button"
+                                    id="btnAddModuleTestCase"
+                                    class="btn btn-danger btn-sm ms-3"
+                                    onclick="window.open('/project/{{project.ProjectID}}/module', '_blank')"
+                                >
+                                    Click here
+                                </button>
+                                </div>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="nameTestCase"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>
+                                    Test Case Title
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                                </label>
+                                <textarea
+                                class="form-control border-0 bg-light"
+                                id="nameTestCase"
+                                name="nameTestCase"
+                                rows="4"
+                                placeholder="Test Case Title"
+                                style="color: #757575"
+                                required
+                                ></textarea>
+                                <div class="invalid-feedback">
+                                Please Enter Test Case Title.
+                                </div>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="descriptionTestCase"
+                                class="form-label"
+                                >Description</label
+                                >
+                                <div
+                                class="rounded-top border d-flex p-2 bg-light"
+                                >
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-bold"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-italic"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-link"></i>
+                                </button>
+                                <select
+                                    class="form-select border-0 bg-light"
+                                    aria-label="Default select example"
+                                    style="width: 8rem"
+                                >
+                                    <option selected>Normal</option>
+                                    <option value="1">Small</option>
+                                    <option value="2">Normal</option>
+                                    <option value="3">Large</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ol"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ul"></i>
+                                </button>
+                                </div>
+                                <textarea
+                                class="form-control rounded-top-0 bg-light"
+                                id="descriptionTestCase"
+                                name="descriptionTestCase"
+                                rows="5"
+                                placeholder="Enter Description"
+                                ></textarea>
+                            </div>
+                            </div>
+                            <div class="col-6">
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="nameTestPlan"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>
+                                    Test Plan
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                                </label>
+                                <input
+                                list="brow-test-plan"
+                                id="nameTestPlan"
+                                name="nameTestPlan"
+                                type="text"
+                                placeholder="Select a Test Plan"
+                                class="form-select border-0 bg-light"
+                                required
+                                />
+                                <datalist id="brow-test-plan">
+                                {{#each project.AllTestPlan}}
+                                <option
+                                    value="{{this.Name}}"
+                                ></option>
+                                {{/each}}
+                                </datalist>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="typeTestCase"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>Type</div>
+                                </label>
+                                <input
+                                list="brow-type"
+                                id="typeTestCase"
+                                name="typeTestCase"
+                                type="text"
+                                placeholder="Acceptance"
+                                class="form-select border-0 bg-light"
+                                />
+                                <datalist id="brow-type">
+                                <option value="Acceptance"></option>
+                                <option value="Accessibility"></option>
+                                <option value="Automation"></option>
+                                <option value="Compatibility"></option>
+                                <option value="Functional"></option>
+                                <option value="Other"></option>
+                                <option value="Performance"></option>
+                                <option value="Regression"></option>
+                                <option value="Smoke &amp; Sanity"></option>
+                                <option value="Usability"></option>
+                                </datalist>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="priorityTestCase"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>Priority</div>
+                                </label>
+                                <input
+                                list="brow-priority"
+                                id="priorityTestCase"
+                                name="priorityTestCase"
+                                type="text"
+                                placeholder="Critical"
+                                class="form-select border-0 bg-light"
+                                />
+                                <datalist id="brow-priority">
+                                <option value="Critical"></option>
+                                <option value="High"></option>
+                                <option value="Medium"></option>
+                                <option value="Low"></option>
+                                </datalist>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="nameTags" class="form-label d-flex justify-content-between">
+                                        <div>Tags</div>
+                                    </label>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn-add-tag">
+                                        <i class="bi bi-plus"></i> Tag
+                                    </button>
+                                </div>
+                                <div class="tagsinput">
+                                    <input
+                                        list="brow-tag"
+                                        placeholder="Enter a Tag"
+                                        class="form-select border-0 bg-light"
+                                        type="text"
+                                        name="nameTags"
+                                        id="nameTags"
+                                        style="display: none;"
+                                    />
+                                    <datalist id="brow-tag">
+                                        <option value="sanity"></option>
+                                        <option value="regression"></option>
+                                    </datalist>
+                                    <div class="tag justify-content-center" id="tag-template" style="display: none;">
+                                        <span class="tag-text text-white"></span>
+                                        <span class="btn-delete-tag text-white">
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="preconditionTestCase"
+                                class="form-label"
+                                >Precondition</label
+                                >
+                                <div
+                                class="rounded-top border d-flex p-2 bg-light"
+                                >
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-bold"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-italic"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-link"></i>
+                                </button>
+                                <select
+                                    class="form-select border-0 bg-light"
+                                    aria-label="Default select example"
+                                    style="width: 8rem"
+                                >
+                                    <option selected>Normal</option>
+                                    <option value="1">Small</option>
+                                    <option value="2">Normal</option>
+                                    <option value="3">Large</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ol"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ul"></i>
+                                </button>
+                                </div>
+                                <textarea
+                                class="form-control rounded-top-0 bg-light"
+                                id="preconditionTestCase"
+                                name="preconditionTestCase"
+                                rows="5"
+                                placeholder="Enter Description"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer"></div>
                 </div>
                 </div>
             </div>
             </form>
-            <form action="" class="needs-validation" novalidate>
+
+            {{!-- modal edit --}}
+            <form action="" id="editTestCaseForm" onsubmit="editTestCase(event)" class="needs-validation" novalidate>
+            <input type="hidden" name="projectIdEdit" value="{{project.ProjectID}}"/>
+            <input type="hidden" name="idEdit" id="idEdit"/>
+            <div
+                class="modal fade"
+                id="editTestCase"
+                tabindex="-1"
+                aria-labelledby="editTestCaseLabel"
+                style="display: none"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-fullscreen">
+                <div
+                    class="modal-content"
+                    style="margin-left: 300px; padding-right: 300px"
+                >
+                    <div class="modal-header">
+                        <div class="col-12">
+                            <div
+                            class="modal-title d-flex justify-content-between align-items-center p-3"
+                            id="editTestCaseLabel"
+                            >
+                            <h6 class="ms-3 fs-5">
+                                <i class="bi bi-bar-chart-steps text-primary"></i>
+                                Edit Test Case Steps
+                            </h6>
+                            <div class="d-flex align-items-center">
+                                <button
+                                type="button"
+                                class="btn btn-outline-danger mx-2"
+                                data-bs-dismiss="modal"
+                                >
+                                Cancel
+                                </button>
+                                <button type="submit" class="btn btn-danger mx-2">
+                                Save
+                                </button>
+                            </div>
+                            </div>
+                            <ul class="nav nav-underline menu-2">
+                            <li class="nav-item mx-2">
+                                <a
+                                class="nav-link active border-danger"
+                                aria-current="page"
+                                href="#"
+                                >Test Case Details</a
+                                >
+                            </li>
+                            </ul>
+                        </div>
+
+                        {{!-- <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button> --}}
+                    </div>
+                    <div class="modal-body px-5">
+                        <div class="container d-flex justify-content-between">
+                            <div class="col-6 me-5">
+                            <div class="mb-4 d-flex align-items-center">
+                                <div class="me-4 fs-60" style="color: #919faf">
+                                Template
+                                </div>
+                                <button
+                                class="btn btn-white dropdown-toggle fw-semibold border-0"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                >
+                                <i
+                                    class="bi bi-bar-chart-steps text-primary"
+                                ></i>
+                                Test Case (Steps)
+                                </button>
+                                <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                    <i
+                                        class="bi bi-bar-chart-steps text-primary"
+                                    ></i>
+                                    Test Case (Steps)</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                    <i
+                                        class="bi bi-file-earmark-text"
+                                        style="color: #00897b"
+                                    ></i>
+                                    Test Case (Text)</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                    class="dropdown-item d-flex align-items-center"
+                                    href="#"
+                                    >
+                                    <img
+                                        src="/images/bdd-icon.png"
+                                        alt="BDD Case"
+                                        style="width: 15px"
+                                        class="me-1"
+                                    />
+                                    Test Case (BDD)</a
+                                    >
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="nameModuleEdit"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>
+                                    Select Module
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                                </label>
+                                <input
+                                type="text"
+                                id="nameModuleEdit"
+                                name="nameModuleEdit"
+                                list="brow-module"
+                                class="form-select border-0 bg-light"
+                                required
+                                />
+                                <datalist id="brow-module">
+                                    {{#each project.AllModules}}
+                                    <option value="{{this.Name}}"></option>
+                                    {{/each}}
+                                </datalist>
+                                <div class="invalid-feedback">
+                                Please Select Module.
+                                </div>
+                                <div
+                                style="
+                                    font-size: smaller;
+                                    border-style: dashed !important;
+                                "
+                                class="border border-1 rounded-2 mt-2 py-2 text-center d-flex justify-content-center align-items-center"
+                                >
+                                To add new module.
+                                <button
+                                    type="button"
+                                    id="btnAddModuleTestCase"
+                                    class="btn btn-danger btn-sm ms-3"
+                                    onclick="window.open('/project/{{project.ProjectID}}/module', '_blank')"
+                                >
+                                    Click here
+                                </button>
+                                </div>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="nameTestCaseEdit"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>
+                                    Test Case Title
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                                </label>
+                                <textarea
+                                class="form-control border-0 bg-light"
+                                id="nameTestCaseEdit"
+                                name="nameTestCaseEdit"
+                                rows="4"
+                                placeholder="Test Case Title"
+                                style="color: #757575"
+                                required
+                                ></textarea>
+                                <div class="invalid-feedback">
+                                Please Enter Test Case Title.
+                                </div>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="descriptionTestCaseEdit"
+                                class="form-label"
+                                >Description</label
+                                >
+                                <div
+                                class="rounded-top border d-flex p-2 bg-light"
+                                >
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-bold"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-italic"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-link"></i>
+                                </button>
+                                <select
+                                    class="form-select border-0 bg-light"
+                                    aria-label="Default select example"
+                                    style="width: 8rem"
+                                >
+                                    <option selected>Normal</option>
+                                    <option value="1">Small</option>
+                                    <option value="2">Normal</option>
+                                    <option value="3">Large</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ol"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ul"></i>
+                                </button>
+                                </div>
+                                <textarea
+                                class="form-control rounded-top-0 bg-light"
+                                id="descriptionTestCaseEdit"
+                                name="descriptionTestCaseEdit"
+                                rows="5"
+                                placeholder="Enter Description"
+                                ></textarea>
+                            </div>
+                            </div>
+                            <div class="col-6">
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="nameTestPlanEdit"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>
+                                    Test Plan
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                                </label>
+                                <input
+                                list="brow-test-plan"
+                                id="nameTestPlanEdit"
+                                name="nameTestPlanEdit"
+                                type="text"
+                                placeholder="Select a Test Plan"
+                                class="form-select border-0 bg-light"
+                                required
+                                />
+                                <datalist id="brow-test-plan">
+                                {{#each project.AllTestPlan}}
+                                <option
+                                    value="{{this.Name}}"
+                                ></option>
+                                {{/each}}
+                                </datalist>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="typeTestCaseEdit"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>Type</div>
+                                </label>
+                                <input
+                                list="brow-type"
+                                id="typeTestCaseEdit"
+                                name="typeTestCaseEdit"
+                                type="text"
+                                placeholder="Acceptance"
+                                class="form-select border-0 bg-light"
+                                />
+                                <datalist id="brow-type">
+                                <option value="Acceptance"></option>
+                                <option value="Accessibility"></option>
+                                <option value="Automation"></option>
+                                <option value="Compatibility"></option>
+                                <option value="Functional"></option>
+                                <option value="Other"></option>
+                                <option value="Performance"></option>
+                                <option value="Regression"></option>
+                                <option value="Smoke &amp; Sanity"></option>
+                                <option value="Usability"></option>
+                                </datalist>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="priorityTestCaseEdit"
+                                class="form-label d-flex justify-content-between"
+                                >
+                                <div>Priority</div>
+                                </label>
+                                <input
+                                list="brow-priority"
+                                id="priorityTestCaseEdit"
+                                name="priorityTestCaseEdit"
+                                type="text"
+                                placeholder="Critical"
+                                class="form-select border-0 bg-light"
+                                />
+                                <datalist id="brow-priority">
+                                <option value="Critical"></option>
+                                <option value="High"></option>
+                                <option value="Medium"></option>
+                                <option value="Low"></option>
+                                </datalist>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="nameTagsEdit" class="form-label d-flex justify-content-between">
+                                        <div>Tags</div>
+                                    </label>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn-add-tag-edit">
+                                        <i class="bi bi-plus"></i> Tag
+                                    </button>
+                                </div>
+                                <div class="tagsinput">
+                                    <input
+                                        list="brow-tag-edit"
+                                        placeholder="Enter a Tag"
+                                        class="form-select border-0 bg-light"
+                                        type="text"
+                                        name="nameTagsEdit"
+                                        id="nameTagsEdit"
+                                        style="display: none;"
+                                    />
+                                    <datalist id="brow-tag-edit">
+                                        <option value="sanity"></option>
+                                        <option value="regression"></option>
+                                    </datalist>
+                                    <div class="tag justify-content-center" id="tag-template-edit" style="display: none;">
+                                        <span class="tag-text text-white"></span>
+                                        <span class="btn-delete-tag text-white">
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4" style="color: #919faf">
+                                <label
+                                for="preconditionTestCaseEdit"
+                                class="form-label"
+                                >Precondition</label
+                                >
+                                <div
+                                class="rounded-top border d-flex p-2 bg-light"
+                                >
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-bold"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-type-italic"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-link"></i>
+                                </button>
+                                <select
+                                    class="form-select border-0 bg-light"
+                                    aria-label="Default select example"
+                                    style="width: 8rem"
+                                >
+                                    <option selected>Normal</option>
+                                    <option value="1">Small</option>
+                                    <option value="2">Normal</option>
+                                    <option value="3">Large</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ol"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="bg-light border-0 mx-1"
+                                >
+                                    <i class="bi bi-list-ul"></i>
+                                </button>
+                                </div>
+                                <textarea
+                                class="form-control rounded-top-0 bg-light"
+                                id="preconditionTestCaseEdit"
+                                name="preconditionTestCaseEdit"
+                                rows="5"
+                                placeholder="Enter Description"
+                                ></textarea>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+                </div>
+            </div>
+            </form>
+
+            {{!-- modal add module --}}
+            {{!-- <form action="" class="needs-validation" novalidate>
             <div
                 class="modal fade"
                 id="addModule"
@@ -910,7 +1003,7 @@
                     </div>
                     <div class="mb-4" style="color: #919faf">
                         <label
-                        for="form-test-case-title"
+                        for="form-module-name"
                         class="form-label d-flex justify-content-between"
                         >
                         <div>
@@ -921,7 +1014,7 @@
                         <input
                         type="text"
                         class="form-control border-0 bg-light"
-                        id="form-test-case-title"
+                        id="form-module-name"
                         placeholder="Please Enter Module Name"
                         style="color: #757575"
                         required
@@ -960,7 +1053,7 @@
                     modal2.show();
                 });
             </script>
-            </form>
+            </form> --}}
         </div>
 
         <button
@@ -1289,6 +1382,24 @@
                             </a>
                             <a
                             href="#"
+                            title="Edit"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editTestCase"
+                            onclick="showEditTestCaseModal(this)" 
+                            data-id="{{_id}}" 
+                            data-project-id="{{../project.ProjectID}}" 
+                            data-title="{{Title}}" 
+                            data-priority="{{Priority}}" 
+                            data-precondition="{{Precondition}}" 
+                            data-description="{{Description}}" 
+                            data-type="Acceptance" 
+                            data-module-id="{{ModuleID}}" 
+                            data-testplan-id="{{TestPlanID}}" 
+                            class="mx-2 my-auto"
+                            >
+                            <i class="bi bi-pencil"></i></a>
+                            <a
+                            href="#"
                             data-bs-toggle="tooltip"
                             title="Timesheet"
                             class="mx-2 my-auto"
@@ -1302,14 +1413,14 @@
                             >
                             <i class="bi bi-link-45deg"></i>
                             </a>
-                            <a
+                            {{!-- <a
                             href="#"
                             data-bs-toggle="tooltip"
                             title="Approval Pending"
                             class="mx-2 my-auto"
                             >
                             <i class="bi bi-check-circle"></i>
-                            </a>
+                            </a> --}}
                             <a
                             href="#"
                             data-bs-toggle="tooltip"
@@ -1321,8 +1432,10 @@
                             <a
                             href="#"
                             data-bs-toggle="tooltip"
+                            data-projectId="{{../project.ProjectID}}"
+                            data-id="{{this._id}}"
                             title="Delete"
-                            class="mx-2 my-auto"
+                            class="mx-2 my-auto delete-btn"
                             ><i class="bi bi-trash"></i
                             ></a>
                             <a
@@ -1554,6 +1667,66 @@
             $('#flashMessageModal').modal('show'); // Hiển thị modal dialog
         }
     });
+
+    document.getElementById('btn-add-tag').addEventListener('click', function () {
+        const tagInput = document.getElementById('nameTags');
+        tagInput.style.display = 'inline';
+        tagInput.focus();
+    });
+
+    document.getElementById('btn-add-tag-edit').addEventListener('click', function () {
+        const tagInput = document.getElementById('nameTagsEdit');
+        tagInput.style.display = 'inline';
+        tagInput.focus();
+    });
+
+    document.getElementById('nameTags').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Chặn sự kiện Enter để không submit form
+            const tagText = e.target.value.trim();
+            if (tagText !== '') {
+                addTag(tagText);
+                e.target.value = '';
+                e.target.style.display = 'none';
+            }
+        }
+    });
+
+    document.getElementById('nameTagsEdit').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Chặn sự kiện Enter để không submit form
+            const tagText = e.target.value.trim();
+            if (tagText !== '') {
+                addTagEdit(tagText);
+                e.target.value = '';
+                e.target.style.display = 'none';
+            }
+        }
+    });
+
+    function addTag(text) {
+        const tagTemplate = document.getElementById('tag-template');
+        const newTag = tagTemplate.cloneNode(true);
+        newTag.style.display = 'inline-flex';
+        newTag.id = '';
+        newTag.querySelector('.tag-text').textContent = text;
+        newTag.querySelector('.btn-delete-tag').addEventListener('click', function () {
+            newTag.remove();
+        });
+        tagTemplate.parentNode.insertBefore(newTag, tagTemplate);
+    }
+
+    function addTagEdit(text) {
+        const tagTemplate = document.getElementById('tag-template-edit');
+        const newTag = tagTemplate.cloneNode(true);
+        newTag.style.display = 'inline-flex';
+        newTag.id = '';
+        newTag.querySelector('.tag-text').textContent = text;
+        newTag.querySelector('.btn-delete-tag').addEventListener('click', function () {
+            newTag.remove();
+        });
+        tagTemplate.parentNode.insertBefore(newTag, tagTemplate);
+    }
 </script>
 
-<script src="/js/test-case-CRUD.js"></script>
+<script src="/js/test-cases-CRUD.js"></script>

@@ -82,3 +82,57 @@ const openReleaseStatus = ['Passed', 'Untested', 'Blocked', 'Retest', 'Failed', 
     });
   }
   statusCaption('.open-release-status-container', openReleaseStatus, numOpenReleaseStatus);
+
+
+
+
+  async function removeAssginUser(id) {
+    try {
+        let res = await fetch(`/project/removeAssignUser/${id}`, {
+            method: "DELETE",
+        });
+
+        if (res.status == 200) {
+            location.reload();
+        } else {
+            let resText = await res.text();
+            throw new Error(resText);
+        }
+    } catch (error) {
+        let toast = new bootstrap.Toast(document.querySelector(".toast"), {});
+        let toastBody = document.querySelector(".toast .toast-body");
+
+        toastBody.innerHTML = "Can not remove assgin user!";
+        toastBody.classList.add("text-danger");
+        toast.show();
+
+        console.log(error);
+    }
+}
+
+document.querySelectorAll(".remove-assign-user").forEach((deleteBtn) => {
+    deleteBtn.addEventListener("click",(e) => {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+
+        let id = e.currentTarget.dataset.id;
+
+        const options = {
+            title: "Are you sure?",
+            type: "danger",
+            btnOkText: "Yes",
+            btnCancelText: "No",
+            onConfirm: () => {
+                console.log(id);
+                removeAssginUser(id);
+            },
+            onCancel: () => {
+                console.log("Remove canceled.");
+            },
+        };
+
+        const { el, content, options: confirmedOptions } = bs5dialog.confirm(
+            "Do you really want to remove this assignee?",
+            options
+        );
+    });
+});

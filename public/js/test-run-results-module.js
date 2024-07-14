@@ -232,14 +232,40 @@
 
 //Tạo dropdown cho status
 {
-  function setStatus(status, color) {
-    var selectedStatusButton = document.getElementById('dropdownMenuButton');
+  // function setStatus(status, color) {
+  //   var selectedStatusButton = document.getElementById('dropdownMenuButton');
     
-    selectedStatusButton.style.borderLeftColor = color;
+  //   selectedStatusButton.style.borderLeftColor = color;
 
-    var selectedStatus = document.getElementById('dropdownMenuButtonText');
-    selectedStatus.textContent = status;
-  }
+  //   var selectedStatus = document.getElementById('dropdownMenuButtonText');
+  //   selectedStatus.textContent = status;
+
+  //   const testCaseId = selectedStatusButton.getAttribute('data-id');
+  //   const projectId = selectedStatusButton.getAttribute('data-projectId');
+  //   console.log('test Case:' + testCaseId)
+  //   console.log('project' + projectId)
+
+
+  //       // fetch(`/project/${projectId}/test-run/result/changeStatus${testCaseId}`, {
+  //       //     method: 'PUT',
+  //       //     headers: {
+  //       //         'Content-Type': 'application/json'
+  //       //     },
+  //       //     body: JSON.stringify({ status })
+  //       // }).then(response => response.json())
+  //       // .then(data => {
+  //       //     console.log('Status updated:', data);
+  //       // })
+  //       // .catch(error => {
+  //       //     console.error('Error updating status:', error);
+  //       // });
+
+       
+
+  //       // location.reload();
+
+
+  // }
 
   function toggleCheckAll(source) {
     var checkboxes = document.querySelectorAll('.case-code-item');
@@ -329,3 +355,68 @@ function toggleCheckAllTestCase2(source) {
       }
   });
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const bulkActionCart = document.querySelector('.bulk-action-cart');
+  const checkboxes = document.querySelectorAll('.form-check-input');
+  const closeButtons = document.querySelectorAll('.btn-close-bulk-action');
+
+  function updateBulkActionCart() {
+      const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+      if (anyChecked) {
+          bulkActionCart.style.display = 'block';
+      } else {
+          bulkActionCart.style.display = 'none';
+      }
+  }
+
+  checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', updateBulkActionCart);
+  });
+
+  closeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          bulkActionCart.style.display = 'none';
+          checkboxes.forEach(checkbox => checkbox.checked = false);
+      });
+  });
+
+  const bulkActionsForm = document.getElementById('bulkActionsForm');
+
+  bulkActionsForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const selectedCases = Array.from(document.querySelectorAll('.code-test-case-item-2:checked'))
+        .map(checkbox => checkbox.getAttribute('data-testCaseId'));
+
+    const status = this.elements['status'].value;
+    const assignTo = this.elements['assignTo'].value;
+    const projectId = this.elements['projectId'].value;
+
+    const data = {
+        caseCodes: selectedCases,
+        status,
+        assignTo
+    };
+
+    try {
+        const response = await fetch(`/project/${projectId}/test-run/result/bulkActions`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update bukl actions');
+        }
+
+        location.reload()
+    } catch (error) {
+        console.error('Error updating bukl actions:', error);
+        alert('Failed to update bukl actions.');
+    }
+  });
+});
