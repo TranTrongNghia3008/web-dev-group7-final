@@ -141,20 +141,16 @@ controller.show = async (req, res) => {
 
         // Pagination
         let total = issuesWithUser.length;
-        let page = isNaN(req.query.page) ? 1 : parseInt(req.query.page);
-        // If page is lower than 1, redirect to the first page
-        if (page < 1) {
-            page = 1;
-            res.redirect(`/project/${projectId}/issue?page=${page}`);
-        }
         let limit = 5;
-        let skip = (page - 1) * limit;
-        // If page is out of bounds, redirect to the last page
-        if (skip >= total) {
-            skip = Math.floor(total / limit) * limit;
-            page = Math.ceil(total / limit);
-            res.redirect(`/project/${projectId}/issue?page=${page}`);
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) || req.query.page < 1 || req.query.page > Math.ceil(total / limit);
+        if (invalidPage) {
+            // Redirect to the first page
+            return res.redirect(`/project/${projectId}/issue?page=1`);
         }
+        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        let skip = (page - 1) * limit;
+
 
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
