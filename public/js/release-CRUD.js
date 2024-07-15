@@ -138,3 +138,20 @@ document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
         );
     });
 });
+
+
+
+function showOpenReleases(projectID) {
+    // Call controller with page=1 and statusFilter=open
+    window.location.href = `/project/${projectID}/release?page=1&statusFilter=open`;
+}
+
+function showUpcomingReleases(projectID) {
+    // Call controller with page=1 and statusFilter=upcoming
+    window.location.href = `/project/${projectID}/release?page=1&statusFilter=upcoming`;
+}
+
+function showCompletedReleases(projectID) {
+    // Call controller with page=1 and statusFilter=completed
+    window.location.href = `/project/${projectID}/release?page=1&statusFilter=completed`;
+}   

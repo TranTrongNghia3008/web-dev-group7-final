@@ -14,10 +14,10 @@ const { sanitizeInput } = require('./shared');
 controller.show = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-
         const account = req.user;
         const user = await userModel.findOne({ AccountEmail: account.Email });
         const participation = await participationModel.findOne({ UserID: user._id, ProjectID: projectId });
+        const statusFilter = req.query.statusFilter ? req.query.statusFilter : 'open';
 
         if ((!user.IsAdmin) && ((!participation) || (participation && participation.Role === 'Developer'))) {
             const projectData = {
@@ -65,54 +65,63 @@ controller.show = async (req, res) => {
 
 
         // Pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 2;
-        const pageOpen = Math.min(Math.ceil(openReleases.length / limit), page)
-        const pageUpcoming = Math.min(Math.ceil(upcomingReleases.length / limit), page)
-        const pageCompleted = Math.min(Math.ceil(completedReleases.length / limit), page)
+        // Use statusFilter to determine which page to show
+        let openReleasesCount = openReleases.length;
+        let upcomingReleasesCount = upcomingReleases.length;
+        let completedReleasesCount = completedReleases.length;
+        let displayedReleases = [];
+        let total = 0;
+        if (statusFilter === 'open') {
+            total = openReleasesCount;
+            displayedReleases = openReleases;
+        }
+        else if (statusFilter === 'upcoming') {
+            total = upcomingReleasesCount;
+            displayedReleases = upcomingReleases;
+        }
+        else if (statusFilter === 'completed') {
+            total = completedReleasesCount;
+            displayedReleases = completedReleases;
+        }
+        let limit = 6;
+        let page = 1;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
+        if (invalidPage) {
+            // Change only the page parameter and reload page
+            let queryParams = req.query;
+            queryParams.page = 1;
+            return res.redirect(`/project/${projectId}/release?${new URLSearchParams(queryParams).toString()}`);
+        }
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
         let skip = (page - 1) * limit;
-
+        let showing = Math.min(total, skip + limit);
         res.locals.pagination = {
-            openReleases:
-            {
-                page: page,
-                limit: limit,
-                showing: Math.min(limit, openReleases.length - skip),
-                totalRows: openReleases.length,
-                queryParams: req.query
-            },
-            upcomingReleases:
-            {
-                page: page,
-                limit: limit,
-                showing: Math.min(limit, upcomingReleases.length - skip),
-                totalRows: upcomingReleases.length,
-                queryParams: req.query
-            },
-            completedReleases:
-            {
-                page: page,
-                limit: limit,
-                showing: Math.min(limit, completedReleases.length - skip),
-                totalRows: completedReleases.length,
-                queryParams: req.query
-            }
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
         };
+        // end Pagination
+
+        console.log("---");
+        console.log(displayedReleases.slice(skip, skip + limit));
+
+        
 
         // Tạo projectData với thông tin về các loại release và ProjectID
         const projectData = {
-            OpenReleases: openReleases.slice(skip, skip + limit),
-            OpenReleasesCount: openReleases.length,
-            UpcomingReleases: upcomingReleases.slice(skip, skip + limit),
-            UpcomingReleasesCount: upcomingReleases.length,
-            CompletedReleases: completedReleases.slice(skip, skip + limit),
-            CompletedReleasesCount: completedReleases.length,
-            openReleasesCheck: page > pageOpen,
-            pageOpen,
-            upcomingReleasesCheck: page > pageUpcoming,
-            pageUpcoming,
-            completedReleasesCheck: page > pageCompleted,
-            pageCompleted,
+            OpenReleasesCount: openReleasesCount,
+            UpcomingReleasesCount: upcomingReleasesCount,
+            CompletedReleasesCount: completedReleasesCount,
+            Releases: displayedReleases.slice(skip, skip + limit),
             ProjectID: projectId
         };
 

@@ -1,872 +1,536 @@
 <div class="content px-3">
-    {{>navigation}}
+  {{>navigation}}
 
-          <div class="container my-3 py-2 px-3 mx-0 bg-white rounded" id="address-bar">
-          <div class="row">
-            <div class="col-sm-9 d-flex flex-row align-items-center">
-              <!-- <a href="/project/list" class="mx-2 project-name">My Business Project</a>
+  <div class="container my-3 py-2 px-3 mx-0 bg-white rounded" id="address-bar">
+    <div class="row">
+      <div class="col-sm-9 d-flex flex-row align-items-center">
+        <!-- <a href="/project/list" class="mx-2 project-name">My Business Project</a>
 
                             <i class="bi bi-chevron-right"></i> -->
 
-              <span class="mx-2 address-component">Releases</span>
-            </div>
+        <span class="mx-2 address-component">Releases</span>
+      </div>
 
-            <div class="col-sm-3 d-flex justify-content-between">
-              <div class="btn-add-release">
-                <button
-                  class="btn btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addRelease"
-                >
-                  <i class="bi bi-plus"></i> Add release
-                </button>
-              </div>
-
-              {{!-- modal add --}}
-              <form action="" id="addReleaseForm" onsubmit="addRelease(event)" class="needs-validation" novalidate>
-                <input type="hidden" name="projectId" value="{{project.ProjectID}}"/>
-                <div class="modal fade" id="addRelease" tabindex="-1" aria-labelledby="addReleaseLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h6 class="modal-title" id="addReleaseLabel">Add Release</h6>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3 d-flex">
-                                <label
-                                  for="name"
-                                  class="form-label d-flex justify-content-between me-5"
-                                >
-                                    Name <span style="color: #f44336">*</span>
-                                </label>
-                                <div class="w-100">
-                                    <input
-                                    type="text"
-                                    class="form-control bg-light"
-                                    id="name"
-                                    name="name"
-                                    placeholder="Release Name *"
-                                    style="color: #757575"
-                                    required
-                                    />
-                                    <div class="invalid-feedback">
-                                    Please Enter Release Name.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="startDate">From: </label>
-                                        <input
-                                        class="form-control bg-light"
-                                        id="startDate"
-                                        name="startDate"
-                                        type="date"
-                                        />
-                                    </div>
-                                    <div class="col">
-                                        <label for="endDate">To: </label>
-                                        <input
-                                        class="form-control bg-light"
-                                        id="endDate"
-                                        name="endDate"
-                                        type="date"
-                                        />
-                                    </div>
-                                </div>
-                                <div id="errorMessageEdit" class="text-danger"></div>
-                                
-                            </div>
-                            <div class="mb-2">
-                              <label
-                                  for="description"
-                                  class="form-label d-flex justify-content-between"
-                              >
-                                  <div for="description" class="form-label">
-                                  Description
-                                  </div>
-                              </label>
-                              <div class="rounded-top border d-flex p-2 bg-light">
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-type-bold"></i>
-                                  </button>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-type-italic"></i>
-                                  </button>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-link"></i>
-                                  </button>
-                                  <select
-                                  class="form-select border-0 bg-light"
-                                  aria-label="Default select example"
-                                  style="width: 8rem"
-                                  >
-                                  <option selected>Normal</option>
-                                  <option value="1">Small</option>
-                                  <option value="2">Normal</option>
-                                  <option value="3">Large</option>
-                                  </select>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-list-ol"></i>
-                                  </button>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-list-ul"></i>
-                                  </button>
-                              </div>
-                              <textarea
-                                  class="form-control rounded-top-0 bg-light"
-                                  id="description"
-                                  rows="5"
-                                  name="description"
-                                  placeholder="Enter Description"
-                              ></textarea>
-                              </div>
-                            {{!-- <div class="my-2">
-                                <label for="">Attachments</label>
-                                <div
-                                  class="upload-file my-2 d-flex justify-content-center"
-                                  style="border: dashed 1px #dc3545 !important"
-                                >
-                                  <div
-                                    class="mt-0 col-4 d-flex justify-content-center me-2"
-                                  >
-                                    <img
-                                      src="/images/import_file.svg"
-                                      alt="Import Files"
-                                      style="width: 80px"
-                                    />
-                                  </div>
-                                  <div class="col-4 py-3">
-                                    <div
-                                      class="d-block text-center align-items-center"
-                                      style="width: 80%"
-                                    >
-                                      <button
-                                        type="button"
-                                        class="btn btn-outline-danger mb-2 w-100"
-                                      >
-                                        Drop Files
-                                      </button>
-                                      <p class="mt-2 fs-6" style="color: #999">
-                                        Drop files here
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <p class=" small">
-                                  File size should be less than 2MB and allowed
-                                  formats are
-                                  <strong
-                                    >.xls, .xlsx, .doc, .docx, .txt, .pdf, .csv,
-                                    .log, .zip, .mp4, .webm, .ipynb, .odf, .gif,
-                                    .png, .jpg, .ppt, .pptx, .mov</strong
-                                  >
-                                </p>
-                              </div> --}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger mx-2">
-                                Save
-                              </button>
-                              <button
-                                type="button"
-                                class="btn btn-outline-danger mx-2"
-                                data-bs-dismiss="modal"
-                              >
-                                Cancel
-                              </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </form>
-
-              {{!-- modal edit --}}
-              <form action="" id="editReleaseForm" onsubmit="editRelease(event)" class="needs-validation" novalidate>
-                <input type="hidden" name="projectIdEdit" value="{{project.ProjectID}}"/>
-                <input type="hidden" name="idEdit" id="idEdit"/>
-                <div class="modal fade" id="editRelease" tabindex="-1" aria-labelledby="editReleaseLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h6 class="modal-title" id="editReleaseLabel">Edit Release</h6>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3 d-flex">
-                                <label
-                                  for="nameEdit"
-                                  class="form-label d-flex justify-content-between me-5"
-                                >
-                                    Name <span style="color: #f44336">*</span>
-                                </label>
-                                <div class="w-100">
-                                    <input
-                                    type="text"
-                                    class="form-control bg-light"
-                                    id="nameEdit"
-                                    name="nameEdit"
-                                    placeholder="Release Name *"
-                                    style="color: #757575"
-                                    required
-                                    />
-                                    <div class="invalid-feedback">
-                                    Please Enter Release Name.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="startDateEdit">From: </label>
-                                        <input
-                                        class="form-control bg-light"
-                                        id="startDateEdit"
-                                        name="startDateEdit"
-                                        type="date"
-                                        />
-                                    </div>
-                                    <div class="col">
-                                        <label for="endDateEdit">To: </label>
-                                        <input
-                                        class="form-control bg-light"
-                                        id="endDateEdit"
-                                        name="endDateEdit"
-                                        type="date"
-                                        />
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="mb-2">
-                              <label
-                                  for="descriptionEdit"
-                                  class="form-label d-flex justify-content-between"
-                              >
-                                  <div for="descriptionEdit" class="form-label">
-                                  Description
-                                  </div>
-                              </label>
-                              <div class="rounded-top border d-flex p-2 bg-light">
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-type-bold"></i>
-                                  </button>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-type-italic"></i>
-                                  </button>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-link"></i>
-                                  </button>
-                                  <select
-                                  class="form-select border-0 bg-light"
-                                  aria-label="Default select example"
-                                  style="width: 8rem"
-                                  >
-                                  <option selected>Normal</option>
-                                  <option value="1">Small</option>
-                                  <option value="2">Normal</option>
-                                  <option value="3">Large</option>
-                                  </select>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-list-ol"></i>
-                                  </button>
-                                  <button type="button" class="bg-light border-0 mx-1">
-                                  <i class="bi bi-list-ul"></i>
-                                  </button>
-                              </div>
-                              <textarea
-                                  class="form-control rounded-top-0 bg-light"
-                                  id="descriptionEdit"
-                                  rows="5"
-                                  name="descriptionEdit"
-                                  placeholder="Enter Description"
-                              ></textarea>
-                              </div>
-                            {{!-- <div class="my-2">
-                                <label for="">Attachments</label>
-                                <div
-                                  class="upload-file my-2 d-flex justify-content-center"
-                                  style="border: dashed 1px #dc3545 !important"
-                                >
-                                  <div
-                                    class="mt-0 col-4 d-flex justify-content-center me-2"
-                                  >
-                                    <img
-                                      src="/images/import_file.svg"
-                                      alt="Import Files"
-                                      style="width: 80px"
-                                    />
-                                  </div>
-                                  <div class="col-4 py-3">
-                                    <div
-                                      class="d-block text-center align-items-center"
-                                      style="width: 80%"
-                                    >
-                                      <button
-                                        type="button"
-                                        class="btn btn-outline-danger mb-2 w-100"
-                                      >
-                                        Drop Files
-                                      </button>
-                                      <p class="mt-2 fs-6" style="color: #999">
-                                        Drop files here
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <p class=" small">
-                                  File size should be less than 2MB and allowed
-                                  formats are
-                                  <strong
-                                    >.xls, .xlsx, .doc, .docx, .txt, .pdf, .csv,
-                                    .log, .zip, .mp4, .webm, .ipynb, .odf, .gif,
-                                    .png, .jpg, .ppt, .pptx, .mov</strong
-                                  >
-                                </p>
-                              </div> --}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger mx-2">
-                                Save
-                              </button>
-                              <button
-                                type="button"
-                                class="btn btn-outline-danger mx-2"
-                                data-bs-dismiss="modal"
-                              >
-                                Cancel
-                              </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </form>
-
-              <div class="btn-show-archived">
-                <button class="btn btn-outline-danger" onclick="showArchived()">
-                  <i class="bi bi-eye"></i> Show archived
-                </button>
-              </div>
-            </div>
-          </div>
+      <div class="col-sm-3 d-flex justify-content-between">
+        <div class="btn-add-release">
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addRelease">
+            <i class="bi bi-plus"></i> Add release
+          </button>
         </div>
 
-        <div
-          class="container my-3 py-2 px-3 bg-white rounded border-start border-4 border-dark"
-          id="tip-bar"
-        >
-          <b>Releases:</b> You can maintain the version of product/sprint cycles
-        </div>
-
-        <div class="container p-0">
-          <div class="container-fluid h-100 p-0" id="cards-area">
-            <div class="container-fluid rounded bg-white">
-              <div class="row ms-3 mt-3 pb-1 border-bottom border-dark-subtle">
-                <div class="col-sm-4">
-                  <ul class="nav nav-underline" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button
-                        class="nav-link sub-tab active"
-                        id="open-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#open"
-                        type="button"
-                        role="tab"
-                        aria-controls="open"
-                        aria-selected="true"
-                      >
-                        Open
-                      </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button
-                        class="nav-link sub-tab"
-                        id="upcoming-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#upcoming"
-                        type="button"
-                        role="tab"
-                        aria-controls="upcoming"
-                        aria-selected="false"
-                      >
-                        Upcoming
-                      </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button
-                        class="nav-link sub-tab"
-                        id="completed-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#completed"
-                        type="button"
-                        role="tab"
-                        aria-controls="completed"
-                        aria-selected="false"
-                      >
-                        Completed
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-
-                <div
-                  class="col-md-8 d-flex flex-row align-items-center justify-content-center"
-                >
-                  <div class="d-flex flex-row justify-content-between w-75">
-                    <li style="color: blue">
-                      <span id="no-of-open">{{project.OpenReleasesCount}}</span>
-                      <span>open release(s)</span>
-                    </li>
-                    <li style="color: brown">
-                      <span id="no-of-upcoming">{{project.UpcomingReleasesCount}}</span>
-                      <span>upcoming release(s)</span>
-                    </li>
-                    <li style="color: blue">
-                      <span id="no-of-completed">{{project.CompletedReleasesCount}}</span>
-                      <span>completed release(s)</span>
-                    </li>
-                  </div>
-                </div>
-              </div>
-
-              <div class="tab-content mt-4 p-2">
-                <div
-                  class="tab-pane active"
-                  id="open"
-                  role="tabpanel"
-                  aria-labelledby="open-tab"
-                >
-                  
-
-                  <div class="grid-wrapper">
-                    {{#each project.OpenReleases}}
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
-                            <div class="container release-card-name">
-                              <h4>{{truncateId  this.Name 20}}</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                {{truncateId this._id 8}}
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: {{formatDate3 this.StartDate}}</div>
-
-                              <div>Release date: {{formatDate3 this.EndDate}}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <a 
-                            href="#"
-                            class="btn btn-outline-light me-1" 
-                            data-bs-toggle="modal"
-                            data-bs-target="#editRelease"
-                            onclick="showEditReleaseModal(this)" 
-                            data-id="{{this._id}}" 
-                            data-name="{{this.Name}}" 
-                            data-description="{{this.Description}}" 
-                            data-start-date="{{formatDate this.StartDate}}"
-                            data-end-date="{{formatDate this.EndDate}}"
-                            title="Edit">
-                            <i class="bi bi-pencil"></i>
-                          </a>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-projectId="{{../project.ProjectID}}"
-                              data-id="{{this._id}}"
-                              title="Delete"
-                              class="btn btn-outline-light me-1 delete-btn"
-                              ><i class="bi bi-trash"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                    {{/each}}
-                  </div>
-
-                  <div class="container bg-white rounded-top d-flex my-3">
-                    {{{createPagination pagination.openReleases paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
-                  </div>
-                </div>
-
-                <div
-                  class="tab-pane"
-                  id="upcoming"
-                  role="tabpanel"
-                  aria-labelledby="upcoming-tab"
-                >
-                  <div class="grid-wrapper">
-                    {{#each project.UpcomingReleases}}
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
-                            <div class="container release-card-name">
-                              <h4>{{truncateId  this.Name 20}}</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                {{truncateId this._id 8}}
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: {{formatDate3 this.StartDate}}</div>
-
-                              <div>Release date: {{formatDate3 this.EndDate}}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <a 
-                            href="#"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editRelease"
-                            onclick="showEditReleaseModal(this)" 
-                            data-id="{{this._id}}" 
-                            data-name="{{this.Name}}" 
-                            data-description="{{this.Description}}" 
-                            data-start-date="{{formatDate this.StartDate}}"
-                            data-end-date="{{formatDate this.EndDate}}"
-                            title="Edit"
-                            class="btn btn-outline-light me-1" 
-                            >
-                            <i class="bi bi-pencil"></i>
-                          </a>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-projectId="{{../project.ProjectID}}"
-                              data-id="{{this._id}}"
-                              title="Delete"
-                              class="btn btn-outline-light me-1 delete-btn"
-                              ><i class="bi bi-trash"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                    {{/each}}
-                  </div>
-
-                  <div class="container bg-white rounded-top d-flex my-3">
-                    {{{createPagination pagination.upcomingReleases paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
-                  </div>
-                </div>
-
-                <div
-                  class="tab-pane"
-                  id="completed"
-                  role="tabpanel"
-                  aria-labelledby="completed-tab"
-                >
-                  
-
-                  <div class="grid-wrapper">
-                    {{#each project.CompletedReleases}}
-                    <div
-                      class="container rounded release-card bg-danger text-bg-danger p-2"
-                    >
-                      <div class="row">
-                        <div class="col-sm-9">
-                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
-                            <div class="container release-card-name">
-                              <h4>{{truncateId  this.Name 20}}</h4>
-                            </div>
-                          </a>
-
-                          <div class="container release-card-info">
-                            <div
-                              class="container release-card-info-key d-flex flex-row"
-                            >
-                              Release key:
-                              <div
-                                class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2"
-                              >
-                                {{truncateId this._id 8}}
-                              </div>
-                            </div>
-
-                            <div class="container release-card-info-due">
-                              <div>Start date: {{formatDate3 this.StartDate}}</div>
-
-                              <div>Release date: {{formatDate3 this.EndDate}}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div
-                          class="container release-card-toolbar d-flex justify-content-end"
-                        >
-                          <a 
-                            href="#"
-                            class="btn btn-outline-light me-1" 
-                            data-bs-toggle="modal"
-                            data-bs-target="#editRelease"
-                            onclick="showEditReleaseModal(this)" 
-                            data-id="{{this._id}}" 
-                            data-name="{{this.Name}}" 
-                            data-description="{{this.Description}}" 
-                            data-start-date="{{formatDate this.StartDate}}"
-                            data-end-date="{{formatDate this.EndDate}}"
-                            title="Edit">
-                            <i class="bi bi-pencil"></i>
-                          </a>
-                          <button class="btn btn-outline-light me-1">
-                            <i class="bi bi-archive"></i>
-                          </button>
-                          <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-projectId="{{../project.ProjectID}}"
-                              data-id="{{this._id}}"
-                              title="Delete"
-                              class="btn btn-outline-light me-1 delete-btn"
-                              ><i class="bi bi-trash"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                    {{/each}}
-                  </div>
-
-                  <div class="container bg-white rounded-top d-flex my-3">
-                    {{{createPagination pagination.completedReleases paginationClass="pagination my-0" paginationStyle="justify-content-end"
-            leftText="Prev" rightText="Next" }}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <script>
-            $(document).ready(function() {
-              $('.sub-tab').click(function() {
-                var tabId = $(this).attr('id');
-                localStorage.setItem('activeTab', tabId);
-              });
-
-              // Khôi phục trạng thái tab khi tải lại trang
-              var activeTab = localStorage.getItem('activeTab');
-              if (activeTab) {
-                $('#' + activeTab).tab('show');
-              }
-            });
-          </script>
-        </div>
-
-  {{!-- <!-- Trigger button -->
-    <button id="openModalBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#releaseModal">Open Modal</button> --}}
-
-    <!-- Modal Structure -->
-    <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
+        {{!-- modal add --}}
+        <form action="" id="addReleaseForm" onsubmit="addRelease(event)" class="needs-validation" novalidate>
+          <input type="hidden" name="projectId" value="{{project.ProjectID}}" />
+          <div class="modal fade" id="addRelease" tabindex="-1" aria-labelledby="addReleaseLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Release Details</h5>
-                    <button type="button" class="btn-close btnCloseDetail" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h6 class="modal-title" id="addReleaseLabel">Add Release</h6>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="tab-pane fade show active" id="ms-status">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="panel">
-                                    <div class="panel-body">
-                                        <div class="header-container">
-                                            <strong class="milestone_title fw-5">{{truncateId project.ReleaseDetail.Name 20}}</strong>
-                                        </div>
-                                        <div class="example-box-wrapper d-flex">
-                                            <div class="col-6" id="status-chart-container">
-                                                <canvas id="release_piechart" height="292" width="584"></canvas>
-                                            </div>
-                                            <div class="col-3 canvas-detail d-block" id="chart-details">
-                                                <span class="chart-heading">Total Test Runs: {{project.ReleaseDetail.TestRuns.length}}</span>
-                                                <table class="chart-details-jit ms-2">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
-                                                                    <div style="width:4px;height:0;border:5px solid #5CB85C;overflow:hidden; "></div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <span>Passed : {{project.ReleaseDetail.StatusCounts.Passed}}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
-                                                                    <div style="width:4px;height:0;border:5px solid #F7464A;overflow:hidden; "></div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <span>Failed : {{project.ReleaseDetail.StatusCounts.Failed}}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
-                                                                    <div style="width:4px;height:0;border:5px solid #46BFBD;overflow:hidden; "></div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <span>Untested : {{project.ReleaseDetail.StatusCounts.Untested}}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
-                                                                    <div style="width:4px;height:0;border:5px solid #fdb45c;overflow:hidden; "></div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <span>Other : {{project.ReleaseDetail.StatusCounts.Other}}</span>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="col-3 p-2 avg-count">
-                                                <span class="chart-heading">Avg. Test Execution/Day</span>
-                                                <span class="display-4">0.38</span>
-                                            </div>
-                                        </div>
-                                        <div class="milestone-detail-jit">
-                                            <span class="chart-heading">Milestone Details</span>
-                                            <table class="table mt-2">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Milestone</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>{{truncateId project.ReleaseDetail.Name 20}}</td>
-                                                        <td class="milestone_startdate">{{formatDate2 project.ReleaseDetail.StartDate}}</td>
-                                                        <td class="milestone_enddate">{{formatDate2 project.ReleaseDetail.EndDate}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  <div class="mb-3 d-flex">
+                    <label for="name" class="form-label d-flex justify-content-between me-5">
+                      Name <span style="color: #f44336">*</span>
+                    </label>
+                    <div class="w-100">
+                      <input type="text" class="form-control bg-light" id="name" name="name"
+                        placeholder="Release Name *" style="color: #757575" required />
+                      <div class="invalid-feedback">
+                        Please Enter Release Name.
+                      </div>
                     </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="row">
+                      <div class="col">
+                        <label for="startDate">From: </label>
+                        <input class="form-control bg-light" id="startDate" name="startDate" type="date" />
+                      </div>
+                      <div class="col">
+                        <label for="endDate">To: </label>
+                        <input class="form-control bg-light" id="endDate" name="endDate" type="date" />
+                      </div>
+                    </div>
+                    <div id="errorMessageEdit" class="text-danger"></div>
+
+                  </div>
+                  <div class="mb-2">
+                    <label for="description" class="form-label d-flex justify-content-between">
+                      <div for="description" class="form-label">
+                        Description
+                      </div>
+                    </label>
+                    <div class="rounded-top border d-flex p-2 bg-light">
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-type-bold"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-type-italic"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-link"></i>
+                      </button>
+                      <select class="form-select border-0 bg-light" aria-label="Default select example"
+                        style="width: 8rem">
+                        <option selected>Normal</option>
+                        <option value="1">Small</option>
+                        <option value="2">Normal</option>
+                        <option value="3">Large</option>
+                      </select>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-list-ol"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-list-ul"></i>
+                      </button>
+                    </div>
+                    <textarea class="form-control rounded-top-0 bg-light" id="description" rows="5" name="description"
+                      placeholder="Enter Description"></textarea>
+                  </div>
+                  {{!-- <div class="my-2">
+                    <label for="">Attachments</label>
+                    <div class="upload-file my-2 d-flex justify-content-center"
+                      style="border: dashed 1px #dc3545 !important">
+                      <div class="mt-0 col-4 d-flex justify-content-center me-2">
+                        <img src="/images/import_file.svg" alt="Import Files" style="width: 80px" />
+                      </div>
+                      <div class="col-4 py-3">
+                        <div class="d-block text-center align-items-center" style="width: 80%">
+                          <button type="button" class="btn btn-outline-danger mb-2 w-100">
+                            Drop Files
+                          </button>
+                          <p class="mt-2 fs-6" style="color: #999">
+                            Drop files here
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <p class=" small">
+                      File size should be less than 2MB and allowed
+                      formats are
+                      <strong>.xls, .xlsx, .doc, .docx, .txt, .pdf, .csv,
+                        .log, .zip, .mp4, .webm, .ipynb, .odf, .gif,
+                        .png, .jpg, .ppt, .pptx, .mov</strong>
+                    </p>
+                  </div> --}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btnCloseDetail" data-bs-dismiss="modal">Close</button>
-                    {{!-- <button type="button" class="btn btn-danger">Edit</button> --}}
+                  <button type="submit" class="btn btn-danger mx-2">
+                    Save
+                  </button>
+                  <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+                    Cancel
+                  </button>
                 </div>
-            </div>
-        </div>
-      
-    </div>
-    <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title">Thông báo</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="alert" style="font-size: medium;">Số trang không tồn tại, đã chuyển về trang hợp lệ.</div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                  </div>
               </div>
+            </div>
           </div>
+        </form>
+
+        {{!-- modal edit --}}
+        <form action="" id="editReleaseForm" onsubmit="editRelease(event)" class="needs-validation" novalidate>
+          <input type="hidden" name="projectIdEdit" value="{{project.ProjectID}}" />
+          <input type="hidden" name="idEdit" id="idEdit" />
+          <div class="modal fade" id="editRelease" tabindex="-1" aria-labelledby="editReleaseLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title" id="editReleaseLabel">Edit Release</h6>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3 d-flex">
+                    <label for="nameEdit" class="form-label d-flex justify-content-between me-5">
+                      Name <span style="color: #f44336">*</span>
+                    </label>
+                    <div class="w-100">
+                      <input type="text" class="form-control bg-light" id="nameEdit" name="nameEdit"
+                        placeholder="Release Name *" style="color: #757575" required />
+                      <div class="invalid-feedback">
+                        Please Enter Release Name.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="row">
+                      <div class="col">
+                        <label for="startDateEdit">From: </label>
+                        <input class="form-control bg-light" id="startDateEdit" name="startDateEdit" type="date" />
+                      </div>
+                      <div class="col">
+                        <label for="endDateEdit">To: </label>
+                        <input class="form-control bg-light" id="endDateEdit" name="endDateEdit" type="date" />
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="mb-2">
+                    <label for="descriptionEdit" class="form-label d-flex justify-content-between">
+                      <div for="descriptionEdit" class="form-label">
+                        Description
+                      </div>
+                    </label>
+                    <div class="rounded-top border d-flex p-2 bg-light">
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-type-bold"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-type-italic"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-link"></i>
+                      </button>
+                      <select class="form-select border-0 bg-light" aria-label="Default select example"
+                        style="width: 8rem">
+                        <option selected>Normal</option>
+                        <option value="1">Small</option>
+                        <option value="2">Normal</option>
+                        <option value="3">Large</option>
+                      </select>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-list-ol"></i>
+                      </button>
+                      <button type="button" class="bg-light border-0 mx-1">
+                        <i class="bi bi-list-ul"></i>
+                      </button>
+                    </div>
+                    <textarea class="form-control rounded-top-0 bg-light" id="descriptionEdit" rows="5"
+                      name="descriptionEdit" placeholder="Enter Description"></textarea>
+                  </div>
+                  {{!-- <div class="my-2">
+                    <label for="">Attachments</label>
+                    <div class="upload-file my-2 d-flex justify-content-center"
+                      style="border: dashed 1px #dc3545 !important">
+                      <div class="mt-0 col-4 d-flex justify-content-center me-2">
+                        <img src="/images/import_file.svg" alt="Import Files" style="width: 80px" />
+                      </div>
+                      <div class="col-4 py-3">
+                        <div class="d-block text-center align-items-center" style="width: 80%">
+                          <button type="button" class="btn btn-outline-danger mb-2 w-100">
+                            Drop Files
+                          </button>
+                          <p class="mt-2 fs-6" style="color: #999">
+                            Drop files here
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <p class=" small">
+                      File size should be less than 2MB and allowed
+                      formats are
+                      <strong>.xls, .xlsx, .doc, .docx, .txt, .pdf, .csv,
+                        .log, .zip, .mp4, .webm, .ipynb, .odf, .gif,
+                        .png, .jpg, .ppt, .pptx, .mov</strong>
+                    </p>
+                  </div> --}}
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger mx-2">
+                    Save
+                  </button>
+                  <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="btn-show-archived">
+          <button class="btn btn-outline-danger" onclick="showArchived()">
+            <i class="bi bi-eye"></i> Show archived
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <div class="container my-3 py-2 px-3 bg-white rounded border-start border-4 border-dark" id="tip-bar">
+    <b>Releases:</b> You can maintain the version of product/sprint cycles
+  </div>
+
+  <div class="container p-0">
+    <div class="container-fluid h-100 p-0" id="cards-area">
+      <div class="container-fluid rounded bg-white">
+        <div class="row ms-3 mt-3 pb-1 border-bottom border-dark-subtle">
+          <div class="col-sm-4">
+            <ul class="nav nav-underline" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link sub-tab active" id="open-tab" data-target="open" onclick="showOpenReleases(`{{project.ProjectID}}`)"
+                  type="button" aria-controls="open" aria-selected="true">
+                  Open
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link sub-tab" id="upcoming-tab" data-target="upcoming" onclick="showUpcomingReleases(`{{project.ProjectID}}`)"
+                  type="button" aria-controls="upcoming" aria-selected="false">
+                  Upcoming
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link sub-tab" id="completed-tab" data-target="completed" onclick="showCompletedReleases(`{{project.ProjectID}}`)"
+                  type="button" aria-controls="completed" aria-selected="false">
+                  Completed
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-8 d-flex flex-row align-items-center justify-content-center">
+            <div class="d-flex flex-row justify-content-between w-75">
+              <li style="color: blue">
+                <span id="no-of-open">{{project.OpenReleasesCount}}</span>
+                <span>open release(s)</span>
+              </li>
+              <li style="color: brown">
+                <span id="no-of-upcoming">{{project.UpcomingReleasesCount}}</span>
+                <span>upcoming release(s)</span>
+              </li>
+              <li style="color: blue">
+                <span id="no-of-completed">{{project.CompletedReleasesCount}}</span>
+                <span>completed release(s)</span>
+              </li>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content mt-4 p-2">
+          <div class="tab-content" id="tabContent">
+            <div class="grid-wrapper">
+              {{#each project.Releases}}
+              <div class="container rounded release-card bg-danger text-bg-danger p-2">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
+                      <div class="container release-card-name">
+                        <h4>{{truncateId this.Name 20}}</h4>
+                      </div>
+                    </a>
+
+                    <div class="container release-card-info">
+                      <div class="container release-card-info-key d-flex flex-row">
+                        Release key:
+                        <div class="rounded d-inline-block bg-light text-bg-light w-auto px-3 ms-2">
+                          {{truncateId this._id 8}}
+                        </div>
+                      </div>
+
+                      <div class="container release-card-info-due">
+                        <div>Start date: {{formatDate3 this.StartDate}}</div>
+
+                        <div>Release date: {{formatDate3 this.EndDate}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="container release-card-toolbar d-flex justify-content-end">
+                    <a href="#" class="btn btn-outline-light me-1" data-bs-toggle="modal" data-bs-target="#editRelease"
+                      onclick="showEditReleaseModal(this)" data-id="{{this._id}}" data-name="{{this.Name}}"
+                      data-description="{{this.Description}}" data-start-date="{{formatDate this.StartDate}}"
+                      data-end-date="{{formatDate this.EndDate}}" title="Edit">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <button class="btn btn-outline-light me-1">
+                      <i class="bi bi-archive"></i>
+                    </button>
+                    <a href="#" data-bs-toggle="tooltip" data-projectId="{{../project.ProjectID}}"
+                      data-id="{{this._id}}" title="Delete" class="btn btn-outline-light me-1 delete-btn"><i
+                        class="bi bi-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+
+            <div class="container bg-white rounded-top d-flex my-3">
+              {{{createPagination pagination paginationClass="pagination my-0"
+              paginationStyle="justify-content-end"
+              leftText="Prev" rightText="Next" }}}
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $('.sub-tab').click(function () {
+          var tabId = $(this).attr('id');
+          localStorage.setItem('activeTab', tabId);
+        });
+
+        // Khôi phục trạng thái tab khi tải lại trang
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+          $('#' + activeTab).tab('show');
+        }
+      });
+    </script>
+  </div>
+
+  {{!-- <!-- Trigger button -->
+  <button id="openModalBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#releaseModal">Open
+    Modal</button> --}}
+
+  <!-- Modal Structure -->
+  <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Release Details</h5>
+          <button type="button" class="btn-close btnCloseDetail" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="tab-pane fade show active" id="ms-status">
+            <div class="row">
+              <div class="col-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <div class="header-container">
+                      <strong class="milestone_title fw-5">{{truncateId project.ReleaseDetail.Name 20}}</strong>
+                    </div>
+                    <div class="example-box-wrapper d-flex">
+                      <div class="col-6" id="status-chart-container">
+                        <canvas id="release_piechart" height="292" width="584"></canvas>
+                      </div>
+                      <div class="col-3 canvas-detail d-block" id="chart-details">
+                        <span class="chart-heading">Total Test Runs: {{project.ReleaseDetail.TestRuns.length}}</span>
+                        <table class="chart-details-jit ms-2">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <div
+                                  style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                  <div style="width:4px;height:0;border:5px solid #5CB85C;overflow:hidden; "></div>
+                                </div>
+                              </td>
+                              <td>
+                                <span>Passed : {{project.ReleaseDetail.StatusCounts.Passed}}</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div
+                                  style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                  <div style="width:4px;height:0;border:5px solid #F7464A;overflow:hidden; "></div>
+                                </div>
+                              </td>
+                              <td>
+                                <span>Failed : {{project.ReleaseDetail.StatusCounts.Failed}}</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div
+                                  style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                  <div style="width:4px;height:0;border:5px solid #46BFBD;overflow:hidden; "></div>
+                                </div>
+                              </td>
+                              <td>
+                                <span>Untested : {{project.ReleaseDetail.StatusCounts.Untested}}</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div
+                                  style="border: 1px solid #ccc; border: 1px solid var(--ccc-color-ie);padding:1px;margin: 6px;">
+                                  <div style="width:4px;height:0;border:5px solid #fdb45c;overflow:hidden; "></div>
+                                </div>
+                              </td>
+                              <td>
+                                <span>Other : {{project.ReleaseDetail.StatusCounts.Other}}</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col-3 p-2 avg-count">
+                        <span class="chart-heading">Avg. Test Execution/Day</span>
+                        <span class="display-4">0.38</span>
+                      </div>
+                    </div>
+                    <div class="milestone-detail-jit">
+                      <span class="chart-heading">Milestone Details</span>
+                      <table class="table mt-2">
+                        <thead>
+                          <tr>
+                            <th>Milestone</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{truncateId project.ReleaseDetail.Name 20}}</td>
+                            <td class="milestone_startdate">{{formatDate2 project.ReleaseDetail.StartDate}}</td>
+                            <td class="milestone_enddate">{{formatDate2 project.ReleaseDetail.EndDate}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btnCloseDetail" data-bs-dismiss="modal">Close</button>
+          {{!-- <button type="button" class="btn btn-danger">Edit</button> --}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal" id="flashMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thông báo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert" style="font-size: medium;">Số trang không tồn tại, đã chuyển về trang hợp lệ.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Lấy tab đang mở từ localStorage
     const activeTab = localStorage.getItem('activeTab');
-    const openReleasesCheck = {{project.openReleasesCheck}};
-    const upcomingReleasesCheck = {{project.upcomingReleasesCheck}};
-    const completedReleasesCheck = {{project.completedReleasesCheck}};
-    
-    // Kiểm tra vượt số trang và hiển thị modal
-    if (activeTab === 'open-tab' && openReleasesCheck) {
-        $('#flashMessageModal').modal('show');
-        console.log($('#flashMessageModal'))
-    } else if (activeTab === 'upcoming-tab' && upcomingReleasesCheck) {
-        $('#flashMessageModal').modal('show');
-    } else if (activeTab === 'completed-tab' && completedReleasesCheck) {
-        $('#flashMessageModal').modal('show');
-    }
-  });
+    const openReleasesCheck = {{ project.openReleasesCheck }};
+  const upcomingReleasesCheck = {{ project.upcomingReleasesCheck }};
+  const completedReleasesCheck = {{ project.completedReleasesCheck }};
 
-  // Xử lý sự kiện khi modal được đóng
-  $('#flashMessageModal').on('hidden.bs.modal', function () {
-      const redirectUrl = '/project/666011d01cc6e634de0ff711/release';
-      window.location.href = redirectUrl;
+  
   });
 </script>
 <script>
-    $('#releaseModal').on('shown.bs.modal', function () {
-        renderChart();
-    });
+  $('#releaseModal').on('shown.bs.modal', function () {
+    renderChart();
+  });
 
-    function renderChart() {
-        var ctx = document.getElementById('release_piechart').getContext('2d');
-        var myPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Passed', 'Failed', 'Untested', 'Other'],
-                datasets: [{
-                    data: [{{project.ReleaseDetail.StatusCounts.Passed}}, {{project.ReleaseDetail.StatusCounts.Failed}}, {{project.ReleaseDetail.StatusCounts.Untested}}, {{project.ReleaseDetail.StatusCounts.Other}}],
-                    backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD', '#fdb45c']
+  function renderChart() {
+    var ctx = document.getElementById('release_piechart').getContext('2d');
+    var myPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Passed', 'Failed', 'Untested', 'Other'],
+        datasets: [{
+          data: [{{ project.ReleaseDetail.StatusCounts.Passed }}, {{ project.ReleaseDetail.StatusCounts.Failed }}, {{ project.ReleaseDetail.StatusCounts.Untested }}, { { project.ReleaseDetail.StatusCounts.Other } }],
+  backgroundColor: ['#5CB85C', '#F7464A', '#46BFBD', '#fdb45c']
                 }]
             }
         });
@@ -874,58 +538,53 @@
 </script>
 <script>
   function removeTag(element) {
-      element.parentElement.remove();
+    element.parentElement.remove();
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-      const btnsClose = document.querySelectorAll('.btnCloseDetail');
-      const url = window.location.href;
+  document.addEventListener('DOMContentLoaded', function () {
+    const btnsClose = document.querySelectorAll('.btnCloseDetail');
+    const url = window.location.href;
 
-      btnsClose.forEach(btnClose => {
-          btnClose.addEventListener('click', function() {
-              const urlParts = url.split('/');
-              let idToDelete = null;
+    btnsClose.forEach(btnClose => {
+      btnClose.addEventListener('click', function () {
+        const urlParts = url.split('/');
+        let idToDelete = null;
 
-              const indexTestCase = urlParts.indexOf('release');
+        const indexTestCase = urlParts.indexOf('release');
 
-              if (indexTestCase !== -1 && indexTestCase < urlParts.length - 1) {
-                  var newUrl = localStorage.getItem('currentUrl');
-                  window.location.href = newUrl; 
-              }
-          });
-      });
-  });
-</script>
-<script>
-  $(document).ready(function() {
-    $('.release-card').click(function() {
-      var currentUrl = window.location.href;
-      localStorage.setItem('currentUrl', currentUrl);
-    });
-  });
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('a.release-link-modal').click(function(event) {
-            event.preventDefault();
-
-            var url = $(this).attr('href');
-            window.location.href = url;
-        });
-    });
-
-    window.onload = function() {
-        var newUrl = window.location.pathname;
-        var regex = /\/release\/([^/]+)$/;
-
-        if (regex.test(newUrl)) {
-            var $targetModal = $('#releaseModal');
-            var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#releaseModal"]');
-
-            $targetModal.modal('show');
+        if (indexTestCase !== -1 && indexTestCase < urlParts.length - 1) {
+          var newUrl = localStorage.getItem('currentUrl');
+          window.location.href = newUrl;
         }
-    };
+      });
+    });
+  });
+</script>
+<script>
+
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('a.release-link-modal').click(function (event) {
+      event.preventDefault();
+
+      var url = $(this).attr('href');
+      window.location.href = url;
+    });
+  });
+
+  window.onload = function () {
+    var newUrl = window.location.pathname;
+    var regex = /\/release\/([^/]+)$/;
+
+    if (regex.test(newUrl)) {
+      var $targetModal = $('#releaseModal');
+      var $targetLink = $('a[data-bs-toggle="modal"][data-bs-target="#releaseModal"]');
+
+      $targetModal.modal('show');
+    }
+  };
 </script>
 
 
