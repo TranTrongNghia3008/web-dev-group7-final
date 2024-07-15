@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var firstName = nameParts[0];
 		var lastName = nameParts.slice(1).join(' ');
 
+		var id = button.getAttribute('data-id');
 		var email = button.getAttribute('data-email');
 		var language = button.getAttribute('data-language');
 		var status = button.getAttribute('data-status');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var userImg = button.getAttribute('data-user-img');
 
 		var modal = this;
+		modal.querySelector('input[name="user-id"]').value = id;
 		modal.querySelector('input[name="first-name"]').value = firstName;
 		modal.querySelector('input[name="last-name"]').value = lastName;
 		modal.querySelector('input[name="email"]').value = email;
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		modal.querySelector('input[name="isAdmin"]').checked = isAdmin;
 		modal.querySelector('input[name="locale"]').value = locale;
 		modal.querySelector('input[name="timezone"]').value = timezone;
+		modal.querySelector('input[name="user-img"]').value = userImg;
 		var previewImage = modal.querySelector('#previewImage');
 		previewImage.src = `/images/${userImg}` || '/images/default-user-image.png';
 	});
