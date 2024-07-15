@@ -6,12 +6,51 @@ function showEditTestPlanModal(btn) {
     document.querySelector("#descriptionEdit").value = btn.dataset.description;
   }
 
+  document.querySelector("#addTestPlanForm").addEventListener("submit", function(e) {
+    let isValid = true;
+    let name_div = document.querySelector("#name");
+    let title_val = name_div.value;
+    if (!title_val.trim()) {
+        isValid = false;
+        name_div.classList.remove("is-valid");
+        name_div.classList.add("is-invalid");
+    }
+    else {
+        name_div.classList.remove("is-invalid");
+        name_div.classList.add("is-valid");
+    }
+
+    // 1.2. Validate if startDate < endDate
+    let startDate_div = document.querySelector("#startDate");
+    let endDate_div = document.querySelector("#endDate");
+    let startDate_val = startDate_div.value;
+    let endDate_val = endDate_div.value;
+
+    let startDate = new Date(startDate_val);
+    let endDate = new Date(endDate_val);
+    if ((startDate && endDate) && (startDate > endDate)) {
+        isValid = false;
+        startDate_div.classList.remove("is-valid");
+        endDate_div.classList.remove("is-valid");
+        startDate_div.classList.add("is-invalid");
+        endDate_div.classList.add("is-invalid");
+    }
+    else {
+        startDate_div.classList.remove("is-invalid");
+        endDate_div.classList.remove("is-invalid");
+        startDate_div.classList.add("is-valid");
+        endDate_div.classList.add("is-valid");
+    }
+    if (!isValid) {
+        e.preventDefault();
+    }
+  });
+
   async function addTestPlan(e) {
     e.preventDefault();
   
     const formData = new FormData(document.getElementById("addTestPlanForm"));
     let data = Object.fromEntries(formData.entries());
-    // console.log(data)
 
     try {
       let res = await fetch(`/project/${data.projectId}/test-plan`, {
@@ -30,7 +69,6 @@ function showEditTestPlanModal(btn) {
         throw new Error(resText);
       }
     } catch (error) {
-      e.target.querySelector("#errorMessageEdit").innerText = "Can not add test plan!";
       console.log(error);
     }
   }

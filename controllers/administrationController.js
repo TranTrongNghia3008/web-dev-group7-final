@@ -40,13 +40,9 @@ controller.show = async (req, res) => {
 	// let order = req.query.order || 'asc';
 	// options.order = [[sortby, order]];
 
-    // Pagination
-    let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-    let limit = 3;
-    let skip = (page - 1) * limit;
+    
 
-    options.limit = limit;
-    options.skip = skip;  
+    
 
 	let query = {};
 
@@ -68,13 +64,35 @@ controller.show = async (req, res) => {
 
     // Querying (filter)
     let users = await userModel.find(query, null);
-    const usersCount = await users.length;
-    // Slice the users array to limit the number of users displayed
-    // Validate if the skip is greater than the number of users
-    if (skip > usersCount) {
-        skip = 0;
-        page = 1;
-    }
+    
+	// Pagination
+	let total = users.length;
+	let limit = 5;
+	let page = 1;
+	// Validate page query 
+	let invalidPage = isNaN(req.query.page) 
+	|| req.query.page < 1 
+	|| (req.query.page > Math.ceil(total / limit) && total > 0)
+	|| (req.query.page > 1 && total == 0);
+	if (invalidPage) {
+		// Redirect to the first page
+		return res.redirect(`/administration?userTypeKeyword=${userTypeKeyword}&userStatusKeyword=${userStatusKeyword}&userKeyword=${userKeyword}&page=1`);
+	}
+	else
+	{
+		page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+	}
+	let skip = (page - 1) * limit;
+	let showing = Math.min(total, skip + limit);
+	res.locals.pagination = 
+	{
+		page: page,
+		limit: limit,
+		showing: showing,
+		totalRows: total,
+		queryParams: req.query
+	};
+	// end Pagination
 
 
     users = users.slice(skip, skip + limit);
@@ -85,7 +103,7 @@ controller.show = async (req, res) => {
         page: page,
         limit: limit,
         showing: users.length,
-        totalRows: usersCount,
+        totalRows: total,
         queryParams: req.query
     };
 

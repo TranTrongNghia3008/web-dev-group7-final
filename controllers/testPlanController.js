@@ -51,10 +51,23 @@ controller.show = async (req, res) => {
         // console.log(testPlans)
 
         // Pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        let skip = (page - 1) * limit;
         let total = testPlans.length;
+        let limit = 5;
+        let page = 1;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
+        if (invalidPage) {
+            // Redirect to the first page
+            return res.redirect(`/project/${projectId}/test-plan?page=1`);
+        }
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
+        let skip = (page - 1) * limit;
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
         {
@@ -64,6 +77,7 @@ controller.show = async (req, res) => {
             totalRows: total,
             queryParams: req.query
         };
+        // end Pagination
 
 
         // Gói dữ liệu trong projectData
@@ -127,17 +141,15 @@ controller.addTestPlan = async (req, res) => {
         // console.log(formattedEndDate)
         const newTestPlan = await testPlanModel.create({
             Name: name,
-            StartDate: formattedStartDate,
-            EndDate: formattedEndDate,
+            StartDate: startDay,
+            EndDate: endDay,
             Description: description || null,
-            RequirementID: "66601c17e78adfc3981db376",
+            RequirementID: '66601c17e78adfc3981db376'
         });
 
-        if (!newTestPlan) {
-            return res.status(404).json({ message: 'Test Plan not found' });
-        }
-        else
-            res.status(200).json({ message: 'Test Plan Added successfully!' });
+        // console.log("New");
+        // console.log(newTestPlan);
+        res.redirect(`/project/${req.body.projectId}/test-plan`);
     } catch (error) {
         res.status(500).json({ message: 'Error adding Test Plan', error });
     }

@@ -45,6 +45,7 @@ controller.show = async (req, res) => {
             totalRows: reportsCount,
             queryParams: req.query
         };
+        console.log(res.locals.pagination);
 
 
         // Gói dữ liệu trong projectData
@@ -96,20 +97,13 @@ controller.addReport = async (req, res) => {
     try {
         const projectId = req.params.projectId;
         const reportType = req.body.reportType;
-        const resourceType = req.body.resourceType;
         const title = req.body.title;
-        const startDate = req.body.startDate ? req.body.startDate : null;
-        const endDate = req.body.endDate ? req.body.endDate : null;
-
         const isScheduled = req.body.isScheduled == 'on' ? true : false;
-
-        const type = (reportType ? reportType : '');
-
-        const start = startDate ? new Date(startDate) : null;
-        const end = endDate ? new Date(endDate) : null;
+        const start = req.body.startDate ? new Date(req.body.startDate) : null;
+        const end = req.body.endDate ? new Date(req.body.endDate) : null;
 
         const newReport = await reportModel.create({
-            Type: type,
+            Type: reportType,
             Title: title,
             StartDate: start,
             EndDate: end,
@@ -132,7 +126,6 @@ controller.editReport = async (req, res) => {
         const reportIdEdit = req.body.reportIdEdit;
 
         const reportTypeEdit = sanitizeInput(req.body.reportTypeEdit);
-        const resourceTypeEdit = sanitizeInput(req.body.resourceTypeEdit);
         const titleEdit = sanitizeInput(req.body.titleEdit);
         const startDateEdit = req.body.startDateEdit ? req.body.startDateEdit : null;
         const endDateEdit = req.body.endDateEdit ? req.body.endDateEdit : null;
@@ -140,9 +133,9 @@ controller.editReport = async (req, res) => {
 
         const currentReport = await reportModel.findById(reportIdEdit);
 
-        // Validate dstartDateEdit < endDateEdit if both are not null
-        start = startDateEdit ? new Date(startDateEdit) : null;
-        end = endDateEdit ? new Date(endDateEdit) : null;
+        let start = startDateEdit ? new Date(startDateEdit) : null;
+        let end = endDateEdit ? new Date(endDateEdit) : null;
+
         
 
         const updatedReport = await reportModel.findByIdAndUpdate(reportIdEdit, {
@@ -158,7 +151,6 @@ controller.editReport = async (req, res) => {
             return res.status(404).json({ message: 'Report not found' });
         }
         else
-            console.log(updatedReport);
             res.status(200).json({ message: 'Report Updated successfully!' });
     } catch (error){
         res.status(500).json({ message: 'Error updating Report', error });

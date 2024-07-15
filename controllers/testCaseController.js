@@ -113,21 +113,23 @@ controller.show = async (req, res) => {
         // const testCases = await testCaseModel.find({ _id: { $in: uniqueTestCaseIds } });
 
         // Pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        const pageMax = Math.ceil(testCases.length / limit)
-        let skip = (page - 1) * limit;
-
-        if (page > pageMax) {
-            // Thêm thông báo rằng số trang không tồn tại
-            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
-            
-            const newQuery = {...req.query, page: pageMax};
-            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
-            return res.redirect(`?${newQueryString}`);
-        }
-
         let total = testCases.length;
+        let limit = 10;
+        let page = 1;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
+        if (invalidPage) {
+            // Redirect to the first page
+            return res.redirect(`/project/${projectId}/test-case?page=1`);
+        }
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
+        let skip = (page - 1) * limit;
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
         {
@@ -137,6 +139,7 @@ controller.show = async (req, res) => {
             totalRows: total,
             queryParams: req.query
         };
+        // end Pagination
 
         const allModules = await moduleModel.find({ ProjectID: projectId})
 

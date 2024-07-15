@@ -134,8 +134,7 @@
                                             data-start-date="{{this.StartDate}}"
                                             data-end-date="{{this.EndDate}}"
                                             data-is-scheduled="{{this.IsScheduled}}"
-                                            data-resource-type="{{this.ResourceType}}"
-                                            data-report-type="{{this.ReportType}}" title="Edit" class="my-auto mx-2">
+                                            title="Edit" class="my-auto mx-2">
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
@@ -325,10 +324,10 @@
                     <div class="modal-body">
                         <div class="row p-3">
                             <div class="col">
-                                <div class="mb-3 d-flex">
-                                    <label fors="fReports" class="form-label fw-bold"
-                                        style="width: 17rem">Reports</label>
-                                    <div class="w-100">
+                                <div class="mb-3 d-md-flex d-sm-block">
+                                    <label fors="fReports" class="form-label fw-bold col-md-3"
+                                        >Reports</label>
+                                    <div class="d-flex flex-column col-md-9">
                                         <select class="form-select mb-3" id="fReports" name="reportType"
                                             aria-label="Default select example">
                                             <option selected value="Activity Summary">
@@ -387,76 +386,66 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 d-flex">
-                                    <label for="fReportType" class="form-label fw-bold" style="width: 17rem">Resource
-                                        type</label>
-                                    <div class="w-100">
-                                        <select class="form-select mb-3" id="fReportType" name="resourceType"
-                                            aria-label="Default select example">
-                                            <option selected value="All resources">All/several resources</option>
-                                            <option value="Release">Releases</option>
-                                            <option value="Test Case">Test Case</option>
-                                            <option value="Test Run">Test Run</option>
-                                            <option value="Issue">Issue</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 d-flex">
-                                    <label id="titleLabel" for="title" class="form-label fw-bold" style="width: 17rem">Title 
-                                        <span class="text-danger">*</span></label>
-                                    <div class="w-100">
+                                <div class="mb-3 d-md-flex d-sm-block">
+                                    <label id="titleLabel" for="title" class="form-label fw-bold col-md-3" >
+                                        Title 
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-9">
                                         <input class="form-control" id="title" name="title" type="text"
-                                            placeholder="Title..." aria-describedby="titleValidationFeedback titleLabel" required />
+                                            placeholder="Title..." aria-describedby="titleValidationFeedback titleLabel" />
+                                    
+                                        <div id="titleValidationFeedback" class="invalid-feedback">
+                                            Please fill in the title.
+                                        </div>
                                     </div>
-                                    <div id="titleValidationFeedback" class="invalid-feedback">Please fill in the title.</div>
                                 </div>
 
 
-                                <div class="mb-3 d-flex flex-column">
-                                    <div class="fw-bold">Duration</div>
+                                <div class="mb-3 d-md-flex d-sm-block">
+                                    <div class="fw-bold col-md-3">Duration</div>
 
-                                    <div class="w-100">
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <label id="startDateLabel" for="startDate" class="form-label">Start
-                                                    date: </label>
-                                            </div>
-                                            <div class="col-8">
+                                    <div class="col-md-9">
+                                        <div class="d-md-flex d-sm-block">
+                                            <label id="startDateLabel" for="startDate" class="form-label col-md-3">
+                                                Start date
+                                            </label>
+                                            <div class="d-flex flex-column col-md-6">
                                                 <input class="form-control has-validation" id="startDate"
-                                                    name="startDate" type="datetime-local"
-                                                    aria-describedby="startDateLabel startDateValidationFeedback" />
+                                                name="startDate" type="datetime-local"
+                                                aria-describedby="startDateLabel startDateValidationFeedback" />
                                                 <div id="startDateValidationFeedback" class="invalid-feedback">
                                                     Please make sure the start date is before the end date.
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <label id="endTimeLabel" for="endDate" class="form-label">End date:
-                                                    </label>
-                                                </div>
-                                                <div class="col-8">
-                                                    <input class="form-control has-validation" id="endDate"
-                                                        name="endDate" type="datetime-local"
-                                                        aria-described-by="endDateLabel endDateValidationFeedback" />
-                                                    <div id="endDateValidationFeedback" class="invalid-feedback">
-                                                        Please make sure the start date is before the end date.
-                                                    </div>
+                                            </div>   
+                                        </div>
+
+                                        <div class="d-md-flex d-sm-block">
+                                            <label id="endTimeLabel" for="endDate" class="form-label col-md-3" >
+                                                End date:
+                                            </label>
+                                            
+                                            <div class="d-flex flex-column col-md-6">
+                                                <input class="form-control has-validation" id="endDate" name="endDate" type="datetime-local"
+                                                    aria-described-by="endDateLabel endDateValidationFeedback" />
+                                                <div id="endDateValidationFeedback" class="invalid-feedback">
+                                                    Please make sure the start date is before the end date.
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
 
-                                    <div class="mb-3 d-flex form-check form-switch ps-0">
-                                        <label class="form-check-label fw-bold" for="fAccessingAndScheduling"
-                                            style="width: 17rem">Accessing
-                                            & Scheduling</label>
-                                        <div class="w-100">
-                                            <input class="form-check-input mx-0 mt-1" type="checkbox"
-                                                id="fAccessingAndScheduling" name="isScheduled" checked />
-                                        </div>
+                                <div class="mb-3 d-md-flex d-sm-block form-check form-switch ps-0">
+                                    <label class="form-check-label fw-bold col-6" for="fAccessingAndScheduling"
+                                        >Accessing
+                                        & Scheduling</label>
+                                    <div class="col-3">
+                                        <input class="form-check-input mx-0 mt-1" type="checkbox"
+                                            id="fAccessingAndScheduling" name="isScheduled" checked />
                                     </div>
+                                </div>
                                     <p class="text-secondary">
                                         Note: Switching this ON will allow you to enable scheduled
                                         Email Report and Accessing Controls
@@ -476,7 +465,7 @@
                         </div>
 
                     </div>
-                </div>
+                
             </div>
         </div>
     </form>
@@ -498,11 +487,11 @@
                     <div class="modal-body">
                         <div class="row p-3">
                             <div class="col">
-                                <div class="mb-3 d-flex">
-                                    <label fors="fReports" class="form-label fw-bold" style="width: 17rem">
+                                <div class="mb-3 d-md-flex d-sm-block">
+                                    <label fors="fReports" class="col-3 form-label fw-bold" >
                                         Report type
                                     </label>
-                                    <div class="w-100">
+                                    <div class="d-flex flex-column col-9">
                                         <select class="form-select mb-3" id="reportTypeEdit" name="reportTypeEdit"
                                             aria-label="Default select example">
                                             <option selected value="Activity Summary">
@@ -562,42 +551,28 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 d-flex">
-                                    <label for="fReportType" class="form-label fw-bold" style="width: 17rem">Resource
-                                        type</label>
-                                    <div class="w-100">
-                                        <select class="form-select mb-3" id="resourceTypeEdit" name="resourceTypeEdit"
-                                            aria-label="Default select example">
-                                            <option selected value="All resources">All/several resources</option>
-                                            <option value="Release">Releases</option>
-                                            <option value="Test Case">Test Case</option>
-                                            <option value="Test Run">Test Run</option>
-                                            <option value="Issue">Issue</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 d-flex">
-                                        <label id="titleEditLabel" for="titleEdit" class="form-label fw-bold" style="width: 17rem">
-                                            Title 
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                    <div class="w-100">
+                                <div class="mb-3 d-md-flex d-sm-block">
+                                    <label id="titleEditLabel" for="titleEdit" class="form-label fw-bold col-3" >
+                                        Title 
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-9">
                                         <input class="form-control" id="titleEdit" name="titleEdit" type="text"
-                                            placeholder="Title..." aria-describedby="titleEditValidationFeedback titleEditLabel" required />
+                                            placeholder="Title..." aria-describedby="titleEditValidationFeedback titleEditLabel"/>
+                                    
+                                        <div id="titleEditValidationFeedback" class="invalid-feedback">Please fill in the title.</div>
                                     </div>
-                                    <div id="titleEditValidationFeedback" class="invalid-feedback">Please fill in the title.</div>
                                 </div>
 
-                                <div class="mb-3 d-flex flex-column">
-                                    <div class="fw-bold">Duration</div>
+                                <div class="mb-3 d-md-flex d-sm-block">
+                                    <div class="fw-bold col-3">Duration</div>
 
-                                    <div class="w-100">
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <label for="startDateEdit">Start date: </label>
-                                            </div>
-                                            <div class="col">
+                                    <div class="col-9">
+                                        <div class="d-md-flex d-sm-block">
+                                            <label class="col-3" for="startDateEdit">
+                                                Start date: 
+                                            </label>
+                                            <div class="col-6">
                                                 <input class="form-control has-validation" id="startDateEdit"
                                                     name="startDateEdit" 
                                                     type="datetime-local"
@@ -607,12 +582,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <label for="endDateEdit">End date: </label>
-                                            </div>
-                                            <div class="col">
-
+                                        <div class="d-md-flex d-sm-block">
+                                            <label for="endDateEdit" class="col-3">
+                                                End date: 
+                                            </label>
+                                            <div class="col-6">
                                                 <input class="form-control has-validation" 
                                                     id="endDateEdit"
                                                     name="endDateEdit" 
@@ -627,16 +601,16 @@
                                 </div>
 
 
-                                <div class="mb-3 d-flex form-check form-switch ps-0">
-                                    <label class="form-check-label fw-bold" for="isScheduledEdit"
-                                        style="width: 17rem">Accessing
-                                        & Scheduling</label>
-                                    <div class="w-100">
+                                <div class="mb-3 d-md-flex d-sm-block form-check form-switch ps-0">
+                                    <label class="form-check-label fw-bold col-6" for="isScheduledEdit">
+                                        Accessing and Scheduling
+                                    </label>
+                                    <div class="md-6">
                                         <input class="form-check-input mx-0 mt-1" type="checkbox" id="isScheduledEdit"
                                             name="isScheduledEdit" checked />
                                     </div>
                                 </div>
-                                <p class="text-secondary">
+                                    <p class="text-secondary">
                                     Note: Switching this ON will allow you to enable scheduled
                                     Email Report and Accessing Controls
                                 </p>

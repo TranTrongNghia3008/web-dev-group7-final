@@ -7,7 +7,7 @@ const testPlanSchema = new mongoose.Schema({
   EndDate: { type: Date },
   CreatedAt: { type: Date, default: Date.now },
   UpdatedAt: { type: Date, default: Date.now },
-  RequirementID: { type: mongoose.Schema.Types.ObjectId, ref: 'Requirement', required: true }
+  RequirementID: { type: mongoose.Schema.Types.ObjectId, ref: 'Requirement', required: true },
 });
 
 // Custom validation for EndDate > StartDate
