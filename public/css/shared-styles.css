@@ -208,3 +208,11 @@ footer {
 .display-none {
     display: none;
 }
+
+.dropdown-menu-user {
+    flex: 1 1 auto !important; 
+    position: fixed !important;
+    right: 0 !important;
+    top: 72px !important;
+    left: auto !important;
+}

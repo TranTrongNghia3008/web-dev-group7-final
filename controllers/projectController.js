@@ -322,7 +322,7 @@ controller.checkUserRole = async (req, res) => {
 
         const user = await userModel.findById(userId);
         
-        if (user?.IsAdmin) {
+        if (user.IsAdmin) {
             res.status(200).json({ role: 'Admin' });
         } 
         else {
