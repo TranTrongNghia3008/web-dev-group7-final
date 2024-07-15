@@ -11,6 +11,7 @@ function showEditTestPlanModal(btn) {
   
     const formData = new FormData(document.getElementById("addTestPlanForm"));
     let data = Object.fromEntries(formData.entries());
+    // console.log(data)
 
     try {
       let res = await fetch(`/project/${data.projectId}/test-plan`, {

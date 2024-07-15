@@ -39,13 +39,16 @@ controller.show = async (req, res) => {
         // Tìm release thuộc project đó
         const releases = await releaseModel.find({ ProjectID: projectId });
         const releaseIds = releases.map(release => release._id);
-
+        // console.log(releaseIds)
+        
         // Tìm requirement thuộc các release đó
         const requirements = await requirementModel.find({ ReleaseID: { $in: releaseIds } });
         const requirementIds = requirements.map(requirement => requirement._id);
+        // console.log(requirementIds)
         
         // Tìm tất cả các test plan thuộc các requirement thuộc các release thuộc project đó
         const testPlans = await testPlanModel.find({ RequirementID: { $in: requirementIds }, Name: { $regex: testPlanKeyword, $options: 'i' } });
+        // console.log(testPlans)
 
         // Pagination
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
@@ -116,10 +119,12 @@ controller.addTestPlan = async (req, res) => {
         const description = sanitizeInput(descriptionBody);
 
         const startDay = startDate ? new Date(startDate) : null;
-        const endDay = endDate ? new Date(startDate) : null;
+        const endDay = endDate ? new Date(endDate) : null;
         const formattedStartDate = startDay ? startDay.toISOString() : null;
         const formattedEndDate = endDay ? endDay.toISOString() : null;
 
+        // console.log(formattedStartDate)
+        // console.log(formattedEndDate)
         const newTestPlan = await testPlanModel.create({
             Name: name,
             StartDate: formattedStartDate,
