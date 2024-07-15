@@ -30,7 +30,7 @@ controller.show = async (req, res) => {
             const projectData = {
                 ProjectID: projectId, // Thêm ProjectID
             };
-            res.render('not-have-access', { 
+            return res.render('not-have-access', { 
                 title: "ShareBug - Not Have Access", 
                 header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                         <link rel="stylesheet" href="/css/not-have-access.css" />`, 
@@ -38,6 +38,7 @@ controller.show = async (req, res) => {
                 n5: "active border-danger",
                 user,
                 project: projectData,
+                messages: req.flash()
             });
 
         }
