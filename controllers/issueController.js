@@ -150,8 +150,10 @@ controller.show = async (req, res) => {
         || (req.query.page > Math.ceil(total / limit) && total > 0)
         || (req.query.page > 1 && total == 0);
         if (invalidPage) {
-            // Redirect to the first page
-            return res.redirect(`/project/${projectId}/issue?page=1`);
+            // Change only the page parameter and reload page
+            let queryParams = req.query;
+            queryParams.page = 1;
+            return res.redirect(`/project/${projectId}/issue?${new URLSearchParams(queryParams).toString()}`);
         }
         else
         {

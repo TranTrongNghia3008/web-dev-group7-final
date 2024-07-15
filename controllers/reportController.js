@@ -17,41 +17,47 @@ controller.show = async (req, res) => {
         // const reports = await reportModel.find({ ProjectID: projectId }, null, options);
         const reportsCount = await reportModel.countDocuments({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }});
 
-        //pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-        let limit = 5;
-        const pageMax = Math.ceil(reportsCount / limit);
-        let skip = (page - 1) * limit;
-
-        if (page > pageMax && pageMax > 0) {
-            // Thêm thông báo rằng số trang không tồn tại
-            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
-            
-            const newQuery = {...req.query, page: pageMax};
-            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
-            return res.redirect(`?${newQueryString}`);
-        }
-        options.limit = limit;
-        options.skip = skip;  
 
         // Tìm tất cả các báo cáo thuộc project đó
         const reports = await reportModel.find({ ProjectID: projectId,  Title: { $regex: reportKeyword, $options: 'i' }}, null, options);
     
-        res.locals.pagination =
+        // Pagination
+        let total = reportsCount;
+        let limit = 10;
+        let page = 1;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
+        if (invalidPage) {
+            // Change only the page parameter and reload page
+            let queryParams = req.query;
+            queryParams.page = 1;
+            return res.redirect(`/project/${projectId}/report?${new URLSearchParams(queryParams).toString()}`);
+        }
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
+        let skip = (page - 1) * limit;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
         {
             page: page,
             limit: limit,
-            showing: reports.length,
-            totalRows: reportsCount,
+            showing: showing,
+            totalRows: total,
             queryParams: req.query
         };
-        console.log(res.locals.pagination);
+        // end Pagination
+        
 
 
         // Gói dữ liệu trong projectData
         const projectData = {
             ProjectID: projectId,
-            Reports: reports
+            Reports: reports.slice(skip, skip + limit),
         };
 
         const account = req.user;
