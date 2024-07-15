@@ -79,7 +79,7 @@ controller.show = async (req, res) => {
             total = upcomingReleasesCount;
             displayedReleases = upcomingReleases;
         }
-        else if (statusFilter === 'completed') {
+        else {
             total = completedReleasesCount;
             displayedReleases = completedReleases;
         }
