@@ -72,6 +72,7 @@ controller.show = async (req, res) => {
         if (moduleId !== 0) {
             // Nếu moduleId khác 0, chỉ lấy các test case có moduleId tương ứng
             testCases = await testCaseModel.find({ ModuleID: moduleId, Title: { $regex: testCaseKeyword, $options: 'i' } }).sort(sortCriteria);
+
             const module = await moduleModel.findById(moduleId).select('Name');
             moduleName = module.Name;
         } else {
@@ -80,6 +81,8 @@ controller.show = async (req, res) => {
             moduleName = "All Test Cases";
             testCaseCount = allTestCases.length;
         }
+
+        // console.log("tese case: " + testCases)
 
         // Lấy số lượng test case cho mỗi module
         const testCaseCounts = await testCaseModel.aggregate([
@@ -122,8 +125,10 @@ controller.show = async (req, res) => {
         || (req.query.page > Math.ceil(total / limit) && total > 0)
         || (req.query.page > 1 && total == 0);
         if (invalidPage) {
-            // Redirect to the first page
-            return res.redirect(`/project/${projectId}/test-case?page=1`);
+         // Change only the page parameter, don't affect the header.
+            const newQuery = {...req.query, page: 1};
+            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
+            return res.redirect(`?${newQueryString}`);
         }
         else
         {
