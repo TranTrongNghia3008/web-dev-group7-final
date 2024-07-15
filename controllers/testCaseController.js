@@ -125,10 +125,10 @@ controller.show = async (req, res) => {
         || (req.query.page > Math.ceil(total / limit) && total > 0)
         || (req.query.page > 1 && total == 0);
         if (invalidPage) {
-         // Change only the page parameter, don't affect the header.
-            const newQuery = {...req.query, page: 1};
-            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
-            return res.redirect(`?${newQueryString}`);
+            // Change only the page parameter and reload page
+            let queryParams = req.query;
+            queryParams.page = 1;
+            return res.redirect(`/project/${projectId}/test-case?${new URLSearchParams(queryParams).toString()}`);
         }
         else
         {

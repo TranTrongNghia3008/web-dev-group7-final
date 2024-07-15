@@ -36,11 +36,42 @@ controller.show = async (req, res) => {
 
         const modules = await moduleModel.find({ ProjectID: projectId, ParentID: null }).sort({ Order: 1 });
         const modulesData = JSON.stringify(modules);
-        const numModules = modules.length;
+        
+        // Pagination
+        let total = modules.length;
+        let limit = 10;
+        let page = 1;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
+        if (invalidPage) {
+            // Change only the page parameter and reload page
+            let queryParams = req.query;
+            queryParams.page = 1;
+            return res.redirect(`/project/${projectId}/module?${new URLSearchParams(queryParams).toString()}`);
+        }
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
+        let skip = (page - 1) * limit;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+        // end Pagination
+
 
         // // Tạo projectData chỉ với thông tin về modules và ProjectID
         const projectData = {
-            Modules: modules, // Thêm thông tin về modules
+            Modules: modules.slice(skip, skip + limit),
             ProjectID: projectId, // Thêm ProjectID
             AllModules: allModules
         };
@@ -59,7 +90,7 @@ controller.show = async (req, res) => {
             project: projectData,
             // modules: modules,
             modulesData: modulesData,
-            numModules: numModules,
+            numModules: modules.length,
         });
     } catch (error) {
         console.error('Error fetching modules:', error);
