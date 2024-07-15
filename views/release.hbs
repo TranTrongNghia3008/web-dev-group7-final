@@ -447,11 +447,32 @@
                     >
                       <div class="row">
                         <div class="col-sm-9">
-                          <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
+                          {{!-- <a href="/project/{{../project.ProjectID}}/release/{{this._id}}" class="release-link-modal">
+                            <div class="container release-card-name">
+                              <h4>{{truncateId  this.Name 20}}</h4>
+                            </div>
+                          </a> --}}
+                          <a href="javascript:void(0);" class="release-link-modal" onclick="navigateToRelease('{{../project.ProjectID}}', '{{this._id}}')">
                             <div class="container release-card-name">
                               <h4>{{truncateId  this.Name 20}}</h4>
                             </div>
                           </a>
+                        <script>
+                            function navigateToRelease(projectId, releaseId) {
+                                // Get the current URL's query parameters
+                                const queryParams = new URLSearchParams(window.location.search);
+                                const queryString = queryParams.toString();
+                                
+                                // Construct the new URL
+                                let newUrl = `/project/${projectId}/release/${releaseId}`;
+                                if (queryString) {
+                                newUrl += `?${queryString}`;
+                                }
+                                
+                                // Redirect to the new URL
+                                window.location.href = newUrl;
+                            }
+                        </script>
 
                           <div class="container release-card-info">
                             <div
@@ -704,8 +725,8 @@
   {{!-- <!-- Trigger button -->
     <button id="openModalBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#releaseModal">Open Modal</button> --}}
 
-    <!-- Modal Structure -->
-    <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <!-- Modal Detail -->
+    <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -878,21 +899,36 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-      const btnsClose = document.querySelectorAll('.btnCloseDetail');
-      const url = window.location.href;
-
-      btnsClose.forEach(btnClose => {
-          btnClose.addEventListener('click', function() {
-              const urlParts = url.split('/');
-              let idToDelete = null;
-
-              const indexTestCase = urlParts.indexOf('release');
-
-              if (indexTestCase !== -1 && indexTestCase < urlParts.length - 1) {
-                  var newUrl = localStorage.getItem('currentUrl');
-                  window.location.href = newUrl; 
-              }
-          });
+      // Get all buttons with the class btnCloseDetail
+      const closeDetailButtons = document.querySelectorAll('.btnCloseDetail');
+      
+      // Add event listener to each button
+      closeDetailButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          // Get the current URL
+          const currentUrl = window.location.href;
+          
+          // Split the URL by '/'
+          const urlParts = currentUrl.split('/');
+          
+          // Get the last part of the URL
+          const lastPart = urlParts[urlParts.length - 1];
+          
+          // Split the last part by '?'
+          const querySplit = lastPart.split('?');
+          
+          // Check if the first part of the last segment is not "release"
+          if (querySplit[0] !== 'release') {
+          // Remove the last part
+          urlParts.pop();
+          }
+          
+          // Reconstruct the URL without the last part if necessary
+          const newUrl = urlParts.join('/') + (querySplit[1] ? '?' + querySplit[1] : '');
+          
+          // Redirect to the new URL
+          window.history.replaceState({}, '', newUrl);
+      });
       });
   });
 </script>
