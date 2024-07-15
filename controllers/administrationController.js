@@ -18,7 +18,7 @@ controller.show = async (req, res) => {
 	const user = await userModel.findOne({ AccountEmail: account.Email });
 
 	if (!user.IsAdmin) {
-		res.render('not-have-access', { 
+		return res.render('not-have-access', { 
 			title: "ShareBug - Not Have Access", 
 			header: `<link rel="stylesheet" href="/css/shared-styles.css" />
 					<link rel="stylesheet" href="/css/not-have-access.css" />`, 
