@@ -28,7 +28,7 @@ controller.show = async (req, res) => {
         let total = testPlans.length;
         let limit = 5;
         // Validate page query 
-        let invalidPage = isNaN(req.query.page) || req.query.page < 1 || req.query.page > Math.ceil(total / limit);
+        let invalidPage = isNaN(req.query.page) || req.query.page < 1 || (req.query.page > Math.ceil(total / limit) && total > 0);
         if (invalidPage) {
             // Redirect to the first page
             return res.redirect(`/project/${projectId}/test-plan?page=1`);
@@ -46,6 +46,7 @@ controller.show = async (req, res) => {
             totalRows: total,
             queryParams: req.query
         };
+        console.log(res.locals.pagination);
 
 
         // Gói dữ liệu trong projectData
@@ -90,26 +91,26 @@ controller.getTestPlanNameById = async (req, res) => {
 
 controller.addTestPlan = async (req, res) => {
     try {
-        const { name, startDate, endDate, description } = req.body;
+        console.log("Controller data");
+        console.log(req.body);
+        const name = req.body.name ? req.body.name : null;
+        const startDay = req.body.startDate ? new Date(startDate) : null;
+        const endDay = req.body.endDate ? new Date(startDate) : null;
+        const description = req.body.description ? req.body.description : null;
 
-        const startDay = startDate ? new Date(startDate) : null;
-        const endDay = endDate ? new Date(startDate) : null;
-        const formattedStartDate = startDay ? startDay.toISOString() : null;
-        const formattedEndDate = endDay ? endDay.toISOString() : null;
+        
 
         const newTestPlan = await testPlanModel.create({
             Name: name,
-            StartDate: formattedStartDate,
-            EndDate: formattedEndDate,
+            StartDate: startDay,
+            EndDate: endDay,
             Description: description || null,
-            RequirementID: "66601c17e78adfc3981db376",
+            RequirementID: '66601c17e78adfc3981db377'
         });
 
-        if (!newTestPlan) {
-            return res.status(404).json({ message: 'Test Plan not found' });
-        }
-        else
-            res.status(200).json({ message: 'Test Plan Added successfully!' });
+        console.log("New");
+        console.log(newTestPlan);
+        res.redirect(`/project/${req.body.projectId}/test-plan`);
     } catch (error) {
         res.status(500).json({ message: 'Error adding Test Plan', error });
     }

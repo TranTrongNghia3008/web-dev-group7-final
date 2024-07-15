@@ -11,6 +11,8 @@ function showEditTestPlanModal(btn) {
   
     const formData = new FormData(document.getElementById("addTestPlanForm"));
     let data = Object.fromEntries(formData.entries());
+    console.log("CRUD Data: ");
+    console.log(data);
 
     try {
       let res = await fetch(`/project/${data.projectId}/test-plan`, {
@@ -28,7 +30,6 @@ function showEditTestPlanModal(btn) {
         throw new Error(resText);
       }
     } catch (error) {
-      e.target.querySelector("#errorMessageEdit").innerText = "Can not add test plan!";
       console.log(error);
     }
   }
