@@ -184,36 +184,30 @@
               </div>
             </div>
 
-            <div class="card-project-actions">
-              <div class="my-auto">
-                <a data-bs-toggle="modal"  id="assignUserBtn"  class="text-success assignUserBtn" data-projectId="{{ProjectID}}" data-userId="{{../user._id}}" href="">
-                  <button class="btn btn-outline-dark me-1">
-                    <i class="bi bi-person-plus"></i> 
-                    Assgin User
-                  </button>
-                </a>
-              </div>
-              <div class="ms-1">
+            <div class="card-project-actions d-flex justify-content-between">
+                              <div class="my-auto">
+                                <a data-bs-toggle="modal" data-bs-target="#assignUserModal" id="assignUserBtn" href="" class="text-success" data-projectId="{{ProjectID}}"><i class="bi bi-person-plus"></i> Assgin User</a>
+                              </div>
+                              <div class="">
                 <a href="#" 
-                  data-bs-toggle="modal"
-                  data-bs-target="#editProject"
-                  onclick="showEditProjectModal(this)"
-                  data-project-id="{{ProjectID}}"
-                  data-project-name="{{Name}}"
-                  title="Rename project"
-                >
-                  <button class="btn btn-outline-dark me-1">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                </a>
+                data-bs-toggle="modal"
+                data-bs-target="#editProject"
+                onclick="showEditProjectModal(this)"
+                data-project-id="{{ProjectID}}"
+                data-project-name="{{Name}}"
+                title="Rename project"
+              >
+                <button class="btn btn-outline-dark me-1">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </a>
 
-                <a href="#" data-bs-toggle="tooltip" data-bs-target="" data-project-id="{{ProjectID}}"
-                class="delete-btn">
-                  <button class="btn btn-outline-dark me-1">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </a>
-              </div>
+              <a href="#" data-bs-toggle="tooltip" data-bs-target="" data-project-id="{{ProjectID}}"
+              class="delete-btn">
+                <button class="btn btn-outline-dark me-1">
+                  <i class="bi bi-trash"></i>
+                </button>
+                  </a>
 
             </div>
                           </div>
@@ -221,76 +215,76 @@
           </div>
         </div>
         {{/each}}
-        <form action="" id="assginUserForm" class="needs-validation" novalidate >
-            <div class="modal fade" id="assignUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                  
-                    <input type="hidden" name="projectId">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                      <h6 class="modal-title fs-5" id="exampleModalLabel">
-                          Add Assign User
-                      </h6>
-                      <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                      ></button>
+              <form action="" id="assginUserForm" class="needs-validation" novalidate >
+               <div class="modal fade" id="assignUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      
+                        <input type="hidden" name="projectId">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                          <h6 class="modal-title fs-5" id="exampleModalLabel">
+                              Add Assign User
+                          </h6>
+                          <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                          ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="fRole" class="form-label"
+                                >Role <span class="text-danger">*</span></label
+                                >
+                                <select
+                                class="form-select"
+                                id="fRole"
+                                name="role"
+                                aria-label="Default select example"
+                                required
+                                >
+                                <option value="" selected>Select Role</option>
+                                <option value="Tester">Tester</option>
+                                <option value="Developer">Developer</option>
+                                <option value="Manager">Manager</option>
+                                </select>
+                                <div class="invalid-feedback">Please select Role.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fAssginUser" class="form-label"
+                                >Access Type <span class="text-danger">*</span></label
+                                >
+                                <select
+                                class="form-select"
+                                id="fAssginUser"
+                                name="assign-user"
+                                aria-label="Default select example"
+                                required
+                                >
+                                <option value="" selected>Select Assgin User</option>
+                                {{#each users}}
+                                <option value="{{_id}}">{{Name}}</option>
+                                {{/each}}
+                                </select>
+                                <div class="invalid-feedback">Please select Assgin User.</div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                          <button type="submit" class="btn btn-danger">Save</button>
+                          <button
+                              type="button"
+                              class="btn btn-outline-danger"
+                              data-bs-dismiss="modal"
+                          >
+                              Cancel
+                          </button>
+                          </div>
                       </div>
-                      <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="fRole" class="form-label"
-                            >Role <span class="text-danger">*</span></label
-                            >
-                            <select
-                            class="form-select"
-                            id="fRole"
-                            name="role"
-                            aria-label="Default select example"
-                            required
-                            >
-                            <option value="" selected>Select Role</option>
-                            <option value="Tester">Tester</option>
-                            <option value="Developer">Developer</option>
-                            <option value="Manager">Manager</option>
-                            </select>
-                            <div class="invalid-feedback">Please select Role.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="fAssginUser" class="form-label"
-                            >Access Type <span class="text-danger">*</span></label
-                            >
-                            <select
-                            class="form-select"
-                            id="fAssginUser"
-                            name="assign-user"
-                            aria-label="Default select example"
-                            required
-                            >
-                            <option value="" selected>Select Assgin User</option>
-                            {{#each users}}
-                            <option value="{{_id}}">{{Name}}</option>
-                            {{/each}}
-                            </select>
-                            <div class="invalid-feedback">Please select Assgin User.</div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                      <button type="submit" class="btn btn-danger">Save</button>
-                      <button
-                          type="button"
-                          class="btn btn-outline-danger"
-                          data-bs-dismiss="modal"
-                      >
-                          Cancel
-                      </button>
-                    </div>
-                </div>
-                  
+                      
+                  </div>
               </div>
-          </div>
-        </form>
+              </form>
       </div>
     </div>
 
