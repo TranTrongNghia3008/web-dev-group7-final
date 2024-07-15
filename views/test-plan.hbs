@@ -237,7 +237,7 @@
 
 
     {{!-- modal add --}}
-    <form action="" id="addTestPlanForm" onsubmit="addTestPlan(event)" class="needs-validation" novalidate>
+    <form action="" id="addTestPlanForm" onsubmit="addTestPlan(event)">
         <input type="hidden" name="projectId" value="{{project.ProjectID}}" />
         <div class="modal fade" id="addTestPlan" tabindex="-1" aria-labelledby="addTestPlanLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -272,10 +272,16 @@
                                         <label for="startDate">From: </label>
                                         <input class="form-control bg-light" id="startDate" name="startDate"
                                             type="date" />
+                                        <div class="invalid-feedback">
+                                            Please make sure the start date is before the end date.
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <label for="endDate">To: </label>
                                         <input class="form-control bg-light" id="endDate" name="endDate" type="date" />
+                                        <div class="invalid-feedback">
+                                            Please make sure the start date is before the end date.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
