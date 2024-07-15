@@ -36,6 +36,7 @@ controller.show = async (req, res) => {
             totalRows: reportsCount,
             queryParams: req.query
         };
+        console.log(res.locals.pagination);
 
 
         // Gói dữ liệu trong projectData

@@ -101,20 +101,34 @@ controller.show = async (req, res) => {
 
 
 
-        //pagination
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        // Pagination
+        let total = requirements.length;
         let limit = 5;
-        const pageMax = Math.ceil(requirements.length / limit);
-        let skip = (page - 1) * limit;
-
-        if (page > pageMax) {
-            // Thêm thông báo rằng số trang không tồn tại
-            req.flash('error', 'Số trang không tồn tại, đã chuyển về trang hợp lệ.');
-            
-            const newQuery = {...req.query, page: pageMax};
-            const newQueryString = Object.keys(newQuery).map(key => `${key}=${newQuery[key]}`).join('&');
-            return res.redirect(`?${newQueryString}`);
+        let page = 1;
+        // Validate page query 
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
+        if (invalidPage) {
+            // Redirect to the first page
+            return res.redirect(`/project/${projectId}/requirement?page=1`);
         }
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
+        let skip = (page - 1) * limit;
+        let showing = Math.min(total, skip + limit);
+        res.locals.pagination = 
+        {
+            page: page,
+            limit: limit,
+            showing: showing,
+            totalRows: total,
+            queryParams: req.query
+        };
+        // end Pagination
 
         // Prepare the data to be sent to the view
         const projectData = {
@@ -137,7 +151,7 @@ controller.show = async (req, res) => {
         // Only get the requirements for the current page
         res.locals.pagination =
         {
-            page: Math.min(page, pageMax),
+            page: page,
             limit: limit,
             showing: projectData.Requirements.length,
             totalRows: requirements.length,
