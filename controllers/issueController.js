@@ -141,17 +141,22 @@ controller.show = async (req, res) => {
 
         // Pagination
         let total = issuesWithUser.length;
-        let limit = 5;
+        let limit = 10;
+        let page = 1;
         // Validate page query 
-        let invalidPage = isNaN(req.query.page) || req.query.page < 1 || req.query.page > Math.ceil(total / limit);
+        let invalidPage = isNaN(req.query.page) 
+        || req.query.page < 1 
+        || (req.query.page > Math.ceil(total / limit) && total > 0)
+        || (req.query.page > 1 && total == 0);
         if (invalidPage) {
             // Redirect to the first page
-            return res.redirect(`/project/${projectId}/issue?page=1`);
+            return res.redirect(`/project/${projectId}/test-plan?page=1`);
         }
-        let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        else
+        {
+            page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+        }
         let skip = (page - 1) * limit;
-
-
         let showing = Math.min(total, skip + limit);
         res.locals.pagination = 
         {
@@ -161,6 +166,7 @@ controller.show = async (req, res) => {
             totalRows: total,
             queryParams: req.query
         };
+        // end Pagination
 
 
         // Lấy tất cả các bản ghi từ bảng Participation có ProjectID tương ứng
