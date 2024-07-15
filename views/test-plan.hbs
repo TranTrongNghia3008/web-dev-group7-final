@@ -99,7 +99,14 @@
                         <div>{{truncateId this._id 10}}</div>
                     </td>
                     <td scope="col" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;" class="pt-3 text-danger">
-                        <div>{{this.Name}}</div>
+                        <a href="#" title="Details" class="my-auto mx-2 text-danger" data-bs-toggle="modal"
+                            data-bs-target="#viewTestPlan" onclick="loadTestPlanDetails(this)"
+                            data-id="{{this._id}}" data-name="{{this.Name}}" data-description="{{this.Description}}"
+                            data-start-date="{{formatDate2 this.StartDate}}" data-end-date="{{formatDate2 this.EndDate}}"
+                            data-created-at="{{formatDate2 this.CreatedAt}}" data-updated-at="{{formatDate2 this.UpdatedAt}}"
+                            data-project-id="{{../project.ProjectID}}" data-requirement-id="{{this.RequirementID}}">
+                            {{this.Name}}
+                        </a>
                     </td>
                     <td scope="col" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;" class="pt-3">
                         <div>
@@ -133,7 +140,8 @@
                                 onclick="showEditTestPlanModal(this)" data-id="{{this._id}}"
                                 data-plan-name="{{this.Name}}" data-description="{{this.Description}}"
                                 data-start-date="{{formatDate this.StartDate}}"
-                                data-end-date="{{formatDate this.EndDate}}" title="Edit" class="my-auto mx-2"><i
+                                data-end-date="{{formatDate this.EndDate}}" 
+                                data-requirement-id="{{this.RequirementID}}" title="Edit" class="my-auto mx-2"><i
                                     class="bi bi-pencil"></i></a>
                             <a href="#" data-bs-toggle="tooltip" data-projectId="{{../project.ProjectID}}"
                                 data-id="{{this._id}}" title="Delete" class="my-auto mx-2 delete-btn"><i
@@ -162,7 +170,7 @@
                 <div class="modal-content border border-1 rounded-2">
                     <div class="modal-header">
                         <div class="modal-title fs-5 fw-bold text-dark w-100 text-center d-flex" id="viewTestPlanLabel">
-                            Issue details
+                            Test Plan details
                         </div>
                     </div>
 
@@ -264,6 +272,33 @@
                             </div>
                         </div>
                         <div class="mb-4">
+                            <label for="requirementId" class="form-label d-flex justify-content-between">
+                                <div>
+                                    Requirement Id
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                            </label>
+                            <input
+                                list="brow-requirement"
+                                id="requirementId"
+                                name="requirementId"
+                                type="text"
+                                placeholder="Select a Requirement"
+                                class="form-select border-0 bg-light"
+                                required
+                                />
+                                <datalist id="brow-requirement">
+                                {{#each project.AllRequirements}}
+                                <option
+                                    value="{{this._id}}"
+                                ></option>
+                                {{/each}}
+                                </datalist>
+                            <div class="invalid-feedback">
+                                Please Enter Requirement Id.
+                            </div>
+                        </div>
+                        <div class="mb-4">
                             <label for="form-test-plan-time" class="form-label d-flex justify-content-between">
                                 <div>Expiration & Assignment Time</div>
                             </label>
@@ -359,6 +394,33 @@
                                 placeholder="Enter Test Plan Name" style="color: #757575" required />
                             <div class="invalid-feedback">
                                 Please Enter Test Plan Name.
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="requirementIdEdit" class="form-label d-flex justify-content-between">
+                                <div>
+                                    Requirement Id
+                                    <span style="color: #f44336">*</span>
+                                </div>
+                            </label>
+                            <input
+                                list="brow-requirement"
+                                id="requirementIdEdit"
+                                name="requirementIdEdit"
+                                type="text"
+                                placeholder="Select a Requirement"
+                                class="form-select border-0 bg-light"
+                                required
+                                />
+                                <datalist id="brow-requirement">
+                                {{#each project.AllRequirements}}
+                                <option
+                                    value="{{this._id}}"
+                                ></option>
+                                {{/each}}
+                                </datalist>
+                            <div class="invalid-feedback">
+                                Please Enter Requirement Id.
                             </div>
                         </div>
                         <div class="mb-4">

@@ -84,7 +84,8 @@ controller.show = async (req, res) => {
         const projectData = {
             ProjectID: projectId,
             TestPlans: testPlans.slice(skip, skip + limit),
-            TestPlansCount: testPlans.length
+            TestPlansCount: testPlans.length,
+            AllRequirements: requirements
         };
 
 
@@ -123,7 +124,8 @@ controller.addTestPlan = async (req, res) => {
             name: nameBody,
             startDate: startDateBody,
             endDate: endDateBody,
-            description: descriptionBody
+            description: descriptionBody,
+            requirementId: requirementId
         } = req.body;
 
         // Sanitize inputs
@@ -139,13 +141,20 @@ controller.addTestPlan = async (req, res) => {
 
         // console.log(formattedStartDate)
         // console.log(formattedEndDate)
+
+        const requirement = await requirementModel.findOne({ _id: requirementId });
+        if (!requirement) {
+            return res.status(404).json({ message: 'Requirement not found' });
+        }
+        // console.log(requirement)
         const newTestPlan = await testPlanModel.create({
             Name: name,
-            StartDate: startDay,
-            EndDate: endDay,
+            StartDate: formattedStartDate,
+            EndDate: formattedEndDate,
             Description: description || null,
-            RequirementID: '66601c17e78adfc3981db376'
+            RequirementID: requirement._id || '66601c17e78adfc3981db376'
         });
+        // console.log(newTestPlan)
 
         // console.log("New");
         // console.log(newTestPlan);
@@ -162,6 +171,7 @@ controller.editTestPlan = async (req, res) => {
             startDateEdit: startDateBody,
             endDateEdit: endDateBody,
             descriptionEdit: descriptionBody,
+            requirementIdEdit: requiremntIdBody,
             idEdit
         } = req.body;
 
@@ -170,6 +180,7 @@ controller.editTestPlan = async (req, res) => {
         const startDateEdit = startDateBody;
         const endDateEdit = endDateBody;
         const descriptionEdit = sanitizeInput(descriptionBody);
+        const requirementIdEdit = sanitizeInput(requiremntIdBody);
 
         const startDay = startDateEdit ? new Date(startDateEdit) : null;
         const endDay = endDateEdit ? new Date(endDateEdit) : null;
@@ -180,6 +191,11 @@ controller.editTestPlan = async (req, res) => {
             return res.status(404).json({ message: 'Test Plan name not filled' });
         }
 
+        const requirement = await requirementModel.findOne({ _id: requirementIdEdit });
+        if (!requirement) {
+            return res.status(404).json({ message: 'Requirement not found' });
+        }
+
         const updatedTestPlan = await testPlanModel.findByIdAndUpdate(
             idEdit,
             {
@@ -187,8 +203,8 @@ controller.editTestPlan = async (req, res) => {
                 StartDate: formattedStartDate,
                 EndDate: formattedEndDate,
                 Description: descriptionEdit || null,
-                UpdatedAt: Date.now()
-                // RequirementID: if it is to be updated, include here
+                UpdatedAt: Date.now(),
+                RequirementID: requirementIdEdit
             },
         );
 

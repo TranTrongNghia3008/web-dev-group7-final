@@ -3,6 +3,7 @@ function showEditTestPlanModal(btn) {
     document.querySelector("#nameEdit").value = btn.dataset.planName;
     document.querySelector("#startDateEdit").value = btn.dataset.startDate;
     document.querySelector("#endDateEdit").value = btn.dataset.endDate;
+    document.querySelector("#requirementIdEdit").value = btn.dataset.requirementId;
     document.querySelector("#descriptionEdit").value = btn.dataset.description;
   }
 
