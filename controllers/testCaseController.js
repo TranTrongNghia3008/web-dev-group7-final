@@ -30,7 +30,7 @@ controller.show = async (req, res) => {
             const projectData = {
                 ProjectID: projectId, // Thêm ProjectID
             };
-            res.render('not-have-access', { 
+            return res.render('not-have-access', { 
                 title: "ShareBug - Not Have Access", 
                 header: `<link rel="stylesheet" href="/css/shared-styles.css" />
                         <link rel="stylesheet" href="/css/not-have-access.css" />`, 
@@ -38,6 +38,7 @@ controller.show = async (req, res) => {
                 n5: "active border-danger",
                 user,
                 project: projectData,
+                messages: req.flash()
             });
 
         }
@@ -72,6 +73,7 @@ controller.show = async (req, res) => {
         if (moduleId !== 0) {
             // Nếu moduleId khác 0, chỉ lấy các test case có moduleId tương ứng
             testCases = await testCaseModel.find({ ModuleID: moduleId, Title: { $regex: testCaseKeyword, $options: 'i' } }).sort(sortCriteria);
+
             const module = await moduleModel.findById(moduleId).select('Name');
             moduleName = module.Name;
         } else {
@@ -80,6 +82,8 @@ controller.show = async (req, res) => {
             moduleName = "All Test Cases";
             testCaseCount = allTestCases.length;
         }
+
+        // console.log("tese case: " + testCases)
 
         // Lấy số lượng test case cho mỗi module
         const testCaseCounts = await testCaseModel.aggregate([

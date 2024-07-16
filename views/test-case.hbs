@@ -1361,9 +1361,26 @@
                         </a>
                         </td>
                         <td scope="col" class="bg-body-tertiary align-middle">
-                        <a href="/project/{{../project.ProjectID}}/test-case/{{this._id}}" class="test-case-link-modal" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;"
+                        {{!-- <a href="/project/{{../project.ProjectID}}/test-case/{{this._id}}" class="test-case-link-modal" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;"
                             >{{this.Title}}</a
-                        >
+                        > --}}
+                        <a href="javascript:void(0);" class="test-case-link-modal" onclick="navigateToTestCase('{{../project.ProjectID}}', '{{this._id}}')" style="overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">{{this.Title}}</a>
+                        <script>
+                            function navigateToTestCase(projectId, testCaseId) {
+                                // Get the current URL's query parameters
+                                const queryParams = new URLSearchParams(window.location.search);
+                                const queryString = queryParams.toString();
+                                
+                                // Construct the new URL
+                                let newUrl = `/project/${projectId}/test-case/${testCaseId}`;
+                                if (queryString) {
+                                newUrl += `?${queryString}`;
+                                }
+                                
+                                // Redirect to the new URL
+                                window.location.href = newUrl;
+                            }
+                        </script>
                         </td>
                         <td scope="col" class="bg-body-tertiary align-middle">
                         <div class="d-flex justify-content-end">
@@ -1482,7 +1499,7 @@
     </script>
 
     <!-- modal details -->
-    <div class="modal fade" id="testCaseModal" tabindex="-1" aria-labelledby="testCaseModalLabel" aria-hidden="true">
+    <div class="modal fade" id="testCaseModal" tabindex="-1" aria-labelledby="testCaseModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1617,22 +1634,36 @@
                 }
 
                 document.addEventListener('DOMContentLoaded', function() {
-                    const btnsClose = document.querySelectorAll('.btnCloseDetail');
-                    const url = window.location.href;
-
-                    btnsClose.forEach(btnClose => {
-                        btnClose.addEventListener('click', function() {
-                            const urlParts = url.split('/');
-                            let idToDelete = null;
-
-                            const indexTestCase = urlParts.indexOf('test-case');
-
-                            if (indexTestCase !== -1 && indexTestCase < urlParts.length - 1) {
-                                const newUrl = urlParts.slice(0, indexTestCase + 1).join('/');
-                                {{!-- console.log('Redirecting to:', newUrl); --}}
-                                window.location.href = newUrl; 
-                            }
-                        });
+                    // Get all buttons with the class btnCloseDetail
+                    const closeDetailButtons = document.querySelectorAll('.btnCloseDetail');
+                    
+                    // Add event listener to each button
+                    closeDetailButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Get the current URL
+                        const currentUrl = window.location.href;
+                        
+                        // Split the URL by '/'
+                        const urlParts = currentUrl.split('/');
+                        
+                        // Get the last part of the URL
+                        const lastPart = urlParts[urlParts.length - 1];
+                        
+                        // Split the last part by '?'
+                        const querySplit = lastPart.split('?');
+                        
+                        // Check if the first part of the last segment is not "test-case"
+                        if (querySplit[0] !== 'test-case') {
+                        // Remove the last part
+                        urlParts.pop();
+                        }
+                        
+                        // Reconstruct the URL without the last part if necessary
+                        const newUrl = urlParts.join('/') + (querySplit[1] ? '?' + querySplit[1] : '');
+                        
+                        // Redirect to the new URL
+                        window.history.replaceState({}, '', newUrl);
+                    });
                     });
                 });
             </script>

@@ -18,7 +18,7 @@ controller.show = async (req, res) => {
 	const user = await userModel.findOne({ AccountEmail: account.Email });
 
 	if (!user.IsAdmin) {
-		res.render('not-have-access', { 
+		return res.render('not-have-access', { 
 			title: "ShareBug - Not Have Access", 
 			header: `<link rel="stylesheet" href="/css/shared-styles.css" />
 					<link rel="stylesheet" href="/css/not-have-access.css" />`, 
@@ -46,8 +46,12 @@ controller.show = async (req, res) => {
 
 	let query = {};
 
-	query.Name = { $regex: userKeyword, $options: 'i' };
-	query.AccountEmail = { $regex: userKeyword, $options: 'i' };
+	// Sử dụng $or để kết hợp Name và AccountEmail với regex
+	query.$or = [
+		{ Name: { $regex: userKeyword, $options: 'i' } },
+		{ AccountEmail: { $regex: userKeyword, $options: 'i' } }
+	];
+
 	// Filter by userTypeKeyword
 	if (userTypeKeyword) {
 		if (userTypeKeyword === 'Admin') {
@@ -58,12 +62,14 @@ controller.show = async (req, res) => {
 			query.IsAdmin = null;
 		}
 	}
+
+	// Filter by userStatusKeyword
 	if (userStatusKeyword && userStatusKeyword !== 'All') {
 		query.Status = userStatusKeyword;
 	}
 
-    // Querying (filter)
-    let users = await userModel.find(query, null);
+	// Querying (filter)
+	let users = await userModel.find(query);
     
 	// Pagination
 	let total = users.length;
